@@ -5,10 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="LagoVista.Simulator.Views.SplashView"
     Title="SplashView">
+    <pge:LagoVistaContentPage.ToolbarItems>
+        <ToolbarItem Text="Login" Command="{Binding LoginCommand}" />
+    </pge:LagoVistaContentPage.ToolbarItems>
+
+    <pge:LagoVistaContentPage.Content>
     <ScrollView>
         <StackLayout Padding="10">
             <Label Text="HELLO!" />
             <Button Command="{Binding LoginCommand}" Text="Login" />
         </StackLayout>
     </ScrollView>
+    </pge:LagoVistaContentPage.Content>
 </pge:LagoVistaContentPage>

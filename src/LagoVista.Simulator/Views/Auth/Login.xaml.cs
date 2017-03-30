@@ -1,4 +1,5 @@
-﻿using LagoVista.XPlat.Core.Views;
+﻿using LagoVista.Client.Core.Auth;
+using LagoVista.XPlat.Core.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,6 @@ namespace LagoVista.Simulator.Views.Auth
         public Login()
         {
             InitializeComponent();
-        }
+        }    
     }
 }

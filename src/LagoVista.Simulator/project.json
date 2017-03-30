@@ -1,8 +1,8 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "LagoVista.Core": "0.8.116-alpha00800",
-    "LagoVista.Core.Authentication": "0.8.116-alpha00800",
+    "LagoVista.Core": "0.8.119-alpha01205",
+    "LagoVista.Core.Authentication": "0.8.119-alpha01205",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.1",
     "Newtonsoft.Json": "10.0.1",

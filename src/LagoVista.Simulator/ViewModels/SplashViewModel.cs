@@ -16,6 +16,14 @@ namespace LagoVista.Simulator.ViewModels
             LoginCommand = new RelayCommand(Login);
         }
 
+        public override async Task InitAsync()
+        {
+            if(await Storage.HasKVPAsync("AUTH"))
+            {
+                ShowViewModel<MainViewModel>();
+            }
+        }
+
         public void Login()
         {
             ShowViewModel<Auth.LoginViewModel>();

@@ -1,4 +1,5 @@
-﻿using LagoVista.Core.ViewModels;
+﻿using LagoVista.Core.IOC;
+using LagoVista.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace LagoVista.XPlat.Core.Views
             if (ViewModel != null)
             {
                 await ViewModel.InitAsync();
+
             }
         }
 

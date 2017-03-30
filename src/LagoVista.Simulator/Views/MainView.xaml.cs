@@ -19,7 +19,7 @@ namespace LagoVista.Simulator.Views
     {
         public MainView()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
     }
 }

@@ -4,9 +4,9 @@
     xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="LagoVista.Simulator.Views.Auth.Login">
         <StackLayout WidthRequest="300" HorizontalOptions="Center" BackgroundColor="White">
             <Label Text="Email"  />
-            <Entry  x:Name="EmailAddress" />
+            <Entry  x:Name="EmailAddress" Text="{Binding EmailAddress, Mode=TwoWay}" />
             <Label Text="Password" />
-            <Entry x:Name="Password" />
-            <Button Clicked="Button_Clicked" Text="Login" />
+            <Entry x:Name="Password" Text="{Binding Password, Mode=TwoWay}"  IsPassword="True" />  
+        <Button Command="{Binding LoginCommand}" Text="Login" />
         </StackLayout>
 </pge:LagoVistaContentPage>

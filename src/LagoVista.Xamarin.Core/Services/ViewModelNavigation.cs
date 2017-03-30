@@ -4,6 +4,7 @@ using LagoVista.Core.ViewModels;
 using LagoVista.XPlat.Core.Views;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Xamarin.Forms;
 
@@ -27,8 +28,12 @@ namespace LagoVista.XPlat.Core.Services
             _navigation = view.Navigation;
             var viewModel = SLWIOC.CreateForType<V>();
             view.ViewModel = viewModel;
-            view.ViewModel.ViewModelNavigation = this;
-            _app.MainPage = new NavigationPage(view);
+            _app.MainPage = new NavigationPage(view)
+            {
+                Title = "HelloWorld"
+            };
+
+            Debug.WriteLine(_app.MainPage);
         }
 
         public void Add<T, V>() where T : ViewModelBase where V : ILagoVistaPage
@@ -49,16 +54,15 @@ namespace LagoVista.XPlat.Core.Services
             _navigation.PopAsync();
         }
 
-        public void Navigate(ViewModelLaunchArgs args)
+        public async void Navigate(ViewModelLaunchArgs args)
         {
             var viewModel = SLWIOC.CreateForType(args.ViewModelType);
 
             var view = Activator.CreateInstance(_viewModelLookup[args.ViewModelType]) as LagoVistaContentPage;
             view.ViewModel = viewModel as ViewModelBase;
-            view.ViewModel.ViewModelNavigation = this;
             view.ViewModel.SetParameter(args.Parameter);
 
-            _navigation.PushAsync(view);
+            await _navigation.PushAsync(view);
         }
 
         public void PopToRoot()
@@ -77,8 +81,6 @@ namespace LagoVista.XPlat.Core.Services
             var viewModel = SLWIOC.CreateForType<TViewModel>();
             var viewModelType = typeof(TViewModel);
             var view = Activator.CreateInstance(_viewModelLookup[viewModelType]) as LagoVistaContentPage;
-            view.ViewModel = viewModel as ViewModelBase;
-            view.ViewModel.ViewModelNavigation = this;
             _navigation = view.Navigation;
             _app.MainPage = new NavigationPage(view);
         }
