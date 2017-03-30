@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pge:LagoVistaContentPage     
+    xmlns:pge="clr-namespace:LagoVista.XPlat.Core.Views;assembly=LagoVista.XPlat.Core"
+    xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="LagoVista.Simulator.Views.Auth.Login">
+        <StackLayout WidthRequest="300" HorizontalOptions="Center" BackgroundColor="White">
+            <Label Text="Email"  />
+            <Entry  x:Name="EmailAddress" />
+            <Label Text="Password" />
+            <Entry x:Name="Password" />
+            <Button Clicked="Button_Clicked" Text="Login" />
+        </StackLayout>
+</pge:LagoVistaContentPage>
