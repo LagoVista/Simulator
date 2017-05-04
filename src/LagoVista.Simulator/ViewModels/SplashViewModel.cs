@@ -18,9 +18,9 @@ namespace LagoVista.Simulator.ViewModels
 
         public override async Task InitAsync()
         {
-            if(await Storage.HasKVPAsync("AUTH"))
+            if (await Storage.HasKVPAsync("AUTH"))
             {
-                ShowViewModel<MainViewModel>();
+                //ShowViewModel<MainViewModel>();
             }
         }
 

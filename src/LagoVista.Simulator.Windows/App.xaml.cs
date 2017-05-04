@@ -3,6 +3,7 @@ using LagoVista.Core.PlatformSupport;
 using LagoVista.Core.UWP.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -33,6 +34,15 @@ namespace LagoVista.Simulator.Windows
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            UnhandledException += (sender, e) =>
+            {
+                Debug.WriteLine("EXCPETION");
+                Debug.WriteLine(e.Exception);
+                Debug.WriteLine(e.Message);
+                Debug.WriteLine(e.Exception.StackTrace);
+                if (global::System.Diagnostics.Debugger.IsAttached) global::System.Diagnostics.Debugger.Break();
+            };
         }
 
         /// <summary>

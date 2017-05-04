@@ -29,7 +29,7 @@ namespace LagoVista.Simulator
             var serverInfo = new ServerInfo()
             {
                 RootUrl = "localhost",
-                Port = 5001
+                Port = 5000
             };
             SLWIOC.RegisterSingleton<ServerInfo>(serverInfo);
 

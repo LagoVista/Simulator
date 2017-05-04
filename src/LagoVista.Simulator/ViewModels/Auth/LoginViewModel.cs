@@ -3,6 +3,7 @@ using LagoVista.Core.Authentication.Models;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.ViewModels;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.ViewModels.Auth
 {
@@ -17,6 +18,7 @@ namespace LagoVista.Simulator.ViewModels.Auth
             _authClient = authClient;
 
         }
+        
 
         public async void Login()
         {
@@ -31,7 +33,8 @@ namespace LagoVista.Simulator.ViewModels.Auth
             Debug.WriteLine(result.Success);
             if (result.Success)
             {
-                await Storage.StoreKVP("AUTH", result);
+                var authResult = result.Result;
+                await Storage.StoreKVP("AUTH", authResult);
                 ShowViewModel<MainViewModel>();                
             }
         }

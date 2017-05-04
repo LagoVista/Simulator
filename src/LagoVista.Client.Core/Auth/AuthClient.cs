@@ -22,19 +22,26 @@ namespace LagoVista.Client.Core.Auth
         public async Task<APIResponse<AuthResponse>> LoginAsync(AuthRequest loginInfo, CancellationTokenSource cancellationTokenSource = null)
         {
             var client = SLWIOC.Get<HttpClient>();
-
+            
             var json =  JsonConvert.SerializeObject(loginInfo);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("/api/v1/auth", content);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var resultContent = await response.Content.ReadAsStringAsync();
+                var response = await client.PostAsync("/api/v1/auth", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var resultContent = await response.Content.ReadAsStringAsync();
 
-                return JsonConvert.DeserializeObject<APIResponse<AuthResponse>>(resultContent);
+                    return JsonConvert.DeserializeObject<APIResponse<AuthResponse>>(resultContent);
+                }
+                else
+                {
+                    return APIResponse<AuthResponse>.FromFailedStatusCode(response.StatusCode);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return APIResponse<AuthResponse>.FromFailedStatusCode(response.StatusCode);
+                return APIResponse<AuthResponse>.FromException(ex);
             }
         }
 
