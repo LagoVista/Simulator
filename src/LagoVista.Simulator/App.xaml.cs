@@ -43,6 +43,8 @@ namespace LagoVista.Simulator
             navigation.Add<ViewModels.SplashViewModel, Views.SplashView>();
             navigation.Add<ViewModels.Auth.LoginViewModel, Views.Auth.Login>();
             navigation.Add<ViewModels.MainViewModel, Views.MainView>();
+            navigation.Add<ViewModels.Simulator.SimulatorsViewModel, Views.Simulator.SimulatorsView>();
+            navigation.Add<ViewModels.Simulator.SimulatorViewModel, Views.Simulator.SimulatorView>();
 
             navigation.Start<ViewModels.SplashViewModel>();
 
