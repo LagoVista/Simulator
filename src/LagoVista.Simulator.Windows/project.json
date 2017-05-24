@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "LagoVista.Core": "0.8.174-alpha1321",
+    "LagoVista.Core": "0.8.174-alpha1824",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
     "Xam.Plugin.Iconize.EntypoPlus": "1.5.0.13-beta",
     "Xam.Plugin.Iconize.FontAwesome": "1.5.0.13-beta",

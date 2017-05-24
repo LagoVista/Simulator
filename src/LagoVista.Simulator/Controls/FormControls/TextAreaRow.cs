@@ -1,9 +1,4 @@
 ﻿using LagoVista.Core.Models.UIMetaData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LagoVista.Simulator.Controls.FormControls
@@ -18,10 +13,16 @@ namespace LagoVista.Simulator.Controls.FormControls
             _label = new Label();
             _editor = new Editor();
             _editor.HeightRequest = 120;
+            _editor.TextChanged += _editor_TextChanged;
             _label.Text = field.Label;
 
             Children.Add(_label);
             Children.Add(_editor);
+        }
+
+        private void _editor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Field.Value = e.NewTextValue;
         }
     }
 }

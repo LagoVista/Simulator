@@ -10,13 +10,15 @@ namespace LagoVista.Simulator.Controls
     public class FormViewer : StackLayout
     {
 
-        private const string MULTILINE = "MultiLineText";
-        private const string CHECKBOX = "CheckBox";
-        private const string PICKER = "Picker";
-        private const string ENTITYHEADERPICKER = "EntityHeaderPicker";
-        private const string TEXT = "Text";
-        private const string DECIMAL = "Decimal";
-        private const string INTEGER = "Integer";
+        public const string MULTILINE = "MultiLineText";
+        public const string CHECKBOX = "CheckBox";
+        public const string PICKER = "Picker";
+        public const string ENTITYHEADERPICKER = "EntityHeaderPicker";
+        public const string TEXT = "Text";
+        public const string KEY = "Key";
+        public const string CHILDLIST = "ChildList";
+        public const string DECIMAL = "Decimal";
+        public const string INTEGER = "Integer";
 
         public FormViewer()
         {
@@ -70,6 +72,7 @@ namespace LagoVista.Simulator.Controls
                         case FormViewer.CHECKBOX: AddChild(new FormControls.CheckBoxRow(this, field)); break;
                         case FormViewer.ENTITYHEADERPICKER: AddChild(new FormControls.EntityHeaderPicker(this, field)); break;
                         case FormViewer.PICKER: AddChild(new FormControls.SelectRow(this, field)); break;
+                        case FormViewer.CHILDLIST: AddChild(new FormControls.ChildListRow(this, field)); break;
                         default: AddChild(new FormControls.TextEditRow(this, field)); break;
                     }
                 }

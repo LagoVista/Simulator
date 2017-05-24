@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using LagoVista.Core.Models.UIMetaData;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace LagoVista.Simulator.Controls.FormControls
 {
-    class ChildListRow
+    public class ChildListRow : FormControl
     {
+        Label _label;
+
+        public ChildListRow(FormViewer formViewer, FormField field) : base(formViewer, field)
+        {
+            _label = new Label();
+            _label.Text = field.Label;
+
+            Children.Add(_label);
+            Children.Add(_label);
+        }
     }
 }

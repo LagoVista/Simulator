@@ -1,23 +1,62 @@
 ﻿using LagoVista.Core.Commanding;
 using LagoVista.Core.Models.UIMetaData;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.ViewModels.Simulator
 {
     public class SimulatorEditorViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator, IoT.Simulator.Admin.Models.SimulatorSummary>
     {
+
+
         public SimulatorEditorViewModel()
         {
-            SaveCommand = new RelayCommand(Save, CanSave);
-
-            
+            SaveCommand = new RelayCommand(SaveAsync, CanSave);
         }
 
-        public void Save()
+        public bool ViewToModel()
         {
-            this.ViewModelNavigation.GoBack();
+            var modelProperties = typeof(IoT.Simulator.Admin.Models.Simulator).GetTypeInfo().DeclaredProperties;
+
+            var valid = true;
+            
+            foreach(var formItem in FormItems)
+            {
+                valid &= formItem.Validate() & valid;
+
+                var prop = modelProperties.Where(prp => prp.Name.ToLower() == formItem.Name.ToLower()).FirstOrDefault();
+                switch(formItem.FieldType)
+                {
+                    case Controls.FormViewer.CHECKBOX:
+                        if (bool.TryParse(formItem.Value, out bool result))
+                        {
+                            prop.SetValue(base.Model, result);
+                        }
+                        break;
+
+                    case Controls.FormViewer.MULTILINE:
+                    case Controls.FormViewer.TEXT:
+                    case Controls.FormViewer.KEY:
+                        prop.SetValue(base.Model, formItem.Value);
+                        break;
+                }                
+            }
+
+            return valid;
+        }
+
+        public async void SaveAsync()
+        {
+            if(ViewToModel())
+            {
+                IsBusy = true;
+                await RestClient.AddAsync("/api/simulator", this.Model);
+                this.ViewModelNavigation.GoBack();
+                IsBusy = false;
+            }
+            
         }
 
         public bool CanSave()
@@ -29,7 +68,7 @@ namespace LagoVista.Simulator.ViewModels.Simulator
         {
             IsBusy = true;
             var newSimulator = await RestClient.CreateNewAsync("/api/simulator/factory");
-            Simulator = newSimulator.Model;
+            Model = newSimulator.Model;
 
             var items  = new ObservableCollection<FormField>();
             
@@ -40,14 +79,7 @@ namespace LagoVista.Simulator.ViewModels.Simulator
 
             FormItems = items;
             IsBusy = false;
-        }
-
-        IoT.Simulator.Admin.Models.Simulator _simulator;
-        public IoT.Simulator.Admin.Models.Simulator Simulator
-        {
-            get { return _simulator; }
-            set { Set(ref _simulator, value); }
-        }
+        }        
 
         ObservableCollection<FormField> _formItems;
         public ObservableCollection<FormField> FormItems

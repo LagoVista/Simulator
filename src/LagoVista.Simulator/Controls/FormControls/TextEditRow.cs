@@ -17,11 +17,17 @@ namespace LagoVista.Simulator.Controls.FormControls
         {
             _label = new Label();
             _editor = new Entry();
+            _editor.TextChanged += _editor_TextChanged;
 
             _label.Text = field.Label;
 
             Children.Add(_label);
             Children.Add(_editor);
+        }
+
+        private void _editor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Field.Value = e.NewTextValue;
         }
     }
 }

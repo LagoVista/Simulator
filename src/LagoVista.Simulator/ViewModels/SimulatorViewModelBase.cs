@@ -27,6 +27,13 @@ namespace LagoVista.Simulator.ViewModels
         }
 
         public IRestClient<TModel, TSummaryModel> RestClient { get { return _restClient; } }
+
+        TModel _model;
+        public TModel Model
+        {
+            get { return _model; }
+            set { Set(ref _model, value); }
+        }
     }
 
 
@@ -40,5 +47,13 @@ namespace LagoVista.Simulator.ViewModels
         }
 
         public IRestClient<TModel> RestClient { get { return _restClient; } }
+
+
+        TModel _model;
+        public TModel Model
+        {
+            get { return _model; }
+            set { Set(ref _model, value); }
+        }
     }
 }

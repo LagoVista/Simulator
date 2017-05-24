@@ -7,10 +7,15 @@ namespace LagoVista.Simulator.Controls.FormControls
     {
         FormField _field;
         FormViewer _viewer;
+
+
         public FormControl(FormViewer viewer, FormField field) 
         {
             _field = field;
             _viewer = viewer;
         }
+
+        protected FormField Field { get { return _field; } }
+        protected FormViewer Viewer { get { return _viewer; } }
     }
 }

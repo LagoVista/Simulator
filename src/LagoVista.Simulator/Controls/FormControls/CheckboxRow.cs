@@ -13,9 +13,15 @@ namespace LagoVista.Simulator.Controls.FormControls
             _label = new Label();
             _label.Text = field.Label;
             _switch = new Switch();
+            _switch.Toggled += _switch_Toggled;
 
             Children.Add(_label);
             Children.Add(_switch);
+        }
+
+        private void _switch_Toggled(object sender, ToggledEventArgs e)
+        {
+            Field.Value = e.Value ? "true" : "false";
         }
     }
 }

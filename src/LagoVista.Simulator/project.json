@@ -1,9 +1,9 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "LagoVista.Core": "0.8.174-alpha1321",
-    "LagoVista.Core.Authentication": "0.8.174-alpha1321",
-    "LagoVista.IoT.Simulator.Admin": "0.8.174-alpha1321",
+    "LagoVista.Core": "0.8.174-alpha1824",
+    "LagoVista.Core.Authentication": "0.8.174-alpha1824",
+    "LagoVista.IoT.Simulator.Admin": "0.8.174-alpha1824",
     "Newtonsoft.Json": "10.0.2",
     "Xam.FormsPlugin.Iconize": "1.5.0.13-beta",
     "Xamarin.Forms": "2.3.5.239-pre3"
