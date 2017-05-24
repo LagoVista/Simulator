@@ -1,4 +1,5 @@
 ﻿
+using FormsPlugin.Iconize;
 using LagoVista.Core.IOC;
 using LagoVista.Core.ViewModels;
 using LagoVista.XPlat.Core.Views;
@@ -28,7 +29,7 @@ namespace LagoVista.XPlat.Core.Services
             _navigation = view.Navigation;
             var viewModel = SLWIOC.CreateForType<V>();
             view.ViewModel = viewModel;
-            _app.MainPage = new NavigationPage(view)
+            _app.MainPage = new IconNavigationPage(view)
             {
                 Title = "HelloWorld"
             };
@@ -73,7 +74,7 @@ namespace LagoVista.XPlat.Core.Services
         public void SetAsNewRoot()
         {
             var currentPage = _navigation.NavigationStack.Last();
-            _app.MainPage = new NavigationPage(currentPage);
+            _app.MainPage = new IconNavigationPage(currentPage);
         }
 
         public void SetAsNewRoot<TViewModel>() where TViewModel : ViewModelBase
@@ -92,7 +93,7 @@ namespace LagoVista.XPlat.Core.Services
                 view.ViewModel.SetParameter(args.Parameter);
             }
             _navigation = view.Navigation;
-            _app.MainPage = new NavigationPage(view);
+            _app.MainPage = new IconNavigationPage(view);
         }
 
         public bool CanGoBack()

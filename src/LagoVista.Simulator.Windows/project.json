@@ -1,7 +1,15 @@
 ﻿{
   "dependencies": {
-    "LagoVista.Core": "0.8.174-alpha1247",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3"
+    "LagoVista.Core": "0.8.174-alpha1321",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+    "Xam.Plugin.Iconize.EntypoPlus": "1.5.0.13-beta",
+    "Xam.Plugin.Iconize.FontAwesome": "1.5.0.13-beta",
+    "Xam.Plugin.Iconize.Ionicons": "1.5.0.13-beta",
+    "Xam.Plugin.Iconize.Material": "1.5.0.13-beta",
+    "Xam.Plugin.Iconize.Meteocons": "1.5.0.13-beta",
+    "Xam.Plugin.Iconize.SimpleLineIcons": "1.5.0.13-beta",
+    "Xam.Plugin.Iconize.Typicons": "1.5.0.13-beta",
+    "Xam.Plugin.Iconize.WeatherIcons": "1.5.0.13-beta"
   },
   "frameworks": {
     "uap10.0": {}

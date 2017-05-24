@@ -27,7 +27,12 @@ namespace LagoVista.Simulator
         {
             InitializeComponent();
 
-            InitServices();
+            foreach (var module in Plugin.Iconize.Iconize.Modules)
+            {
+                var name = module.FontName;
+            }
+
+           InitServices();
         }
 
         private void InitServices()

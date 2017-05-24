@@ -1,4 +1,5 @@
-﻿using LagoVista.Core.Models.UIMetaData;
+﻿using LagoVista.Core.Commanding;
+using LagoVista.Core.Models.UIMetaData;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -7,6 +8,22 @@ namespace LagoVista.Simulator.ViewModels.Simulator
 {
     public class SimulatorEditorViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator, IoT.Simulator.Admin.Models.SimulatorSummary>
     {
+        public SimulatorEditorViewModel()
+        {
+            SaveCommand = new RelayCommand(Save, CanSave);
+
+            
+        }
+
+        public void Save()
+        {
+            this.ViewModelNavigation.GoBack();
+        }
+
+        public bool CanSave()
+        {
+            return true;
+        }
 
         public async override Task InitAsync()
         {
@@ -14,12 +31,14 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             var newSimulator = await RestClient.CreateNewAsync("/api/simulator/factory");
             Simulator = newSimulator.Model;
 
-            FormItems.Clear();
+            var items  = new ObservableCollection<FormField>();
+            
             foreach(var field in newSimulator.View)
             {
-                Debug.WriteLine(field.Value.Label);
-                FormItems.Add(field.Value);
+                items.Add(field.Value);
             }
+
+            FormItems = items;
             IsBusy = false;
         }
 
@@ -30,13 +49,13 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             set { Set(ref _simulator, value); }
         }
 
-        ObservableCollection<FormField> _formItems = new ObservableCollection<FormField>();
+        ObservableCollection<FormField> _formItems;
         public ObservableCollection<FormField> FormItems
         {
             get { return _formItems; }
             set { Set(ref _formItems, value); }
         }
 
-
+        public RelayCommand SaveCommand { get; private set; }
     }
 }

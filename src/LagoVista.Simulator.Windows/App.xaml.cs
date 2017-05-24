@@ -3,21 +3,11 @@ using LagoVista.Core.IOC;
 using LagoVista.Core.PlatformSupport;
 using LagoVista.Core.UWP.Services;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace LagoVista.Simulator.Windows
@@ -54,6 +44,18 @@ namespace LagoVista.Simulator.Windows
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
+
+            Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeModule());
+
+
+
+            /*                     .With(new Plugin.Iconize.Fonts.IoniconsModule())
+                                 .With(new Plugin.Iconize.Fonts.MaterialModule())
+                                 .With(new Plugin.Iconize.Fonts.MeteoconsModule())
+                                 .With(new Plugin.Iconize.Fonts.SimpleLineIconsModule())
+                                 .With(new Plugin.Iconize.Fonts.TypiconsModule())
+                                 .With(new Plugin.Iconize.Fonts.WeatherIconsModule());*/
+
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active

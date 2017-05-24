@@ -90,7 +90,47 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="add.png" />
+    <Content Include="Assets\Fonts\iconize-fontawesome.ttf" />
+    <Content Include="AV Receiver_100px.png" />
+    <Content Include="Checkmark_100px.png" />
+    <Content Include="Delete_100px.png" />
+    <Content Include="Design_100px.png" />
+    <Content Include="Edit Property_100px.png" />
+    <Content Include="Edit_100px.png" />
+    <Content Include="Electrical Threshold_100px.png" />
+    <Content Include="exit.png" />
+    <Content Include="Feed In_100px.png" />
+    <Content Include="Fog Lamp_100px.png" />
+    <Content Include="Forward Arrow_100px.png" />
+    <Content Include="Full Battery_100px.png" />
+    <Content Include="Half-Charged Battery_100px.png" />
+    <Content Include="Hub_100px.png" />
+    <Content Include="Idea_100px.png" />
+    <Content Include="Infrared Beam Sending_100px.png" />
+    <Content Include="LED Diode_100px.png" />
+    <Content Include="Low Battery_100px.png" />
+    <Content Include="Medium Volume_100px.png" />
+    <Content Include="Mirrored Reflector Bulb_100px.png" />
+    <Content Include="No Battery_100px.png" />
+    <Content Include="Nuclear Power Plant_100px.png" />
+    <Content Include="Play_100px.png" />
+    <Content Include="Plug 4_100px.png" />
+    <Content Include="Pressure Vessel_100px.png" />
+    <Content Include="Relay_100px.png" />
+    <Content Include="Right_100px.png" />
+    <Content Include="Robot_100px.png" />
+    <Content Include="Satellite Sending Signal_100px.png" />
+    <Content Include="Satellite_100px.png" />
+    <Content Include="save.png" />
+    <Content Include="Screenshot_100px.png" />
+    <Content Include="settings.png" />
+    <Content Include="Share_100px.png" />
+    <Content Include="Transistor_100px.png" />
+    <Content Include="Turbocharger_100px.png" />
+    <Content Include="Upload_100px.png" />
     <None Include="project.json" />
+    <None Include="project.lock.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -109,6 +149,46 @@
     <None Include="LagoVista.Simulator.Windows_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Icons\AV Receiver_100px.png" />
+    <Content Include="Assets\Icons\Checkmark_100px.png" />
+    <Content Include="Assets\Icons\Delete_100px.png" />
+    <Content Include="Assets\Icons\Design_100px.png" />
+    <Content Include="Assets\Icons\Edit Property_100px.png" />
+    <Content Include="Assets\Icons\Edit_100px.png" />
+    <Content Include="Assets\Icons\Electrical Threshold_100px.png" />
+    <Content Include="Assets\Icons\Exit_100px.png" />
+    <Content Include="Assets\Icons\Feed In_100px.png" />
+    <Content Include="Assets\Icons\Fog Lamp_100px.png" />
+    <Content Include="Assets\Icons\Forward Arrow_100px.png" />
+    <Content Include="Assets\Icons\Full Battery_100px.png" />
+    <Content Include="Assets\Icons\Half-Charged Battery_100px.png" />
+    <Content Include="Assets\Icons\Hub_100px.png" />
+    <Content Include="Assets\Icons\Idea_100px.png" />
+    <Content Include="Assets\Icons\Infrared Beam Sending_100px.png" />
+    <Content Include="Assets\Icons\LED Diode_100px.png" />
+    <Content Include="Assets\Icons\Low Battery_100px.png" />
+    <Content Include="Assets\Icons\Medium Volume_100px.png" />
+    <Content Include="Assets\Icons\Mirrored Reflector Bulb_100px.png" />
+    <Content Include="Assets\Icons\No Battery_100px.png" />
+    <Content Include="Assets\Icons\Nuclear Power Plant_100px.png" />
+    <Content Include="Assets\Icons\Play_100px.png" />
+    <Content Include="Assets\Icons\Plug 4_100px.png" />
+    <Content Include="Assets\Icons\Pressure Vessel_100px.png" />
+    <Content Include="Assets\Icons\Relay_100px.png" />
+    <Content Include="Assets\Icons\Right_100px.png" />
+    <Content Include="Assets\Icons\Robot_100px.png" />
+    <Content Include="Assets\Icons\Satellite Sending Signal_100px.png" />
+    <Content Include="Assets\Icons\Satellite_100px.png" />
+    <Content Include="Assets\Icons\Save_100px.png" />
+    <Content Include="Assets\Icons\Screenshot_100px.png" />
+    <Content Include="Assets\Icons\Settings_100px.png" />
+    <Content Include="Assets\Icons\Share_100px.png" />
+    <Content Include="Assets\Icons\Transistor_100px.png" />
+    <Content Include="Assets\Icons\Turbocharger_100px.png" />
+    <Content Include="Assets\Icons\Upload_100px.png" />
+    <Content Include="Assets\NuvIoT-128x128W.png" />
+    <Content Include="Assets\NuvIoT-256x256W.png" />
+    <Content Include="Assets\Settings_100px.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
