@@ -78,9 +78,19 @@ namespace LagoVista.XPlat.Core.Services
 
         public void SetAsNewRoot<TViewModel>() where TViewModel : ViewModelBase
         {
+            SetAsNewRoot<TViewModel>(null);
+        }
+
+        public void SetAsNewRoot<TViewModel>(ViewModelLaunchArgs args) where TViewModel : ViewModelBase
+        {
             var viewModel = SLWIOC.CreateForType<TViewModel>();
             var viewModelType = typeof(TViewModel);
             var view = Activator.CreateInstance(_viewModelLookup[viewModelType]) as LagoVistaContentPage;
+            view.ViewModel = viewModel as ViewModelBase;
+            if (args != null)
+            {
+                view.ViewModel.SetParameter(args.Parameter);
+            }
             _navigation = view.Navigation;
             _app.MainPage = new NavigationPage(view);
         }

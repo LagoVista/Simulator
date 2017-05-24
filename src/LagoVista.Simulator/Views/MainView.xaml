@@ -1,14 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pge:LagoVistaContentPage     
-    xmlns:pge="clr-namespace:LagoVista.XPlat.Core.Views;assembly=LagoVista.XPlat.Core"
-
- xmlns="http://xamarin.com/schemas/2014/forms"
+<pge:LagoVistaContentPage xmlns:pge="clr-namespace:LagoVista.XPlat.Core.Views;assembly=LagoVista.XPlat.Core"
+            xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LagoVista.Simulator.Views.MainView"
-             Title="MainView">
-    <ScrollView>
-        <StackLayout Padding="10">
-            <Button Text="Call Service Now" Command="{Binding CallServiceCommand}"/>
-        </StackLayout>
-    </ScrollView>
+             Title="NuvIoT Simulator">
+    <pge:LagoVistaContentPage.ToolbarItems>
+        <ToolbarItem Text="Logout" Command="{Binding LogoutCommand}" />
+    </pge:LagoVistaContentPage.ToolbarItems>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Button Text="Add Simulator" Command="{Binding AddNewSimulatorCommand}" />
+        <ListView Grid.Row="1" ItemsSource="{Binding SimulatorList}" SelectedItem="{Binding SelectedSimulator}" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid HeightRequest="60">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextCell Text="{Binding Name}" />
+                        <TextCell Text="{Binding DeviceType.Model}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </pge:LagoVistaContentPage >

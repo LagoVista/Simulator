@@ -9,33 +9,44 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using LagoVista.Core.Models.UIMetaData;
+using LagoVista.Core.Validation;
+using Newtonsoft.Json;
+using LagoVista.Core.Interfaces;
+using Newtonsoft.Json.Serialization;
 
 namespace LagoVista.Client.Core.Net
 {
+    
 
-
-    public class RestClient<TModel>
+        public class RestClient<TModel> : IRestClient<TModel> where TModel : new() 
     {
         HttpClient _httpClient;
         IAuthManager _authManager;
         ITokenManager _tokenManager;
         ILogger _logger;
-        INetworkService _networkserice;
+        INetworkService _networkService;
 
         public RestClient(HttpClient httpClient, IAuthManager authManager, ITokenManager tokenManager, ILogger logger, INetworkService networkService)
         {
-            _networkserice = networkService;
+            _networkService = networkService;
             _logger = logger;
             _httpClient = httpClient;
             _authManager = authManager;
             _tokenManager = tokenManager;
         }
 
-        public async Task<APIResponse> DeleteAsync(string path, TModel model, CancellationTokenSource cancellationTokenSource = null) 
+        public async Task<InvokeResult> AddAsync(string path, TModel model, CancellationTokenSource cancellationTokenSource = null)
         {
+            if (cancellationTokenSource == null)
+            {
+                cancellationTokenSource = new CancellationTokenSource(15 * 1000); /* Abort after 15 seconds */
+            }
+
             if (!await _tokenManager.ValidateTokenAsync(_authManager, cancellationTokenSource))
             {
-                return APIResponse.CreateFailed(System.Net.HttpStatusCode.Unauthorized);
+                var errs = new InvokeResult();
+                errs.Errors.Add(new ErrorMessage("could Not Add Item: " + System.Net.HttpStatusCode.Unauthorized));
             }
 
             _httpClient.DefaultRequestHeaders.Clear();
@@ -43,45 +54,185 @@ namespace LagoVista.Client.Core.Net
 
             try
             {
-                var response = await _httpClient.DeleteAsync(path, cancellationTokenSource.Token);
-                return (response.IsSuccessStatusCode) ? APIResponse.CreateOK() : APIResponse.CreateFailed(response.StatusCode);
+                var json = JsonConvert.SerializeObject(model);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync(path, content, cancellationTokenSource.Token);
+                if(response.IsSuccessStatusCode)
+                {
+                    var responseJSON = await response.Content.ReadAsStringAsync();
+                    var serializerSettings = new JsonSerializerSettings();
+                    serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+                    return JsonConvert.DeserializeObject<InvokeResult>(responseJSON, serializerSettings);
+                }
+                else
+                {
+                    var result = new InvokeResult();
+                    result.Errors.Add(new ErrorMessage("failure code response"));
+                    return result;
+                }                
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return APIResponse.CreateForException(ex);
+                var result = new InvokeResult();
+                result.Errors.Add(new ErrorMessage("failure code response"));
+                return result;
             }
         }
 
-        public Task<APIResponse> GetAsync(string path, TModel model, CancellationTokenSource cancellationTokenSource = null) 
+        public async Task<DetailResponse<TModel>> CreateNewAsync(string path, CancellationTokenSource cancellationTokenSource = null)
+        {
+            if (cancellationTokenSource == null)
+            {
+                cancellationTokenSource = new CancellationTokenSource(15 * 1000); /* Abort after 15 seconds */
+            }
+
+            if (!await _tokenManager.ValidateTokenAsync(_authManager, cancellationTokenSource))
+            {
+                var errs = new InvokeResult();
+                errs.Errors.Add(new ErrorMessage("could Not Add Item: " + System.Net.HttpStatusCode.Unauthorized));
+            }
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AuthToken);
+
+            var response = await _httpClient.GetAsync(path, cancellationTokenSource.Token);
+            if (response.IsSuccessStatusCode)
+            {
+                var responseJSON = await response.Content.ReadAsStringAsync();
+                var serializerSettings = new JsonSerializerSettings();
+                
+                serializerSettings.ContractResolver = new Utils.JsonNamesHelper();
+
+                var instance = JsonConvert.DeserializeObject<DetailResponse<TModel>>(responseJSON, serializerSettings);
+                return instance;
+            }
+            else
+            {
+                var result = new InvokeResult();
+                result.Errors.Add(new ErrorMessage("failure code response"));
+                return null;
+            }
+        }
+
+        public Task<InvokeResult> DeleteAsync(string path, TModel model, CancellationTokenSource cancellationTokenSource = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task<APIResponse> GetAsync<TRequestModel>(string path, TModel model, CancellationTokenSource cancellationTokenSource = null) 
+        public async Task<DetailResponse<TModel>> GetAsync(string path, CancellationTokenSource cancellationTokenSource = null)
+        {
+            if (cancellationTokenSource == null)
+            {
+                cancellationTokenSource = new CancellationTokenSource(15 * 1000); /* Abort after 15 seconds */
+            }
+
+            if (!await _tokenManager.ValidateTokenAsync(_authManager, cancellationTokenSource))
+            {
+                var errs = new InvokeResult();
+                errs.Errors.Add(new ErrorMessage("could Not Add Item: " + System.Net.HttpStatusCode.Unauthorized));
+            }
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AuthToken);
+
+
+            var response = await _httpClient.GetAsync(path, cancellationTokenSource.Token);
+            if (response.IsSuccessStatusCode)
+            {
+                var responseJSON = await response.Content.ReadAsStringAsync();
+                var serializerSettings = new JsonSerializerSettings();
+                serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                return JsonConvert.DeserializeObject<DetailResponse<TModel>>(responseJSON, serializerSettings);
+            }
+            else
+            {
+                var result = new InvokeResult();
+                result.Errors.Add(new ErrorMessage("failure code response"));
+                return null;
+            }
+        }
+
+        
+
+        public Task<InvokeResult> UpdateAsync<TResponse>(string path, TModel model, CancellationTokenSource cancellationTokenSource = null) where TResponse : ModelBase
         {
             throw new NotImplementedException();
         }
 
-        public Task<APIResponse> PostAsync(string path, TModel model, CancellationTokenSource cancellationTokenSource = null) 
+        /*        public async Task<APIResponse> DeleteAsync(string path, TModel model, CancellationTokenSource cancellationTokenSource = null) 
+                {
+                    if (!await _tokenManager.ValidateTokenAsync(_authManager, cancellationTokenSource))
+                    {
+                        return APIResponse.CreateFailed(System.Net.HttpStatusCode.Unauthorized);
+                    }
+
+                    _httpClient.DefaultRequestHeaders.Clear();
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AuthToken);
+
+                    try
+                    {
+                        var response = await _httpClient.DeleteAsync(path, cancellationTokenSource.Token);
+                        return (response.IsSuccessStatusCode) ? APIResponse.CreateOK() : APIResponse.CreateFailed(response.StatusCode);
+                    }
+                    catch (Exception ex)
+                    {
+                        return APIResponse.CreateForException(ex);
+                    }
+                }*/
+
+
+    }
+
+    public class RestClient<TModel, TSummaryModel> : RestClient<TModel>, IRestClient<TModel, TSummaryModel> where TModel : new() where TSummaryModel : class
+    {
+        HttpClient _httpClient;
+        IAuthManager _authManager;
+        ITokenManager _tokenManager;
+        ILogger _logger;
+        INetworkService _networkService;
+        public RestClient(HttpClient httpClient, IAuthManager authManager, ITokenManager tokenManager, ILogger logger, INetworkService networkService) : base(httpClient, authManager, tokenManager, logger, networkService)
         {
-            throw new NotImplementedException();
+            _networkService = networkService;
+            _logger = logger;
+            _httpClient = httpClient;
+            _authManager = authManager;
+            _tokenManager = tokenManager;
         }
 
-        public Task<APIResponse<TResponse>> PostAsync<TResponse>(string path, TModel model, CancellationTokenSource cancellationTokenSource = null)  where TResponse : ModelBase
+        public async Task<ListResponse<TSummaryModel>> GetForOrgAsync(string path, TModel model, CancellationTokenSource cancellationTokenSource = null)
         {
-            throw new NotImplementedException();
+            if (cancellationTokenSource == null)
+            {
+                cancellationTokenSource = new CancellationTokenSource(15 * 1000); /* Abort after 15 seconds */
+            }
+
+            if (!await _tokenManager.ValidateTokenAsync(_authManager, cancellationTokenSource))
+            {
+                var errs = new InvokeResult();
+                errs.Errors.Add(new ErrorMessage("could Not Add Item: " + System.Net.HttpStatusCode.Unauthorized));
+            }
+
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AuthToken);
+
+            var response = await _httpClient.GetAsync(path, cancellationTokenSource.Token);
+            if (response.IsSuccessStatusCode)
+            {
+                var serializerSettings = new JsonSerializerSettings();
+                serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+                var responseJSON = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ListResponse<TSummaryModel>>(responseJSON);
+            }
+            else
+            {
+                var result = new InvokeResult();
+                result.Errors.Add(new ErrorMessage("failure code response"));
+                return null;
+            }
         }
-
-        public Task<APIResponse> PutAsync(string path, TModel model, CancellationTokenSource cancellationTokenSource = null) 
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<APIResponse<TResponse>> PutAsync<TResponse>(string path, TModel model, CancellationTokenSource cancellationTokenSource = null) where TResponse : ModelBase
-        {
-            throw new NotImplementedException();
-        }
-
-
     }
 }

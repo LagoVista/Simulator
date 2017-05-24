@@ -1,14 +1,9 @@
 ﻿using LagoVista.Core.Commanding;
-using LagoVista.Core.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.ViewModels
 {
-    public class SplashViewModel : ViewModelBase
+    public class SplashViewModel : SimulatorViewModelBase
     {
 
         public SplashViewModel()
@@ -18,15 +13,16 @@ namespace LagoVista.Simulator.ViewModels
 
         public override async Task InitAsync()
         {
-            if (await Storage.HasKVPAsync("AUTH"))
+            await AuthManager.LoadAsync();
+            if(AuthManager.IsAuthenticated)
             {
-                //ShowViewModel<MainViewModel>();
+                ViewModelNavigation.SetAsNewRoot<MainViewModel>();
             }
         }
 
         public void Login()
         {
-            ShowViewModel<Auth.LoginViewModel>();
+            ViewModelNavigation.SetAsNewRoot<Auth.LoginViewModel>();
         }
 
         public RelayCommand LoginCommand { get; private set; }

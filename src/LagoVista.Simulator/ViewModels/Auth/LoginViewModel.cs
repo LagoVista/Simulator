@@ -1,27 +1,33 @@
-﻿using LagoVista.Core.Authentication.Interfaces;
+﻿using System.Threading.Tasks;
+using LagoVista.Client.Core.Net;
+using LagoVista.Core.Authentication.Interfaces;
 using LagoVista.Core.Authentication.Models;
 using LagoVista.Core.Commanding;
-using LagoVista.Core.ViewModels;
-using System.Diagnostics;
-using System.Threading.Tasks;
+using LagoVista.Core.Models;
+using LagoVista.UserAdmin.Models.Account;
 
 namespace LagoVista.Simulator.ViewModels.Auth
 {
-    public class LoginViewModel : ViewModelBase
+    public class LoginViewModel : SimulatorViewModelBase<UserInfo>
     {
         IAuthClient _authClient;
 
         public LoginViewModel(IAuthClient authClient)
         {
             LoginCommand = new RelayCommand(Login);
-
+            ViewModelNavigation.SetAsNewRoot();
             _authClient = authClient;
-
         }
-        
+
+        public override Task InitAsync()
+        {
+            return base.InitAsync();
+        }
+
 
         public async void Login()
         {
+            IsBusy = true;
             var loginInfo = new AuthRequest()
             {
                 Email = EmailAddress,
@@ -30,13 +36,28 @@ namespace LagoVista.Simulator.ViewModels.Auth
             };
 
             var result = await _authClient.LoginAsync(loginInfo);
-            Debug.WriteLine(result.Success);
+
             if (result.Success)
             {
                 var authResult = result.Result;
-                await Storage.StoreKVP("AUTH", authResult);
-                ShowViewModel<MainViewModel>();                
+                AuthManager.AuthToken = authResult.AuthToken;
+                AuthManager.AuthTokenExpiration = authResult.AuthTokenExpiration;
+                AuthManager.RefreshToken = authResult.RefreshToken;
+                AuthManager.RefreshTokenExpiration = authResult.RefreshTokenExpiration;
+                AuthManager.IsAuthenticated = true;
+
+                var user = await RestClient.GetAsync("/api/user");
+                AuthManager.User = user.Model;
+                await AuthManager.PersistAsync();
+                ShowViewModel<MainViewModel>();
+                IsBusy = false;
             }
+            else
+            {
+                IsBusy = false;
+            }
+
+
         }
 
         public RelayCommand LoginCommand { get; private set; }

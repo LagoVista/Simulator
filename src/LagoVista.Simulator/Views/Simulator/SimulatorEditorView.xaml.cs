@@ -1,25 +1,21 @@
 ﻿using LagoVista.XPlat.Core.Views;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace LagoVista.Simulator.Views.Simulator
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SimulatorsView : LagoVistaContentPage
+    public partial class SimulatorEditorView : LagoVistaContentPage
     {
-        public SimulatorsView()
+        public SimulatorEditorView()
         {
             InitializeComponent();
         }
-       
-    }    
+    }
 }

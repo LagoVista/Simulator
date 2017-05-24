@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LagoVista.Simulator.ViewModels.Simulator
+namespace LagoVista.Simulator.ViewModels.Messages
 {
-    public class SimulatorsViewModel : ViewModelBase
+    public class SendMessageViewModel : ViewModelBase
     {
     }
 }

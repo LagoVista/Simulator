@@ -1,51 +1,60 @@
-﻿using LagoVista.Core.Authentication.Models;
-using LagoVista.Core.Commanding;
-using LagoVista.Core.IOC;
-using LagoVista.Core.Networking.Models;
-using LagoVista.Core.ViewModels;
+﻿using LagoVista.Core.Commanding;
+using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.Simulator.ViewModels.Auth;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
+using LagoVista.Simulator.ViewModels.Simulator;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator, IoT.Simulator.Admin.Models.SimulatorSummary>
     {
         public MainViewModel()
         {
-            CallServiceCommand = new RelayCommand(CallService);
+            AddNewSimulatorCommand = new RelayCommand(AddNewSimulator);
+            LogoutCommand = new RelayCommand(Logout);
         }
 
 
-        public async void CallService()
+        public void AddNewSimulator()
         {
-            var client = SLWIOC.Get<HttpClient>();
-            var result = await Storage.GetKVPAsync<AuthResponse>("AUTH");
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",result.AuthToken);
-            var response = await client.GetAsync("/api/v1/user");
-            if (response.IsSuccessStatusCode)
-            {
-                var resultContent = await response.Content.ReadAsStringAsync();
+            ShowViewModel<SimulatorEditorViewModel>();
+        }
 
-                var data = JsonConvert.DeserializeObject<APIResponse<AuthResponse>>(resultContent);
-            }
-            else
-            {
-                var data = APIResponse<AuthResponse>.FromFailedStatusCode(response.StatusCode);
-            }
+        public async override Task InitAsync()
+        {
+            
+            IsBusy = true;
+            var listResponse = await RestClient.GetForOrgAsync($"/api/org/{AuthManager.User.CurrentOrganization.Id}/simulators", null);
+            IsBusy = false;
         }
 
         public async void Logout()
         {
-            await Storage.ClearKVP("AUTH");
-            ViewModelNavigation.Navigate<LoginViewModel>();
+            await AuthManager.LogoutAsync();
+            ViewModelNavigation.SetAsNewRoot<LoginViewModel>();
         }
 
-        public RelayCommand CallServiceCommand { get; private set; }
+
+        ObservableCollection<SimulatorSummary> _simulators;
+        public ObservableCollection<SimulatorSummary> Simulators
+        {
+            get { return _simulators; }
+            set { Set(ref _simulators, value); }
+        }
+
+        SimulatorSummary _selectedSimulator;
+        public SimulatorSummary SelectedSimulator
+        {
+            get { return _selectedSimulator; }
+            set { Set(ref _selectedSimulator, value); }
+        }
+
+
+        public RelayCommand AddNewSimulatorCommand { get; private set; }
+
+        public RelayCommand LogoutCommand { get; private set; }
+
+
     }
 }

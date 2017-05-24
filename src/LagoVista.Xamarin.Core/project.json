@@ -1,15 +1,11 @@
-﻿{
+{
   "supports": {},
   "dependencies": {
-    "LagoVista.Core": "0.8.119-alpha01205",
-    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
-    "NETStandard.Library": "1.6.1",
+    "LagoVista.Core": "0.8.174-alpha1247",
     "Newtonsoft.Json": "10.0.1",
-    "Xamarin.Forms": "2.3.4.231"
+    "Xamarin.Forms": "2.3.5.239-pre3"
   },
   "frameworks": {
-    "netstandard1.2": {
-      "imports": "portable-net45+win8+wpa81+wp8"
-    }
+    ".NETPortable,Version=v4.6,Profile=Profile151": {}
   }
 }

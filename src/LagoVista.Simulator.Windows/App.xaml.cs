@@ -1,4 +1,5 @@
-﻿using LagoVista.Core.IOC;
+﻿using LagoVista.Core.Interfaces;
+using LagoVista.Core.IOC;
 using LagoVista.Core.PlatformSupport;
 using LagoVista.Core.UWP.Services;
 using System;
@@ -65,7 +66,13 @@ namespace LagoVista.Simulator.Windows
 
                 Xamarin.Forms.Forms.Init(e);
 
-                SLWIOC.RegisterSingleton<IStorageService>(new StorageService());
+
+                LagoVista.Core.UWP.Services.UWPDeviceServices.Init(rootFrame.Dispatcher);
+
+                //SLWIOC.RegisterSingleton<INetworkService>(new NetworkService());
+                //SLWIOC.RegisterSingleton<IStorageService>(new StorageService());
+                SLWIOC.RegisterSingleton<IAppConfig>(new Utilities.AppConfig());
+                SLWIOC.RegisterSingleton<IDeviceInfo>(new DeviceInfo());
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

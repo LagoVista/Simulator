@@ -2,7 +2,7 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B5EC62F1-6739-4055-B6FC-21776E60F98A}</ProjectGuid>
@@ -11,9 +11,8 @@
     <RootNamespace>LagoVista.Simulator</RootNamespace>
     <AssemblyName>LagoVista.Simulator</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile151</TargetFrameworkProfile>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -40,8 +39,14 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Logger.cs" />
     <Compile Include="ViewModels\Auth\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\Messages\MessageEditorViewModel.cs" />
+    <Compile Include="ViewModels\Messages\SendMessageViewModel.cs" />
+    <Compile Include="ViewModels\SimulatorViewModelBase.cs" />
+    <Compile Include="ViewModels\Simulator\SimulatorEditorViewModel.cs" />
+    <Compile Include="ViewModels\Simulator\SimulatorViewModel.cs" />
     <Compile Include="ViewModels\SplashViewModel.cs" />
     <Compile Include="Views\Auth\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -49,8 +54,14 @@
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Simulator\SimulatorsView.xaml.cs">
-      <DependentUpon>SimulatorsView.xaml</DependentUpon>
+    <Compile Include="Views\Messages\MessageEditorView.xaml.cs">
+      <DependentUpon>MessageEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Messages\SendMessageView.xaml.cs">
+      <DependentUpon>SendMessageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Simulator\SimulatorEditorView.xaml.cs">
+      <DependentUpon>SimulatorEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Simulator\SimulatorView.xaml.cs">
       <DependentUpon>SimulatorView.xaml</DependentUpon>
@@ -97,13 +108,21 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\Simulator\SimulatorsView.xaml">
+    <EmbeddedResource Include="Views\Simulator\SimulatorView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\Simulator\SimulatorView.xaml">
+    <EmbeddedResource Include="Views\Messages\MessageEditorView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Messages\SendMessageView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Simulator\SimulatorEditorView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

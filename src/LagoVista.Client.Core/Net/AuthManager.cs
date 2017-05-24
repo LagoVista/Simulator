@@ -1,9 +1,7 @@
 ﻿using LagoVista.Core.Interfaces;
-using LagoVista.Core.Networking.Interfaces;
+using LagoVista.Core.Models;
 using LagoVista.Core.PlatformSupport;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.Net
@@ -25,10 +23,9 @@ namespace LagoVista.Client.Core.Net
         public string DeviceId { get; set; }
         public String DeviceType { get; set; }
         public bool IsAuthenticated { get; set; }
-        public bool IsUserVerified { get; set; }
         public string RefreshToken { get; set; }
         public long RefreshTokenExpiration { get; set; }
-        public IAppUser User { get; set; }
+        public UserInfo User { get; set; }
 
         public async Task LoadAsync()
         {
@@ -47,11 +44,22 @@ namespace LagoVista.Client.Core.Net
                 DeviceId = storedAuthmanager.DeviceId;
                 DeviceType = storedAuthmanager.DeviceType;
                 IsAuthenticated = storedAuthmanager.IsAuthenticated;
-                IsUserVerified = storedAuthmanager.IsUserVerified;
                 RefreshToken = storedAuthmanager.RefreshToken;
                 RefreshTokenExpiration = storedAuthmanager.RefreshTokenExpiration;
                 User = storedAuthmanager.User;
             }
+        }
+
+        public async Task LogoutAsync()
+        {
+            AuthToken = null;
+            AuthTokenExpiration = -1;
+            IsAuthenticated = false;
+            RefreshToken = null;
+            RefreshTokenExpiration = -1;
+            User = null;
+
+            await PersistAsync();
         }
 
         public Task PersistAsync()
