@@ -218,19 +218,28 @@ namespace LagoVista.Client.Core.Net
             _httpClient.DefaultRequestHeaders.Clear();
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AuthToken);
 
-            var response = await _httpClient.GetAsync(path, cancellationTokenSource.Token);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var serializerSettings = new JsonSerializerSettings();
-                serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                var response = await _httpClient.GetAsync(path, cancellationTokenSource.Token);
+                if (response.IsSuccessStatusCode)
+                {
+                    var serializerSettings = new JsonSerializerSettings();
+                    serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
-                var responseJSON = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<ListResponse<TSummaryModel>>(responseJSON);
+                    var responseJSON = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<ListResponse<TSummaryModel>>(responseJSON);
+                }
+                else
+                {
+                    var result = new InvokeResult();
+                    result.Errors.Add(new ErrorMessage("failure code response"));
+                    return null;
+                }
             }
-            else
+            catch(HttpRequestException)
             {
                 var result = new InvokeResult();
-                result.Errors.Add(new ErrorMessage("failure code response"));
+                result.Errors.Add(new ErrorMessage("Could Not Connect"));
                 return null;
             }
         }

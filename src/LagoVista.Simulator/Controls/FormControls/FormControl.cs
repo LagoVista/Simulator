@@ -17,5 +17,7 @@ namespace LagoVista.Simulator.Controls.FormControls
 
         protected FormField Field { get { return _field; } }
         protected FormViewer Viewer { get { return _viewer; } }
+
+        public abstract bool Validate();
     }
 }

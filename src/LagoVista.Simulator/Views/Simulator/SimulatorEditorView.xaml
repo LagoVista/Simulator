@@ -12,7 +12,7 @@
     </pge:LagoVistaContentPage.ToolbarItems>
 
     <Grid>
-        <ctls:FormViewer FormFields="{Binding FormItems}" />
+        <ctls:FormViewer Form="{Binding Form}" />
     </Grid>
 
 </pge:LagoVistaContentPage>

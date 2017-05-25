@@ -23,5 +23,10 @@ namespace LagoVista.Simulator.Controls.FormControls
         {
             Field.Value = e.Value ? "true" : "false";
         }
+
+        public override bool Validate()
+        {
+            return true;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using LagoVista.Core.Commanding;
-using LagoVista.Core.Models.UIMetaData;
-using System.Collections.ObjectModel;
+using LagoVista.Core.Models;
+using LagoVista.Simulator.Models;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -9,7 +10,6 @@ namespace LagoVista.Simulator.ViewModels.Simulator
 {
     public class SimulatorEditorViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator, IoT.Simulator.Admin.Models.SimulatorSummary>
     {
-
 
         public SimulatorEditorViewModel()
         {
@@ -20,12 +20,13 @@ namespace LagoVista.Simulator.ViewModels.Simulator
         {
             var modelProperties = typeof(IoT.Simulator.Admin.Models.Simulator).GetTypeInfo().DeclaredProperties;
 
-            var valid = true;
-            
-            foreach(var formItem in FormItems)
+            if (!Form.Validate())
             {
-                valid &= formItem.Validate() & valid;
-
+                return false;
+            }
+            
+            foreach(var formItem in Form.FormItems)
+            {
                 var prop = modelProperties.Where(prp => prp.Name.ToLower() == formItem.Name.ToLower()).FirstOrDefault();
                 switch(formItem.FieldType)
                 {
@@ -35,33 +36,70 @@ namespace LagoVista.Simulator.ViewModels.Simulator
                             prop.SetValue(base.Model, result);
                         }
                         break;
+                    case Controls.FormViewer.PICKER:
+                        if(String.IsNullOrEmpty(formItem.Value))
+                        {
+                            prop.SetValue(base.Model, null);
+                        }
+                        else
+                        {
+                            var eh = Activator.CreateInstance(prop.PropertyType) as EntityHeader;
+                            eh.Id = formItem.Value;
+                            eh.Text = formItem.Options.Where(opt => opt.Key == formItem.Value).First().Label;
 
+                            prop.SetValue(base.Model, eh);
+                        }
+                        break;
+                    case Controls.FormViewer.INTEGER:
+                        if(!String.IsNullOrEmpty(formItem.Value))
+                        {
+                            if(int.TryParse(formItem.Value, out int intValue))
+                            {
+                                prop.SetValue(base.Model, intValue);
+                            }
+                        }
+
+                        break;
+                    case Controls.FormViewer.DECIMAL:
+                        if (!String.IsNullOrEmpty(formItem.Value))
+                        {
+                            if (double.TryParse(formItem.Value, out double intValue))
+                            {
+                                prop.SetValue(base.Model, intValue);
+                            }
+                        }
+
+                        break;
                     case Controls.FormViewer.MULTILINE:
                     case Controls.FormViewer.TEXT:
-                    case Controls.FormViewer.KEY:
+                    case Controls.FormViewer.KEY:                        
                         prop.SetValue(base.Model, formItem.Value);
                         break;
                 }                
             }
 
-            return valid;
+            return true;
         }
 
         public async void SaveAsync()
         {
             if(ViewToModel())
             {
-                IsBusy = true;
                 await RestClient.AddAsync("/api/simulator", this.Model);
                 this.ViewModelNavigation.GoBack();
-                IsBusy = false;
-            }
-            
+            }            
         }
 
         public bool CanSave()
         {
             return true;
+        }
+
+        EditForm _form;
+        public EditForm Form
+        {
+            get { return _form; }
+            set { Set(ref _form, value); }
         }
 
         public async override Task InitAsync()
@@ -70,23 +108,16 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             var newSimulator = await RestClient.CreateNewAsync("/api/simulator/factory");
             Model = newSimulator.Model;
 
-            var items  = new ObservableCollection<FormField>();
+            var form = new EditForm();
             
             foreach(var field in newSimulator.View)
             {
-                items.Add(field.Value);
+                form.FormItems.Add(field.Value);
             }
 
-            FormItems = items;
+            Form = form;
             IsBusy = false;
         }        
-
-        ObservableCollection<FormField> _formItems;
-        public ObservableCollection<FormField> FormItems
-        {
-            get { return _formItems; }
-            set { Set(ref _formItems, value); }
-        }
 
         public RelayCommand SaveCommand { get; private set; }
     }

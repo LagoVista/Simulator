@@ -1,5 +1,6 @@
 ﻿using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Simulator.Controls.FormControls;
+using LagoVista.Simulator.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,18 +27,31 @@ namespace LagoVista.Simulator.Controls
             Margin = new Thickness(10);
         }
 
-        public Object FormFields
+        public bool Validate()
         {
-            get { return (ObservableCollection<FormField>)base.GetValue(FormFieldsProperty); }
+            var valid = true;
+            foreach(var field in _formControls)
+            {
+                valid &= field.Validate();
+            }
+
+            return valid;
+        }
+
+        public EditForm Form
+        {
+            get { return (EditForm)base.GetValue(FormProperty); }
             set {
-                base.SetValue(FormFieldsProperty, value);
+                base.SetValue(FormProperty, value);
+                value.SetValidationMethod(Validate);
                 Populate();
+
             }
         }
 
-        public static BindableProperty FormFieldsProperty = BindableProperty.Create(
-                                                            propertyName: nameof(FormFields),
-                                                            returnType: typeof(ObservableCollection<FormField>),
+        public static BindableProperty FormProperty = BindableProperty.Create(
+                                                            propertyName: nameof(Form),
+                                                            returnType: typeof(EditForm),
                                                             declaringType: typeof(FormViewer),
                                                             defaultValue: null,
                                                             defaultBindingMode: BindingMode.Default,
@@ -46,7 +60,7 @@ namespace LagoVista.Simulator.Controls
         private static void HandleFormFieldsAssigned(BindableObject bindable, object oldValue, object newValue)
         {
             var button = (FormViewer)bindable;
-            button.FormFields = newValue as ObservableCollection<FormField>;
+            button.Form = newValue as EditForm;
         }
         
         private void AddChild(FormControl field)
@@ -62,9 +76,9 @@ namespace LagoVista.Simulator.Controls
             _formControls.Clear();
             Children.Clear();
 
-            if (FormFields != null)
+            if (Form != null)
             {
-                foreach (var field in FormFields as ObservableCollection<FormField>)
+                foreach (var field in Form.FormItems)
                 {
                     switch (field.FieldType)
                     {

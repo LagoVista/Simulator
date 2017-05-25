@@ -9,6 +9,7 @@
         <ToolbarItem Icon="settings.png" Text="settings" Command="{Binding SettingsCommand}" />
         <ToolbarItem Icon="exit.png" Text="logout" Command="{Binding LogoutCommand}" />
     </pge:LagoVistaContentPage.ToolbarItems>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -17,19 +18,21 @@
 
         <Button Text="Add Simulator" Command="{Binding AddNewSimulatorCommand}" />
 
-        <ListView Grid.Row="1" ItemsSource="{Binding SimulatorList}" SelectedItem="{Binding SelectedSimulator}" >
+        <ListView Grid.Row="1" ItemsSource="{Binding Simulators}" SelectedItem="{Binding SelectedSimulator}" >
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid HeightRequest="60">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <TextCell Text="{Binding Name}" />
-                        <TextCell Text="{Binding DeviceType.Model}" />
-                    </Grid>
+                    <ViewCell>
+                        <Grid HeightRequest="60">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Label Text="{Binding Name}" />
+                        </Grid>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
     </Grid>
+
 </pge:LagoVistaContentPage >

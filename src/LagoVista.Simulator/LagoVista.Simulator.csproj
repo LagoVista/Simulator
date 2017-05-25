@@ -47,7 +47,13 @@
     <Compile Include="Controls\FormControls\TextEditRow.cs" />
     <Compile Include="Controls\FormViewer.cs" />
     <Compile Include="Extensions\FormFieldExtensions.cs" />
+    <Compile Include="Models\EditForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\SimulatorResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SimulatorResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="ViewModels\Auth\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -99,6 +105,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\SimulatorResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SimulatorResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Auth\Login.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>

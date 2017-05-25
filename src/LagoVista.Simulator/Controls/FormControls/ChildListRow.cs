@@ -16,5 +16,10 @@ namespace LagoVista.Simulator.Controls.FormControls
             Children.Add(_label);
             Children.Add(_label);
         }
+
+        public override bool Validate()
+        {
+            return true;
+        }
     }
 }
