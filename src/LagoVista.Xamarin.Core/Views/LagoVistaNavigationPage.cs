@@ -22,7 +22,6 @@ namespace LagoVista.XPlat.Core.Views
             _loadingMask = new Grid() { BackgroundColor = Color.Black, Opacity = 0.25 };
             _loadingContainer.Children.Add(_loadingMask);
             _loadingContainer.Children.Add(_activityIndicator);
-            _loadingContainer.IsVisible = true;
         }
 
         public ViewModelBase ViewModel
@@ -54,7 +53,7 @@ namespace LagoVista.XPlat.Core.Views
             var grid = new Grid();
             grid.Children.Add(content);
             grid.Children.Add(_loadingContainer);
-
+            _loadingMask.IsVisible = true;
             if (ViewModel != null)
             {
                 await ViewModel.InitAsync();

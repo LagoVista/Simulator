@@ -15,6 +15,11 @@ namespace LagoVista.Simulator.Controls.FormControls
             _switch = new Switch();
             _switch.Toggled += _switch_Toggled;
 
+            if(bool.TryParse(field.Value, out bool _isToggled))
+            {
+                _switch.IsToggled = _isToggled;
+            }
+
             Children.Add(_label);
             Children.Add(_switch);
         }

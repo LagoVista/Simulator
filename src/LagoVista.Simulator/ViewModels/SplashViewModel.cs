@@ -16,13 +16,13 @@ namespace LagoVista.Simulator.ViewModels
             await AuthManager.LoadAsync();
             if(AuthManager.IsAuthenticated)
             {
-                ViewModelNavigation.SetAsNewRoot<MainViewModel>();
+                await ViewModelNavigation.SetAsNewRootAsync<MainViewModel>();
             }
         }
 
-        public void Login()
+        public async void Login()
         {
-            ViewModelNavigation.SetAsNewRoot<Auth.LoginViewModel>();
+            await  ViewModelNavigation.SetAsNewRootAsync<Auth.LoginViewModel>();
         }
 
         public RelayCommand LoginCommand { get; private set; }

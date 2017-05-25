@@ -40,6 +40,17 @@ namespace LagoVista.Simulator.Controls.FormControls
                 _picker.SelectedIndex = 0;
             }
 
+            var selectedItem = field.Options.Where(opt => opt.Key == field.Value).FirstOrDefault();
+            if(selectedItem != null)
+            {
+                var index = field.Options.IndexOf(selectedItem);
+                _picker.SelectedIndex = index;
+            }
+            else
+            {
+                _picker.SelectedIndex = 0;
+            }
+
             Children.Add(_label);
             Children.Add(_picker);
             Children.Add(_validationMessage);

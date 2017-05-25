@@ -12,6 +12,7 @@ namespace LagoVista.Simulator.Controls.FormControls
         {
             _label = new Label();
             _editor = new Editor();
+            _editor.Text = field.Value;
             _editor.HeightRequest = 120;
             _editor.TextChanged += _editor_TextChanged;
             _label.Text = field.Label;

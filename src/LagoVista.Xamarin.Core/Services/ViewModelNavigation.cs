@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LagoVista.XPlat.Core.Services
@@ -42,63 +43,145 @@ namespace LagoVista.XPlat.Core.Services
             _viewModelLookup.Add(typeof(T), typeof(V));
         }
 
-        public void Navigate<TViewModel>() where TViewModel : ViewModelBase
+        private Task ShowViewModelAsync(ViewModelLaunchArgs args)
         {
-            Navigate(new ViewModelLaunchArgs()
-            {
-                ViewModelType = typeof(TViewModel)
-            });
-        }
-
-        public void GoBack()
-        {
-            _navigation.PopAsync();
-        }
-
-        public async void Navigate(ViewModelLaunchArgs args)
-        {
-            var viewModel = SLWIOC.CreateForType(args.ViewModelType);
-
             var view = Activator.CreateInstance(_viewModelLookup[args.ViewModelType]) as LagoVistaContentPage;
-            view.ViewModel = viewModel as ViewModelBase;
-            view.ViewModel.SetParameter(args.Parameter);
+            var viewModel = SLWIOC.CreateForType(args.ViewModelType) as ViewModelBase;
+            viewModel.LaunchArgs = args;
+            view.ViewModel = viewModel;
+            return _navigation.PushAsync(view);
 
-            await _navigation.PushAsync(view);
         }
+
+        public Task NavigateAsync<TViewModel>() where TViewModel : ViewModelBase
+        {
+            var args = new ViewModelLaunchArgs();
+            args.LaunchType = LaunchTypes.Other;
+            args.ViewModelType = typeof(TViewModel);
+            return ShowViewModelAsync(args);
+        }
+
+        public  Task GoBackAsync()
+        {
+            return _navigation.PopAsync();
+        }
+
 
         public void PopToRoot()
         {
             _navigation.PopToRootAsync();
         }
-
-        public void SetAsNewRoot()
-        {
-            var currentPage = _navigation.NavigationStack.Last();
-            _app.MainPage = new IconNavigationPage(currentPage);
-        }
-
-        public void SetAsNewRoot<TViewModel>() where TViewModel : ViewModelBase
-        {
-            SetAsNewRoot<TViewModel>(null);
-        }
-
-        public void SetAsNewRoot<TViewModel>(ViewModelLaunchArgs args) where TViewModel : ViewModelBase
+     
+       
+        public Task SetAsNewRootAsync<TViewModel>() where TViewModel : ViewModelBase
         {
             var viewModel = SLWIOC.CreateForType<TViewModel>();
             var viewModelType = typeof(TViewModel);
             var view = Activator.CreateInstance(_viewModelLookup[viewModelType]) as LagoVistaContentPage;
-            view.ViewModel = viewModel as ViewModelBase;
-            if (args != null)
-            {
-                view.ViewModel.SetParameter(args.Parameter);
-            }
+            view.ViewModel = viewModel as ViewModelBase;            
             _navigation = view.Navigation;
             _app.MainPage = new IconNavigationPage(view);
+
+            return Task.FromResult(default(object));
         }
 
         public bool CanGoBack()
         {
             return _navigation.NavigationStack.Count > 1;
         }
-    }
+
+        public  Task NavigateAndCreateAsync<TViewModel>(params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
+        {
+            var launchArgs = new ViewModelLaunchArgs();
+            launchArgs.LaunchType = LaunchTypes.Create;
+            launchArgs.ViewModelType = typeof(TViewModel);
+           
+            foreach (var arg in args)
+            {
+                launchArgs.Parameters.Add(arg.Key, arg.Value);
+            }
+
+            return ShowViewModelAsync(launchArgs);
+        }
+
+        public Task NavigateAndCreateAsync<TViewModel, TParent>(TParent parent, params KeyValuePair<string, object>[] args)  where TViewModel : ViewModelBase
+        {
+            var launchArgs = new ViewModelLaunchArgs();
+            launchArgs.LaunchType = LaunchTypes.Create;
+            launchArgs.ViewModelType = typeof(TViewModel);
+            launchArgs.Parent = parent;
+
+            foreach (var arg in args)
+            {
+                launchArgs.Parameters.Add(arg.Key, arg.Value);
+            }
+
+            return ShowViewModelAsync(launchArgs);
+        }
+
+        public Task NavigateAndEditAsync<TViewModel, TParent, TChild>(TParent parent, TChild child, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
+        {
+            var launchArgs = new ViewModelLaunchArgs();
+            launchArgs.LaunchType = LaunchTypes.Edit;
+            launchArgs.ViewModelType = typeof(TViewModel);
+            launchArgs.Parent = parent;
+            launchArgs.Child = child;
+
+
+            foreach (var arg in args)
+            {
+                launchArgs.Parameters.Add(arg.Key, arg.Value);
+            }
+
+            return ShowViewModelAsync(launchArgs);
+        }
+
+        public Task NavigateAndPickAsync<TViewModel>(Action<Object> selectedAction, Action cancelledAction = null, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
+        {
+            var launchArgs = new ViewModelLaunchArgs();
+            launchArgs.LaunchType = LaunchTypes.Picker;
+            launchArgs.ViewModelType = typeof(TViewModel);
+
+            launchArgs.SelectedAction = selectedAction;
+            launchArgs.CancelledAction = cancelledAction;
+
+            foreach (var arg in args)
+            {
+                launchArgs.Parameters.Add(arg.Key, arg.Value);
+            }
+
+            return ShowViewModelAsync(launchArgs);
+        }
+
+        public Task NavigateAndEditAsync<TViewModel, TParent>(TParent parent, string id, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
+        {
+            var launchArgs = new ViewModelLaunchArgs();
+            launchArgs.LaunchType = LaunchTypes.Edit;
+            launchArgs.ViewModelType = typeof(TViewModel);
+            launchArgs.Parent = parent;
+            launchArgs.ChildId = id;
+
+            foreach (var arg in args)
+            {
+                launchArgs.Parameters.Add(arg.Key, arg.Value);
+            }
+
+            return ShowViewModelAsync(launchArgs);
+        }
+
+        public Task NavigateAndEditAsync<TViewModel>(string id, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
+        {
+            var launchArgs = new ViewModelLaunchArgs();
+            launchArgs.LaunchType = LaunchTypes.Edit;
+            launchArgs.ViewModelType = typeof(TViewModel);
+            launchArgs.ChildId = id;
+
+            foreach (var arg in args)
+            {
+                launchArgs.Parameters.Add(arg.Key, arg.Value);
+            }
+
+            return ShowViewModelAsync(launchArgs);
+        }
+    }   
 }

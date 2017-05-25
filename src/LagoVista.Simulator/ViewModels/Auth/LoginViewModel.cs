@@ -15,7 +15,6 @@ namespace LagoVista.Simulator.ViewModels.Auth
         public LoginViewModel(IAuthClient authClient)
         {
             LoginCommand = new RelayCommand(Login);
-            ViewModelNavigation.SetAsNewRoot();
             _authClient = authClient;
         }
 
@@ -49,7 +48,7 @@ namespace LagoVista.Simulator.ViewModels.Auth
                 var user = await RestClient.GetAsync("/api/user");
                 AuthManager.User = user.Model;
                 await AuthManager.PersistAsync();
-                ShowViewModel<MainViewModel>();
+                await ViewModelNavigation.NavigateAsync<MainViewModel>();
                 IsBusy = false;
             }
             else

@@ -18,6 +18,7 @@ namespace LagoVista.Simulator.Controls.FormControls
         {
             _label = new Label();
             _editor = new Entry();
+            _editor.Text = field.Value;
             _editor.TextChanged += _editor_TextChanged;
 
             _validationMessage = new Label();

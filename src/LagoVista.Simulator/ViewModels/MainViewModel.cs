@@ -20,7 +20,7 @@ namespace LagoVista.Simulator.ViewModels
 
         public void AddNewSimulator()
         {
-            ShowViewModel<SimulatorEditorViewModel>();
+            ViewModelNavigation.NavigateAndCreateAsync<SimulatorEditorViewModel>();
         }
 
         public async override Task InitAsync()
@@ -29,7 +29,7 @@ namespace LagoVista.Simulator.ViewModels
             {
                 IsBusy = true;
                 var listResponse = await RestClient.GetForOrgAsync($"/api/org/{AuthManager.User.CurrentOrganization.Id}/simulators", null);
-                if(listResponse == null)
+                if (listResponse == null)
                 {
                     await Popups.ShowAsync("Sorry there was an error contacting the server.  Please try again later.");
                 }
@@ -47,9 +47,8 @@ namespace LagoVista.Simulator.ViewModels
         public async void Logout()
         {
             await AuthManager.LogoutAsync();
-            ViewModelNavigation.SetAsNewRoot<LoginViewModel>();
+            await ViewModelNavigation.SetAsNewRootAsync<LoginViewModel>();
         }
-
 
         ObservableCollection<SimulatorSummary> _simulators;
         public ObservableCollection<SimulatorSummary> Simulators
@@ -58,11 +57,22 @@ namespace LagoVista.Simulator.ViewModels
             set { Set(ref _simulators, value); }
         }
 
+        /* so far will always be null just used to detect clicking on object */
         SimulatorSummary _selectedSimulator;
         public SimulatorSummary SelectedSimulator
         {
             get { return _selectedSimulator; }
-            set { Set(ref _selectedSimulator, value); }
+            set
+            {
+                if (value != null)
+                {
+                    ViewModelNavigation.NavigateAndEditAsync<SimulatorEditorViewModel>(value.Id);
+                }
+
+                _selectedSimulator = null;
+
+                RaisePropertyChanged();
+            }
         }
 
 
