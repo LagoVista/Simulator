@@ -15,6 +15,8 @@ namespace LagoVista.XPlat.Core.Views
         Grid _loadingContainer;
         ActivityIndicator _activityIndicator;
 
+        bool _hasAppeared = false;
+
         public LagoVistaContentPage() : base()
         {
             _activityIndicator = new ActivityIndicator() { IsRunning = false };
@@ -48,20 +50,25 @@ namespace LagoVista.XPlat.Core.Views
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            var context = ViewModel;
-            var content = this.Content;
-            var grid = new Grid();
-            grid.Children.Add(content);
-            grid.Children.Add(_loadingContainer);
-            _loadingMask.IsVisible = true;
-            if (ViewModel != null)
+            if (!_hasAppeared)
             {
-                await ViewModel.InitAsync();
+                var context = ViewModel;
+                var content = this.Content;
+                var grid = new Grid();
+                grid.Children.Add(content);
+                grid.Children.Add(_loadingContainer);
+                _loadingMask.IsVisible = true;
+                if (ViewModel != null)
+                {
+                    await ViewModel.InitAsync();
 
+                }
+
+                this.Content = grid;
+                this.Content.BindingContext = context;
             }
 
-            this.Content = grid;
-            this.Content.BindingContext = context;
+            _hasAppeared = true;
         }
 
         protected async override void OnDisappearing()

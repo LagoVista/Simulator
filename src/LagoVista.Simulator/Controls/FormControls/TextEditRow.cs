@@ -31,6 +31,7 @@ namespace LagoVista.Simulator.Controls.FormControls
             Children.Add(_label);
             Children.Add(_editor);
             Children.Add(_validationMessage);
+            Margin = new Thickness(10);
         }
 
         public override bool Validate()

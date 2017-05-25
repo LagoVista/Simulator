@@ -18,7 +18,6 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             return true;
         }
 
-
         ObservableCollection<FormField> _formItems;
         public ObservableCollection<FormField> FormItems
         {

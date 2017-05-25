@@ -1,4 +1,6 @@
-﻿using LagoVista.Core.Models.UIMetaData;
+﻿using LagoVista.Core.Interfaces;
+using LagoVista.Core.Models;
+using LagoVista.Core.Models.UIMetaData;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,9 +11,18 @@ namespace LagoVista.Simulator.Models
     {
         Func<bool> _validationMethod;
 
+        public event EventHandler<string> Add;
+
+        public void InvokeAdd(string type)
+        {
+            Add?.Invoke(this, type);
+        }
+
+        
         public EditForm()
         {
             FormItems = new ObservableCollection<FormField>();
+            ChildLists = new Dictionary<string, ObservableCollection<EntityHeader>>();
         }
 
         ObservableCollection<FormField> _formItems;
@@ -34,5 +45,16 @@ namespace LagoVista.Simulator.Models
             }
             return _validationMethod.Invoke();
         }
+
+        public Dictionary<string, ObservableCollection<EntityHeader>> ChildLists
+        {
+            get; set;
+        }       
+        
+        public void AddChildList(string name, List<IIDEntity> items  )
+        {
+
+        }
     }
+    
 }

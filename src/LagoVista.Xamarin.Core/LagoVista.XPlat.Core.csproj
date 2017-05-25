@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\XPlatResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>XPlatResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

@@ -8,8 +8,9 @@ using Xamarin.Forms;
 
 namespace LagoVista.Simulator.Controls
 {
-    public class FormViewer : StackLayout
+    public class FormViewer : ScrollView
     {
+        StackLayout _container;
 
         public const string MULTILINE = "MultiLineText";
         public const string CHECKBOX = "CheckBox";
@@ -23,8 +24,10 @@ namespace LagoVista.Simulator.Controls
 
         public FormViewer()
         {
-            _formControls = new List<FormControl>();
-            Margin = new Thickness(10);
+             _formControls = new List<FormControl>();
+
+            _container = new StackLayout();
+            Content = _container;
         }
 
         public bool Validate()
@@ -66,7 +69,7 @@ namespace LagoVista.Simulator.Controls
         private void AddChild(FormControl field)
         {
             _formControls.Add(field);
-            Children.Add(field);
+            _container.Children.Add(field);
         }
 
         private List<FormControl> _formControls;
@@ -74,7 +77,7 @@ namespace LagoVista.Simulator.Controls
         protected void Populate()
         {
             _formControls.Clear();
-            Children.Clear();
+            _container.Children.Clear();
 
             if (Form != null)
             {
@@ -86,12 +89,24 @@ namespace LagoVista.Simulator.Controls
                         case FormViewer.CHECKBOX: AddChild(new FormControls.CheckBoxRow(this, field)); break;
                         case FormViewer.ENTITYHEADERPICKER: AddChild(new FormControls.EntityHeaderPicker(this, field)); break;
                         case FormViewer.PICKER: AddChild(new FormControls.SelectRow(this, field)); break;
-                        case FormViewer.CHILDLIST: AddChild(new FormControls.ChildListRow(this, field)); break;
+                        case FormViewer.CHILDLIST:
+                            var childListControl = new FormControls.ChildListRow(this, field);
+                            if(Form.ChildLists.ContainsKey(field.Name))
+                            {
+                                childListControl.ChildItems = Form.ChildLists[field.Name];
+                            }
+                            childListControl.Add += ChildListControl_Add;
+                            AddChild(childListControl);
+                            break;
                         default: AddChild(new FormControls.TextEditRow(this, field)); break;
                     }
                 }
             }
         }
 
+        private void ChildListControl_Add(object sender, string e)
+        {
+            Form.InvokeAdd(e);
+        }
     }
 }

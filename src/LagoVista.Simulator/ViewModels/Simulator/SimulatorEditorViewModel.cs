@@ -1,6 +1,10 @@
 ﻿using LagoVista.Core.Commanding;
 using LagoVista.Simulator.Models;
 using System.Threading.Tasks;
+using System.Linq;
+using LagoVista.Core.Models;
+using LagoVista.Core;
+using LagoVista.Simulator.ViewModels.Messages;
 
 namespace LagoVista.Simulator.ViewModels.Simulator
 {
@@ -9,14 +13,12 @@ namespace LagoVista.Simulator.ViewModels.Simulator
 
         public SimulatorEditorViewModel()
         {
-            SaveCommand = new RelayCommand(SaveAsync, CanSave);
+
         }
 
-      
-
-        public async void SaveAsync()
+        public override async void SaveAsync()
         {
-            if(ViewToModel(Form, Model))
+            if (ViewToModel(Form, Model))
             {
                 IsBusy = true;
                 if (LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Create)
@@ -30,10 +32,10 @@ namespace LagoVista.Simulator.ViewModels.Simulator
                 IsBusy = false;
 
                 await this.ViewModelNavigation.GoBackAsync();
-            }            
+            }
         }
 
-        public bool CanSave()
+        public override bool CanSave()
         {
             return true;
         }
@@ -43,8 +45,9 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             IsBusy = true;
 
             var form = new EditForm();
+            form.Add += Form_Add;
 
-            if(this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit)
+            if (this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit)
             {
                 var existingSimulator = await RestClient.CreateNewAsync($"/api/simulator/{LaunchArgs.ChildId}");
 
@@ -52,12 +55,13 @@ namespace LagoVista.Simulator.ViewModels.Simulator
                 {
                     form.FormItems.Add(field.Value);
                     Model = existingSimulator.Model;
-                }                
-
-                ModelToView(existingSimulator.Model, form);
+                }
 
                 Model = existingSimulator.Model;
-                Form = form;
+
+                ModelToView(existingSimulator.Model, form);
+                //TODO: Need better keying system for child list, very fragile right now.
+                form.ChildLists.Add("messageTemplates", (from items in Model.MessageTemplates select new EntityHeader() { Id = items.Id, Text = items.Name }).ToObservableCollection());
             }
             else
             {
@@ -65,21 +69,28 @@ namespace LagoVista.Simulator.ViewModels.Simulator
                 if (newSimulator != null)
                 {
                     Model = newSimulator.Model;
-                    
                     foreach (var field in newSimulator.View)
                     {
                         form.FormItems.Add(field.Value);
                         Model = newSimulator.Model;
                     }
                 }
-
-                Form = form;
             }
 
-            
-            IsBusy = false;
-        }        
+            Form = form;
 
-        public RelayCommand SaveCommand { get; private set; }
+            IsBusy = false;
+        }
+
+        private void Form_Add(object sender, string e)
+        {
+            switch (e)
+            {
+                case "messageTemplates":
+                    ViewModelNavigation.NavigateAndCreateAsync<MessageEditorViewModel, IoT.Simulator.Admin.Models.Simulator>(Model);
+                    break;
+            }
+
+        }
     }
 }

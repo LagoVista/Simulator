@@ -23,7 +23,7 @@ namespace LagoVista.XPlat.Core.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class XPlatResources {
+    public class XPlatResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -37,7 +37,7 @@ namespace LagoVista.XPlat.Core.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LagoVista.XPlat.Core.Resources.XPlatResources", typeof(XPlatResources).GetTypeInfo().Assembly);
@@ -52,7 +52,7 @@ namespace LagoVista.XPlat.Core.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -62,9 +62,18 @@ namespace LagoVista.XPlat.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Common_Add {
+            get {
+                return ResourceManager.GetString("Common_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
-        internal static string Common_No {
+        public static string Common_No {
             get {
                 return ResourceManager.GetString("Common_No", resourceCulture);
             }
@@ -73,7 +82,7 @@ namespace LagoVista.XPlat.Core.Resources {
         /// <summary>
         ///   Looks up a localized string similar to There does not appear to be a connection to the internet, please check your connectoin and try again .ater..
         /// </summary>
-        internal static string Common_NoConnection {
+        public static string Common_NoConnection {
             get {
                 return ResourceManager.GetString("Common_NoConnection", resourceCulture);
             }
@@ -82,7 +91,7 @@ namespace LagoVista.XPlat.Core.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
-        internal static string Common_Yes {
+        public static string Common_Yes {
             get {
                 return ResourceManager.GetString("Common_Yes", resourceCulture);
             }

@@ -13,6 +13,7 @@ namespace LagoVista.Simulator.Controls.FormControls
             _label.Text = field.Label;
 
             Children.Add(_label);
+            Margin = new Thickness(10);
         }
 
 

@@ -106,7 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\SimulatorResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SimulatorResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Auth\Login.xaml">

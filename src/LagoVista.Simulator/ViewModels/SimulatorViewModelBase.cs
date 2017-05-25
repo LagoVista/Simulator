@@ -10,6 +10,8 @@ using System.Linq;
 using System;
 using LagoVista.Core.Models;
 using LagoVista.Simulator.Models;
+using LagoVista.Core.Commanding;
+using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.ViewModels
 {
@@ -29,7 +31,9 @@ namespace LagoVista.Simulator.ViewModels
         public SimulatorViewModelBase()
         {
             _restClient = new RestClient<TModel, TSummaryModel>(HttpClient, AuthManager, TokenManager, Logger, NetworkService);
+            
         }
+
 
         public IRestClient<TModel, TSummaryModel> RestClient { get { return _restClient; } }
 
@@ -48,7 +52,20 @@ namespace LagoVista.Simulator.ViewModels
         public SimulatorViewModelBase()
         {
             _restClient = new RestClient<TModel>(HttpClient, AuthManager, TokenManager, Logger, NetworkService);
+            SaveCommand = new RelayCommand(SaveAsync, CanSave);
         }
+
+        public virtual void SaveAsync()
+        {
+
+        }
+
+        public virtual bool CanSave()
+        {
+            return true;
+        }
+
+        public RelayCommand SaveCommand { get; private set; }
 
         public IRestClient<TModel> RestClient { get { return _restClient; } }
 
@@ -157,6 +174,8 @@ namespace LagoVista.Simulator.ViewModels
                 }
             }
         }
+
+
 
         EditForm _form;
         public EditForm Form

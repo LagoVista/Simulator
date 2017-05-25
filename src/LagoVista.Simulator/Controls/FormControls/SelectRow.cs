@@ -56,6 +56,7 @@ namespace LagoVista.Simulator.Controls.FormControls
             Children.Add(_validationMessage);
 
             _picker.SelectedIndexChanged += _picker_SelectedIndexChanged;
+            Margin = new Thickness(10);
         }
 
         private void _picker_SelectedIndexChanged(object sender, EventArgs e)
