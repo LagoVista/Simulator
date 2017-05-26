@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="0.8.176-alpha1447" />
-    <PackageReference Include="LagoVista.Core.Authentication" Version="0.8.176-alpha1447" />
-    <PackageReference Include="LagoVista.UserAdmin" Version="0.8.176-alpha1447" />
+    <PackageReference Include="LagoVista.Core" Version="0.8.176-alpha1628" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="0.8.176-alpha1628" />
+    <PackageReference Include="LagoVista.UserAdmin" Version="0.8.176-alpha1628" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
   </ItemGroup>
 

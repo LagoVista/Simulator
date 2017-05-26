@@ -23,13 +23,12 @@ namespace LagoVista.Simulator.Controls.FormControls
             _editor = new Entry();
             _editor.Text = field.Value;
             _editor.TextChanged += _editor_TextChanged;
+            _editor.IsEnabled = field.IsUserEditable;
 
             _validationMessage = new Label();
             _validationMessage.TextColor = Color.Red;
             _validationMessage.Text = field.RequiredMessage;
             _validationMessage.IsVisible = false;
-
-            
 
             Children.Add(_label);
             Children.Add(_editor);

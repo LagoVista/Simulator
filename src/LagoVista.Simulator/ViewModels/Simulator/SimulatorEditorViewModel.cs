@@ -43,43 +43,52 @@ namespace LagoVista.Simulator.ViewModels.Simulator
         public async override Task InitAsync()
         {
             IsBusy = true;
+            
 
             if (this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit)
             {
-                var existingSimulator = await RestClient.CreateNewAsync($"/api/simulator/{LaunchArgs.ChildId}");
-
-                var form = new EditFormAdapter(existingSimulator.Model, ViewModelNavigation);
-                foreach (var field in existingSimulator.View)
-                {
-                    form.FormItems.Add(field.Value);
-                    Model = existingSimulator.Model;
-                }
-
+                var existingSimulator = await RestClient.GetAsync($"/api/simulator/{LaunchArgs.ChildId}");
                 Model = existingSimulator.Model;
 
-                ModelToView(existingSimulator.Model, form);
+
+                existingSimulator.View["key"].IsUserEditable = false;
+                var form = new EditFormAdapter(existingSimulator.Model, existingSimulator.View, ViewModelNavigation);
+                form.AddViewCell(nameof(Model.Name));
+                form.AddViewCell(nameof(Model.Key));
+                form.AddViewCell(nameof(Model.DefaultTransport));
+                form.AddViewCell(nameof(Model.DefaultEndPoint));
+                form.AddViewCell(nameof(Model.DefaultPort));
+                form.AddViewCell(nameof(Model.DeviceId));
+                form.AddViewCell(nameof(Model.UserName));
+                form.AddViewCell(nameof(Model.Password));
+                form.AddViewCell(nameof(Model.AuthToken));
+                form.AddViewCell(nameof(Model.Description));
                 form.AddChildList<MessageEditorViewModel>(nameof(Model.MessageTemplates), Model.MessageTemplates);
+                ModelToView(existingSimulator.Model, form);
+
                 FormAdapter = form;
             }
             else
             {
                 var newSimulator = await RestClient.CreateNewAsync("/api/simulator/factory");
-                var form = new EditFormAdapter(newSimulator.Model, ViewModelNavigation);
-                if (newSimulator != null)
-                {
-                    Model = newSimulator.Model;
-                    foreach (var field in newSimulator.View)
-                    {
-                        form.FormItems.Add(field.Value);
-                        Model = newSimulator.Model;
-                    }
-                }
+                var form = new EditFormAdapter(newSimulator.Model, newSimulator.View, ViewModelNavigation);
+                Model = newSimulator.Model;
+                form.AddViewCell(nameof(Model.Name));
+                form.AddViewCell(nameof(Model.Key));
+                form.AddViewCell(nameof(Model.DefaultTransport));
+                form.AddViewCell(nameof(Model.DefaultEndPoint));
+                form.AddViewCell(nameof(Model.DefaultPort));
+                form.AddViewCell(nameof(Model.DeviceId));
+                form.AddViewCell(nameof(Model.UserName));
+                form.AddViewCell(nameof(Model.Password));
+                form.AddViewCell(nameof(Model.AuthToken));
+                form.AddViewCell(nameof(Model.Description));
+                form.AddChildList<MessageEditorViewModel>(nameof(Model.MessageTemplates), Model.MessageTemplates);
+                ModelToView(newSimulator.Model, form);
                 FormAdapter = form;
             }
 
             IsBusy = false;
         }
-
-       
     }
 }

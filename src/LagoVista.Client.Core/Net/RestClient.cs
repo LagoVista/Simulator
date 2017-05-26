@@ -17,9 +17,9 @@ using Newtonsoft.Json.Serialization;
 
 namespace LagoVista.Client.Core.Net
 {
-    
 
-        public class RestClient<TModel> : IRestClient<TModel> where TModel : new() 
+
+    public class RestClient<TModel> : IRestClient<TModel> where TModel : new()
     {
         HttpClient _httpClient;
         IAuthManager _authManager;
@@ -58,7 +58,7 @@ namespace LagoVista.Client.Core.Net
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync(path, content, cancellationTokenSource.Token);
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     var responseJSON = await response.Content.ReadAsStringAsync();
                     var serializerSettings = new JsonSerializerSettings();
@@ -71,7 +71,7 @@ namespace LagoVista.Client.Core.Net
                     var result = new InvokeResult();
                     result.Errors.Add(new ErrorMessage("failure code response"));
                     return result;
-                }                
+                }
             }
             catch (Exception)
             {
@@ -81,39 +81,9 @@ namespace LagoVista.Client.Core.Net
             }
         }
 
-        public async Task<DetailResponse<TModel>> CreateNewAsync(string path, CancellationTokenSource cancellationTokenSource = null)
+        public Task<DetailResponse<TModel>> CreateNewAsync(string path, CancellationTokenSource cancellationTokenSource = null)
         {
-            if (cancellationTokenSource == null)
-            {
-                cancellationTokenSource = new CancellationTokenSource(15 * 1000); /* Abort after 15 seconds */
-            }
-
-            if (!await _tokenManager.ValidateTokenAsync(_authManager, cancellationTokenSource))
-            {
-                var errs = new InvokeResult();
-                errs.Errors.Add(new ErrorMessage("could Not Add Item: " + System.Net.HttpStatusCode.Unauthorized));
-            }
-
-            _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AuthToken);
-
-            var response = await _httpClient.GetAsync(path, cancellationTokenSource.Token);
-            if (response.IsSuccessStatusCode)
-            {
-                var responseJSON = await response.Content.ReadAsStringAsync();
-                var serializerSettings = new JsonSerializerSettings();
-                
-                serializerSettings.ContractResolver = new Utils.JsonNamesHelper();
-
-                var instance = JsonConvert.DeserializeObject<DetailResponse<TModel>>(responseJSON, serializerSettings);
-                return instance;
-            }
-            else
-            {
-                var result = new InvokeResult();
-                result.Errors.Add(new ErrorMessage("failure code response"));
-                return null;
-            }
+            return GetAsync(path, cancellationTokenSource);
         }
 
         public Task<InvokeResult> DeleteAsync(string path, TModel model, CancellationTokenSource cancellationTokenSource = null)
@@ -137,13 +107,14 @@ namespace LagoVista.Client.Core.Net
             _httpClient.DefaultRequestHeaders.Clear();
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AuthToken);
 
-
             var response = await _httpClient.GetAsync(path, cancellationTokenSource.Token);
             if (response.IsSuccessStatusCode)
             {
                 var responseJSON = await response.Content.ReadAsStringAsync();
                 var serializerSettings = new JsonSerializerSettings();
-                serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+                serializerSettings.ContractResolver = new Utils.JsonNamesHelper();
+
                 return JsonConvert.DeserializeObject<DetailResponse<TModel>>(responseJSON, serializerSettings);
             }
             else
@@ -154,11 +125,9 @@ namespace LagoVista.Client.Core.Net
             }
         }
 
-        
-
         public async Task<InvokeResult> UpdateAsync(String path, TModel model, CancellationTokenSource cancellationTokenSource = null)
         {
-            if(cancellationTokenSource == null)
+            if (cancellationTokenSource == null)
             {
                 cancellationTokenSource = new CancellationTokenSource(15 * 1000); /* Abort after 15 seconds */
             }
@@ -253,7 +222,7 @@ namespace LagoVista.Client.Core.Net
                     return null;
                 }
             }
-            catch(HttpRequestException)
+            catch (HttpRequestException)
             {
                 var result = new InvokeResult();
                 result.Errors.Add(new ErrorMessage("Could Not Connect"));

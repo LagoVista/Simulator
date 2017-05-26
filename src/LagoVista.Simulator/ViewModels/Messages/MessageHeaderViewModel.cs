@@ -29,26 +29,31 @@ namespace LagoVista.Simulator.ViewModels.Messages
 
         public override async Task InitAsync()
         {
-            var form = new EditFormAdapter(this, ViewModelNavigation);
-
             var newMessageTemplate = await RestClient.CreateNewAsync("/api/simulator/messageheader/factory");
             if (this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit)
             {
                 Model = this.LaunchArgs.GetChild<MessageHeader>();
+                var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
+                form.AddViewCell(nameof(Model.Name));
+                form.AddViewCell(nameof(Model.Key));
+                form.AddViewCell(nameof(Model.Value));
+                form.AddViewCell(nameof(Model.Description));
+                ModelToView(Model, form);
+
+                FormAdapter = form;
             }
             else
             {
                 Model = newMessageTemplate.Model;
+                var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
+                form.AddViewCell(nameof(Model.Name));
+                form.AddViewCell(nameof(Model.Key));
+                form.AddViewCell(nameof(Model.Value));
+                form.AddViewCell(nameof(Model.Description));
+                ModelToView(Model, form);
+
+                FormAdapter = form;
             }
-
-            foreach (var field in newMessageTemplate.View)
-            {
-                form.FormItems.Add(field.Value);
-            }
-
-            ModelToView(Model, form);
-
-            FormAdapter = form;
         }
 
     }

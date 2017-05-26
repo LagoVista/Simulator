@@ -17,40 +17,46 @@ namespace LagoVista.Simulator.ViewModels.Simulator
 
         public async void EditSimulator()
         {
-            await ViewModelNavigation.NavigateAndEditAsync<SimulatorViewModel>(Model.Id);
+            await ViewModelNavigation.NavigateAndEditAsync<SimulatorEditorViewModel>(Model.Id);
         }
 
         public async Task<bool> PerformNetworkOperation(Func<Task<bool>> action)
         {
             var tcs = new TaskCompletionSource<bool>();
-            //Task.Run(async () =>
-            //{
             IsBusy = true;
             await action();
             IsBusy = false;
             tcs.SetResult(true);
-            //});
-
             return true;
         }
 
-        public async override Task InitAsync()
+        private Task LoadSimulator()
         {
-            await PerformNetworkOperation(async () =>
-            {
-                var existingSimulator = await RestClient.CreateNewAsync($"/api/simulator/{LaunchArgs.ChildId}");
-                if (existingSimulator != null)
-                {
-                    Model = existingSimulator.Model;
-                    MessageTemplates = existingSimulator.Model.MessageTemplates;
-                }
-                else
-                {
-                    await Popups.ShowAsync("Sorry, could not load simulator, please try again later.");
-                }
+            return PerformNetworkOperation(async () =>
+           {
+               var existingSimulator = await RestClient.CreateNewAsync($"/api/simulator/{LaunchArgs.ChildId}");
+               if (existingSimulator != null)
+               {
+                   Model = existingSimulator.Model;
+                   MessageTemplates = existingSimulator.Model.MessageTemplates;
+               }
+               else
+               {
+                   await Popups.ShowAsync("Sorry, could not load simulator, please try again later.");
+               }
 
-                return true;
-            });
+               return true;
+           });
+        }
+
+        public override Task InitAsync()
+        {
+            return LoadSimulator();
+        }
+
+        public override Task ReloadedAsync()
+        {
+            return LoadSimulator();
         }
 
         List<MessageTemplate> _messageTemplates;

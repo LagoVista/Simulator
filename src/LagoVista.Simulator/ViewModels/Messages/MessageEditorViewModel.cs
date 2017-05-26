@@ -31,7 +31,7 @@ namespace LagoVista.Simulator.ViewModels.Messages
             if (this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit)
             {
                 Model = this.LaunchArgs.GetChild<MessageTemplate>();
-                var form = new EditFormAdapter(Model, ViewModelNavigation);
+                var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
 
 
                 foreach (var field in newMessageTemplate.View)
@@ -51,7 +51,7 @@ namespace LagoVista.Simulator.ViewModels.Messages
                 var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
                 Model = newMessageTemplate.Model;
 
-                var form = new EditFormAdapter(Model, ViewModelNavigation);
+                var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
                 
                 Model.EndPoint = parent.DefaultEndPoint;
                 Model.Port = parent.DefaultPort;

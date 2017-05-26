@@ -15,17 +15,17 @@ namespace LagoVista.Simulator.Models
         Func<bool> _validationMethod;
         Action _refreshMethod;
         IViewModelNavigation _navigationService;
-
+        IDictionary<string, FormField> _view;
         Dictionary<string, Type> _editorTypes;
         Dictionary<string, IEnumerable<IEntityHeaderEntity>> _entityLists;
 
         object _parent;
 
-        public EditFormAdapter(object parent, IViewModelNavigation navigationService)
+        public EditFormAdapter(object parent, IDictionary<string,FormField> view, IViewModelNavigation navigationService)
         {
             _entityLists = new Dictionary<string, IEnumerable<IEntityHeaderEntity>>();
             _editorTypes = new Dictionary<string, Type>();
-
+            _view = view;
             _parent = parent;
             _navigationService = navigationService;
             FormItems = new ObservableCollection<FormField>();
@@ -90,6 +90,12 @@ namespace LagoVista.Simulator.Models
             _refreshMethod.Invoke();
         }
 
+        public void AddViewCell(string name)
+        {
+            var propertyName = $"{name.Substring(0, 1).ToLower()}{name.Substring(1)}";
+            FormItems.Add(_view[propertyName]);
+        }
+
         public Dictionary<string, IEnumerable<IEntityHeaderEntity>> ChildLists
         {
             get; set;
@@ -97,6 +103,8 @@ namespace LagoVista.Simulator.Models
 
         public void AddChildList<TEditorType>(string name, IEnumerable<IEntityHeaderEntity> items) where TEditorType : ViewModelBase
         {
+            AddViewCell(name);
+
             var propertyName = $"{name.Substring(0, 1).ToLower()}{name.Substring(1)}";
 
             ChildLists.Add(propertyName, items);
