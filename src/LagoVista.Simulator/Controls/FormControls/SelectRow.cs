@@ -45,7 +45,7 @@ namespace LagoVista.Simulator.Controls.FormControls
             if(selectedItem != null)
             {
                 var index = field.Options.IndexOf(selectedItem);
-                _picker.SelectedIndex = index;
+                _picker.SelectedIndex = index + 1;
             }
             else
             {

@@ -13,8 +13,12 @@ namespace LagoVista.Simulator.ViewModels.Messages
             if(Form.Validate())
             {
                 ViewToModel(Form, Model);
-                var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
-                parent.MessageTemplates.Add(Model);
+                if (LaunchArgs.LaunchType == LaunchTypes.Create)
+                {
+                    var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
+                    parent.MessageTemplates.Add(Model);
+                }
+
                 CloseScreen();
             }
         }
