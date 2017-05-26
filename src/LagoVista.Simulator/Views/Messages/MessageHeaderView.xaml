@@ -4,8 +4,8 @@
         xmlns="http://xamarin.com/schemas/2014/forms"
         xmlns:ctls="clr-namespace:LagoVista.Simulator.Controls"
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-        x:Class="LagoVista.Simulator.Views.Messages.MessageEditorView"
-        Title="Message Editor">
+        x:Class="LagoVista.Simulator.Views.Messages.MessageHeaderView"
+        Title="Message Header">
 
     <pge:LagoVistaContentPage.ToolbarItems>
         <ToolbarItem Icon="save.png" Text="logout" Command="{Binding SaveCommand}" />

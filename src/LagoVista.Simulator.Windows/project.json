@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
-    "LagoVista.Core": "0.8.175-alpha1737",
+    "LagoVista.Core": "0.8.176-alpha1401",
+    "LagoVista.IoT.DeviceAdmin": "0.8.176-alpha1401",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
     "Xam.Plugin.Iconize.EntypoPlus": "1.5.0.13-beta",
     "Xam.Plugin.Iconize.FontAwesome": "1.5.0.13-beta",

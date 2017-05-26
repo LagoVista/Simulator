@@ -77,7 +77,7 @@ namespace LagoVista.Simulator.ViewModels
             set { Set(ref _model, value); }
         }
 
-        public bool ViewToModel(EditForm form, TModel model)
+        public bool ViewToModel(EditFormAdapter form, TModel model)
         {
             var modelProperties = typeof(TModel).GetTypeInfo().DeclaredProperties;
 
@@ -142,7 +142,7 @@ namespace LagoVista.Simulator.ViewModels
             return true;
         }
 
-        public void ModelToView(TModel model, EditForm form)
+        public void ModelToView(TModel model, EditFormAdapter form)
         {
             var modelProperties = typeof(TModel).GetTypeInfo().DeclaredProperties;
 
@@ -177,8 +177,8 @@ namespace LagoVista.Simulator.ViewModels
 
 
 
-        EditForm _form;
-        public EditForm Form
+        EditFormAdapter _form;
+        public EditFormAdapter Form
         {
             get { return _form; }
             set { Set(ref _form, value); }

@@ -1,4 +1,5 @@
 ﻿using FormsPlugin.Iconize;
+using LagoVista.Core.Interfaces;
 using LagoVista.Core.Models;
 using LagoVista.Core.Models.UIMetaData;
 using System;
@@ -71,8 +72,8 @@ namespace LagoVista.Simulator.Controls.FormControls
             });
         }
 
-        ObservableCollection<EntityHeader> _childItems;
-        public ObservableCollection<EntityHeader> ChildItems
+        ObservableCollection<IEntityHeader> _childItems;
+        public ObservableCollection<IEntityHeader> ChildItems
         {
             get { return _childItems; }
             set

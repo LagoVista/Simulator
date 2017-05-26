@@ -10,7 +10,7 @@ namespace LagoVista.Simulator.ViewModels.Messages
         public override void SaveAsync()
         {
             base.SaveAsync();
-            if(Form.Validate())
+            if (Form.Validate())
             {
                 ViewToModel(Form, Model);
                 if (LaunchArgs.LaunchType == LaunchTypes.Create)
@@ -25,37 +25,48 @@ namespace LagoVista.Simulator.ViewModels.Messages
 
         public override async Task InitAsync()
         {
-            var form = new EditForm();
-
             var newMessageTemplate = await RestClient.CreateNewAsync("/api/simulator/messagetemplate/factory");
             if (this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit)
             {
-                Model = this.LaunchArgs.GetChild<MessageTemplate>();                
+                Model = this.LaunchArgs.GetChild<MessageTemplate>();
+                var form = new EditFormAdapter(Model, ViewModelNavigation);
+
+
+                foreach (var field in newMessageTemplate.View)
+                {
+                    form.FormItems.Add(field.Value);
+                }
+
+                form.AddChildList<MessageHeaderViewModel>(nameof(Model.MessageHeaders), Model.MessageHeaders);
+                form.AddChildList<DynamicAttributeViewModel>(nameof(Model.DynamicAttributes), Model.DynamicAttributes);
+
+                ModelToView(Model, form);
+
+                Form = form;
             }
             else
             {
                 var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
                 Model = newMessageTemplate.Model;
+
+                var form = new EditFormAdapter(Model, ViewModelNavigation);
+                
                 Model.EndPoint = parent.DefaultEndPoint;
                 Model.Port = parent.DefaultPort;
                 Model.Transport = parent.DefaultTransport;
+
+                foreach (var field in newMessageTemplate.View)
+                {
+                    form.FormItems.Add(field.Value);
+                }
+
+                form.AddChildList<MessageHeaderViewModel>(nameof(Model.MessageHeaders), Model.MessageHeaders);
+                form.AddChildList<DynamicAttributeViewModel>(nameof(Model.DynamicAttributes), Model.DynamicAttributes);
+
+                ModelToView(Model, form);
+
+                Form = form;
             }
-
-            foreach (var field in newMessageTemplate.View)
-            {
-                form.FormItems.Add(field.Value);
-            }
-
-            ModelToView(Model, form);
-
-            form.Add += Form_Add;            
-
-            Form = form;
-        }
-
-        private void Form_Add(object sender, string e)
-        {
-        
         }
     }
 }

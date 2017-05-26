@@ -62,6 +62,8 @@ namespace LagoVista.Simulator
             navigation.Add<ViewModels.Simulator.SimulatorEditorViewModel, Views.Simulator.SimulatorEditorView>();
             navigation.Add<ViewModels.Messages.MessageEditorViewModel, Views.Messages.MessageEditorView>();
             navigation.Add<ViewModels.Messages.SendMessageViewModel, Views.Messages.SendMessageView>();
+            navigation.Add<ViewModels.Messages.MessageHeaderViewModel, Views.Messages.MessageHeaderView>();
+            navigation.Add<ViewModels.Messages.DynamicAttributeViewModel, Views.Messages.DynamicAttributeView>();
 
             navigation.Start<ViewModels.SplashViewModel>();
 

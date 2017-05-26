@@ -59,6 +59,11 @@ namespace LagoVista.XPlat.Core.Services
             return ShowViewModelAsync(args);
         }
 
+        public Task NavigateAsync(ViewModelLaunchArgs args) 
+        {
+            return ShowViewModelAsync(args);
+        }
+
         public  Task GoBackAsync()
         {
             return _navigation.PopAsync();
@@ -102,7 +107,7 @@ namespace LagoVista.XPlat.Core.Services
             return ShowViewModelAsync(launchArgs);
         }
 
-        public Task NavigateAndCreateAsync<TViewModel, TParent>(TParent parent, params KeyValuePair<string, object>[] args)  where TViewModel : ViewModelBase
+        public Task NavigateAndCreateAsync<TViewModel>(object parent, params KeyValuePair<string, object>[] args)  where TViewModel : ViewModelBase
         {
             var launchArgs = new ViewModelLaunchArgs();
             launchArgs.LaunchType = LaunchTypes.Create;
@@ -117,7 +122,7 @@ namespace LagoVista.XPlat.Core.Services
             return ShowViewModelAsync(launchArgs);
         }
 
-        public Task NavigateAndEditAsync<TViewModel, TParent, TChild>(TParent parent, TChild child, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
+        public Task NavigateAndEditAsync<TViewModel>(object parent, object child, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
         {
             var launchArgs = new ViewModelLaunchArgs();
             launchArgs.LaunchType = LaunchTypes.Edit;
@@ -151,7 +156,7 @@ namespace LagoVista.XPlat.Core.Services
             return ShowViewModelAsync(launchArgs);
         }
 
-        public Task NavigateAndEditAsync<TViewModel, TParent>(TParent parent, string id, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
+        public Task NavigateAndEditAsync<TViewModel>(object parent, string id, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
         {
             var launchArgs = new ViewModelLaunchArgs();
             launchArgs.LaunchType = LaunchTypes.Edit;

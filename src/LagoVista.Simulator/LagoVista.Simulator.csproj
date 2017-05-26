@@ -47,7 +47,7 @@
     <Compile Include="Controls\FormControls\TextEditRow.cs" />
     <Compile Include="Controls\FormViewer.cs" />
     <Compile Include="Extensions\FormFieldExtensions.cs" />
-    <Compile Include="Models\EditForm.cs" />
+    <Compile Include="Models\EditFormAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\SimulatorResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -57,7 +57,9 @@
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="ViewModels\Auth\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\Messages\DynamicAttributeViewModel.cs" />
     <Compile Include="ViewModels\Messages\MessageEditorViewModel.cs" />
+    <Compile Include="ViewModels\Messages\MessageHeaderViewModel.cs" />
     <Compile Include="ViewModels\Messages\SendMessageViewModel.cs" />
     <Compile Include="ViewModels\SimulatorViewModelBase.cs" />
     <Compile Include="ViewModels\Simulator\SimulatorEditorViewModel.cs" />
@@ -69,8 +71,14 @@
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Messages\DynamicAttributeView.xaml.cs">
+      <DependentUpon>DynamicAttributeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Messages\MessageEditorView.xaml.cs">
       <DependentUpon>MessageEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Messages\MessageHeaderView.xaml.cs">
+      <DependentUpon>MessageHeaderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Messages\SendMessageView.xaml.cs">
       <DependentUpon>SendMessageView.xaml</DependentUpon>
@@ -142,6 +150,18 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Simulator\SimulatorEditorView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Messages\MessageHeaderView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Messages\DynamicAttributeView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

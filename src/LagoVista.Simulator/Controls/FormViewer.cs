@@ -41,9 +41,9 @@ namespace LagoVista.Simulator.Controls
             return valid;
         }
 
-        public EditForm Form
+        public EditFormAdapter Form
         {
-            get { return (EditForm)base.GetValue(FormProperty); }
+            get { return (EditFormAdapter)base.GetValue(FormProperty); }
             set {
                 base.SetValue(FormProperty, value);
                 value.SetValidationMethod(Validate);
@@ -54,7 +54,7 @@ namespace LagoVista.Simulator.Controls
 
         public static BindableProperty FormProperty = BindableProperty.Create(
                                                             propertyName: nameof(Form),
-                                                            returnType: typeof(EditForm),
+                                                            returnType: typeof(EditFormAdapter),
                                                             declaringType: typeof(FormViewer),
                                                             defaultValue: null,
                                                             defaultBindingMode: BindingMode.Default,
@@ -63,7 +63,7 @@ namespace LagoVista.Simulator.Controls
         private static void HandleFormFieldsAssigned(BindableObject bindable, object oldValue, object newValue)
         {
             var button = (FormViewer)bindable;
-            button.Form = newValue as EditForm;
+            button.Form = newValue as EditFormAdapter;
         }
         
         private void AddChild(FormControl field)

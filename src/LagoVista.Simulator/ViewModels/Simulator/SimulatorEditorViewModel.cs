@@ -44,14 +44,11 @@ namespace LagoVista.Simulator.ViewModels.Simulator
         {
             IsBusy = true;
 
-            var form = new EditForm();
-            form.Add += Form_Add;
-            form.ItemSelected += Form_ItemSelected;
-
             if (this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit)
             {
                 var existingSimulator = await RestClient.CreateNewAsync($"/api/simulator/{LaunchArgs.ChildId}");
 
+                var form = new EditFormAdapter(existingSimulator.Model, ViewModelNavigation);
                 foreach (var field in existingSimulator.View)
                 {
                     form.FormItems.Add(field.Value);
@@ -61,12 +58,13 @@ namespace LagoVista.Simulator.ViewModels.Simulator
                 Model = existingSimulator.Model;
 
                 ModelToView(existingSimulator.Model, form);
-                //TODO: Need better keying system for child list, very fragile right now.
-                form.ChildLists.Add("messageTemplates", (from items in Model.MessageTemplates select new EntityHeader() { Id = items.Id, Text = items.Name }).ToObservableCollection());
+                form.AddChildList<MessageEditorViewModel>(nameof(Model.MessageTemplates), Model.MessageTemplates);
+                Form = form;
             }
             else
             {
                 var newSimulator = await RestClient.CreateNewAsync("/api/simulator/factory");
+                var form = new EditFormAdapter(newSimulator.Model, ViewModelNavigation);
                 if (newSimulator != null)
                 {
                     Model = newSimulator.Model;
@@ -76,9 +74,8 @@ namespace LagoVista.Simulator.ViewModels.Simulator
                         Model = newSimulator.Model;
                     }
                 }
+                Form = form;
             }
-
-            Form = form;
 
             IsBusy = false;
         }
@@ -89,7 +86,7 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             {
                 case "messageTemplates":
                     var child = Model.MessageTemplates.Where(msg => msg.Id == e.Id).FirstOrDefault();
-                    ViewModelNavigation.NavigateAndEditAsync<MessageEditorViewModel, IoT.Simulator.Admin.Models.Simulator, IoT.Simulator.Admin.Models.MessageTemplate>(Model, child);
+                    ViewModelNavigation.NavigateAndEditAsync<MessageEditorViewModel>(Model, child);
                     break;
             }
         }
@@ -99,7 +96,7 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             switch (e)
             {
                 case "messageTemplates":
-                    ViewModelNavigation.NavigateAndCreateAsync<MessageEditorViewModel, IoT.Simulator.Admin.Models.Simulator>(Model);
+                    ViewModelNavigation.NavigateAndCreateAsync<MessageEditorViewModel>(Model);
                     break;
             }
 

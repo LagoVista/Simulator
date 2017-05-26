@@ -117,7 +117,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="LagoVista.Core, Version=0.8.0.0, Culture=neutral, PublicKeyToken=2698135e9954a85d, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.Core.0.8.175-alpha1737\lib\netstandard1.2\LagoVista.Core.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.Core.0.8.176-alpha1401\lib\netstandard1.2\LagoVista.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="LagoVista.IoT.DeviceAdmin, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LagoVista.IoT.DeviceAdmin.0.8.176-alpha1401\lib\netstandard1.2\LagoVista.IoT.DeviceAdmin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
