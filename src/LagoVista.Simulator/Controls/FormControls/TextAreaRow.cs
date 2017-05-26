@@ -19,7 +19,7 @@ namespace LagoVista.Simulator.Controls.FormControls
 
             Children.Add(_label);
             Children.Add(_editor);
-            Margin = new Thickness(10);
+            Margin = new Thickness(10, 10, 20, 10);
         }
 
         private void _editor_TextChanged(object sender, TextChangedEventArgs e)

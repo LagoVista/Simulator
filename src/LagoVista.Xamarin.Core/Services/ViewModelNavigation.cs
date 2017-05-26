@@ -1,14 +1,12 @@
 ﻿
-using FormsPlugin.Iconize;
 using LagoVista.Core.IOC;
 using LagoVista.Core.ViewModels;
 using LagoVista.XPlat.Core.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Forms;
+
 
 namespace LagoVista.XPlat.Core.Services
 {
@@ -30,7 +28,7 @@ namespace LagoVista.XPlat.Core.Services
             _navigation = view.Navigation;
             var viewModel = SLWIOC.CreateForType<V>();
             view.ViewModel = viewModel;
-            _app.MainPage = new IconNavigationPage(view)
+            _app.MainPage = new LagoVistaNavigationPage(view)
             {
                 Title = "HelloWorld"
             };
@@ -80,7 +78,7 @@ namespace LagoVista.XPlat.Core.Services
             var view = Activator.CreateInstance(_viewModelLookup[viewModelType]) as LagoVistaContentPage;
             view.ViewModel = viewModel as ViewModelBase;            
             _navigation = view.Navigation;
-            _app.MainPage = new IconNavigationPage(view);
+            _app.MainPage = new LagoVistaNavigationPage(view);
 
             return Task.FromResult(default(object));
         }

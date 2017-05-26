@@ -96,12 +96,18 @@ namespace LagoVista.Simulator.Controls
                                 childListControl.ChildItems = Form.ChildLists[field.Name];
                             }
                             childListControl.Add += ChildListControl_Add;
+                            childListControl.ItemSelected += ChildListControl_ItemSelected;
                             AddChild(childListControl);
                             break;
                         default: AddChild(new FormControls.TextEditRow(this, field)); break;
                     }
                 }
             }
+        }
+
+        private void ChildListControl_ItemSelected(object sender, ItemSelectedEventArgs e)
+        {
+            Form.InvokeItemSelected(e);
         }
 
         private void ChildListControl_Add(object sender, string e)

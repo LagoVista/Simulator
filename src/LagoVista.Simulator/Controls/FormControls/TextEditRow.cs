@@ -17,6 +17,9 @@ namespace LagoVista.Simulator.Controls.FormControls
         public TextEditRow(FormViewer formViewer, FormField field) : base(formViewer, field)
         {
             _label = new Label();
+            _label.Text = field.Label;
+            _label.TextColor = Color.FromRgb(0x5B, 0x5B, 0x5B);
+
             _editor = new Entry();
             _editor.Text = field.Value;
             _editor.TextChanged += _editor_TextChanged;
@@ -26,12 +29,12 @@ namespace LagoVista.Simulator.Controls.FormControls
             _validationMessage.Text = field.RequiredMessage;
             _validationMessage.IsVisible = false;
 
-            _label.Text = field.Label;
+            
 
             Children.Add(_label);
             Children.Add(_editor);
             Children.Add(_validationMessage);
-            Margin = new Thickness(10);
+            Margin = new Thickness(10, 10, 20, 10);
         }
 
         public override bool Validate()

@@ -46,6 +46,7 @@ namespace LagoVista.Simulator.ViewModels.Simulator
 
             var form = new EditForm();
             form.Add += Form_Add;
+            form.ItemSelected += Form_ItemSelected;
 
             if (this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit)
             {
@@ -80,6 +81,17 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             Form = form;
 
             IsBusy = false;
+        }
+
+        private void Form_ItemSelected(object sender, Controls.FormControls.ItemSelectedEventArgs e)
+        {
+            switch(e.Type)
+            {
+                case "messageTemplates":
+                    var child = Model.MessageTemplates.Where(msg => msg.Id == e.Id).FirstOrDefault();
+                    ViewModelNavigation.NavigateAndEditAsync<MessageEditorViewModel, IoT.Simulator.Admin.Models.Simulator, IoT.Simulator.Admin.Models.MessageTemplate>(Model, child);
+                    break;
+            }
         }
 
         private void Form_Add(object sender, string e)

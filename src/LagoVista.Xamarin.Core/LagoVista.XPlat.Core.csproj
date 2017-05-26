@@ -47,6 +47,7 @@
     <Compile Include="Services\StorageServiceBase.cs" />
     <Compile Include="Services\ViewModelNavigation.cs" />
     <Compile Include="Views\ILagoVistaPage.cs" />
+    <Compile Include="Views\LagoVistaContentPage.cs" />
     <Compile Include="Views\LagoVistaNavigationPage.cs" />
     <Compile Include="Views\LagoVistaStartupPage.cs" />
   </ItemGroup>

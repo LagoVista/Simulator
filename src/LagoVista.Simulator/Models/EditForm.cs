@@ -1,6 +1,7 @@
 ﻿using LagoVista.Core.Interfaces;
 using LagoVista.Core.Models;
 using LagoVista.Core.Models.UIMetaData;
+using LagoVista.Simulator.Controls.FormControls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,12 +13,17 @@ namespace LagoVista.Simulator.Models
         Func<bool> _validationMethod;
 
         public event EventHandler<string> Add;
+        public event EventHandler<ItemSelectedEventArgs> ItemSelected;
 
         public void InvokeAdd(string type)
         {
             Add?.Invoke(this, type);
         }
 
+        public void InvokeItemSelected(ItemSelectedEventArgs selectedItem)
+        {
+            ItemSelected?.Invoke(this, selectedItem);
+        }
         
         public EditForm()
         {

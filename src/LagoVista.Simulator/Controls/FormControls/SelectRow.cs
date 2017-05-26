@@ -16,6 +16,7 @@ namespace LagoVista.Simulator.Controls.FormControls
         public SelectRow(FormViewer formViewer, FormField field) : base(formViewer, field)
         {
             _label = new Label();
+            _label.TextColor = Color.FromRgb(0x5B, 0x5B, 0x5B);
             _label.Text = field.Label;
             _picker = new Picker();
 
@@ -56,7 +57,7 @@ namespace LagoVista.Simulator.Controls.FormControls
             Children.Add(_validationMessage);
 
             _picker.SelectedIndexChanged += _picker_SelectedIndexChanged;
-            Margin = new Thickness(10);
+            Margin = new Thickness(10, 10, 20, 10);
         }
 
         private void _picker_SelectedIndexChanged(object sender, EventArgs e)

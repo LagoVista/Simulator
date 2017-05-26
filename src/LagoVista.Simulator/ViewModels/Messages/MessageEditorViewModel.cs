@@ -40,7 +40,6 @@ namespace LagoVista.Simulator.ViewModels.Messages
             foreach (var field in newMessageTemplate.View)
             {
                 form.FormItems.Add(field.Value);
-                Model = newMessageTemplate.Model;
             }
 
             ModelToView(Model, form);

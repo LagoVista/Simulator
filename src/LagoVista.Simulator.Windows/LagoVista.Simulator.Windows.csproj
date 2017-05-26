@@ -91,9 +91,11 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Content Include="add.png" />
+    <Content Include="add_50px.png" />
     <Content Include="Assets\Fonts\iconize-fontawesome.ttf" />
     <Content Include="AV Receiver_100px.png" />
     <Content Include="Checkmark_100px.png" />
+    <Content Include="chevron_right.png" />
     <Content Include="Delete_100px.png" />
     <Content Include="Design_100px.png" />
     <Content Include="Edit Property_100px.png" />

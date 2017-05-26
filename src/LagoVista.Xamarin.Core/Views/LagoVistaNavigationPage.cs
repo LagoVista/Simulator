@@ -1,5 +1,4 @@
-﻿using LagoVista.Core.IOC;
-using LagoVista.Core.ViewModels;
+﻿using FormsPlugin.Iconize;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,76 +8,12 @@ using Xamarin.Forms;
 
 namespace LagoVista.XPlat.Core.Views
 {
-    public abstract class LagoVistaContentPage : ContentPage, ILagoVistaPage
+    public class LagoVistaNavigationPage : IconNavigationPage
     {
-        Grid _loadingMask;
-        Grid _loadingContainer;
-        ActivityIndicator _activityIndicator;
-
-        bool _hasAppeared = false;
-
-        public LagoVistaContentPage() : base()
+        public LagoVistaNavigationPage(Page root) : base(root)
         {
-            _activityIndicator = new ActivityIndicator() { IsRunning = false };
-            _loadingContainer = new Grid() { IsVisible = false };
-            _loadingMask = new Grid() { BackgroundColor = Color.Black, Opacity = 0.25 };
-            _loadingContainer.Children.Add(_loadingMask);
-            _loadingContainer.Children.Add(_activityIndicator);
-        }
-
-        public ViewModelBase ViewModel
-        {
-            get { return BindingContext as ViewModelBase; }
-            set
-            {
-                BindingContext = value;
-                value.PropertyChanged += Value_PropertyChanged;
-            }
-        }
-
-        private void Value_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(ViewModel.IsBusy):
-                    _activityIndicator.IsRunning = ViewModel.IsBusy;
-                    _loadingContainer.IsVisible = ViewModel.IsBusy;
-                    break;
-            }
-        }
-
-        protected async override void OnAppearing()
-        {
-            base.OnAppearing();
-            if (!_hasAppeared)
-            {
-                var context = ViewModel;
-                var content = this.Content;
-                var grid = new Grid();
-                grid.Children.Add(content);
-                grid.Children.Add(_loadingContainer);
-                _loadingMask.IsVisible = true;
-                if (ViewModel != null)
-                {
-                    await ViewModel.InitAsync();
-
-                }
-
-                this.Content = grid;
-                this.Content.BindingContext = context;
-            }
-
-            _hasAppeared = true;
-        }
-
-        protected async override void OnDisappearing()
-        {
-            base.OnDisappearing();
-
-            if (ViewModel != null)
-            {
-                await ViewModel.IsClosingAsync();
-            }
+            BarBackgroundColor = Color.FromRgb(0xBB, 0xDB, 0xFB);
+            BarTextColor = Color.FromRgb(0x5B, 0x5B, 0x5B);
         }
     }
 }

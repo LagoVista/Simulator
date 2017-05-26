@@ -33,8 +33,11 @@ namespace LagoVista.Simulator.ViewModels
                 {
                     await Popups.ShowAsync("Sorry there was an error contacting the server.  Please try again later.");
                 }
+                else
+                {
+                    Simulators = listResponse.Model.ToObservableCollection();
+                }
 
-                Simulators = listResponse.Model.ToObservableCollection();
                 IsBusy = false;
             }
             else
