@@ -3,5 +3,30 @@
       xmlns:pge="clr-namespace:LagoVista.XPlat.Core.Views;assembly=LagoVista.XPlat.Core"
       xmlns="http://xamarin.com/schemas/2014/forms"
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      Title="{Binding MessageTemplate.Name}"
       x:Class="LagoVista.Simulator.Views.Messages.SendMessageView">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Text="Transport" />
+        <Label Text="{Binding MessageTemplate.Transport.Text}" Grid.Column="1" />
+        <Label Text="Endpoint" Grid.Row="1" />
+        <Label Text="{Binding MessageTemplate.EndPoint}" Grid.Column="1" Grid.Row="1" />
+        <Label Text="Endpoint" Grid.Row="2" />
+        <Label Text="{Binding MessageTemplate.Port}" Grid.Column="1" Grid.Row="2" />
+
+        <Button Text="Send!" Command="{Binding SendCommand}" Grid.Row="4" Grid.ColumnSpan="2" />
+    </Grid>
+
 </pge:LagoVistaContentPage>

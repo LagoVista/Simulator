@@ -23,10 +23,11 @@ namespace LagoVista.Simulator.ViewModels
             ViewModelNavigation.NavigateAndCreateAsync<SimulatorEditorViewModel>();
         }
 
-        public async override Task InitAsync()
+        private async Task LoadSimulators()
         {
             if (IsNetworkConnected || true)
             {
+                Simulators = null;
                 IsBusy = true;
                 var listResponse = await RestClient.GetForOrgAsync($"/api/org/{AuthManager.User.CurrentOrganization.Id}/simulators", null);
                 if (listResponse == null)
@@ -44,7 +45,17 @@ namespace LagoVista.Simulator.ViewModels
             {
                 await Popups.ShowAsync("Sorry it does not appear as if there is an internet connection.  Please try again later.");
             }
+        }
 
+        public override Task InitAsync()
+        {
+            return LoadSimulators();
+        }
+
+        public override Task ReloadedAsync()
+        {
+            SelectedSimulator = null;
+            return LoadSimulators();
         }
 
         public async void Logout()
@@ -67,12 +78,12 @@ namespace LagoVista.Simulator.ViewModels
             get { return _selectedSimulator; }
             set
             {
-                if (value != null)
+                if (value != null && _selectedSimulator != value)
                 {
-                    ViewModelNavigation.NavigateAndEditAsync<SimulatorEditorViewModel>(value.Id);
+                    ViewModelNavigation.NavigateAndEditAsync<SimulatorViewModel>(value.Id);
                 }
 
-                _selectedSimulator = null;
+                _selectedSimulator = value;
 
                 RaisePropertyChanged();
             }

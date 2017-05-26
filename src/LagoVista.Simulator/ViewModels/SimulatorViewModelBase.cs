@@ -86,7 +86,7 @@ namespace LagoVista.Simulator.ViewModels
                 return false;
             }
 
-            foreach (var formItem in Form.FormItems)
+            foreach (var formItem in FormAdapter.FormItems)
             {
                 var prop = modelProperties.Where(prp => prp.Name.ToLower() == formItem.Name.ToLower()).FirstOrDefault();
                 switch (formItem.FieldType)
@@ -178,10 +178,24 @@ namespace LagoVista.Simulator.ViewModels
 
 
         EditFormAdapter _form;
-        public EditFormAdapter Form
+        public EditFormAdapter FormAdapter
         {
             get { return _form; }
-            set { Set(ref _form, value); }
+            set
+            {
+                _form = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public override Task ReloadedAsync()
+        {
+            if (FormAdapter != null)
+            {
+                FormAdapter.Refresh();
+            }
+
+            return base.ReloadedAsync();
         }
     }
 }

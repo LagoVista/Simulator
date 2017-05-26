@@ -41,14 +41,22 @@ namespace LagoVista.Simulator.Controls
             return valid;
         }
 
+        public void Refresh()
+        {
+            foreach(var field in _formControls)
+            {
+                field.Refresh();
+            }
+        }
+
         public EditFormAdapter Form
         {
             get { return (EditFormAdapter)base.GetValue(FormProperty); }
             set {
                 base.SetValue(FormProperty, value);
                 value.SetValidationMethod(Validate);
+                value.SetRefreshMethod(Refresh);
                 Populate();
-
             }
         }
 

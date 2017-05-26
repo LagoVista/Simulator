@@ -10,9 +10,9 @@ namespace LagoVista.Simulator.ViewModels.Messages
         public override void SaveAsync()
         {
             base.SaveAsync();
-            if (Form.Validate())
+            if (FormAdapter.Validate())
             {
-                ViewToModel(Form, Model);
+                ViewToModel(FormAdapter, Model);
                 if (LaunchArgs.LaunchType == LaunchTypes.Create)
                 {
                     var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
@@ -25,6 +25,8 @@ namespace LagoVista.Simulator.ViewModels.Messages
 
         public override async Task InitAsync()
         {
+            FormAdapter = null;
+
             var newMessageTemplate = await RestClient.CreateNewAsync("/api/simulator/messagetemplate/factory");
             if (this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit)
             {
@@ -42,7 +44,7 @@ namespace LagoVista.Simulator.ViewModels.Messages
 
                 ModelToView(Model, form);
 
-                Form = form;
+                FormAdapter = form;
             }
             else
             {
@@ -65,7 +67,7 @@ namespace LagoVista.Simulator.ViewModels.Messages
 
                 ModelToView(Model, form);
 
-                Form = form;
+                FormAdapter = form;
             }
         }
     }

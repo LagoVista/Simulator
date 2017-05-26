@@ -19,5 +19,10 @@ namespace LagoVista.Simulator.Controls.FormControls
         protected FormViewer Viewer { get { return _viewer; } }
 
         public abstract bool Validate();
+
+        public virtual void Refresh()
+        {
+
+        }
     }
 }

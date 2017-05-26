@@ -3,6 +3,7 @@ using LagoVista.Core.Interfaces;
 using LagoVista.Core.Models;
 using LagoVista.Core.Models.UIMetaData;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
@@ -46,7 +47,7 @@ namespace LagoVista.Simulator.Controls.FormControls
 
             _addImage.GestureRecognizers.Add(tapGenerator);
             _addImage.Source = new FileImageSource() { File = "add.png" };
-            
+
             _childItemList = new StackLayout();
 
             titleBar.Children.Add(_label);
@@ -63,81 +64,75 @@ namespace LagoVista.Simulator.Controls.FormControls
 
         private void Item_Tapped(object sender, EventArgs e)
         {
-            var childItem = (sender as Grid).BindingContext as EntityHeader;
+            var childItem = (sender as Grid).BindingContext as IEntityHeaderEntity;
 
             ItemSelected?.Invoke(this, new ItemSelectedEventArgs()
             {
-                 Id = childItem.Id,
-                 Type = Field.Name
+                Id = childItem.ToEntityHeader().Id,
+                Type = Field.Name
             });
         }
 
-        ObservableCollection<IEntityHeader> _childItems;
-        public ObservableCollection<IEntityHeader> ChildItems
+        public override void Refresh()
         {
-            get { return _childItems; }
-            set
+            _childItemList.Children.Clear();
+
+            if (_childItems != null)
             {
-                if (_childItems != null)
+                foreach (var child in _childItems)
                 {
-                    _childItems.CollectionChanged -= _childItems_CollectionChanged;
-                }
-                _childItems = value;
+                    var label = new Label();
+                    label.Margin = new Thickness(15, 10, 10, 10);
+                    label.FontSize = 24;
+                    label.TextColor = Color.FromRgb(0x5B, 0x5B, 0x5B);
+                    label.Text = child.ToEntityHeader().Text;
 
-                _childItemList.Children.Clear();
+                    var grid = new Grid();
+                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
+                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+                    grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Star });
+                    grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
-                if (_childItems != null)
-                {
-                    _childItems.CollectionChanged += _childItems_CollectionChanged;
-                    foreach (var child in _childItems)
-                    {
-                        var label = new Label();
-                        label.Margin = new Thickness(15,10,10,10);
-                        label.FontSize = 24;
-                        label.TextColor = Color.FromRgb(0x5B, 0x5B, 0x5B);
-                        label.Text = child.Text;
+                    var boxView = new BoxView();
+                    boxView.HeightRequest = 1;
+                    boxView.Color = Color.SlateGray;
 
-                        var grid = new Grid();
-                        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
-                        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
-                        grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Star });
-                        grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                    var tapGenerator = new TapGestureRecognizer();
+                    grid.BindingContext = child;
+                    tapGenerator.Tapped += Item_Tapped;
 
-                        var boxView = new BoxView();
-                        boxView.HeightRequest = 1;
-                        boxView.Color = Color.SlateGray;
+                    var img = new Image();
+                    img.Source = new FileImageSource() { File = "chevron_right.png" };
+                    img.Margin = new Thickness(2, 10, 30, 0);
+                    img.HeightRequest = 24;
+                    img.WidthRequest = 24;
+                    img.SetValue(Grid.ColumnProperty, 1);
 
-                        var tapGenerator = new TapGestureRecognizer();
-                        grid.BindingContext = child;
-                        tapGenerator.Tapped += Item_Tapped;
+                    boxView.SetValue(Grid.ColumnSpanProperty, 2);
+                    boxView.SetValue(Grid.RowProperty, 1);
 
-                        var img = new Image();
-                        img.Source = new FileImageSource() { File = "chevron_right.png" };
-                        img.Margin = new Thickness(2, 10, 30, 0);
-                        img.HeightRequest = 24;
-                        img.WidthRequest = 24;
-                        img.SetValue(Grid.ColumnProperty, 1);
-                        
-                        boxView.SetValue(Grid.ColumnSpanProperty, 2);
-                        boxView.SetValue(Grid.RowProperty, 1);
+                    grid.GestureRecognizers.Add(tapGenerator);
 
-                        grid.GestureRecognizers.Add(tapGenerator);
+                    grid.Children.Add(label);
+                    grid.Children.Add(boxView);
+                    grid.Children.Add(img);
 
-                        grid.Children.Add(label);
-                        grid.Children.Add(boxView);
-                        grid.Children.Add(img);
-
-                        _childItemList.Children.Add(grid);
-                    }
+                    _childItemList.Children.Add(grid);
                 }
             }
         }
 
-        private void _childItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        IEnumerable<IEntityHeaderEntity> _childItems;
+        public IEnumerable<IEntityHeaderEntity> ChildItems
         {
-            
+            get { return _childItems; }
+            set
+            {
+                _childItems = value;
+                Refresh();
+            }
         }
-        
+
 
         public override bool Validate()
         {

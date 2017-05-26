@@ -14,9 +14,9 @@ namespace LagoVista.Simulator.ViewModels.Messages
         public override void SaveAsync()
         {
             base.SaveAsync();
-            if (Form.Validate())
+            if (FormAdapter.Validate())
             {
-                ViewToModel(Form, Model);
+                ViewToModel(FormAdapter, Model);
                 if (LaunchArgs.LaunchType == LaunchTypes.Create)
                 {
                     var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.MessageTemplate>();
@@ -48,7 +48,7 @@ namespace LagoVista.Simulator.ViewModels.Messages
 
             ModelToView(Model, form);
 
-            Form = form;
+            FormAdapter = form;
         }
     }
 }

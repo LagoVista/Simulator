@@ -1,5 +1,4 @@
 ﻿using LagoVista.Core.Interfaces;
-using LagoVista.Core.Models;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core.ViewModels;
 using LagoVista.Simulator.Controls.FormControls;
@@ -8,20 +7,19 @@ using System.Linq;
 using LagoVista.Core;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using LagoVista.Simulator.ViewModels;
 
 namespace LagoVista.Simulator.Models
 {
     public class EditFormAdapter
     {
         Func<bool> _validationMethod;
+        Action _refreshMethod;
         IViewModelNavigation _navigationService;
 
         Dictionary<string, Type> _editorTypes;
         Dictionary<string, IEnumerable<IEntityHeaderEntity>> _entityLists;
 
         object _parent;
-
 
         public EditFormAdapter(object parent, IViewModelNavigation navigationService)
         {
@@ -31,9 +29,8 @@ namespace LagoVista.Simulator.Models
             _parent = parent;
             _navigationService = navigationService;
             FormItems = new ObservableCollection<FormField>();
-            ChildLists = new Dictionary<string, ObservableCollection<IEntityHeader>>();
+            ChildLists = new Dictionary<string, IEnumerable<IEntityHeaderEntity>>();
         }
-
 
         public void InvokeAdd(string type)
         {
@@ -69,6 +66,11 @@ namespace LagoVista.Simulator.Models
             _validationMethod = validationMethod;
         }
 
+        public void SetRefreshMethod(Action refreshMethod)
+        {
+            _refreshMethod = refreshMethod;
+        }
+
         public bool Validate()
         {
             if (_validationMethod == null)
@@ -78,7 +80,17 @@ namespace LagoVista.Simulator.Models
             return _validationMethod.Invoke();
         }
 
-        public Dictionary<string, ObservableCollection<IEntityHeader>> ChildLists
+        public void Refresh()
+        {
+            if (_refreshMethod == null)
+            {
+                throw new InvalidOperationException("Must call SetRefreshMethod prior to calling Refresh with a method that will iterate through all the form items and peform a refresh from data.");
+            }
+
+            _refreshMethod.Invoke();
+        }
+
+        public Dictionary<string, IEnumerable<IEntityHeaderEntity>> ChildLists
         {
             get; set;
         }
@@ -87,10 +99,9 @@ namespace LagoVista.Simulator.Models
         {
             var propertyName = $"{name.Substring(0, 1).ToLower()}{name.Substring(1)}";
 
-            ChildLists.Add(propertyName, (from item in items select item.ToEntityHeader()).ToObservableCollection());
+            ChildLists.Add(propertyName, items);
             _entityLists.Add(propertyName, items);
             _editorTypes.Add(propertyName, typeof(TEditorType));
-
         }
     }
 }

@@ -18,7 +18,7 @@ namespace LagoVista.Simulator.ViewModels.Simulator
 
         public override async void SaveAsync()
         {
-            if (ViewToModel(Form, Model))
+            if (ViewToModel(FormAdapter, Model))
             {
                 IsBusy = true;
                 if (LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Create)
@@ -59,7 +59,7 @@ namespace LagoVista.Simulator.ViewModels.Simulator
 
                 ModelToView(existingSimulator.Model, form);
                 form.AddChildList<MessageEditorViewModel>(nameof(Model.MessageTemplates), Model.MessageTemplates);
-                Form = form;
+                FormAdapter = form;
             }
             else
             {
@@ -74,32 +74,12 @@ namespace LagoVista.Simulator.ViewModels.Simulator
                         Model = newSimulator.Model;
                     }
                 }
-                Form = form;
+                FormAdapter = form;
             }
 
             IsBusy = false;
         }
 
-        private void Form_ItemSelected(object sender, Controls.FormControls.ItemSelectedEventArgs e)
-        {
-            switch(e.Type)
-            {
-                case "messageTemplates":
-                    var child = Model.MessageTemplates.Where(msg => msg.Id == e.Id).FirstOrDefault();
-                    ViewModelNavigation.NavigateAndEditAsync<MessageEditorViewModel>(Model, child);
-                    break;
-            }
-        }
-
-        private void Form_Add(object sender, string e)
-        {
-            switch (e)
-            {
-                case "messageTemplates":
-                    ViewModelNavigation.NavigateAndCreateAsync<MessageEditorViewModel>(Model);
-                    break;
-            }
-
-        }
+       
     }
 }

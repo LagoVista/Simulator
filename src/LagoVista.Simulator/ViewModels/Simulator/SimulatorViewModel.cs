@@ -4,25 +4,83 @@ using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.ViewModels.Simulator
 {
-    public class SimulatorViewModel : ViewModelBase
+    public class SimulatorViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator>
     {
-        public bool Validate()
+        public SimulatorViewModel()
         {
+            EditSimulatorCommand = new RelayCommand(EditSimulator);
+        }
+
+        public async void EditSimulator()
+        {
+            await ViewModelNavigation.NavigateAndEditAsync<SimulatorViewModel>(Model.Id);
+        }
+
+        public async Task<bool> PerformNetworkOperation(Func<Task<bool>> action)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            //Task.Run(async () =>
+            //{
+            IsBusy = true;
+            await action();
+            IsBusy = false;
+            tcs.SetResult(true);
+            //});
+
             return true;
         }
 
-        ObservableCollection<FormField> _formItems;
-        public ObservableCollection<FormField> FormItems
+        public async override Task InitAsync()
         {
-            get { return _formItems; }
-            set { Set(ref _formItems, value); }
+            await PerformNetworkOperation(async () =>
+            {
+                var existingSimulator = await RestClient.CreateNewAsync($"/api/simulator/{LaunchArgs.ChildId}");
+                if (existingSimulator != null)
+                {
+                    Model = existingSimulator.Model;
+                    MessageTemplates = existingSimulator.Model.MessageTemplates;
+                }
+                else
+                {
+                    await Popups.ShowAsync("Sorry, could not load simulator, please try again later.");
+                }
+
+                return true;
+            });
         }
+
+        List<MessageTemplate> _messageTemplates;
+        public List<MessageTemplate> MessageTemplates
+        {
+            get { return _messageTemplates; }
+            set { Set(ref _messageTemplates, value); }
+        }
+
+        MessageTemplate _selectedMessageTemplate;
+        public MessageTemplate SelectedMessageTemplate
+        {
+            get { return _selectedMessageTemplate; }
+            set
+            {
+                if (value != null && _selectedMessageTemplate != value)
+                {
+                    ViewModelNavigation.NavigateAsync(new ViewModelLaunchArgs()
+                    {
+                        ViewModelType = typeof(Messages.SendMessageViewModel),
+                        Parent = value,
+                        LaunchType = LaunchTypes.Other
+                    });
+                }
+
+                _selectedMessageTemplate = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public RelayCommand EditSimulatorCommand { get; private set; }
     }
 }

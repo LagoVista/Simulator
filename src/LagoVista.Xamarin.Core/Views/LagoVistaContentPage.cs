@@ -54,20 +54,30 @@ namespace LagoVista.XPlat.Core.Views
             base.OnAppearing();
             if (!_hasAppeared)
             {
-                var context = ViewModel;
+                
                 var content = this.Content;
                 var grid = new Grid();
                 grid.Children.Add(content);
                 grid.Children.Add(_loadingContainer);
                 this.Content = grid;
-                
+
                 if (ViewModel != null)
                 {
+                    this.Content.BindingContext = ViewModel;
                     await ViewModel.InitAsync();
 
                 }
                 
-                this.Content.BindingContext = context;
+                
+            }
+            else
+            {
+                if(ViewModel != null)
+                {
+                    this.Content.BindingContext = null;
+                    this.Content.BindingContext = ViewModel;
+                    await ViewModel.ReloadedAsync();
+                }
             }
 
             _hasAppeared = true;

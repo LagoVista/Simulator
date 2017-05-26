@@ -98,8 +98,7 @@
     <Content Include="chevron_right.png" />
     <Content Include="Delete_100px.png" />
     <Content Include="Design_100px.png" />
-    <Content Include="Edit Property_100px.png" />
-    <Content Include="Edit_100px.png" />
+    <Content Include="edit.png" />
     <Content Include="Electrical Threshold_100px.png" />
     <Content Include="exit.png" />
     <Content Include="Feed In_100px.png" />
