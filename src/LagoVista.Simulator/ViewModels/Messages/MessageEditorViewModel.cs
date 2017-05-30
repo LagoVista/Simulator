@@ -25,49 +25,64 @@ namespace LagoVista.Simulator.ViewModels.Messages
 
         public override async Task InitAsync()
         {
-            FormAdapter = null;
-
             var newMessageTemplate = await RestClient.CreateNewAsync("/api/simulator/messagetemplate/factory");
-            if (this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit)
-            {
-                Model = this.LaunchArgs.GetChild<MessageTemplate>();
-                var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
-
-
-                foreach (var field in newMessageTemplate.View)
-                {
-                    form.FormItems.Add(field.Value);
-                }
-
-                form.AddChildList<MessageHeaderViewModel>(nameof(Model.MessageHeaders), Model.MessageHeaders);
-                form.AddChildList<DynamicAttributeViewModel>(nameof(Model.DynamicAttributes), Model.DynamicAttributes);
-
-                ModelToView(Model, form);
-
-                FormAdapter = form;
-            }
-            else
+            Model = (IsEdit) ? this.LaunchArgs.GetChild<MessageTemplate>() : newMessageTemplate.Model;
+            View = newMessageTemplate.View;
+            if (IsCreate)
             {
                 var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
-                Model = newMessageTemplate.Model;
-
-                var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
-                
                 Model.EndPoint = parent.DefaultEndPoint;
                 Model.Port = parent.DefaultPort;
                 Model.Transport = parent.DefaultTransport;
+                View[nameof(Model.TextPayload).ToFieldKey()].IsVisible = false;
+                View[nameof(Model.BinaryPayload).ToFieldKey()].IsVisible = false;
+            }
+            else
+            {
+                View[nameof(Model.TextPayload).ToFieldKey()].IsVisible = Model.PayloadType.Value == PaylodTypes.String;
+                View[nameof(Model.BinaryPayload).ToFieldKey()].IsVisible = Model.PayloadType.Value == PaylodTypes.Binary;
+            }
 
-                foreach (var field in newMessageTemplate.View)
+            var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
+            form.OptionSelected += Form_OptionSelected;
+            View[nameof(Model.Key).ToFieldKey()].IsUserEditable = false;
+            form.AddViewCell(nameof(Model.Name));
+            form.AddViewCell(nameof(Model.Key));
+            form.AddViewCell(nameof(Model.PayloadType));
+            form.AddViewCell(nameof(Model.EndPoint));
+            form.AddViewCell(nameof(Model.Port));
+            form.AddViewCell(nameof(Model.Transport));
+            form.AddViewCell(nameof(Model.TextPayload));
+            form.AddViewCell(nameof(Model.BinaryPayload));
+            form.AddViewCell(nameof(Model.PathAndQueryString));
+
+            form.AddChildList<MessageHeaderViewModel>(nameof(Model.MessageHeaders), Model.MessageHeaders);
+            form.AddChildList<DynamicAttributeViewModel>(nameof(Model.DynamicAttributes), Model.DynamicAttributes);
+
+            ModelToView(Model, form);
+
+            FormAdapter = form;
+        }
+
+        private void Form_OptionSelected(object sender, Controls.FormControls.OptionSelectedEventArgs e)
+        {
+            if(e.Key == nameof(Model.PayloadType).ToFieldKey())
+            {
+                if(e.Value == MessageTemplate.PayloadTypes_Binary)
                 {
-                    form.FormItems.Add(field.Value);
+                    FormAdapter.HideView(nameof(Model.TextPayload));
+                    FormAdapter.ShowView(nameof(Model.BinaryPayload));
                 }
-
-                form.AddChildList<MessageHeaderViewModel>(nameof(Model.MessageHeaders), Model.MessageHeaders);
-                form.AddChildList<DynamicAttributeViewModel>(nameof(Model.DynamicAttributes), Model.DynamicAttributes);
-
-                ModelToView(Model, form);
-
-                FormAdapter = form;
+                else if (e.Value == MessageTemplate.PayloadTypes_Text)
+                {
+                    FormAdapter.ShowView(nameof(Model.TextPayload));
+                    FormAdapter.HideView(nameof(Model.BinaryPayload));
+                }
+                else
+                {
+                    FormAdapter.HideView(nameof(Model.TextPayload));
+                    FormAdapter.HideView(nameof(Model.BinaryPayload));
+                }
             }
         }
     }

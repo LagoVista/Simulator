@@ -1,15 +1,14 @@
 ﻿using LagoVista.Core.Models.UIMetaData;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LagoVista.Simulator.Controls.FormControls
 {
     public class SelectRow : FormControl
     {
+        public event EventHandler<OptionSelectedEventArgs> OptionSelected;
+
         Label _label;
         Picker _picker;
         Label _validationMessage;
@@ -72,6 +71,8 @@ namespace LagoVista.Simulator.Controls.FormControls
                 _validationMessage.IsVisible = false;
                 Field.Value = Field.Options[_picker.SelectedIndex - 1].Key;
             }
+
+            OptionSelected?.Invoke(this, new OptionSelectedEventArgs() { Key = Field.Name, Value = Field.Value });
         }
 
         public override bool Validate()
@@ -87,5 +88,11 @@ namespace LagoVista.Simulator.Controls.FormControls
 
             return true;
         }
+    }
+
+    public class OptionSelectedEventArgs : EventArgs
+    {
+        public String Key { get; set; }
+        public String Value { get; set; }
     }
 }

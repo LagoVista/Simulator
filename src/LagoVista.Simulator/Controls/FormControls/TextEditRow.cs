@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -41,7 +42,18 @@ namespace LagoVista.Simulator.Controls.FormControls
             if(Field.IsRequired && String.IsNullOrEmpty(Field.Value))
             {
                 _validationMessage.IsVisible = true;
+                _validationMessage.Text = Field.RequiredMessage;
                 return false;
+            }
+
+            if (!String.IsNullOrEmpty(Field.RegEx) && !String.IsNullOrEmpty(Field.Value))
+            {
+                var regEx = new Regex(Field.RegEx);
+                if (!regEx.Match(Field.Value).Success)
+                {
+                    _validationMessage.Text = Field.RegExMessage;
+                    _validationMessage.IsVisible = true;
+                }
             }
 
             return true;
@@ -63,9 +75,27 @@ namespace LagoVista.Simulator.Controls.FormControls
             }
 
             Field.Value = e.NewTextValue;
-            if(Field.IsRequired)
+            if(Field.IsRequired && String.IsNullOrEmpty(Field.Value))
             {
-                _validationMessage.IsVisible = String.IsNullOrEmpty(Field.Value);
+                _validationMessage.IsVisible = true;
+                _validationMessage.Text = Field.RequiredMessage;
+            }
+            else if(!String.IsNullOrEmpty(Field.RegEx) && !String.IsNullOrEmpty(Field.Value))
+            {
+                var regEx = new Regex(Field.RegEx);
+                if(!regEx.Match(Field.Value).Success)
+                {
+                    _validationMessage.Text = Field.RegExMessage;
+                    _validationMessage.IsVisible = true;
+                }
+                else
+                {
+                    _validationMessage.IsVisible = false;
+                }
+            }
+            else
+            {
+                _validationMessage.IsVisible = false;
             }
         }
     }

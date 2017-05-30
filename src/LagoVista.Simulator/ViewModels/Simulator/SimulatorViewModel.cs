@@ -13,6 +13,9 @@ namespace LagoVista.Simulator.ViewModels.Simulator
         public SimulatorViewModel()
         {
             EditSimulatorCommand = new RelayCommand(EditSimulator);
+            ConnectCommand = new RelayCommand(Connect, CanConnect);
+            DisconnectCommand = new RelayCommand(Disconnect, CanDisconnect);
+
         }
 
         public async void EditSimulator()
@@ -20,14 +23,24 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             await ViewModelNavigation.NavigateAndEditAsync<SimulatorEditorViewModel>(Model.Id);
         }
 
-        public async Task<bool> PerformNetworkOperation(Func<Task<bool>> action)
+        public void Connect()
         {
-            var tcs = new TaskCompletionSource<bool>();
-            IsBusy = true;
-            await action();
-            IsBusy = false;
-            tcs.SetResult(true);
+
+        }
+
+        public void Disconnect()
+        {
+
+        }
+
+        public bool CanConnect()
+        {
             return true;
+        }
+
+        public bool CanDisconnect()
+        {
+            return false;
         }
 
         private Task LoadSimulator()
@@ -65,6 +78,9 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             get { return _messageTemplates; }
             set { Set(ref _messageTemplates, value); }
         }
+
+        public RelayCommand ConnectCommand { get; set; }
+        public RelayCommand DisconnectCommand { get; set; }
 
         MessageTemplate _selectedMessageTemplate;
         public MessageTemplate SelectedMessageTemplate

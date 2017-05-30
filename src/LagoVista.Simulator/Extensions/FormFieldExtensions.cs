@@ -13,5 +13,10 @@ namespace LagoVista.Simulator
         {
             return true;
         }
+
+        public static string ToFieldKey(this string memberName)
+        {
+            return  $"{memberName.Substring(0, 1).ToLower()}{memberName.Substring(1)}";
+        }
     }
 }

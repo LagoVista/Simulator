@@ -60,5 +60,14 @@ namespace LagoVista.Simulator.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This Key is already in use, please select a different Key..
+        /// </summary>
+        public static string Common_KeyInUse {
+            get {
+                return ResourceManager.GetString("Common_KeyInUse", resourceCulture);
+            }
+        }
     }
 }

@@ -4,8 +4,8 @@ using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.Simulator.ViewModels.Auth;
 using LagoVista.Simulator.ViewModels.Simulator;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
+using LagoVista.XPlat.Core.Resources;
 
 namespace LagoVista.Simulator.ViewModels
 {
@@ -23,28 +23,21 @@ namespace LagoVista.Simulator.ViewModels
             ViewModelNavigation.NavigateAndCreateAsync<SimulatorEditorViewModel>();
         }
 
-        private async Task LoadSimulators()
+        private Task LoadSimulators()
         {
-            if (IsNetworkConnected || true)
+            return PerformNetworkOperation(async () =>
             {
                 Simulators = null;
-                IsBusy = true;
                 var listResponse = await RestClient.GetForOrgAsync($"/api/org/{AuthManager.User.CurrentOrganization.Id}/simulators", null);
                 if (listResponse == null)
                 {
-                    await Popups.ShowAsync("Sorry there was an error contacting the server.  Please try again later.");
+                    await Popups.ShowAsync(XPlatResources.Common_ErrorCommunicatingWithServer);
                 }
                 else
                 {
                     Simulators = listResponse.Model.ToObservableCollection();
                 }
-
-                IsBusy = false;
-            }
-            else
-            {
-                await Popups.ShowAsync("Sorry it does not appear as if there is an internet connection.  Please try again later.");
-            }
+            });
         }
 
         public override Task InitAsync()
@@ -89,11 +82,8 @@ namespace LagoVista.Simulator.ViewModels
             }
         }
 
-
         public RelayCommand AddNewSimulatorCommand { get; private set; }
 
         public RelayCommand LogoutCommand { get; private set; }
-
-
     }
 }

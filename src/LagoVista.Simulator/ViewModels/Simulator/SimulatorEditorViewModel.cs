@@ -40,19 +40,18 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             return true;
         }
 
-        public async override Task InitAsync()
+        public override Task InitAsync()
         {
-            IsBusy = true;
-            
-
-            if (this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit)
+            return PerformNetworkOperation(async () =>
             {
-                var existingSimulator = await RestClient.GetAsync($"/api/simulator/{LaunchArgs.ChildId}");
-                Model = existingSimulator.Model;
+                var uri = this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit ? $"/api/simulator/{LaunchArgs.ChildId}" : "/api/simulator/factory";
 
+                var simulator = await RestClient.GetAsync(uri);
 
-                existingSimulator.View["key"].IsUserEditable = false;
-                var form = new EditFormAdapter(existingSimulator.Model, existingSimulator.View, ViewModelNavigation);
+                var form = new EditFormAdapter(simulator.Model, simulator.View, ViewModelNavigation);
+                Model = simulator.Model;
+                View = simulator.View;
+                View[nameof(Model.Key).ToFieldKey()].IsUserEditable = false;
                 form.AddViewCell(nameof(Model.Name));
                 form.AddViewCell(nameof(Model.Key));
                 form.AddViewCell(nameof(Model.DefaultTransport));
@@ -64,31 +63,9 @@ namespace LagoVista.Simulator.ViewModels.Simulator
                 form.AddViewCell(nameof(Model.AuthToken));
                 form.AddViewCell(nameof(Model.Description));
                 form.AddChildList<MessageEditorViewModel>(nameof(Model.MessageTemplates), Model.MessageTemplates);
-                ModelToView(existingSimulator.Model, form);
-
+                ModelToView(Model, form);
                 FormAdapter = form;
-            }
-            else
-            {
-                var newSimulator = await RestClient.CreateNewAsync("/api/simulator/factory");
-                var form = new EditFormAdapter(newSimulator.Model, newSimulator.View, ViewModelNavigation);
-                Model = newSimulator.Model;
-                form.AddViewCell(nameof(Model.Name));
-                form.AddViewCell(nameof(Model.Key));
-                form.AddViewCell(nameof(Model.DefaultTransport));
-                form.AddViewCell(nameof(Model.DefaultEndPoint));
-                form.AddViewCell(nameof(Model.DefaultPort));
-                form.AddViewCell(nameof(Model.DeviceId));
-                form.AddViewCell(nameof(Model.UserName));
-                form.AddViewCell(nameof(Model.Password));
-                form.AddViewCell(nameof(Model.AuthToken));
-                form.AddViewCell(nameof(Model.Description));
-                form.AddChildList<MessageEditorViewModel>(nameof(Model.MessageTemplates), Model.MessageTemplates);
-                ModelToView(newSimulator.Model, form);
-                FormAdapter = form;
-            }
-
-            IsBusy = false;
+            });
         }
     }
 }

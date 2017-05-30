@@ -1,6 +1,7 @@
 ﻿using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Simulator.Controls.FormControls;
 using LagoVista.Simulator.Models;
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,7 @@ namespace LagoVista.Simulator.Controls
 {
     public class FormViewer : ScrollView
     {
-        StackLayout _container;
+        StackLayout _container;        
 
         public const string MULTILINE = "MultiLineText";
         public const string CHECKBOX = "CheckBox";
@@ -49,6 +50,12 @@ namespace LagoVista.Simulator.Controls
             }
         }
 
+        public void SetViewVisibility(string name, bool isVisible)
+        {
+            var field = _formControls.Where(fld => fld.Field.Name == name.ToFieldKey()).First();
+            field.IsVisible = isVisible;
+        }
+
         public EditFormAdapter Form
         {
             get { return (EditFormAdapter)base.GetValue(FormProperty); }
@@ -56,6 +63,7 @@ namespace LagoVista.Simulator.Controls
                 base.SetValue(FormProperty, value);
                 value.SetValidationMethod(Validate);
                 value.SetRefreshMethod(Refresh);
+                value.SetVisibilityMethod(SetViewVisibility);
                 Populate();
             }
         }
@@ -96,7 +104,11 @@ namespace LagoVista.Simulator.Controls
                         case FormViewer.MULTILINE: AddChild(new FormControls.TextAreaRow(this, field)); break;
                         case FormViewer.CHECKBOX: AddChild(new FormControls.CheckBoxRow(this, field)); break;
                         case FormViewer.ENTITYHEADERPICKER: AddChild(new FormControls.EntityHeaderPicker(this, field)); break;
-                        case FormViewer.PICKER: AddChild(new FormControls.SelectRow(this, field)); break;
+                        case FormViewer.PICKER:
+                            var picker = new FormControls.SelectRow(this, field);
+                            picker.OptionSelected += Picker_OptionSelected;
+                            AddChild(picker);
+                            break;
                         case FormViewer.CHILDLIST:
                             var childListControl = new FormControls.ChildListRow(this, field);
                             if(Form.ChildLists.ContainsKey(field.Name))
@@ -111,6 +123,12 @@ namespace LagoVista.Simulator.Controls
                     }
                 }
             }
+        }        
+
+
+        private void Picker_OptionSelected(object sender, OptionSelectedEventArgs e)
+        {
+            Form.InvokeOptionSelected(e);
         }
 
         private void ChildListControl_ItemSelected(object sender, ItemSelectedEventArgs e)

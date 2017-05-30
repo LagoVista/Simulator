@@ -71,6 +71,15 @@ namespace LagoVista.XPlat.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, there was an error communicating with the server.  Please try again later..
+        /// </summary>
+        public static string Common_ErrorCommunicatingWithServer {
+            get {
+                return ResourceManager.GetString("Common_ErrorCommunicatingWithServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         public static string Common_No {

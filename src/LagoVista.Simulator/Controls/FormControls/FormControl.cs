@@ -13,9 +13,10 @@ namespace LagoVista.Simulator.Controls.FormControls
         {
             _field = field;
             _viewer = viewer;
+            IsVisible = field.IsVisible;
         }
 
-        protected FormField Field { get { return _field; } }
+        public FormField Field { get { return _field; } }
         protected FormViewer Viewer { get { return _viewer; } }
 
         public abstract bool Validate();

@@ -12,6 +12,7 @@ namespace LagoVista.Simulator.Models
 {
     public class EditFormAdapter
     {
+        Action<string, bool> _visibilityMethod;
         Func<bool> _validationMethod;
         Action _refreshMethod;
         IViewModelNavigation _navigationService;
@@ -20,6 +21,8 @@ namespace LagoVista.Simulator.Models
         Dictionary<string, IEnumerable<IEntityHeaderEntity>> _entityLists;
 
         object _parent;
+
+        public event EventHandler<OptionSelectedEventArgs> OptionSelected;
 
         public EditFormAdapter(object parent, IDictionary<string,FormField> view, IViewModelNavigation navigationService)
         {
@@ -30,6 +33,11 @@ namespace LagoVista.Simulator.Models
             _navigationService = navigationService;
             FormItems = new ObservableCollection<FormField>();
             ChildLists = new Dictionary<string, IEnumerable<IEntityHeaderEntity>>();
+        }
+
+        public void InvokeOptionSelected(OptionSelectedEventArgs optionSelectedEventArgs)
+        {
+            OptionSelected?.Invoke(this, optionSelectedEventArgs);
         }
 
         public void InvokeAdd(string type)
@@ -71,6 +79,11 @@ namespace LagoVista.Simulator.Models
             _refreshMethod = refreshMethod;
         }
 
+        public void SetVisibilityMethod(Action<string, bool> visibilityMethod)
+        {
+            _visibilityMethod = visibilityMethod;
+        }
+
         public bool Validate()
         {
             if (_validationMethod == null)
@@ -90,10 +103,19 @@ namespace LagoVista.Simulator.Models
             _refreshMethod.Invoke();
         }
 
+        public void ShowView(String name)
+        {
+            _visibilityMethod(name, true);
+        }
+
+        public void HideView(string name)
+        {
+            _visibilityMethod(name, false);
+        }
+
         public void AddViewCell(string name)
         {
-            var propertyName = $"{name.Substring(0, 1).ToLower()}{name.Substring(1)}";
-            FormItems.Add(_view[propertyName]);
+            FormItems.Add(_view[name.ToFieldKey()]);
         }
 
         public Dictionary<string, IEnumerable<IEntityHeaderEntity>> ChildLists

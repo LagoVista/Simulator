@@ -12,6 +12,9 @@ using LagoVista.Core.Models;
 using LagoVista.Simulator.Models;
 using LagoVista.Core.Commanding;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using LagoVista.Core.Models.UIMetaData;
+using LagoVista.XPlat.Core.Resources;
 
 namespace LagoVista.Simulator.ViewModels
 {
@@ -31,7 +34,7 @@ namespace LagoVista.Simulator.ViewModels
         public SimulatorViewModelBase()
         {
             _restClient = new RestClient<TModel, TSummaryModel>(HttpClient, AuthManager, TokenManager, Logger, NetworkService);
-            
+
         }
 
 
@@ -76,6 +79,13 @@ namespace LagoVista.Simulator.ViewModels
             get { return _model; }
             set { Set(ref _model, value); }
         }
+
+        IDictionary<string, FormField> _view;
+        public IDictionary<string, FormField> View
+        {
+            get { return _view; }
+            set { Set(ref _view, value); }
+        }        
 
         public bool ViewToModel(EditFormAdapter form, TModel model)
         {
@@ -142,6 +152,31 @@ namespace LagoVista.Simulator.ViewModels
             return true;
         }
 
+        public async Task<bool> PerformNetworkOperation(Func<Task<bool>> action)
+        {
+            if(!IsNetworkConnected)
+            {
+                await Popups.ShowAsync(XPlatResources.Common_NoConnection);
+                return false;
+            }
+
+            IsBusy = true;
+
+            try
+            {
+                await action();
+            }
+            catch (Exception ex)
+            {
+                await Popups.ShowAsync(XPlatResources.Common_ErrorCommunicatingWithServer + "\r\n\r\n" + ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+            return true;
+        }
+
         public void ModelToView(TModel model, EditFormAdapter form)
         {
             var modelProperties = typeof(TModel).GetTypeInfo().DeclaredProperties;
@@ -175,6 +210,15 @@ namespace LagoVista.Simulator.ViewModels
             }
         }
 
+        public bool IsEdit
+        {
+            get { return LaunchArgs != null && LaunchArgs.LaunchType == LaunchTypes.Edit; }
+        }
+
+        public bool IsCreate
+        {
+            get { return LaunchArgs != null && LaunchArgs.LaunchType == LaunchTypes.Create; }
+        }
 
 
         EditFormAdapter _form;

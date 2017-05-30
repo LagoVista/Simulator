@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace LagoVista.Simulator.ViewModels.Messages
 {
     public class SendMessageViewModel : ViewModelBase
-    {    
+    {
         public SendMessageViewModel()
         {
             SendCommand = new RelayCommand(Send);
@@ -25,6 +25,19 @@ namespace LagoVista.Simulator.ViewModels.Messages
 
         public void Send()
         {
+            switch (MessageTemplate.Transport.Value)
+            {
+                case TransportTypes.TCP:
+                    break;
+                case TransportTypes.UDP:
+                    break;
+                case TransportTypes.AMQP:
+                    break;
+                case TransportTypes.RestHttp:
+                    break;
+
+            }
+
             Popups.ShowAsync("MESSAGE SENT!");
         }
 
