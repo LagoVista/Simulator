@@ -1,6 +1,8 @@
-﻿using LagoVista.Core.Interfaces;
+﻿using LagoVista.Client.Core.Net;
+using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
 using LagoVista.Core.PlatformSupport;
+using LagoVista.Core.UWP.Networking;
 using LagoVista.Core.UWP.Services;
 using System;
 using System.Diagnostics;
@@ -75,6 +77,7 @@ namespace LagoVista.Simulator.Windows
                 //SLWIOC.RegisterSingleton<IStorageService>(new StorageService());
                 SLWIOC.RegisterSingleton<IAppConfig>(new Utilities.AppConfig());
                 SLWIOC.RegisterSingleton<IDeviceInfo>(new DeviceInfo());
+                SLWIOC.Register<ITCPClient, TCPClient>();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

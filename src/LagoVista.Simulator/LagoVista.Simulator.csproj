@@ -38,6 +38,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Clients\IRESTClient.cs" />
+    <Compile Include="Clients\IUDPClient.cs" />
     <Compile Include="Controls\FormControls\CheckboxRow.cs" />
     <Compile Include="Controls\FormControls\ChildListRow.cs" />
     <Compile Include="Controls\FormControls\EntityHeaderPicker.cs" />

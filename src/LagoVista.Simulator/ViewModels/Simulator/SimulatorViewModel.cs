@@ -1,4 +1,6 @@
-﻿using LagoVista.Core.Commanding;
+﻿using LagoVista.Client.Core.Net;
+using LagoVista.Core.Commanding;
+using LagoVista.Core.IOC;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
@@ -10,6 +12,12 @@ namespace LagoVista.Simulator.ViewModels.Simulator
 {
     public class SimulatorViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator>
     {
+        ITCPClient _tcpClient;
+        IUDPClient _udpClient;
+
+        bool _isConnected;
+
+
         public SimulatorViewModel()
         {
             EditSimulatorCommand = new RelayCommand(EditSimulator);
@@ -23,24 +31,80 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             await ViewModelNavigation.NavigateAndEditAsync<SimulatorEditorViewModel>(Model.Id);
         }
 
-        public void Connect()
+        public async void Connect()
         {
+            try
+            {
+                switch (Model.DefaultTransport.Value)
+                {
+                    case TransportTypes.TCP:
 
+                        _tcpClient = SLWIOC.Create<ITCPClient>();
+                        await _tcpClient.ConnectAsync(Model.DefaultEndPoint, Model.DefaultPort);
+                        break;
+                    case TransportTypes.UDP:
+                        break;
+                }
+
+                _isConnected = true;
+            }
+            catch(Exception ex)
+            {
+                _isConnected = false;
+            }
+            finally
+            {
+                ConnectCommand.RaiseCanExecuteChanged();
+                DisconnectCommand.RaiseCanExecuteChanged();
+            }
         }
 
-        public void Disconnect()
+        public async void Disconnect()
         {
 
+            switch (Model.DefaultTransport.Value)
+            {
+                case TransportTypes.TCP:
+                    if(_tcpClient != null)
+                    {
+                        try
+                        {
+                            await _tcpClient.CloseAsync();
+                            _tcpClient.Dispose();
+                        }
+                        catch(Exception)
+                        {
+
+                        }
+                        finally
+                        {
+                            _tcpClient = null;
+                        }
+                    }
+                    break;
+                case TransportTypes.UDP:
+                    break;
+            }
+
+            _isConnected = false;
+            ConnectCommand.RaiseCanExecuteChanged();
+            DisconnectCommand.RaiseCanExecuteChanged();
         }
 
         public bool CanConnect()
         {
-            return true;
+            return Model != null && !_isConnected && (Model.DefaultTransport.Value == TransportTypes.AMQP ||
+                            Model.DefaultTransport.Value == TransportTypes.MQTT ||
+                            Model.DefaultTransport.Value == TransportTypes.TCP ||
+                            Model.DefaultTransport.Value == TransportTypes.UDP);
         }
 
         public bool CanDisconnect()
         {
-            return false;
+            return Model != null && _isConnected && (Model.DefaultTransport.Value == TransportTypes.AMQP ||
+                            Model.DefaultTransport.Value == TransportTypes.MQTT ||
+                            Model.DefaultTransport.Value == TransportTypes.TCP ||
+                            Model.DefaultTransport.Value == TransportTypes.UDP);
         }
 
         private Task LoadSimulator()
@@ -52,6 +116,8 @@ namespace LagoVista.Simulator.ViewModels.Simulator
                {
                    Model = existingSimulator.Model;
                    MessageTemplates = existingSimulator.Model.MessageTemplates;
+                   ConnectCommand.RaiseCanExecuteChanged();
+                   DisconnectCommand.RaiseCanExecuteChanged();
                }
                else
                {
@@ -90,12 +156,22 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             {
                 if (value != null && _selectedMessageTemplate != value)
                 {
-                    ViewModelNavigation.NavigateAsync(new ViewModelLaunchArgs()
+                    var parameters = new Dictionary<string, object>();
+                    parameters.Add("tcpclient", _tcpClient);
+
+                    var launchArgs = new ViewModelLaunchArgs()
                     {
                         ViewModelType = typeof(Messages.SendMessageViewModel),
                         Parent = value,
-                        LaunchType = LaunchTypes.Other
-                    });
+                        LaunchType = LaunchTypes.Other,
+                    };
+
+                    if (_tcpClient != null)
+                    {
+                        launchArgs.Parameters.Add("tcpclient", _tcpClient);
+                    }
+
+                    ViewModelNavigation.NavigateAsync(launchArgs);
                 }
 
                 _selectedMessageTemplate = value;

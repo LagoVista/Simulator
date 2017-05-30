@@ -1,4 +1,5 @@
-﻿using LagoVista.Core.Commanding;
+﻿using LagoVista.Client.Core.Net;
+using LagoVista.Core.Commanding;
 using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
 using System;
@@ -28,6 +29,12 @@ namespace LagoVista.Simulator.ViewModels.Messages
             switch (MessageTemplate.Transport.Value)
             {
                 case TransportTypes.TCP:
+                    if(LaunchArgs.HasParam("tcpclient"))
+                    {
+                        var client = LaunchArgs.GetParam<ITCPClient>("tcpclient");
+                        client.WriteAsync(MessageTemplate.TextPayload);
+                    }
+
                     break;
                 case TransportTypes.UDP:
                     break;

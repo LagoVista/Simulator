@@ -5,7 +5,7 @@ namespace LagoVista.Client.Core.Net
 {
     public interface ITCPClient : IDisposable
     {
-        Task Connect(string host, int port);
+        Task ConnectAsync(string host, int port);
 
         Task<int> ReadAsync(byte[] buffer);
 
