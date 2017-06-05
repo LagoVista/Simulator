@@ -13,11 +13,14 @@ namespace LagoVista.XPlat.Core
         Grid _loadingMask;
         Grid _loadingContainer;
         Grid _menu;
+        Grid _pageMenuMask;
         ActivityIndicator _activityIndicator;
 
         View _originalcontent;
 
         bool _hasAppeared = false;
+
+        
 
         public LagoVistaContentPage() : base()
         {
@@ -32,10 +35,13 @@ namespace LagoVista.XPlat.Core
             Content = _contentGrid;
 
             _menu = new Grid();
-            _menu.TranslationX = -200;
+            _menu.TranslationX = -300;
             _menu.BackgroundColor = AppStyle.MenuBarBackground.ToXamFormsColor();
-            _menu.WidthRequest = 200;
+            _menu.WidthRequest = 300;
             _menu.HorizontalOptions = LayoutOptions.Start;
+
+            _pageMenuMask = new Grid();
+            _pageMenuMask = new Grid() { BackgroundColor = Color.Black, Opacity = 0.25 };
         }
 
         private IAppStyle AppStyle { get { return SLWIOC.Get<IAppStyle>(); } }
@@ -48,6 +54,7 @@ namespace LagoVista.XPlat.Core
             {
                 _mainContent = value;
                 _contentGrid.Children.Add(_mainContent);
+                _contentGrid.Children.Add(_pageMenuMask);                
                 _contentGrid.Children.Add(_menu);
                 _contentGrid.Children.Add(_loadingContainer);
             }
@@ -80,12 +87,14 @@ namespace LagoVista.XPlat.Core
             {
                 if((bool)newValue)
                 {
-                    (view as LagoVistaContentPage)._menu.TranslateTo(0, 0, 100, Easing.BounceOut);
+                    (view as LagoVistaContentPage)._menu.TranslateTo(0, 0, 250, Easing.CubicInOut);
                 }
                 else
                 {
-                    (view as LagoVistaContentPage)._menu.TranslateTo(-200, 0, 100, Easing.BounceIn);
+                    (view as LagoVistaContentPage)._menu.TranslateTo(-300, 0, 250, Easing.CubicInOut);
                 }
+
+                (view as LagoVistaContentPage)._pageMenuMask.IsVisible = (bool)newValue;
                 /* Property Changed */
                 Debug.WriteLine($"changed {oldValue} {newValue}");
             },
