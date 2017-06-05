@@ -13,7 +13,7 @@ namespace LagoVista.Simulator.ViewModels.Simulator
     public class SimulatorViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator>
     {
         ITCPClient _tcpClient;
-        IUDPClient _udpClient;
+     //   IUDPClient _udpClient;
 
         bool _isConnected;
 
@@ -48,7 +48,7 @@ namespace LagoVista.Simulator.ViewModels.Simulator
 
                 _isConnected = true;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 _isConnected = false;
             }

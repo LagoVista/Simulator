@@ -12,8 +12,9 @@ namespace LagoVista.XPlat.Core.Views
     {
         public LagoVistaNavigationPage(Page root) : base(root)
         {
-            BarBackgroundColor = Color.FromRgb(0xBB, 0xDB, 0xFB);
-            BarTextColor = Color.FromRgb(0x5B, 0x5B, 0x5B);
+            BarBackgroundColor = LagoVista.Core.Models.Drawing.NamedColors.NuvIoTBlack.ToXamFormsColor();
+            BarTextColor = Color.White;
+            BackgroundColor = Color.FromRgb(0x2e, 0x35, 0x3D);
         }
     }
 }

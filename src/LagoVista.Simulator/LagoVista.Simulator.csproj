@@ -49,8 +49,10 @@
     <Compile Include="Controls\FormControls\TextEditRow.cs" />
     <Compile Include="Controls\FormViewer.cs" />
     <Compile Include="Extensions\FormFieldExtensions.cs" />
+    <Compile Include="Extensions\TranslationExtensions.cs" />
     <Compile Include="Models\EditFormAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AppResources.cs" />
     <Compile Include="Resources\SimulatorResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

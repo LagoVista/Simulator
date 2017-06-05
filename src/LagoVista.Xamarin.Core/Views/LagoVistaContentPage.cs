@@ -1,5 +1,6 @@
 ﻿using LagoVista.Core.IOC;
 using LagoVista.Core.ViewModels;
+using LagoVista.XPlat.Core.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace LagoVista.XPlat.Core.Views
+namespace LagoVista.XPlat.Core
 {
     public abstract class LagoVistaContentPage : ContentPage, ILagoVistaPage
     {

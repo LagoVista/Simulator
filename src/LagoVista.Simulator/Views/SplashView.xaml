@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <pge:LagoVistaContentPage     
-    xmlns:pge="clr-namespace:LagoVista.XPlat.Core.Views;assembly=LagoVista.XPlat.Core"
+    xmlns:pge="clr-namespace:LagoVista.XPlat.Core;assembly=LagoVista.XPlat.Core"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="LagoVista.Simulator.Views.SplashView"
-    Title="SplashView">
+    xmlns:trs="clr-namespace:LagoVista.Simulator;assembly=LagoVista.Simulator"
+    Title="Welcome - IoT Simulator">
     <pge:LagoVistaContentPage.ToolbarItems>
         <ToolbarItem Text="Login" Command="{Binding LoginCommand}" />
     </pge:LagoVistaContentPage.ToolbarItems>
@@ -12,8 +13,7 @@
     <pge:LagoVistaContentPage.Content>
     <ScrollView>
         <StackLayout Padding="10">
-            <Label Text="HELLO!" />
-            <Button Command="{Binding LoginCommand}" Text="Login" />
+            <Button Command="{Binding LoginCommand}" Text="{trs:Translate Common_Login}" />
         </StackLayout>
     </ScrollView>
     </pge:LagoVistaContentPage.Content>

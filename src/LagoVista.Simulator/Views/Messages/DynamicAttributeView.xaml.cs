@@ -1,4 +1,4 @@
-﻿using LagoVista.XPlat.Core.Views;
+﻿using LagoVista.XPlat.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

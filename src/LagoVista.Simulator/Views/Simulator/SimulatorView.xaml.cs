@@ -1,4 +1,4 @@
-﻿using LagoVista.XPlat.Core.Views;
+﻿using LagoVista.XPlat.Core;
 using Xamarin.Forms.Xaml;
 
 namespace LagoVista.Simulator.Views.Simulator

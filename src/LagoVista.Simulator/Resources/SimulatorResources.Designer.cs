@@ -62,11 +62,38 @@ namespace LagoVista.Simulator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IoT Simulator.
+        /// </summary>
+        public static string AppName {
+            get {
+                return ResourceManager.GetString("AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This Key is already in use, please select a different Key..
         /// </summary>
         public static string Common_KeyInUse {
             get {
                 return ResourceManager.GetString("Common_KeyInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Common_Login {
+            get {
+                return ResourceManager.GetString("Common_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome - IoT Simulator.
+        /// </summary>
+        public static string Welcome_Title {
+            get {
+                return ResourceManager.GetString("Welcome_Title", resourceCulture);
             }
         }
     }
