@@ -45,6 +45,14 @@ namespace LagoVista.Simulator.Core.ViewModels
             get { return _model; }
             set { Set(ref _model, value); }
         }
+
+
+        private bool _menuVisible = false;
+        public bool MenuVisible
+        {
+            get { return _menuVisible; }
+            set { Set(ref _menuVisible, value); }
+        }
     }
 
     public class SimulatorViewModelBase<TModel> : SimulatorViewModelBase where TModel : new()
@@ -207,6 +215,13 @@ namespace LagoVista.Simulator.Core.ViewModels
                         break;
                 }
             }
+        }
+
+        private bool _menuVisible;
+        public bool MenuVisible
+        {
+            get { return _menuVisible; }
+            set { Set(ref _menuVisible, value); }
         }
 
         public bool IsEdit

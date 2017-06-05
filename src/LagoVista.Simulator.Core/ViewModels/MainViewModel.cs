@@ -15,8 +15,8 @@ namespace LagoVista.Simulator.Core.ViewModels
         {
             AddNewSimulatorCommand = new RelayCommand(AddNewSimulator);
             LogoutCommand = new RelayCommand(Logout);
+            SettingsCommand = new RelayCommand(ToggleSettings);
         }
-
 
         public void AddNewSimulator()
         {
@@ -38,6 +38,11 @@ namespace LagoVista.Simulator.Core.ViewModels
                     Simulators = listResponse.Model.ToObservableCollection();
                 }
             });
+        }
+
+        public void ToggleSettings()
+        {
+            MenuVisible = !MenuVisible;
         }
 
         public override Task InitAsync()
@@ -85,5 +90,7 @@ namespace LagoVista.Simulator.Core.ViewModels
         public RelayCommand AddNewSimulatorCommand { get; private set; }
 
         public RelayCommand LogoutCommand { get; private set; }
+
+        public RelayCommand SettingsCommand { get; private set; }
     }
 }

@@ -92,7 +92,6 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Content Include="add.png" />
-    <Content Include="add_50px.png" />
     <Content Include="Assets\Fonts\iconize-fontawesome.ttf" />
     <Content Include="AV Receiver_100px.png" />
     <Content Include="Checkmark_100px.png" />
@@ -110,13 +109,9 @@
     <Content Include="Hub_100px.png" />
     <Content Include="Idea_100px.png" />
     <Content Include="Infrared Beam Sending_100px.png" />
-    <Content Include="NuvIoT-128x128W.png" />
-    <Content Include="NuvIoT-128x128WG.png" />
-    <Content Include="NuvIoT-256x256BG.png" />
-    <Content Include="NuvIoT-256x256WG.png" />
-    <Content Include="NuvIoT-512x512WG.png" />
+    <Content Include="nuviot.png" />
     <Content Include="sftlog-large-white.png" />
-    <Content Include="sftlog-medium-white.png" />
+    <Content Include="softwarelogistics.png" />
     <Content Include="sftlog-medium.png" />
     <Content Include="splashbg.jpg" />
     <Content Include="LED Diode_100px.png" />

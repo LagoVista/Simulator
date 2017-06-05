@@ -192,11 +192,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\add.png" />
-    <Content Include="Resources\add_50px.png" />
     <Content Include="Resources\exit.png" />
-    <Content Include="Resources\NuvIoT-256x256WG.png" />
-    <Content Include="Resources\NuvIoT-512x512WG.png" />
-    <Content Include="Resources\sftlog-medium-white.png" />
+    <Content Include="Resources\nuviot.png" />
+    <Content Include="Resources\nuviot%402x.png" />
+    <Content Include="Resources\softwarelogistics.png" />
     <Content Include="Resources\splashbg.jpg" />
     <Content Include="Resources\save.png" />
     <Content Include="Resources\settings.png" />

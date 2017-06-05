@@ -146,7 +146,6 @@
     <AndroidResource Include="Resources\drawable\icon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -157,10 +156,36 @@
     <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LagoVista.Client.Core\LagoVista.Client.Core.csproj">
+      <Project>{786a2d0b-c3e4-4d7a-89c5-86ebc94e1b45}</Project>
+      <Name>LagoVista.Client.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LagoVista.Simulator\LagoVista.Simulator.csproj">
       <Project>{0337fc19-1182-48cf-b4fb-d7818509de3d}</Project>
       <Name>LagoVista.Simulator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LagoVista.Xamarin.Core\LagoVista.XPlat.Core.csproj">
+      <Project>{d5dd4ca3-3b5c-4a0e-aa82-4cebb9a7160d}</Project>
+      <Name>LagoVista.XPlat.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LagoVista.Xamarin.Droid\LagoVista.Xamarin.Droid.csproj">
+      <Project>{8ba8d05d-8c47-429a-abf0-a0467de1600d}</Project>
+      <Name>LagoVista.Xamarin.Droid</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\add.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\add.png" />
+    <AndroidResource Include="Resources\drawable\exit.png" />
+    <AndroidResource Include="Resources\drawable\nuviot.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\nuviot.png" />
+    <AndroidResource Include="Resources\drawable\save.png" />
+    <AndroidResource Include="Resources\drawable\settings.png" />
+    <AndroidResource Include="Resources\drawable\softwarelogistics.png" />
+    <AndroidResource Include="Resources\drawable\splashbg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\drawable-xxhdpi\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

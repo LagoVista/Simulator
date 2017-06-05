@@ -1,20 +1,18 @@
-﻿using LagoVista.Core.IOC;
+﻿using LagoVista.Core.Interfaces;
+using LagoVista.Core.IOC;
 using LagoVista.Core.ViewModels;
 using LagoVista.XPlat.Core.Views;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LagoVista.XPlat.Core
 {
     public abstract class LagoVistaContentPage : ContentPage, ILagoVistaPage
     {
+        Grid _contentGrid;
         Grid _loadingMask;
         Grid _loadingContainer;
+        Grid _menu;
         ActivityIndicator _activityIndicator;
 
         View _originalcontent;
@@ -24,11 +22,35 @@ namespace LagoVista.XPlat.Core
         public LagoVistaContentPage() : base()
         {
             _activityIndicator = new ActivityIndicator() { IsRunning = false };
-            _activityIndicator.Color = Color.White;
+            _activityIndicator.Color = Color.CornflowerBlue;
             _loadingContainer = new Grid() { IsVisible = false };
-            _loadingMask = new Grid() { BackgroundColor = Color.Black, Opacity = 0.50 };
+            _loadingMask = new Grid() { BackgroundColor = Color.Black, Opacity = 0.25 };
             _loadingContainer.Children.Add(_loadingMask);
             _loadingContainer.Children.Add(_activityIndicator);
+
+            _contentGrid = new Grid();
+            Content = _contentGrid;
+
+            _menu = new Grid();
+            _menu.TranslationX = -200;
+            _menu.BackgroundColor = AppStyle.MenuBarBackground.ToXamFormsColor();
+            _menu.WidthRequest = 200;
+            _menu.HorizontalOptions = LayoutOptions.Start;
+        }
+
+        private IAppStyle AppStyle { get { return SLWIOC.Get<IAppStyle>(); } }
+
+        View _mainContent;
+        public View MainContent
+        {
+            get { return _mainContent; }
+            set
+            {
+                _mainContent = value;
+                _contentGrid.Children.Add(_mainContent);
+                _contentGrid.Children.Add(_menu);
+                _contentGrid.Children.Add(_loadingContainer);
+            }
         }
 
         public ViewModelBase ViewModel
@@ -48,13 +70,40 @@ namespace LagoVista.XPlat.Core
                 case nameof(ViewModel.IsBusy):
                     Debug.WriteLine(ViewModel.IsBusy ? " Showing busy" : "Hiding Busy");
                     _activityIndicator.IsRunning = ViewModel.IsBusy;
-                    _loadingContainer.IsVisible = ViewModel.IsBusy;
-
-                    Content = ViewModel.IsBusy ? _loadingMask : _originalcontent;
-                    
+                    _loadingContainer.IsVisible = ViewModel.IsBusy;               
                     break;
             }
         }
+
+        public static readonly BindableProperty MenuVisibleProperty = BindableProperty.Create("MenuVisible", typeof(bool), typeof(bool), false, BindingMode.TwoWay, null,
+            (view, oldValue, newValue) =>
+            {
+                if((bool)newValue)
+                {
+                    (view as LagoVistaContentPage)._menu.TranslateTo(0, 0, 100, Easing.BounceOut);
+                }
+                else
+                {
+                    (view as LagoVistaContentPage)._menu.TranslateTo(-200, 0, 100, Easing.BounceIn);
+                }
+                /* Property Changed */
+                Debug.WriteLine($"changed {oldValue} {newValue}");
+            },
+            (view, oldValue, newValue) =>
+            {
+                /* Property Changing */
+            },
+            null,
+            (view) =>
+            {
+                return false;
+            });
+        public bool MenuVisible
+        {
+            get { return (bool)GetValue(MenuVisibleProperty); }
+            set { SetValue(MenuVisibleProperty, value); }
+        }
+
 
         protected async override void OnAppearing()
         {
@@ -71,7 +120,7 @@ namespace LagoVista.XPlat.Core
             }
             else
             {
-                if(ViewModel != null)
+                if (ViewModel != null)
                 {
                     this.Content.BindingContext = null;
                     this.Content.BindingContext = ViewModel;

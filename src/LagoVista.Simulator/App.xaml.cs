@@ -54,7 +54,6 @@ namespace LagoVista.Simulator
             SLWIOC.RegisterSingleton<IAuthManager, AuthManager>();
             SLWIOC.RegisterSingleton<ITokenManager, TokenManager>();
             
-
             var client = new HttpClient();
             client.BaseAddress = serverInfo.BaseAddress;
             client.DefaultRequestHeaders.Accept.Clear();
@@ -74,18 +73,12 @@ namespace LagoVista.Simulator
 
             navigation.Start<SplashViewModel>();
 
-            
-
             SLWIOC.RegisterSingleton<IViewModelNavigation>(navigation);
             SLWIOC.RegisterSingleton<IAuthClient>(new AuthClient());
         }
 
         protected override void OnStart()
         {
-
-
-
-
             // Handle when your app starts
         }
 
