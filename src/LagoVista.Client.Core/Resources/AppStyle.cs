@@ -18,7 +18,7 @@ namespace LagoVista.Client.Core.Resources
 
         public Color EditControlBackground => NamedColors.White;
 
-        public Color EditControlText => throw new NotImplementedException();
+        public Color EditControlText => NamedColors.NuvIoTBlack;
 
         public Color EditControlFrame => Color.CreateColor(0xCC, 0xCC, 0xCC);
 

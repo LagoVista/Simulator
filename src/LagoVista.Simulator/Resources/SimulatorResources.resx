@@ -120,11 +120,20 @@
   <data name="AppName" xml:space="preserve">
     <value>IoT Simulator</value>
   </data>
+  <data name="Common_EmailAddress" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="Common_GetStarted" xml:space="preserve">
+    <value>Get Started</value>
+  </data>
   <data name="Common_KeyInUse" xml:space="preserve">
     <value>This Key is already in use, please select a different Key.</value>
   </data>
   <data name="Common_Login" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="Common_Password" xml:space="preserve">
+    <value>Password</value>
   </data>
   <data name="Welcome_Title" xml:space="preserve">
     <value>Welcome - IoT Simulator</value>

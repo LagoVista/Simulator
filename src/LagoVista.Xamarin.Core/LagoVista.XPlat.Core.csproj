@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Controls\Common\Button.cs" />
+    <Compile Include="Controls\Common\Entry.cs" />
     <Compile Include="Controls\FormControls\CheckboxRow.cs" />
     <Compile Include="Controls\FormControls\ChildListRow.cs" />
     <Compile Include="Controls\FormControls\EntityHeaderPicker.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="Controls\FormControls\TextAreaRow.cs" />
     <Compile Include="Controls\FormControls\TextEditRow.cs" />
     <Compile Include="Controls\FormViewer.cs" />
+    <Compile Include="Controls\Common\Label.cs" />
     <Compile Include="Extensions\ColorExtension.cs" />
     <Compile Include="Resources\XPlatResources.Designer.cs">
       <AutoGen>True</AutoGen>

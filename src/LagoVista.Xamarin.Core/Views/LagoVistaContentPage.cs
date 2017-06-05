@@ -22,8 +22,9 @@ namespace LagoVista.XPlat.Core
         public LagoVistaContentPage() : base()
         {
             _activityIndicator = new ActivityIndicator() { IsRunning = false };
+            _activityIndicator.Color = Color.White;
             _loadingContainer = new Grid() { IsVisible = false };
-            _loadingMask = new Grid() { BackgroundColor = Color.Black, Opacity = 0.25 };
+            _loadingMask = new Grid() { BackgroundColor = Color.Black, Opacity = 0.50 };
             _loadingContainer.Children.Add(_loadingMask);
             _loadingContainer.Children.Add(_activityIndicator);
         }

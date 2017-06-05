@@ -71,6 +71,24 @@ namespace LagoVista.Simulator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email Address.
+        /// </summary>
+        public static string Common_EmailAddress {
+            get {
+                return ResourceManager.GetString("Common_EmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get Started.
+        /// </summary>
+        public static string Common_GetStarted {
+            get {
+                return ResourceManager.GetString("Common_GetStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This Key is already in use, please select a different Key..
         /// </summary>
         public static string Common_KeyInUse {
@@ -85,6 +103,15 @@ namespace LagoVista.Simulator.Resources {
         public static string Common_Login {
             get {
                 return ResourceManager.GetString("Common_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Common_Password {
+            get {
+                return ResourceManager.GetString("Common_Password", resourceCulture);
             }
         }
         
