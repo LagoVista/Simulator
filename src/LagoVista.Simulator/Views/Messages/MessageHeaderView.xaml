@@ -2,7 +2,6 @@
 <pge:LagoVistaContentPage
         xmlns:pge="clr-namespace:LagoVista.XPlat.Core;assembly=LagoVista.XPlat.Core"
         xmlns="http://xamarin.com/schemas/2014/forms"
-        xmlns:ctls="clr-namespace:LagoVista.Simulator.Controls"
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         x:Class="LagoVista.Simulator.Views.Messages.MessageHeaderView"
         Title="Message Header">
@@ -12,6 +11,6 @@
     </pge:LagoVistaContentPage.ToolbarItems>
 
     <Grid>
-        <ctls:FormViewer Form="{Binding FormAdapter}" />
+        <pge:FormViewer Form="{Binding FormAdapter}" />
     </Grid>
 </pge:LagoVistaContentPage>

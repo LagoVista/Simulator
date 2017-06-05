@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using Xamarin.Forms;
 
-namespace LagoVista.Simulator.Controls.FormControls
+namespace LagoVista.XPlat.Core.Controls.FormControls
 {
     public class SelectRow : FormControl
     {

@@ -1,7 +1,7 @@
 ﻿using LagoVista.Core.Models.UIMetaData;
 using Xamarin.Forms;
 
-namespace LagoVista.Simulator.Controls.FormControls
+namespace LagoVista.XPlat.Core.Controls.FormControls
 {
     public abstract class FormControl : StackLayout
     {

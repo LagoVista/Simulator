@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace LagoVista.Simulator.Controls.FormControls
+namespace LagoVista.XPlat.Core.Controls.FormControls
 {
     public class TextEditRow : FormControl
     {

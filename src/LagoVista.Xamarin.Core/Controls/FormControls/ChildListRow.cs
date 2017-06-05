@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
 
-namespace LagoVista.Simulator.Controls.FormControls
+namespace LagoVista.XPlat.Core.Controls.FormControls
 {
     public class ChildListRow : FormControl
     {

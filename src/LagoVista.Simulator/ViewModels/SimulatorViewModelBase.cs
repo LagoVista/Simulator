@@ -9,12 +9,13 @@ using System.Reflection;
 using System.Linq;
 using System;
 using LagoVista.Core.Models;
-using LagoVista.Simulator.Models;
 using LagoVista.Core.Commanding;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.XPlat.Core.Resources;
+using LagoVista.XPlat.Core;
+using LagoVista.XPlat.Core.Models;
 
 namespace LagoVista.Simulator.ViewModels
 {
@@ -101,13 +102,13 @@ namespace LagoVista.Simulator.ViewModels
                 var prop = modelProperties.Where(prp => prp.Name.ToLower() == formItem.Name.ToLower()).FirstOrDefault();
                 switch (formItem.FieldType)
                 {
-                    case Controls.FormViewer.CHECKBOX:
+                    case FormViewer.CHECKBOX:
                         if (bool.TryParse(formItem.Value, out bool result))
                         {
                             prop.SetValue(model, result);
                         }
                         break;
-                    case Controls.FormViewer.PICKER:
+                    case FormViewer.PICKER:
                         if (String.IsNullOrEmpty(formItem.Value))
                         {
                             prop.SetValue(model, null);
@@ -121,7 +122,7 @@ namespace LagoVista.Simulator.ViewModels
                             prop.SetValue(model, eh);
                         }
                         break;
-                    case Controls.FormViewer.INTEGER:
+                    case FormViewer.INTEGER:
                         if (!String.IsNullOrEmpty(formItem.Value))
                         {
                             if (int.TryParse(formItem.Value, out int intValue))
@@ -131,7 +132,7 @@ namespace LagoVista.Simulator.ViewModels
                         }
 
                         break;
-                    case Controls.FormViewer.DECIMAL:
+                    case FormViewer.DECIMAL:
                         if (!String.IsNullOrEmpty(formItem.Value))
                         {
                             if (double.TryParse(formItem.Value, out double intValue))
@@ -141,9 +142,9 @@ namespace LagoVista.Simulator.ViewModels
                         }
 
                         break;
-                    case Controls.FormViewer.MULTILINE:
-                    case Controls.FormViewer.TEXT:
-                    case Controls.FormViewer.KEY:
+                    case FormViewer.MULTILINE:
+                    case FormViewer.TEXT:
+                    case FormViewer.KEY:
                         prop.SetValue(model, formItem.Value);
                         break;
                 }
@@ -188,19 +189,19 @@ namespace LagoVista.Simulator.ViewModels
 
                 switch (formItem.FieldType)
                 {
-                    case Controls.FormViewer.PICKER:
+                    case FormViewer.PICKER:
                         if (value != null)
                         {
                             var entityHeader = value as EntityHeader;
                             formItem.Value = entityHeader.Id;
                         }
                         break;
-                    case Controls.FormViewer.CHECKBOX:
-                    case Controls.FormViewer.INTEGER:
-                    case Controls.FormViewer.DECIMAL:
-                    case Controls.FormViewer.MULTILINE:
-                    case Controls.FormViewer.TEXT:
-                    case Controls.FormViewer.KEY:
+                    case FormViewer.CHECKBOX:
+                    case FormViewer.INTEGER:
+                    case FormViewer.DECIMAL:
+                    case FormViewer.MULTILINE:
+                    case FormViewer.TEXT:
+                    case FormViewer.KEY:
                         if (value != null)
                         {
                             formItem.Value = value.ToString();

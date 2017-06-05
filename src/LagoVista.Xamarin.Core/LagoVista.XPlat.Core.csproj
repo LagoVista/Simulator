@@ -38,7 +38,17 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\FormControls\CheckboxRow.cs" />
+    <Compile Include="Controls\FormControls\ChildListRow.cs" />
+    <Compile Include="Controls\FormControls\EntityHeaderPicker.cs" />
+    <Compile Include="Controls\FormControls\FormControl.cs" />
+    <Compile Include="Controls\FormControls\SelectRow.cs" />
+    <Compile Include="Controls\FormControls\TextAreaRow.cs" />
+    <Compile Include="Controls\FormControls\TextEditRow.cs" />
+    <Compile Include="Controls\FormViewer.cs" />
     <Compile Include="Extensions\ColorExtension.cs" />
+    <Compile Include="Extensions\FormFieldExtensions.cs" />
+    <Compile Include="Models\EditFormAdapter.cs" />
     <Compile Include="Resources\XPlatResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

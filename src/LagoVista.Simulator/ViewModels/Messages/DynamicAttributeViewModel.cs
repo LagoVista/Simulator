@@ -1,8 +1,10 @@
 ﻿using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
-using LagoVista.Simulator.Models;
+using LagoVista.XPlat.Core.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using LagoVista.XPlat.Core;
+
 
 namespace LagoVista.Simulator.ViewModels.Messages
 {

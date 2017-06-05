@@ -1,10 +1,9 @@
 ﻿using LagoVista.Core.Commanding;
-using LagoVista.Simulator.Models;
 using System.Threading.Tasks;
-using System.Linq;
-using LagoVista.Core.Models;
-using LagoVista.Core;
+using LagoVista.XPlat.Core;
+
 using LagoVista.Simulator.ViewModels.Messages;
+using LagoVista.XPlat.Core.Models;
 
 namespace LagoVista.Simulator.ViewModels.Simulator
 {

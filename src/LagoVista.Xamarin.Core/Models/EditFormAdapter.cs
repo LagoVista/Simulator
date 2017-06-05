@@ -1,14 +1,14 @@
 ﻿using LagoVista.Core.Interfaces;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core.ViewModels;
-using LagoVista.Simulator.Controls.FormControls;
+using LagoVista.XPlat.Core.Controls.FormControls;
 using System;
 using System.Linq;
 using LagoVista.Core;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace LagoVista.Simulator.Models
+namespace LagoVista.XPlat.Core.Models
 {
     public class EditFormAdapter
     {

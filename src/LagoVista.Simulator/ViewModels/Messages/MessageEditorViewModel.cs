@@ -1,7 +1,9 @@
 ﻿using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
-using LagoVista.Simulator.Models;
+using LagoVista.XPlat.Core.Models;
 using System.Threading.Tasks;
+using LagoVista.XPlat.Core;
+using LagoVista.XPlat.Core.Controls.FormControls;
 
 namespace LagoVista.Simulator.ViewModels.Messages
 {
@@ -64,7 +66,7 @@ namespace LagoVista.Simulator.ViewModels.Messages
             FormAdapter = form;
         }
 
-        private void Form_OptionSelected(object sender, Controls.FormControls.OptionSelectedEventArgs e)
+        private void Form_OptionSelected(object sender, OptionSelectedEventArgs e)
         {
             if(e.Key == nameof(Model.PayloadType).ToFieldKey())
             {

@@ -1,13 +1,12 @@
-﻿using LagoVista.Core.Models.UIMetaData;
-using LagoVista.Simulator.Controls.FormControls;
-using LagoVista.Simulator.Models;
+﻿using LagoVista.XPlat.Core.Models;
 using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
+using LagoVista.XPlat.Core.Controls.FormControls;
 
-namespace LagoVista.Simulator.Controls
+namespace LagoVista.XPlat.Core
 {
     public class FormViewer : ScrollView
     {
@@ -101,16 +100,16 @@ namespace LagoVista.Simulator.Controls
                 {
                     switch (field.FieldType)
                     {
-                        case FormViewer.MULTILINE: AddChild(new FormControls.TextAreaRow(this, field)); break;
-                        case FormViewer.CHECKBOX: AddChild(new FormControls.CheckBoxRow(this, field)); break;
-                        case FormViewer.ENTITYHEADERPICKER: AddChild(new FormControls.EntityHeaderPicker(this, field)); break;
+                        case FormViewer.MULTILINE: AddChild(new TextAreaRow(this, field)); break;
+                        case FormViewer.CHECKBOX: AddChild(new CheckBoxRow(this, field)); break;
+                        case FormViewer.ENTITYHEADERPICKER: AddChild(new EntityHeaderPicker(this, field)); break;
                         case FormViewer.PICKER:
-                            var picker = new FormControls.SelectRow(this, field);
+                            var picker = new SelectRow(this, field);
                             picker.OptionSelected += Picker_OptionSelected;
                             AddChild(picker);
                             break;
                         case FormViewer.CHILDLIST:
-                            var childListControl = new FormControls.ChildListRow(this, field);
+                            var childListControl = new ChildListRow(this, field);
                             if(Form.ChildLists.ContainsKey(field.Name))
                             {
                                 childListControl.ChildItems = Form.ChildLists[field.Name];
@@ -119,7 +118,7 @@ namespace LagoVista.Simulator.Controls
                             childListControl.ItemSelected += ChildListControl_ItemSelected;
                             AddChild(childListControl);
                             break;
-                        default: AddChild(new FormControls.TextEditRow(this, field)); break;
+                        default: AddChild(new TextEditRow(this, field)); break;
                     }
                 }
             }
