@@ -5,6 +5,7 @@
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.1",
     "Newtonsoft.Json": "10.0.2",
+    "Xam.Plugin.Iconize": "2.0.0.24-beta",
     "Xamarin.Forms": "2.3.5.239-pre3"
   },
   "frameworks": {
