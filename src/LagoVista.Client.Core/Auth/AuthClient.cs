@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using LagoVista.Core.Networking.Models;
 using LagoVista.Core.Authentication.Models;
 using LagoVista.Core.IOC;
+using Newtonsoft.Json.Serialization;
 
 namespace LagoVista.Client.Core.Auth
 {
@@ -22,7 +23,7 @@ namespace LagoVista.Client.Core.Auth
         public async Task<APIResponse<AuthResponse>> LoginAsync(AuthRequest loginInfo, CancellationTokenSource cancellationTokenSource = null)
         {
             var client = SLWIOC.Get<HttpClient>();
-            
+
             var json =  JsonConvert.SerializeObject(loginInfo);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             try

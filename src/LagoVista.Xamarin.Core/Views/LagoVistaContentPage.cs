@@ -17,6 +17,8 @@ namespace LagoVista.XPlat.Core
         Grid _loadingContainer;
         ActivityIndicator _activityIndicator;
 
+        View _originalcontent;
+
         bool _hasAppeared = false;
 
         public LagoVistaContentPage() : base()
@@ -47,6 +49,9 @@ namespace LagoVista.XPlat.Core
                     Debug.WriteLine(ViewModel.IsBusy ? " Showing busy" : "Hiding Busy");
                     _activityIndicator.IsRunning = ViewModel.IsBusy;
                     _loadingContainer.IsVisible = ViewModel.IsBusy;
+
+                    Content = ViewModel.IsBusy ? _loadingMask : _originalcontent;
+                    
                     break;
             }
         }
@@ -54,23 +59,15 @@ namespace LagoVista.XPlat.Core
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+            _originalcontent = this.Content;
+
             if (!_hasAppeared)
             {
-                
-                var content = this.Content;
-                var grid = new Grid();
-                grid.Children.Add(content);
-                grid.Children.Add(_loadingContainer);
-                this.Content = grid;
-
                 if (ViewModel != null)
                 {
                     this.Content.BindingContext = ViewModel;
                     await ViewModel.InitAsync();
-
                 }
-                
-                
             }
             else
             {

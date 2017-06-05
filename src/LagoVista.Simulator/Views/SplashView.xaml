@@ -27,7 +27,7 @@
             <Image Source="NuvIoT-256x256WG.png" HorizontalOptions="Center"  Grid.Row="2"/>
             <Label Text="and" TextColor="White" FontSize="36" Grid.Row="3" HorizontalOptions="Center"  />
             <Image Source="sftlog-medium-white.png" HorizontalOptions="Center" Grid.Row="4" Margin="20" />
-            <Button Command="{Binding LoginCommand}" Text="{trs:Translate Common_GetStarted}" WidthRequest="200" HeightRequest="48" Margin="10" HorizontalOptions="Center"  Grid.Row="6" />
+            <pge:Button Command="{Binding LoginCommand}" Text="{trs:Translate Common_GetStarted}" WidthRequest="200" HeightRequest="48" Margin="10" HorizontalOptions="Center"  Grid.Row="6" />
         </Grid>
     </pge:LagoVistaContentPage.Content>
 </pge:LagoVistaContentPage>
