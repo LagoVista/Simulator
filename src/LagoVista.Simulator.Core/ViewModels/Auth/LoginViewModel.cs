@@ -55,8 +55,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Auth
             {
                 IsBusy = false;
             }
-
-
         }
 
         public RelayCommand LoginCommand { get; private set; }

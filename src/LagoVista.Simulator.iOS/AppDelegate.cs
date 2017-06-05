@@ -4,6 +4,11 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using LagoVista.Core.IOC;
+using LagoVista.Core.PlatformSupport;
+using LagoVista.XPlat.iOS.Services;
+using LagoVista.Core;
+using LagoVista.Client.Core.Loggers;
 
 namespace LagoVista.Simulator.iOS
 {
@@ -22,6 +27,13 @@ namespace LagoVista.Simulator.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            SLWIOC.Register<IStorageService>(new StorageService());
+            SLWIOC.Register<INetworkService>(new NetworkService());
+            SLWIOC.Register<IDeviceInfo>(new DeviceInfo());
+            SLWIOC.Register<ILogger>(new ClientLogger());
+            SLWIOC.Register<IDispatcherServices>(new DispatcherServices());
+
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 

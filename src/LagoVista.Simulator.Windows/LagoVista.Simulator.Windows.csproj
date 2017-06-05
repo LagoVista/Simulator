@@ -17,7 +17,8 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <PackageCertificateKeyFile>LagoVista.Simulator.Windows_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>LagoVista.Simulator.Windows_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>781400CD9B85D7A93678541F0D09D4180714538B</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -109,12 +110,15 @@
     <Content Include="Hub_100px.png" />
     <Content Include="Idea_100px.png" />
     <Content Include="Infrared Beam Sending_100px.png" />
+    <Content Include="splashbg.jpg" />
     <Content Include="LED Diode_100px.png" />
     <Content Include="Low Battery_100px.png" />
     <Content Include="Medium Volume_100px.png" />
     <Content Include="Mirrored Reflector Bulb_100px.png" />
     <Content Include="No Battery_100px.png" />
     <Content Include="Nuclear Power Plant_100px.png" />
+    <None Include="LagoVista.Simulator.Windows_StoreKey.pfx" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Play_100px.png" />
     <Content Include="Plug 4_100px.png" />
     <Content Include="Pressure Vessel_100px.png" />

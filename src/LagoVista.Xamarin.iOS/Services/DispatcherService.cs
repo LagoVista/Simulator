@@ -7,11 +7,11 @@ using System.Text;
 
 namespace LagoVista.XPlat.iOS.Services
 {
-    class DispatcherService : IDispatcherServices
+    public class DispatcherService : IDispatcherServices
     {
         public void Invoke(Action action)
         {
-            throw new NotImplementedException();
+            action();
         }
     }
 }

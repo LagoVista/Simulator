@@ -2,6 +2,7 @@ using System;
 using Security;
 using Foundation;
 using LagoVista.Core.PlatformSupport;
+using System.Diagnostics;
 
 namespace LagoVista.XPlat.iOS.Services
 {
@@ -9,10 +10,7 @@ namespace LagoVista.XPlat.iOS.Services
     {
         public string DeviceType
         {
-            get
-            {
-                return "iPhone";
-            }
+            get { return "iPhone"; }
         }
 
         public string DeviceUniqueId
@@ -29,7 +27,10 @@ namespace LagoVista.XPlat.iOS.Services
                     query.ValueData = NSData.FromString(System.Guid.NewGuid().ToString());
                     var err = SecKeyChain.Add(query);
                     if (err != SecStatusCode.Success && err != SecStatusCode.DuplicateItem)
-                        throw new Exception("Cannot store Unique ID");
+                    {
+                        Debug.WriteLine(err.ToString());
+                        //throw new Exception("Cannot store Unique ID");
+                    }
 
                     return query.ValueData.ToString();
                 }

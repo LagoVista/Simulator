@@ -1,4 +1,5 @@
-﻿using LagoVista.Client.Core.Auth;
+﻿using LagoVista.Client.Core;
+using LagoVista.Client.Core.Auth;
 using LagoVista.Client.Core.Models;
 using LagoVista.Client.Core.Net;
 using LagoVista.Core.Authentication.Interfaces;
@@ -47,6 +48,8 @@ namespace LagoVista.Simulator
                 Port = 5001
             };
 
+            Startup.Init();
+
             SLWIOC.RegisterSingleton<ServerInfo>(serverInfo);
             SLWIOC.RegisterSingleton<IAuthManager, AuthManager>();
             SLWIOC.RegisterSingleton<ITokenManager, TokenManager>();
@@ -70,6 +73,8 @@ namespace LagoVista.Simulator
             navigation.Add<DynamicAttributeViewModel, Views.Messages.DynamicAttributeView>();
 
             navigation.Start<SplashViewModel>();
+
+            
 
             SLWIOC.RegisterSingleton<IViewModelNavigation>(navigation);
             SLWIOC.RegisterSingleton<IAuthClient>(new AuthClient());

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LagoVista.Core.Interfaces;
+using LagoVista.Core.IOC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +13,11 @@ namespace LagoVista.XPlat.Core.Views
     {
         public LagoVistaNavigationPage(Page root) : base(root)
         {
-            BarBackgroundColor = LagoVista.Core.Models.Drawing.NamedColors.NuvIoTBlack.ToXamFormsColor();
-            BarTextColor = Color.White;
-            BackgroundColor = Color.FromRgb(0x2e, 0x35, 0x3D);
+            BarBackgroundColor = AppStyle.TitleBarBackground.ToXamFormsColor();
+            BarTextColor = AppStyle.TitleBarText.ToXamFormsColor();
+            BackgroundColor = AppStyle.PageBackground.ToXamFormsColor();
         }
+
+        private IAppStyle AppStyle { get { return SLWIOC.Get<IAppStyle>(); } }
     }
 }

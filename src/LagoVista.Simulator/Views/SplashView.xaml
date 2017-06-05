@@ -11,10 +11,13 @@
     </pge:LagoVistaContentPage.ToolbarItems>
 
     <pge:LagoVistaContentPage.Content>
-    <ScrollView>
-        <StackLayout Padding="10">
-            <Button Command="{Binding LoginCommand}" Text="{trs:Translate Common_Login}" />
-        </StackLayout>
-    </ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Image Source="splashbg.jpg" Aspect="AspectFill" Grid.RowSpan="2" />
+            <pge:Button Command="{Binding LoginCommand}" Text="{trs:Translate Common_Login}" WidthRequest="200" Grid.Row="1" HeightRequest="64" Margin="20" HorizontalOptions="Center" />
+        </Grid>
     </pge:LagoVistaContentPage.Content>
 </pge:LagoVistaContentPage>

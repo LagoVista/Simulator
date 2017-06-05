@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controls\Common\Button.cs" />
     <Compile Include="Controls\FormControls\CheckboxRow.cs" />
     <Compile Include="Controls\FormControls\ChildListRow.cs" />
     <Compile Include="Controls\FormControls\EntityHeaderPicker.cs" />
