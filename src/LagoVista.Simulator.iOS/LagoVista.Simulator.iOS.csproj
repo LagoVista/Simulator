@@ -191,10 +191,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\add.png" />
+    <Content Include="Resources\add_50px.png" />
+    <Content Include="Resources\exit.png" />
     <Content Include="Resources\NuvIoT-256x256WG.png" />
     <Content Include="Resources\NuvIoT-512x512WG.png" />
     <Content Include="Resources\sftlog-medium-white.png" />
     <Content Include="Resources\splashbg.jpg" />
+    <Content Include="Resources\save.png" />
+    <Content Include="Resources\settings.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.5.239-pre3\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.5.239-pre3\build\netstandard1.0\Xamarin.Forms.targets')" />
