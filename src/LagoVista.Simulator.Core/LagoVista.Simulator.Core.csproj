@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LagoVista.Core" Version="0.8.186-alpha1032" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="0.8.186-alpha1032" />
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="0.8.186-alpha1032" />
+    <PackageReference Include="LagoVista.IoT.Simulator.Admin" Version="0.8.186-alpha1032" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LagoVista.Client.Core\LagoVista.Client.Core.csproj" />
+  </ItemGroup>
+
+</Project>

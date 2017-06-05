@@ -1,10 +1,10 @@
-﻿using LagoVista.Core.ViewModels;
+﻿using LagoVista.Core.Models.UIMetaData;
+using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
 using System.Threading.Tasks;
-using LagoVista.XPlat.Core;
-using LagoVista.XPlat.Core.Models;
+using LagoVista.Core;
 
-namespace LagoVista.Simulator.ViewModels.Messages
+namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
     public class MessageHeaderViewModel : SimulatorViewModelBase<MessageHeader>
     {

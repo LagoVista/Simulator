@@ -47,8 +47,6 @@
     <Compile Include="Controls\FormControls\TextEditRow.cs" />
     <Compile Include="Controls\FormViewer.cs" />
     <Compile Include="Extensions\ColorExtension.cs" />
-    <Compile Include="Extensions\FormFieldExtensions.cs" />
-    <Compile Include="Models\EditFormAdapter.cs" />
     <Compile Include="Resources\XPlatResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

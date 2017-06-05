@@ -1,12 +1,12 @@
-﻿using LagoVista.Core.ViewModels;
+﻿using LagoVista.Core.Models.UIMetaData;
+using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
-using LagoVista.XPlat.Core.Models;
 using System.Linq;
 using System.Threading.Tasks;
-using LagoVista.XPlat.Core;
+using LagoVista.Core;
+using LagoVista.Client.Core.Resources;
 
-
-namespace LagoVista.Simulator.ViewModels.Messages
+namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
     public class DynamicAttributeViewModel : SimulatorViewModelBase<MessageDynamicAttribute>
     {
@@ -21,7 +21,7 @@ namespace LagoVista.Simulator.ViewModels.Messages
                     var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.MessageTemplate>();
                     if(parent.DynamicAttributes.Where(attr=>attr.Key == Model.Key).Any())
                     {
-                        Popups.ShowAsync(Resources.SimulatorResources.Common_KeyInUse);                        
+                        Popups.ShowAsync(ClientResources.Common_KeyInUse);                        
                         return;
                     }
                     parent.DynamicAttributes.Add(Model);

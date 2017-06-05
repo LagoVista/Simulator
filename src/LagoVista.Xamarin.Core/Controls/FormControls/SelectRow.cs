@@ -89,10 +89,4 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             return true;
         }
     }
-
-    public class OptionSelectedEventArgs : EventArgs
-    {
-        public String Key { get; set; }
-        public String Value { get; set; }
-    }
 }

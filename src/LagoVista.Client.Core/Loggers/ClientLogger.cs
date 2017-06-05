@@ -2,13 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace LagoVista.Simulator.Utilities
+namespace LagoVista.Client.Core.Loggers
 {
-    public class Logger : ILogger
+    public class ClientLogger : ILogger
     {
         public void Log(LogLevel level, string area, string message, params KeyValuePair<string, string>[] args)
         {
@@ -22,17 +20,17 @@ namespace LagoVista.Simulator.Utilities
 
         public void SetKeys(params string[] args)
         {
-            
+
         }
 
         public void SetUserId(string userId)
         {
-            
+
         }
 
         public void TrackEvent(string message, Dictionary<string, string> parameters)
         {
-            
+
         }
     }
 }

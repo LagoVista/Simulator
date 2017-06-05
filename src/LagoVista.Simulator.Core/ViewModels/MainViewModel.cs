@@ -1,13 +1,13 @@
 ﻿using LagoVista.Core.Commanding;
 using LagoVista.Core;
 using LagoVista.IoT.Simulator.Admin.Models;
-using LagoVista.Simulator.ViewModels.Auth;
-using LagoVista.Simulator.ViewModels.Simulator;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using LagoVista.XPlat.Core.Resources;
+using LagoVista.Client.Core.Resources;
+using LagoVista.Simulator.Core.ViewModels.Simulator;
+using LagoVista.Simulator.Core.ViewModels.Auth;
 
-namespace LagoVista.Simulator.ViewModels
+namespace LagoVista.Simulator.Core.ViewModels
 {
     public class MainViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator, IoT.Simulator.Admin.Models.SimulatorSummary>
     {
@@ -31,7 +31,7 @@ namespace LagoVista.Simulator.ViewModels
                 var listResponse = await RestClient.GetForOrgAsync($"/api/org/{AuthManager.User.CurrentOrganization.Id}/simulators", null);
                 if (listResponse == null)
                 {
-                    await Popups.ShowAsync(XPlatResources.Common_ErrorCommunicatingWithServer);
+                    await Popups.ShowAsync(ClientResources.Common_ErrorCommunicatingWithServer);
                 }
                 else
                 {

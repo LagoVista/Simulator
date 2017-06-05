@@ -1,26 +1,16 @@
-﻿using LagoVista.XPlat.Core.Models;
+﻿using LagoVista.Core;
 using System.Linq;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using LagoVista.XPlat.Core.Controls.FormControls;
+using LagoVista.Core.Models.UIMetaData;
 
 namespace LagoVista.XPlat.Core
 {
     public class FormViewer : ScrollView
     {
         StackLayout _container;        
-
-        public const string MULTILINE = "MultiLineText";
-        public const string CHECKBOX = "CheckBox";
-        public const string PICKER = "Picker";
-        public const string ENTITYHEADERPICKER = "EntityHeaderPicker";
-        public const string TEXT = "Text";
-        public const string KEY = "Key";
-        public const string CHILDLIST = "ChildList";
-        public const string DECIMAL = "Decimal";
-        public const string INTEGER = "Integer";
 
         public FormViewer()
         {
@@ -100,15 +90,15 @@ namespace LagoVista.XPlat.Core
                 {
                     switch (field.FieldType)
                     {
-                        case FormViewer.MULTILINE: AddChild(new TextAreaRow(this, field)); break;
-                        case FormViewer.CHECKBOX: AddChild(new CheckBoxRow(this, field)); break;
-                        case FormViewer.ENTITYHEADERPICKER: AddChild(new EntityHeaderPicker(this, field)); break;
-                        case FormViewer.PICKER:
+                        case FormField.FieldType_MultilineText: AddChild(new TextAreaRow(this, field)); break;
+                        case FormField.FieldType_CheckBox: AddChild(new CheckBoxRow(this, field)); break;
+                        case FormField.FeildType_EntityHeaderPicker: AddChild(new EntityHeaderPicker(this, field)); break;
+                        case FormField.FieldType_Picker:
                             var picker = new SelectRow(this, field);
                             picker.OptionSelected += Picker_OptionSelected;
                             AddChild(picker);
                             break;
-                        case FormViewer.CHILDLIST:
+                        case FormField.FieldType_ChildList:
                             var childListControl = new ChildListRow(this, field);
                             if(Form.ChildLists.ContainsKey(field.Name))
                             {

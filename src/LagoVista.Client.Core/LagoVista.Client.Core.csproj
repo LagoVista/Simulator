@@ -5,10 +5,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="0.8.186-alpha0610" />
-    <PackageReference Include="LagoVista.Core.Authentication" Version="0.8.186-alpha0610" />
-    <PackageReference Include="LagoVista.UserAdmin" Version="0.8.180-alpha0610" />
+    <PackageReference Include="LagoVista.Core" Version="0.8.186-alpha1032" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="0.8.186-alpha1032" />
+    <PackageReference Include="LagoVista.UserAdmin" Version="0.8.186-alpha1032" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\ClientResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ClientResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\ClientResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ClientResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

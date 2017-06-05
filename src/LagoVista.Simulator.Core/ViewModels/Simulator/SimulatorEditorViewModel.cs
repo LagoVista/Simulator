@@ -1,11 +1,10 @@
-﻿using LagoVista.Core.Commanding;
-using System.Threading.Tasks;
-using LagoVista.XPlat.Core;
+﻿using System.Threading.Tasks;
+using LagoVista.Core.Models.UIMetaData;
+using LagoVista.Core;
+using LagoVista.Core.ViewModels;
+using LagoVista.Simulator.Core.ViewModels.Messages;
 
-using LagoVista.Simulator.ViewModels.Messages;
-using LagoVista.XPlat.Core.Models;
-
-namespace LagoVista.Simulator.ViewModels.Simulator
+namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
     public class SimulatorEditorViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator>
     {
@@ -20,7 +19,7 @@ namespace LagoVista.Simulator.ViewModels.Simulator
             if (ViewToModel(FormAdapter, Model))
             {
                 IsBusy = true;
-                if (LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Create)
+                if (LaunchArgs.LaunchType == LaunchTypes.Create)
                 {
                     await RestClient.AddAsync("/api/simulator", this.Model);
                 }
@@ -43,7 +42,7 @@ namespace LagoVista.Simulator.ViewModels.Simulator
         {
             return PerformNetworkOperation(async () =>
             {
-                var uri = this.LaunchArgs.LaunchType == Core.ViewModels.LaunchTypes.Edit ? $"/api/simulator/{LaunchArgs.ChildId}" : "/api/simulator/factory";
+                var uri = this.LaunchArgs.LaunchType == LaunchTypes.Edit ? $"/api/simulator/{LaunchArgs.ChildId}" : "/api/simulator/factory";
 
                 var simulator = await RestClient.GetAsync(uri);
 

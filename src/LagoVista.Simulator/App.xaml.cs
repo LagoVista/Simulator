@@ -9,6 +9,10 @@ using LagoVista.Core.PlatformSupport;
 using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Managers;
 using LagoVista.IoT.Simulator.Admin.Repos;
+using LagoVista.Simulator.Core.ViewModels;
+using LagoVista.Simulator.Core.ViewModels.Auth;
+using LagoVista.Simulator.Core.ViewModels.Messages;
+using LagoVista.Simulator.Core.ViewModels.Simulator;
 using LagoVista.XPlat.Core.Services;
 using System;
 using System.Collections.Generic;
@@ -55,17 +59,17 @@ namespace LagoVista.Simulator
             SLWIOC.RegisterSingleton<HttpClient>(client);
             
             var navigation = new ViewModelNavigation(this);
-            navigation.Add<ViewModels.SplashViewModel, Views.SplashView>();
-            navigation.Add<ViewModels.Auth.LoginViewModel, Views.Auth.Login>();
-            navigation.Add<ViewModels.MainViewModel, Views.MainView>();
-            navigation.Add<ViewModels.Simulator.SimulatorViewModel, Views.Simulator.SimulatorView>();
-            navigation.Add<ViewModels.Simulator.SimulatorEditorViewModel, Views.Simulator.SimulatorEditorView>();
-            navigation.Add<ViewModels.Messages.MessageEditorViewModel, Views.Messages.MessageEditorView>();
-            navigation.Add<ViewModels.Messages.SendMessageViewModel, Views.Messages.SendMessageView>();
-            navigation.Add<ViewModels.Messages.MessageHeaderViewModel, Views.Messages.MessageHeaderView>();
-            navigation.Add<ViewModels.Messages.DynamicAttributeViewModel, Views.Messages.DynamicAttributeView>();
+            navigation.Add<SplashViewModel, Views.SplashView>();
+            navigation.Add<LoginViewModel, Views.Auth.Login>();
+            navigation.Add<MainViewModel, Views.MainView>();
+            navigation.Add<SimulatorViewModel, Views.Simulator.SimulatorView>();
+            navigation.Add<SimulatorEditorViewModel, Views.Simulator.SimulatorEditorView>();
+            navigation.Add<MessageEditorViewModel, Views.Messages.MessageEditorView>();
+            navigation.Add<SendMessageViewModel, Views.Messages.SendMessageView>();
+            navigation.Add<MessageHeaderViewModel, Views.Messages.MessageHeaderView>();
+            navigation.Add<DynamicAttributeViewModel, Views.Messages.DynamicAttributeView>();
 
-            navigation.Start<ViewModels.SplashViewModel>();
+            navigation.Start<SplashViewModel>();
 
             SLWIOC.RegisterSingleton<IViewModelNavigation>(navigation);
             SLWIOC.RegisterSingleton<IAuthClient>(new AuthClient());

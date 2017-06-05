@@ -13,11 +13,9 @@ using LagoVista.Core.Commanding;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using LagoVista.Core.Models.UIMetaData;
-using LagoVista.XPlat.Core.Resources;
-using LagoVista.XPlat.Core;
-using LagoVista.XPlat.Core.Models;
+using LagoVista.Client.Core.Resources;
 
-namespace LagoVista.Simulator.ViewModels
+namespace LagoVista.Simulator.Core.ViewModels
 {
 
     public class SimulatorViewModelBase : ViewModelBase
@@ -102,13 +100,13 @@ namespace LagoVista.Simulator.ViewModels
                 var prop = modelProperties.Where(prp => prp.Name.ToLower() == formItem.Name.ToLower()).FirstOrDefault();
                 switch (formItem.FieldType)
                 {
-                    case FormViewer.CHECKBOX:
+                    case FormField.FieldType_CheckBox:
                         if (bool.TryParse(formItem.Value, out bool result))
                         {
                             prop.SetValue(model, result);
                         }
                         break;
-                    case FormViewer.PICKER:
+                    case FormField.FieldType_Picker:
                         if (String.IsNullOrEmpty(formItem.Value))
                         {
                             prop.SetValue(model, null);
@@ -122,7 +120,7 @@ namespace LagoVista.Simulator.ViewModels
                             prop.SetValue(model, eh);
                         }
                         break;
-                    case FormViewer.INTEGER:
+                    case FormField.FieldType_Integer:
                         if (!String.IsNullOrEmpty(formItem.Value))
                         {
                             if (int.TryParse(formItem.Value, out int intValue))
@@ -132,7 +130,7 @@ namespace LagoVista.Simulator.ViewModels
                         }
 
                         break;
-                    case FormViewer.DECIMAL:
+                    case FormField.FieldType_Decimal:
                         if (!String.IsNullOrEmpty(formItem.Value))
                         {
                             if (double.TryParse(formItem.Value, out double intValue))
@@ -142,9 +140,9 @@ namespace LagoVista.Simulator.ViewModels
                         }
 
                         break;
-                    case FormViewer.MULTILINE:
-                    case FormViewer.TEXT:
-                    case FormViewer.KEY:
+                    case FormField.FieldType_MultilineText:
+                    case FormField.FieldType_Text:
+                    case FormField.FieldType_Key:
                         prop.SetValue(model, formItem.Value);
                         break;
                 }
@@ -157,7 +155,7 @@ namespace LagoVista.Simulator.ViewModels
         {
             if(!IsNetworkConnected)
             {
-                await Popups.ShowAsync(XPlatResources.Common_NoConnection);
+                await Popups.ShowAsync(ClientResources.Common_NoConnection);
                 return false;
             }
 
@@ -169,7 +167,7 @@ namespace LagoVista.Simulator.ViewModels
             }
             catch (Exception ex)
             {
-                await Popups.ShowAsync(XPlatResources.Common_ErrorCommunicatingWithServer + "\r\n\r\n" + ex.Message);
+                await Popups.ShowAsync(ClientResources.Common_ErrorCommunicatingWithServer + "\r\n\r\n" + ex.Message);
             }
             finally
             {
@@ -189,19 +187,19 @@ namespace LagoVista.Simulator.ViewModels
 
                 switch (formItem.FieldType)
                 {
-                    case FormViewer.PICKER:
+                    case FormField.FieldType_Picker:
                         if (value != null)
                         {
                             var entityHeader = value as EntityHeader;
                             formItem.Value = entityHeader.Id;
                         }
                         break;
-                    case FormViewer.CHECKBOX:
-                    case FormViewer.INTEGER:
-                    case FormViewer.DECIMAL:
-                    case FormViewer.MULTILINE:
-                    case FormViewer.TEXT:
-                    case FormViewer.KEY:
+                    case FormField.FieldType_CheckBox:
+                    case FormField.FieldType_Integer:
+                    case FormField.FieldType_Decimal:
+                    case FormField.FieldType_MultilineText:
+                    case FormField.FieldType_Text:
+                    case FormField.FieldType_Key:
                         if (value != null)
                         {
                             formItem.Value = value.ToString();

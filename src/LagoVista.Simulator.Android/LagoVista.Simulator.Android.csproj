@@ -17,7 +17,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
     <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
     <JavaMaximumHeapSize />
@@ -58,19 +58,19 @@
       <HintPath>..\..\packages\Xamarin.Forms.2.3.5.239-pre3\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.Core, Version=0.8.0.0, Culture=neutral, PublicKeyToken=2698135e9954a85d, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.Core.Networking.0.8.186-alpha0610\lib\netstandard1.2\LagoVista.Core.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.Core.Networking.0.8.186-alpha1032\lib\netstandard1.2\LagoVista.Core.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.Core.Authentication, Version=0.8.0.0, Culture=neutral, PublicKeyToken=dcf35d1740df1edc, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.Core.Authentication.0.8.186-alpha0610\lib\netstandard1.2\LagoVista.Core.Authentication.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.Core.Authentication.0.8.186-alpha1032\lib\netstandard1.2\LagoVista.Core.Authentication.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.Core.Networking, Version=0.8.0.0, Culture=neutral, PublicKeyToken=650a46bd96014ff6, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.Core.Networking.0.8.186-alpha0610\lib\netstandard1.2\LagoVista.Core.Networking.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.Core.Networking.0.8.186-alpha1032\lib\netstandard1.2\LagoVista.Core.Networking.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.IoT.DeviceAdmin, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.IoT.DeviceAdmin.0.8.186-alpha0610\lib\netstandard1.2\LagoVista.IoT.DeviceAdmin.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.IoT.DeviceAdmin.0.8.186-alpha1032\lib\netstandard1.2\LagoVista.IoT.DeviceAdmin.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.IoT.Simulator.Admin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.IoT.Simulator.Admin.0.8.186-alpha0610\lib\netstandard1.2\LagoVista.IoT.Simulator.Admin.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.IoT.Simulator.Admin.0.8.186-alpha1032\lib\netstandard1.2\LagoVista.IoT.Simulator.Admin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">

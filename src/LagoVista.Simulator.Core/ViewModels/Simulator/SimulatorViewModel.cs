@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LagoVista.Simulator.ViewModels.Simulator
+namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
     public class SimulatorViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator>
     {

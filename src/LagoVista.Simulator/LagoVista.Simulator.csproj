@@ -48,17 +48,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SimulatorResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\Logger.cs" />
-    <Compile Include="ViewModels\Auth\LoginViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\Messages\DynamicAttributeViewModel.cs" />
-    <Compile Include="ViewModels\Messages\MessageEditorViewModel.cs" />
-    <Compile Include="ViewModels\Messages\MessageHeaderViewModel.cs" />
-    <Compile Include="ViewModels\Messages\SendMessageViewModel.cs" />
-    <Compile Include="ViewModels\SimulatorViewModelBase.cs" />
-    <Compile Include="ViewModels\Simulator\SimulatorEditorViewModel.cs" />
-    <Compile Include="ViewModels\Simulator\SimulatorViewModel.cs" />
-    <Compile Include="ViewModels\SplashViewModel.cs" />
     <Compile Include="Views\Auth\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -100,6 +89,10 @@
     <ProjectReference Include="..\..\src\LagoVista.Client.Core\LagoVista.Client.Core.csproj">
       <Project>{786a2d0b-c3e4-4d7a-89c5-86ebc94e1b45}</Project>
       <Name>LagoVista.Client.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LagoVista.Simulator.Core\LagoVista.Simulator.Core.csproj">
+      <Project>{9a2fb24b-41db-4015-9c3f-db8c6bb087e9}</Project>
+      <Name>LagoVista.Simulator.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\LagoVista.Xamarin.Core\LagoVista.XPlat.Core.csproj">
       <Project>{d5dd4ca3-3b5c-4a0e-aa82-4cebb9a7160d}</Project>
@@ -160,9 +153,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>

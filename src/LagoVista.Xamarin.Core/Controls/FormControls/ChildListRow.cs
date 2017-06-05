@@ -139,10 +139,4 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             return true;
         }
     }
-
-    public class ItemSelectedEventArgs : EventArgs
-    {
-        public String Type { get; set; }
-        public String Id { get; set; }
-    }
 }

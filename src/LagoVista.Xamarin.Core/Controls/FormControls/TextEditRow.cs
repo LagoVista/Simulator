@@ -65,7 +65,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             {
                 switch (Field.FieldType)
                 {
-                    case FormViewer.INTEGER:
+                    case FormField.FieldType_Integer:
                         if (!int.TryParse(e.NewTextValue, out int value))
                         {
                             _editor.Text = e.OldTextValue;

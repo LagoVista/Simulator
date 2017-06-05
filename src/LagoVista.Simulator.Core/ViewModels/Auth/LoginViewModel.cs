@@ -6,7 +6,7 @@ using LagoVista.Core.Commanding;
 using LagoVista.Core.Models;
 using LagoVista.UserAdmin.Models.Account;
 
-namespace LagoVista.Simulator.ViewModels.Auth
+namespace LagoVista.Simulator.Core.ViewModels.Auth
 {
     public class LoginViewModel : SimulatorViewModelBase<UserInfo>
     {

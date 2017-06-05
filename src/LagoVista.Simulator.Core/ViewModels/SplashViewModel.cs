@@ -1,7 +1,7 @@
 ﻿using LagoVista.Core.Commanding;
 using System.Threading.Tasks;
 
-namespace LagoVista.Simulator.ViewModels
+namespace LagoVista.Simulator.Core.ViewModels
 {
     public class SplashViewModel : SimulatorViewModelBase
     {

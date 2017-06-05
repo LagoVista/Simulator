@@ -1,11 +1,10 @@
 ﻿using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
-using LagoVista.XPlat.Core.Models;
 using System.Threading.Tasks;
-using LagoVista.XPlat.Core;
-using LagoVista.XPlat.Core.Controls.FormControls;
+using LagoVista.Core;
+using LagoVista.Core.Models.UIMetaData;
 
-namespace LagoVista.Simulator.ViewModels.Messages
+namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
     public class MessageEditorViewModel : SimulatorViewModelBase<MessageTemplate>
     {
