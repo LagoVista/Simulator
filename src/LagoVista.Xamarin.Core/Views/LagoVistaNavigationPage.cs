@@ -1,5 +1,4 @@
-﻿using FormsPlugin.Iconize;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ using Xamarin.Forms;
 
 namespace LagoVista.XPlat.Core.Views
 {
-    public class LagoVistaNavigationPage : IconNavigationPage
+    public class LagoVistaNavigationPage : NavigationPage
     {
         public LagoVistaNavigationPage(Page root) : base(root)
         {

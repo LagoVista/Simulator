@@ -2,11 +2,12 @@
   "supports": {},
   "dependencies": {
     "LagoVista.Core": "0.8.186-alpha1032",
-    "Newtonsoft.Json": "10.0.2",
-    "Xam.FormsPlugin.Iconize": "1.5.0.13-beta",
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "NETStandard.Library": "1.6.0",
+    "Xam.Plugin.Iconize": "2.0.0.24-beta",
     "Xamarin.Forms": "2.3.5.239-pre3"
   },
   "frameworks": {
-    ".NETPortable,Version=v4.6,Profile=Profile151": {}
+    "netstandard1.2": {}
   }
 }
