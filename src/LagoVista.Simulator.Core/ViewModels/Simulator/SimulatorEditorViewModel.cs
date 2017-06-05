@@ -49,7 +49,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 var form = new EditFormAdapter(simulator.Model, simulator.View, ViewModelNavigation);
                 Model = simulator.Model;
                 View = simulator.View;
-                View[nameof(Model.Key).ToFieldKey()].IsUserEditable = false;
+                View[nameof(Model.Key).ToFieldKey()].IsUserEditable = LaunchArgs.LaunchType == LaunchTypes.Create;
                 form.AddViewCell(nameof(Model.Name));
                 form.AddViewCell(nameof(Model.Key));
                 form.AddViewCell(nameof(Model.DefaultTransport));

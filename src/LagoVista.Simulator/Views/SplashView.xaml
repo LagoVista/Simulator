@@ -15,8 +15,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="10" />
                 <RowDefinition Height="auto" />
@@ -24,7 +24,7 @@
             <Image Source="splashbg.jpg" Aspect="AspectFill" Grid.RowSpan="5" />
             <Label Text="IoT Simlator" FontSize="48" HorizontalOptions="Center" TextColor="White" Grid.Row="0"  />
             <Label Text="presented by" FontSize="24" HorizontalOptions="Center" TextColor="White"  Grid.Row="1" />
-            <Image Source="NuvIoT-256x256WG.png" HorizontalOptions="Center"  Grid.Row="2"/>
+            <Image Source="NuvIoT-256x256WG.png" VerticalOptions="Center" HorizontalOptions="Center"  Grid.Row="2"/>
             <Label Text="and" TextColor="White" FontSize="36" Grid.Row="3" HorizontalOptions="Center"  />
             <Image Source="sftlog-medium-white.png" HorizontalOptions="Center" Grid.Row="4" Margin="20" />
             <pge:Button Command="{Binding LoginCommand}" Text="{trs:Translate Common_GetStarted}" WidthRequest="200" HeightRequest="48" Margin="10" HorizontalOptions="Center"  Grid.Row="6" />

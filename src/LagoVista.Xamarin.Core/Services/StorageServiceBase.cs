@@ -96,10 +96,12 @@ namespace LagoVista.XPlat.Core.Services
             }
         }
 
-        public async Task StoreAsync<TObject>(TObject instance, string fileName) where TObject : class
+        public async Task<string> StoreAsync<TObject>(TObject instance, string fileName) where TObject : class
         {
             var json = JsonConvert.SerializeObject(instance);
             await PutAllTextAsync(fileName, json);
+
+            return fileName;
         }
 
         public async Task<TObject> GetAsync<TObject>(string fileName) where TObject : class
@@ -117,23 +119,15 @@ namespace LagoVista.XPlat.Core.Services
 
         public Task<string> StoreAsync(Stream stream, string fileName, Locations location = Locations.Default, string folder = "")
         {
-            throw new NotImplementedException();
+            return StoreAsync(stream, fileName);
         }
 
         public Task<Stream> Get(string fileName, Locations location = Locations.Default, string folder = "")
         {
-            throw new NotImplementedException();
+            return null;
         }
-
-        Task<string> IStorageService.StoreAsync<TObject>(TObject instance, string fileName)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<string> IStorageService.ReadAllTextAsync(string fileName)
-        {
-            throw new NotImplementedException();
-        }
+        
+        
 
         public Task<string> WriteAllTextAsync(string fileName, string text)
         {
@@ -156,6 +150,11 @@ namespace LagoVista.XPlat.Core.Services
         }
 
         public Task<string> WriteAllBytesAsync(string fileName, byte[] buffer)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<string> IStorageService.ReadAllTextAsync(string fileName)
         {
             throw new NotImplementedException();
         }

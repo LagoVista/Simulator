@@ -19,6 +19,6 @@
             <pge:Entry Text="{Binding Password, Mode=TwoWay}"  IsPassword="True" Margin="0,0,0,40" />
             <pge:Button Command="{Binding LoginCommand}" Text="{ext:Translate Common_Login}" HeightRequest="48" />
         </StackLayout>
-        <Image Source="sftlog-medium.png" HorizontalOptions="Center" />
+        <Image Source="sftlog-medium-white.png" HorizontalOptions="Center" Grid.Row="2" />
     </Grid>
 </pge:LagoVistaContentPage>
