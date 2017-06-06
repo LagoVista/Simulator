@@ -1,13 +1,14 @@
-﻿using LagoVista.Core.ViewModels;
+﻿using LagoVista.Client.Core.ViewModels;
+using LagoVista.Core.ViewModels;
 using Xamarin.Forms;
 
 namespace LagoVista.XPlat.Core.Views
 {
     public class LagoVistaStartupPage : ContentPage, ILagoVistaPage
     {
-        public ViewModelBase ViewModel
+        public XPlatViewModel ViewModel
         {
-            get { return BindingContext as ViewModelBase; }
+            get { return BindingContext as XPlatViewModel; }
             set { BindingContext = value; }
         }
 

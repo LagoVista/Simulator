@@ -1,4 +1,5 @@
-﻿using LagoVista.Core.ViewModels;
+﻿using LagoVista.Client.Core.ViewModels;
+using LagoVista.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace LagoVista.XPlat.Core.Views
 {
     public interface ILagoVistaPage
     {
-        ViewModelBase ViewModel { get; set; }
+        XPlatViewModel ViewModel { get; set; }
     }
 }

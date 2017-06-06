@@ -1,4 +1,5 @@
 ﻿
+using LagoVista.Client.Core.ViewModels;
 using LagoVista.Core.IOC;
 using LagoVista.Core.ViewModels;
 using LagoVista.XPlat.Core.Views;
@@ -22,7 +23,7 @@ namespace LagoVista.XPlat.Core.Services
             _app = app;
         }
 
-        public void Start<V>() where V : ViewModelBase
+        public void Start<V>() where V : XPlatViewModel
         {
             var view = Activator.CreateInstance(_viewModelLookup[typeof(V)]) as LagoVistaContentPage;
             _navigation = view.Navigation;
@@ -44,7 +45,7 @@ namespace LagoVista.XPlat.Core.Services
         private Task ShowViewModelAsync(ViewModelLaunchArgs args)
         {
             var view = Activator.CreateInstance(_viewModelLookup[args.ViewModelType]) as LagoVistaContentPage;
-            var viewModel = SLWIOC.CreateForType(args.ViewModelType) as ViewModelBase;
+            var viewModel = SLWIOC.CreateForType(args.ViewModelType) as XPlatViewModel;
             viewModel.LaunchArgs = args;
             view.ViewModel = viewModel;
             return _navigation.PushAsync(view);
@@ -81,7 +82,7 @@ namespace LagoVista.XPlat.Core.Services
             var viewModel = SLWIOC.CreateForType<TViewModel>();
             var viewModelType = typeof(TViewModel);
             var view = Activator.CreateInstance(_viewModelLookup[viewModelType]) as LagoVistaContentPage;
-            view.ViewModel = viewModel as ViewModelBase;            
+            view.ViewModel = viewModel as XPlatViewModel;            
             _navigation = view.Navigation;
             _app.MainPage = new LagoVistaNavigationPage(view);
 

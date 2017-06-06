@@ -89,5 +89,11 @@
   <ItemGroup>
     <Content Include="Icons\ReadMe.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LagoVista.Client.Core\LagoVista.Client.Core.csproj">
+      <Project>{786a2d0b-c3e4-4d7a-89c5-86ebc94e1b45}</Project>
+      <Name>LagoVista.Client.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>

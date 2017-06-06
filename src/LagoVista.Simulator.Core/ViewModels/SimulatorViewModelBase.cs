@@ -14,11 +14,12 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Client.Core.Resources;
+using LagoVista.Client.Core.ViewModels;
 
 namespace LagoVista.Simulator.Core.ViewModels
 {
 
-    public class SimulatorViewModelBase : ViewModelBase
+    public class SimulatorViewModelBase : XPlatViewModel
     {
         protected HttpClient HttpClient { get { return SLWIOC.Get<HttpClient>(); } }
         protected IAuthManager AuthManager { get { return SLWIOC.Get<IAuthManager>(); } }

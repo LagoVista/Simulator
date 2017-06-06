@@ -1,18 +1,21 @@
-﻿using LagoVista.Core.Interfaces;
+﻿using LagoVista.Client.Core.ViewModels;
+using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
 using LagoVista.Core.Models.Drawing;
-using LagoVista.Core.ViewModels;
 using LagoVista.XPlat.Core.Controls.Common;
 using LagoVista.XPlat.Core.Icons;
 using LagoVista.XPlat.Core.Views;
-using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace LagoVista.XPlat.Core
 {
+
+
     public abstract class LagoVistaContentPage : ContentPage, ILagoVistaPage
     {
+        Grid _toolBar;
         Grid _contentGrid;
         Grid _loadingMask;
         Grid _loadingContainer;
@@ -20,13 +23,43 @@ namespace LagoVista.XPlat.Core
         Grid _pageMenuMask;
         Label _title;
         ActivityIndicator _activityIndicator;
-
+        View _mainContent;
         View _originalcontent;
+
+        Button _leftMenuButton;
+        Button _rightMenuButton;
 
         bool _hasAppeared = false;
 
-       
         public LagoVistaContentPage() : base()
+        {
+            NavigationPage.SetHasNavigationBar(this, false);
+
+            /*
+             * The Page top level consists of a grid, to add additional faeture on top fo the grid such as loading window
+             * and a slide out menu, we attach the actual content to the property MainContent, rather than just to the page.
+             * Within the XAML it will look like:
+             *     <pge:LagoVistaContentPage.MainContent>
+             *                  .........
+             *     </pge:LagoVistaContentPage.MainContent>
+             * 
+             * You can add any content to that node, just as you would to the primary content node of the page.
+             * 
+             */
+
+            CreateActivityIndicator();
+            CreateMenu();
+            AddToolBar();
+            AddBindings();
+        }
+
+        #region Initial Page Construction
+        private void AddBindings()
+        {
+            this.SetBinding(LagoVistaContentPage.MenuVisibleProperty, nameof(ViewModel.MenuVisible));
+        }
+
+        private void CreateActivityIndicator()
         {
             _activityIndicator = new ActivityIndicator() { IsRunning = false };
             _activityIndicator.Color = NamedColors.NuvIoTDark.ToXamFormsColor();
@@ -45,15 +78,10 @@ namespace LagoVista.XPlat.Core
             _loadingContainer.Children.Add(_loadingMask);
             _loadingContainer.Children.Add(_activityIndicator);
             _loadingContainer.SetValue(Grid.RowProperty, 1);
+        }
 
-            _contentGrid = new Grid();
-            _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = 48 });
-            _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-
-            Content = _contentGrid;
-
-            NavigationPage.SetHasNavigationBar(this, false);
-
+        private void CreateMenu()
+        {
             _menu = new Grid();
             _menu.TranslationX = -300;
             _menu.BackgroundColor = AppStyle.MenuBarBackground.ToXamFormsColor();
@@ -65,47 +93,92 @@ namespace LagoVista.XPlat.Core
             _pageMenuMask.SetValue(Grid.RowProperty, 1);
             _pageMenuMask.IsVisible = false;
             _pageMenuMask = new Grid() { BackgroundColor = Xamarin.Forms.Color.Black, Opacity = 0.25 };
-
-            AddToolBar();
         }
 
         private void AddToolBar()
         {
-            var toolBar = new Grid();
-            toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(48) });
-            toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
-            toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
-            toolBar.BackgroundColor = AppStyle.TitleBarBackground.ToXamFormsColor();
+            _toolBar = new Grid();
+            _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(48) });
+            _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+            _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
+            _toolBar.BackgroundColor = AppStyle.TitleBarBackground.ToXamFormsColor();
 
             _title = new Label();
             _title.SetValue(Grid.ColumnProperty, 1);
             _title.TextColor = AppStyle.TitleBarText.ToXamFormsColor();
             _title.FontSize = 22;
-            _title.VerticalOptions = new LayoutOptions(LayoutAlignment.Center,false);
+            _title.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
 
-            IconButton _icoBtn = new IconButton(); 
-            var icon = Iconize.FindIconForKey("fa-bars");
+            _leftMenuButton = new IconButton();
+            _leftMenuButton.IsVisible = false;
+            _leftMenuButton.HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, false);
+            _leftMenuButton.TextColor = AppStyle.TitleBarText.ToXamFormsColor();
+            _leftMenuButton.WidthRequest = 48;
+            _leftMenuButton.HeightRequest = 48;
+            _leftMenuButton.FontSize = 22;
+            _leftMenuButton.Clicked += _leftMenuButton_Clicked;
 
-            switch(Device.RuntimePlatform)
-            {
-                case Device.UWP: _icoBtn.FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
-                case Device.iOS: _icoBtn.FontFamily = Iconize.FindModuleOf(icon).FontName; break;
-                case Device.Android: _icoBtn.FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
-            }
+            _rightMenuButton = new IconButton();
+            _rightMenuButton.SetValue(Grid.ColumnProperty, 2);
+            _rightMenuButton.IsVisible = false;
+            _rightMenuButton.HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, false);
+            _rightMenuButton.TextColor = AppStyle.TitleBarText.ToXamFormsColor();
+            _rightMenuButton.WidthRequest = 48;
+            _rightMenuButton.HeightRequest = 48;
+            _rightMenuButton.FontSize = 22;
+            _rightMenuButton.Clicked += _rightMenuButton_Clicked;
 
-            Debug.WriteLine(_icoBtn.FontFamily);
-
-            _icoBtn.HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, false);
-            _icoBtn.TextColor = Xamarin.Forms.Color.White;
-            _icoBtn.WidthRequest = 48;
-            _icoBtn.HeightRequest = 48;
-            _icoBtn.FontSize = 22;
-            _icoBtn.Text = $"{icon.Character}";
-
-            toolBar.Children.Add(_title);
-            toolBar.Children.Add(_icoBtn);
-            _contentGrid.Children.Add(toolBar);
+            _toolBar.Children.Add(_title);
+            _toolBar.Children.Add(_leftMenuButton);
+            _toolBar.Children.Add(_rightMenuButton);
         }
+
+        private void _leftMenuButton_Clicked(object sender, System.EventArgs e)
+        {
+            switch (LeftMenu)
+            {
+                case LeftMenuIcon.Back:
+                    //TODO: Need to check page state for dirty record.
+                    Navigation.PopAsync();
+                    break;
+                case LeftMenuIcon.Cancel:
+                    CancelCommand?.Execute(null);
+                    break;
+                case LeftMenuIcon.Menu:
+                    MenuVisible = !MenuVisible;
+                    break;
+                case LeftMenuIcon.None:
+                    break;
+                case LeftMenuIcon.CustomText:
+                case LeftMenuIcon.CustomIcon:
+                    LeftMenuCommand?.Execute(null);
+                    break;
+            }
+        }
+
+        private void _rightMenuButton_Clicked(object sender, System.EventArgs e)
+        {
+            switch (RightMenu)
+            {
+                case RightMenuIcon.Add:
+                    AddCommand?.Execute(null);
+                    break;
+                case RightMenuIcon.CustomText:
+                case RightMenuIcon.CustomIcon:
+                    RightMenuCommand?.Execute(null);
+                    break;
+                case RightMenuIcon.Delete:
+                    DeleteCommand?.Execute(null);
+                    break;
+                case RightMenuIcon.Edit:
+                    EditCommand?.Execute(null);
+                    break;
+                case RightMenuIcon.Save:
+                    SaveCommand?.Execute(null);
+                    break;
+            }
+        }
+        #endregion
 
         protected override void LayoutChildren(double x, double y, double width, double height)
         {
@@ -116,24 +189,31 @@ namespace LagoVista.XPlat.Core
 
         private IAppStyle AppStyle { get { return SLWIOC.Get<IAppStyle>(); } }
 
-        View _mainContent;
+
         public View MainContent
         {
             get { return _mainContent; }
             set
             {
+                _contentGrid = new Grid();
+                _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = 48 });
+                _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+
+                Content = _contentGrid;
+
                 _mainContent = value;
                 _mainContent.SetValue(Grid.RowProperty, 1);
+                _contentGrid.Children.Add(_toolBar);
                 _contentGrid.Children.Add(_mainContent);
-                _contentGrid.Children.Add(_pageMenuMask);                
+                _contentGrid.Children.Add(_pageMenuMask);
                 _contentGrid.Children.Add(_menu);
                 _contentGrid.Children.Add(_loadingContainer);
             }
         }
 
-        public ViewModelBase ViewModel
+        public XPlatViewModel ViewModel
         {
-            get { return BindingContext as ViewModelBase; }
+            get { return BindingContext as XPlatViewModel; }
             set
             {
                 BindingContext = value;
@@ -141,49 +221,258 @@ namespace LagoVista.XPlat.Core
             }
         }
 
+        private void ToggleMenu(bool newMenuState)
+        {
+            if (newMenuState)
+            {
+                _menu.TranslateTo(0, 0, 250, Easing.CubicInOut);
+            }
+            else
+            {
+                _menu.TranslateTo(-300, 0, 250, Easing.CubicInOut);
+            }
+
+            _pageMenuMask.IsVisible = (bool)newMenuState;
+        }
+
         private void Value_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case nameof(ViewModel.IsBusy):
-                    Debug.WriteLine(ViewModel.IsBusy ? " Showing busy" : "Hiding Busy");
                     _activityIndicator.IsRunning = ViewModel.IsBusy;
-                    _loadingContainer.IsVisible = ViewModel.IsBusy;               
+                    _loadingContainer.IsVisible = ViewModel.IsBusy;
                     break;
             }
         }
 
-        public static readonly BindableProperty MenuVisibleProperty = BindableProperty.Create("MenuVisible", typeof(bool), typeof(bool), false, BindingMode.TwoWay, null,
-            (view, oldValue, newValue) =>
-            {
-                if((bool)newValue)
-                {
-                    (view as LagoVistaContentPage)._menu.TranslateTo(0, 0, 250, Easing.CubicInOut);
-                }
-                else
-                {
-                    (view as LagoVistaContentPage)._menu.TranslateTo(-300, 0, 250, Easing.CubicInOut);
-                }
+        #region Menu
+        public static readonly BindableProperty MenuVisibleProperty = BindableProperty.Create(nameof(MenuVisible), typeof(bool), typeof(LagoVistaContentPage), false, BindingMode.TwoWay, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).ToggleMenu((bool)newValue), null, null, (view) => { return false; });
 
-                (view as LagoVistaContentPage)._pageMenuMask.IsVisible = (bool)newValue;
-                /* Property Changed */
-                Debug.WriteLine($"changed {oldValue} {newValue}");
-            },
-            (view, oldValue, newValue) =>
-            {
-                /* Property Changing */
-            },
-            null,
-            (view) =>
-            {
-                return false;
-            });
         public bool MenuVisible
+        {
+            get { return (bool)GetValue(MenuVisibleProperty); }
+            set
+            {
+                SetValue(MenuVisibleProperty, value);
+                ToggleMenu(value);
+            }
+        }
+        #endregion
+
+
+        public static readonly BindableProperty SaveCommandProperty = BindableProperty.Create(nameof(SaveCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).SaveCommand = (ICommand)newValue);
+
+        public ICommand SaveCommand
+        {
+            get { return (ICommand)GetValue(SaveCommandProperty); }
+            set { SetValue(SaveCommandProperty, value); }
+        }
+
+        public static readonly BindableProperty CancelCommandProperty = BindableProperty.Create(nameof(CancelCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).CancelCommand = (ICommand)newValue);
+
+        public ICommand CancelCommand
+        {
+            get { return (ICommand)GetValue(CancelCommandProperty); }
+            set { SetValue(CancelCommandProperty, value); }
+        }
+
+        public static readonly BindableProperty AddCommandProperty = BindableProperty.Create(nameof(AddCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).AddCommand = (ICommand)newValue);
+
+        public ICommand AddCommand
+        {
+            get { return (ICommand)GetValue(AddCommandProperty); }
+            set { SetValue(AddCommandProperty, value); }
+        }
+
+        public static readonly BindableProperty DeleteCommandProperty = BindableProperty.Create(nameof(DeleteCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).DeleteCommand = (ICommand)newValue);
+
+        public ICommand DeleteCommand
+        {
+            get { return (ICommand)GetValue(DeleteCommandProperty); }
+            set { SetValue(DeleteCommandProperty, value); }
+        }
+
+
+        public static readonly BindableProperty EditCommandProperty = BindableProperty.Create(nameof(EditCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).EditCommand = (ICommand)newValue);
+
+        public ICommand EditCommand
+        {
+            get { return (ICommand)GetValue(EditCommandProperty); }
+            set { SetValue(EditCommandProperty, value); }
+        }
+
+        public static readonly BindableProperty BackCommandProperty = BindableProperty.Create(nameof(BackCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).BackCommand = (ICommand)newValue);
+
+        public ICommand BackCommand
+        {
+            get { return (ICommand)GetValue(BackCommandProperty); }
+            set { SetValue(BackCommandProperty, value); }
+        }
+
+        public static readonly BindableProperty LeftMenuCommandProperty = BindableProperty.Create(nameof(LeftMenuCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenuCommand = (ICommand)newValue);
+
+        public ICommand LeftMenuCommand
+        {
+            get { return (ICommand)GetValue(LeftMenuCommandProperty); }
+            set { SetValue(LeftMenuCommandProperty, value); }
+        }
+
+        public static readonly BindableProperty RightMenuCommandProperty = BindableProperty.Create(nameof(RightMenuCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).RightMenuCommand = (ICommand)newValue);
+
+        public ICommand RightMenuCommand
+        {
+            get { return (ICommand)GetValue(RightMenuCommandProperty); }
+            set { SetValue(RightMenuCommandProperty, value); }
+        }
+
+        public static readonly BindableProperty LeftMenuEnabledProperty = BindableProperty.Create(nameof(LeftMenuEnabled), typeof(bool), typeof(LagoVistaContentPage), false, BindingMode.TwoWay, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenuEnabled = (bool)newValue, null, null, (view) => { return false; });
+
+
+        public bool LeftMenuEnabled
         {
             get { return (bool)GetValue(MenuVisibleProperty); }
             set { SetValue(MenuVisibleProperty, value); }
         }
 
+        public static readonly BindableProperty RightMenuEnabledProperty = BindableProperty.Create(nameof(RightMenuEnabled), typeof(bool), typeof(LagoVistaContentPage), false, BindingMode.TwoWay, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).RightMenuEnabled = (bool)newValue, null, null, (view) => { return false; });
+
+        public bool RightMenuEnabled
+        {
+            get { return (bool)GetValue(RightMenuEnabledProperty); }
+            set { SetValue(RightMenuEnabledProperty, value); }
+        }
+
+
+        public static readonly BindableProperty LeftMenuCustomIconProperty = BindableProperty.Create(nameof(LeftMenuCustomIcon), typeof(string), typeof(LagoVistaContentPage), default(string), BindingMode.TwoWay, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenuCustomIcon = (string)newValue, null, null, (view) => { return false; });
+
+        public string LeftMenuCustomIcon
+        {
+            get { return (string)GetValue(LeftMenuCustomIconProperty); }
+            set { SetValue(LeftMenuCustomIconProperty, value); }
+        }
+
+
+        public static readonly BindableProperty RightMenuCustomIconProperty = BindableProperty.Create(nameof(RightMenuCustomIcon), typeof(string), typeof(LagoVistaContentPage), default(string), BindingMode.TwoWay, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).RightMenuCustomIcon = (string)newValue, null, null, (view) => { return false; });
+
+        public string RightMenuCustomIcon
+        {
+            get { return (string)GetValue(RightMenuCustomIconProperty); }
+            set { SetValue(RightMenuCustomIconProperty, value); }
+        }
+
+        public static readonly BindableProperty LeftMenuCustomTextProperty = BindableProperty.Create(nameof(LeftMenuCustomText), typeof(string), typeof(LagoVistaContentPage), default(string), BindingMode.TwoWay, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenuCustomText = (string)newValue, null, null, (view) => { return false; });
+
+        public string LeftMenuCustomText
+        {
+            get { return (string)GetValue(LeftMenuCustomTextProperty); }
+            set { SetValue(LeftMenuCustomTextProperty, value); }
+        }
+
+
+        public static readonly BindableProperty RightMenuCustomTextProperty = BindableProperty.Create(nameof(RightMenuCustomText), typeof(string), typeof(LagoVistaContentPage), default(string), BindingMode.TwoWay, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).RightMenuCustomText = (string)newValue, null, null, (view) => { return false; });
+
+        public string RightMenuCustomText
+        {
+            get { return (string)GetValue(RightMenuCustomTextProperty); }
+            set { SetValue(RightMenuCustomTextProperty, value); }
+        }
+
+
+        public static readonly BindableProperty LeftMenuProperty = BindableProperty.Create(nameof(LeftMenu), typeof(LeftMenuIcon), typeof(LagoVistaContentPage), LeftMenuIcon.None, BindingMode.TwoWay, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenu = (LeftMenuIcon)newValue, null, null, (view) => { return false; });
+
+        public LeftMenuIcon LeftMenu
+        {
+            get { return (LeftMenuIcon)GetValue(LeftMenuProperty); }
+            set
+            {
+                SetValue(LeftMenuProperty, value);
+
+                if (value != LeftMenuIcon.None)
+                {
+                    var iconStr = string.Empty;
+                    switch (value)
+                    {
+                        case LeftMenuIcon.Menu: iconStr = "fa-bars"; break;
+                        case LeftMenuIcon.Cancel: iconStr = "fa-bars"; break;
+                        case LeftMenuIcon.Back: iconStr = "fa-bars"; break;
+                        case LeftMenuIcon.CustomIcon: iconStr = LeftMenuCustomIcon; break;
+                    }
+
+                    var icon = Iconize.FindIconForKey(iconStr);
+
+                    switch (Device.RuntimePlatform)
+                    {
+                        case Device.UWP: _leftMenuButton.FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
+                        case Device.iOS: _leftMenuButton.FontFamily = Iconize.FindModuleOf(icon).FontName; break;
+                        case Device.Android: _leftMenuButton.FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
+                    }
+                    _leftMenuButton.Text = $"{icon.Character}";
+                    _leftMenuButton.IsVisible = true;
+                }
+            }
+        }
+
+        public static readonly BindableProperty RightMenuProperty = BindableProperty.Create(nameof(RightMenu), typeof(RightMenuIcon), typeof(LagoVistaContentPage), RightMenuIcon.None, BindingMode.TwoWay, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).RightMenu = (RightMenuIcon)newValue, null, null, (view) => { return false; });
+
+        public RightMenuIcon RightMenu
+        {
+            get { return (RightMenuIcon)GetValue(RightMenuProperty); }
+            set
+            {
+
+                SetValue(RightMenuProperty, value);
+                if (value != RightMenuIcon.None)
+                {
+                    var iconStr = string.Empty;
+                    switch (value)
+                    {
+                        case RightMenuIcon.Add: iconStr = "fa-plus"; break;
+                        case RightMenuIcon.Delete: iconStr = "fa-trash"; break;
+                        case RightMenuIcon.Save: iconStr = "fa-floppy-o"; break;
+                        case RightMenuIcon.Edit: iconStr = "fa-pencil"; break;
+                        case RightMenuIcon.CustomIcon: iconStr = RightMenuCustomIcon; break;
+                    }
+
+                    var icon = Iconize.FindIconForKey(iconStr);
+
+                    switch (Device.RuntimePlatform)
+                    {
+                        case Device.UWP: _rightMenuButton.FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
+                        case Device.iOS: _rightMenuButton.FontFamily = Iconize.FindModuleOf(icon).FontName; break;
+                        case Device.Android: _rightMenuButton.FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
+                    }
+                    _rightMenuButton.Text = $"{icon.Character}";
+                    _rightMenuButton.IsVisible = true;
+                }
+            }
+        }
+
+        public static readonly BindableProperty MenuItemsProperty = BindableProperty.Create(nameof(MenuItems), typeof(IEnumerable<LagoVista.Client.Core.ViewModels.MenuItem>), typeof(LagoVistaContentPage), default(IEnumerable<LagoVista.Client.Core.ViewModels.MenuItem>),
+            BindingMode.TwoWay, null, (view, oldValue, newValue) => (view as LagoVistaContentPage).MenuItems = (IEnumerable<LagoVista.Client.Core.ViewModels.MenuItem>)newValue, null, null, (view) => { return false; });
+
+        public IEnumerable<LagoVista.Client.Core.ViewModels.MenuItem> MenuItems
+        {
+            get { return (IEnumerable<LagoVista.Client.Core.ViewModels.MenuItem>)GetValue(MenuItemsProperty); }
+            set { SetValue(MenuItemsProperty, value); }
+        }
 
         protected async override void OnAppearing()
         {
