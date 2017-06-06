@@ -1,26 +1,13 @@
 ﻿using LagoVista.Client.Core;
-using LagoVista.Client.Core.Auth;
 using LagoVista.Client.Core.Models;
-using LagoVista.Client.Core.Net;
-using LagoVista.Core.Authentication.Interfaces;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
-using LagoVista.Core.Networking.Interfaces;
-using LagoVista.Core.PlatformSupport;
 using LagoVista.Core.ViewModels;
-using LagoVista.IoT.Simulator.Admin.Managers;
-using LagoVista.IoT.Simulator.Admin.Repos;
 using LagoVista.Simulator.Core.ViewModels;
 using LagoVista.Simulator.Core.ViewModels.Auth;
 using LagoVista.Simulator.Core.ViewModels.Messages;
 using LagoVista.Simulator.Core.ViewModels.Simulator;
 using LagoVista.XPlat.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 
 using Xamarin.Forms;
 
@@ -44,18 +31,10 @@ namespace LagoVista.Simulator
                 RootUrl = "dev-api.nuviot.com",
             };
 
-            Startup.Init();
+            LagoVista.Client.Core.Startup.Init(serverInfo);
+            LagoVista.XPlat.Core.Startup.Init(this);
 
-            SLWIOC.RegisterSingleton<ServerInfo>(serverInfo);
-            SLWIOC.RegisterSingleton<IAuthManager, AuthManager>();
-            SLWIOC.RegisterSingleton<ITokenManager, TokenManager>();
-            
-            var client = new HttpClient();
-            client.BaseAddress = serverInfo.BaseAddress;
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            SLWIOC.RegisterSingleton<HttpClient>(client);
-            
+            SLWIOC.RegisterSingleton<IAppConfig>(new AppConfig());
             var navigation = new ViewModelNavigation(this);
             navigation.Add<SplashViewModel, Views.SplashView>();
             navigation.Add<LoginViewModel, Views.Auth.Login>();
@@ -70,7 +49,6 @@ namespace LagoVista.Simulator
             navigation.Start<SplashViewModel>();
 
             SLWIOC.RegisterSingleton<IViewModelNavigation>(navigation);
-            SLWIOC.RegisterSingleton<IAuthClient>(new AuthClient());
         }
 
         protected override void OnStart()

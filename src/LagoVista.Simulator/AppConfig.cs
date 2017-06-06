@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LagoVista.Simulator.Windows.Utilities
+namespace LagoVista.Simulator
 {
     public class AppConfig : IAppConfig
     {

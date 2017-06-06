@@ -1,16 +1,6 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
-using LagoVista.Core.PlatformSupport;
-using LagoVista.Core.IOC;
-using LagoVista.XPlat.Droid.Services;
-using LagoVista.Core;
-using LagoVista.Client.Core.Loggers;
 
 namespace LagoVista.Simulator.Droid
 {
@@ -23,12 +13,7 @@ namespace LagoVista.Simulator.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             //https://play.google.com/apps/publish/?dev_acc=12258406958683843289
-
-            SLWIOC.Register<IStorageService>(new StorageService());
-            SLWIOC.Register<INetworkService>(new NetworkService());
-            SLWIOC.Register<IDeviceInfo>(new DeviceInfo());
-            SLWIOC.Register<ILogger>(new ClientLogger());
-            SLWIOC.Register<IDispatcherServices>(new DispatcherServices());
+            LagoVista.XPlat.Droid.Startup.Init(BaseContext);
 
             base.OnCreate(bundle);
 

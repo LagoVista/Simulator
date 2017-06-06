@@ -121,12 +121,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IconFonts\EntypoPlusModule.cs" />
+    <Compile Include="IconFonts\FontAwesomeModule.cs" />
+    <Compile Include="IconFonts\IconFontSupport.cs" />
+    <Compile Include="IconFonts\IoniconsModule.cs" />
+    <Compile Include="IconFonts\MaterialModule.cs" />
+    <Compile Include="IconFonts\MeteoconsModule.cs" />
+    <Compile Include="IconFonts\SimpleLineIconsModule.cs" />
+    <Compile Include="IconFonts\TypiconsModule.cs" />
+    <Compile Include="IconFonts\WeatherIconsModule.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DeviceInfo.cs" />
     <Compile Include="Services\DispatcherServices.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\StorageService.cs" />
+    <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

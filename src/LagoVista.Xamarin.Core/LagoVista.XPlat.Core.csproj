@@ -49,6 +49,20 @@
     <Compile Include="Controls\FormViewer.cs" />
     <Compile Include="Controls\Common\Label.cs" />
     <Compile Include="Extensions\ColorExtension.cs" />
+    <Compile Include="Icons\EntypoPlusCollection.cs" />
+    <Compile Include="Icons\Extensions.cs" />
+    <Compile Include="Icons\FontAwesomeCollection.cs" />
+    <Compile Include="Icons\Icon.cs" />
+    <Compile Include="Icons\Iconize.cs" />
+    <Compile Include="Icons\IconModule.cs" />
+    <Compile Include="Icons\IIcon.cs" />
+    <Compile Include="Icons\IIconModule.cs" />
+    <Compile Include="Icons\IoniconsCollection.cs" />
+    <Compile Include="Icons\MaterialCollection.cs" />
+    <Compile Include="Icons\MeteoconsCollection.cs" />
+    <Compile Include="Icons\SimpleLineIconsCollection.cs" />
+    <Compile Include="Icons\TypiconsCollection.cs" />
+    <Compile Include="Icons\WeatherIconsCollection.cs" />
     <Compile Include="Resources\XPlatResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -57,6 +71,7 @@
     <Compile Include="Services\DispatcherServices.cs" />
     <Compile Include="Services\StorageServiceBase.cs" />
     <Compile Include="Services\ViewModelNavigation.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="Views\ILagoVistaPage.cs" />
     <Compile Include="Views\LagoVistaContentPage.cs" />
     <Compile Include="Views\LagoVistaNavigationPage.cs" />
@@ -70,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icons\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>
