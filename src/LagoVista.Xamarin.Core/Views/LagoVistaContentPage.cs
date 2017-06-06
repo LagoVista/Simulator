@@ -3,7 +3,9 @@ using LagoVista.Core.IOC;
 using LagoVista.Core.Models.Drawing;
 using LagoVista.Core.ViewModels;
 using LagoVista.XPlat.Core.Controls.Common;
+using LagoVista.XPlat.Core.Icons;
 using LagoVista.XPlat.Core.Views;
+using System;
 using System.Diagnostics;
 using Xamarin.Forms;
 
@@ -28,6 +30,15 @@ namespace LagoVista.XPlat.Core
         {
             _activityIndicator = new ActivityIndicator() { IsRunning = false };
             _activityIndicator.Color = NamedColors.NuvIoTDark.ToXamFormsColor();
+            switch (Device.RuntimePlatform)
+            {
+
+                case Device.Android:
+                    _activityIndicator.WidthRequest = 64;
+                    _activityIndicator.HeightRequest = 64;
+                    break;
+            }
+
             _loadingContainer = new Grid() { IsVisible = false };
 
             _loadingMask = new Grid() { BackgroundColor = Xamarin.Forms.Color.Black, Opacity = 0.10 };
@@ -36,7 +47,7 @@ namespace LagoVista.XPlat.Core
             _loadingContainer.SetValue(Grid.RowProperty, 1);
 
             _contentGrid = new Grid();
-            _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = 50 });
+            _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = 48 });
             _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
 
             Content = _contentGrid;
@@ -61,18 +72,36 @@ namespace LagoVista.XPlat.Core
         private void AddToolBar()
         {
             var toolBar = new Grid();
+            toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(48) });
+            toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+            toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
             toolBar.BackgroundColor = AppStyle.TitleBarBackground.ToXamFormsColor();
 
             _title = new Label();
+            _title.SetValue(Grid.ColumnProperty, 1);
             _title.TextColor = AppStyle.TitleBarText.ToXamFormsColor();
-            _title.FontSize = 24;
+            _title.FontSize = 22;
             _title.VerticalOptions = new LayoutOptions(LayoutAlignment.Center,false);
-            _title.Margin = new Thickness(10, 0, 0, 0);
 
-            IconButton _icoBtn = new IconButton(); ;
-            _icoBtn.Text = "fa-500px";
+            IconButton _icoBtn = new IconButton(); 
+            var icon = Iconize.FindIconForKey("fa-bars");
+
+            switch(Device.RuntimePlatform)
+            {
+                case Device.UWP: _icoBtn.FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
+                case Device.iOS: _icoBtn.FontFamily = Iconize.FindModuleOf(icon).FontName; break;
+                case Device.Android: _icoBtn.FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
+            }
+
+            Debug.WriteLine(_icoBtn.FontFamily);
+
             _icoBtn.HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, false);
             _icoBtn.TextColor = Xamarin.Forms.Color.White;
+            _icoBtn.WidthRequest = 48;
+            _icoBtn.HeightRequest = 48;
+            _icoBtn.FontSize = 22;
+            _icoBtn.Text = $"{icon.Character}";
+
             toolBar.Children.Add(_title);
             toolBar.Children.Add(_icoBtn);
             _contentGrid.Children.Add(toolBar);

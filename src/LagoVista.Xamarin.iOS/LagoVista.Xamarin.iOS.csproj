@@ -84,81 +84,107 @@
   <ItemGroup>
     <None Include="packages.config" />
     <BundleResource Include="Resources\Fonts\iconize-entypoplus.ttf">
+      <Link>Resources\iconize-entypoplus.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\iconize-fontawesome.ttf">
+      <Link>Resources\iconize-fontawesome.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\iconize-ionicons.ttf">
+      <Link>Resources\iconize-ionicons.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\iconize-material.ttf">
+      <Link>Resources\iconize-material.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\iconize-meteocons.ttf">
+      <Link>Resources\iconize-meteocons.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\iconize-simplelineicons.ttf">
+      <Link>Resources\iconize-simplelineicons.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\iconize-typicons.ttf">
+      <Link>Resources\iconize-typicons.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\iconize-weathericons.ttf">
+      <Link>Resources\iconize-weathericons.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\Roboto-Black.ttf">
+      <Link>Resources\Roboto-Black.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\Roboto-BlackItalic.ttf">
+      <Link>Resources\Roboto-BlackItalic.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\Roboto-Bold.ttf">
+      <Link>Resources\Roboto-Bold.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\Roboto-BoldItalic.ttf">
+      <Link>Resources\Roboto-BoldItalic.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\Roboto-Italic.ttf">
+      <Link>Resources\Roboto-Italic.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\Roboto-Light.ttf">
+      <Link>Resources\Roboto-Light.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\Roboto-LightItalic.ttf">
+      <Link>Resources\Roboto-LightItalic.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\Roboto-Medium.ttf">
+      <Link>Resources\Roboto-Medium.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\Roboto-MediumItalic.ttf">
+      <Link>Resources\Roboto-MediumItalic.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\Roboto-Regular.ttf">
+      <Link>Resources\Roboto-Regular.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\Roboto-Thin.ttf">
+      <Link>Resources\Roboto-Thin.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\Roboto-ThinItalic.ttf">
+      <Link>Resources\Roboto-ThinItalic.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\RobotoCondensed-Bold.ttf">
+      <Link>Resources\RobotoCondensed-Bold.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\RobotoCondensed-BoldItalic.ttf">
+      <Link>Resources\RobotoCondensed-BoldItalic.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\RobotoCondensed-Italic.ttf">
+      <Link>Resources\RobotoCondensed-Italic.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\RobotoCondensed-Light.ttf">
+      <Link>Resources\RobotoCondensed-Light.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\RobotoCondensed-LightItalic.ttf">
+      <Link>Resources\RobotoCondensed-LightItalic.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\Fonts\RobotoCondensed-Regular.ttf">
+      <Link>Resources\RobotoCondensed-Regular.ttf</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
   </ItemGroup>

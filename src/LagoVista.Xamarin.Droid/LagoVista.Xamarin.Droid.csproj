@@ -141,32 +141,84 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
-    <AndroidAsset Include="Resources\Fonts\iconize-entypoplus.ttf" />
-    <AndroidAsset Include="Resources\Fonts\iconize-fontawesome.ttf" />
-    <AndroidAsset Include="Resources\Fonts\iconize-ionicons.ttf" />
-    <AndroidAsset Include="Resources\Fonts\iconize-material.ttf" />
-    <AndroidAsset Include="Resources\Fonts\iconize-meteocons.ttf" />
-    <AndroidAsset Include="Resources\Fonts\iconize-simplelineicons.ttf" />
-    <AndroidAsset Include="Resources\Fonts\iconize-typicons.ttf" />
-    <AndroidAsset Include="Resources\Fonts\iconize-weathericons.ttf" />
-    <AndroidAsset Include="Resources\Fonts\Roboto-Black.ttf" />
-    <AndroidAsset Include="Resources\Fonts\Roboto-BlackItalic.ttf" />
-    <AndroidAsset Include="Resources\Fonts\Roboto-Bold.ttf" />
-    <AndroidAsset Include="Resources\Fonts\Roboto-BoldItalic.ttf" />
-    <AndroidAsset Include="Resources\Fonts\Roboto-Italic.ttf" />
-    <AndroidAsset Include="Resources\Fonts\Roboto-Light.ttf" />
-    <AndroidAsset Include="Resources\Fonts\Roboto-LightItalic.ttf" />
-    <AndroidAsset Include="Resources\Fonts\Roboto-Medium.ttf" />
-    <AndroidAsset Include="Resources\Fonts\Roboto-MediumItalic.ttf" />
-    <AndroidAsset Include="Resources\Fonts\Roboto-Regular.ttf" />
-    <AndroidAsset Include="Resources\Fonts\Roboto-Thin.ttf" />
-    <AndroidAsset Include="Resources\Fonts\Roboto-ThinItalic.ttf" />
-    <AndroidAsset Include="Resources\Fonts\RobotoCondensed-Bold.ttf" />
-    <AndroidAsset Include="Resources\Fonts\RobotoCondensed-BoldItalic.ttf" />
-    <AndroidAsset Include="Resources\Fonts\RobotoCondensed-Italic.ttf" />
-    <AndroidAsset Include="Resources\Fonts\RobotoCondensed-Light.ttf" />
-    <AndroidAsset Include="Resources\Fonts\RobotoCondensed-LightItalic.ttf" />
-    <AndroidAsset Include="Resources\Fonts\RobotoCondensed-Regular.ttf" />
+    <AndroidAsset Include="Resources\Fonts\iconize-entypoplus.ttf" >
+      <Link>Assets\Iconize\iconize-entypoplus.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\iconize-fontawesome.ttf" >
+      <Link>Assets\Iconize\iconize-fontawesome.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\iconize-ionicons.ttf" >
+      <Link>Assets\Iconize\iconize-ionicons.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\iconize-material.ttf" >
+      <Link>Assets\Iconize\iconize-material.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\iconize-meteocons.ttf"  >
+      <Link>Assets\Iconize\iconize-meteocons.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\iconize-simplelineicons.ttf" >
+      <Link>Assets\Iconize\iconize-simplelineicons.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\iconize-typicons.ttf"  >
+      <Link>Assets\Iconize\iconize-typicons.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\iconize-weathericons.ttf" >
+      <Link>Assets\Iconize\iconize-weathericons.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\Roboto-Black.ttf"  >
+      <Link>Assets\Iconize\Roboto-Black.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\Roboto-BlackItalic.ttf"  >
+      <Link>Assets\Iconize\Roboto-BlackItalic.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\Roboto-Bold.ttf"  >
+      <Link>Assets\Iconize\Roboto-Bold.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\Roboto-BoldItalic.ttf"  >
+      <Link>Assets\Iconize\Roboto-BoldItalic.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\Roboto-Italic.ttf"  >
+      <Link>Assets\Iconize\Roboto-Italic.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\Roboto-Light.ttf"  >
+      <Link>Assets\Iconize\Roboto-Light.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\Roboto-LightItalic.ttf"  >
+      <Link>Assets\Iconize\Roboto-LightItalic.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\Roboto-Medium.ttf"  >
+      <Link>Assets\Iconize\Roboto-Medium.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\Roboto-MediumItalic.ttf"  >
+      <Link>Assets\Iconize\Roboto-MediumItalic.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\Roboto-Regular.ttf"  >
+      <Link>Assets\Iconize\Roboto-Regular.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\Roboto-Thin.ttf"  >
+      <Link>Assets\Iconize\Roboto-Thin.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\Roboto-ThinItalic.ttf"  >
+      <Link>Assets\Iconize\Roboto-ThinItalic.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\RobotoCondensed-Bold.ttf"  >
+      <Link>Assets\Iconize\RobotoCondensed-Bold.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\RobotoCondensed-BoldItalic.ttf"  >
+      <Link>Assets\Iconize\RobotoCondensed-BoldItalic.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\RobotoCondensed-Italic.ttf"  >
+      <Link>Assets\Iconize\RobotoCondensed-Italic.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\RobotoCondensed-Light.ttf"  >
+      <Link>Assets\Iconize\RobotoCondensed-Light.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\RobotoCondensed-LightItalic.ttf"  >
+      <Link>Assets\Iconize\RobotoCondensed-LightItalic.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="Resources\Fonts\RobotoCondensed-Regular.ttf"  >
+      <Link>Assets\Iconize\RobotoCondensed-Regular.ttf</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />

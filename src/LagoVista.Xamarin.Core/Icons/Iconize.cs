@@ -2,6 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 
+
+/*
+    Adpated From 
+    https://github.com/jsmarcus/Xamarin.Plugins
+
+    Integrated here to limit dependencies 
+    
+    http://us.fontviewer.de/Download/
+
+*/
+
 namespace LagoVista.XPlat.Core.Icons
 {
     /// <summary>

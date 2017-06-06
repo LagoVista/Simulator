@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LagoVista.Core.Interfaces;
+using LagoVista.Core.IOC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,14 @@ namespace LagoVista.XPlat.Core.Controls.Common
     /// <seealso cref="Xamarin.Forms.Button" />
     public class IconButton : Button
     {
+        public IconButton()
+        {
+            BackgroundColor = Xamarin.Forms.Color.Transparent;
+            TextColor = AppStyle.TitleBarText.ToXamFormsColor();
+        }
+
+        private IAppStyle AppStyle { get { return SLWIOC.Get<IAppStyle>(); } }
+
         // Intentionally left blank
 
     }

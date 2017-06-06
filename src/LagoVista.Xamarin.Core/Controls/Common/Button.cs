@@ -23,9 +23,7 @@ namespace LagoVista.XPlat.Core
             get { return base.Command; }
              set { base.Command = value; }
         }
-
         
-
         private IAppStyle AppStyle { get { return SLWIOC.Get<IAppStyle>(); } }
     }
 }
