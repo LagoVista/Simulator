@@ -49,12 +49,6 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FormsPlugin.Iconize, Version=1.5.0.13, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xam.FormsPlugin.Iconize.1.5.0.13-beta\lib\MonoAndroid10\FormsPlugin.Iconize.dll</HintPath>
-    </Reference>
-    <Reference Include="FormsPlugin.Iconize.Droid, Version=1.5.0.13, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xam.FormsPlugin.Iconize.1.5.0.13-beta\lib\MonoAndroid10\FormsPlugin.Iconize.Droid.dll</HintPath>
-    </Reference>
     <Reference Include="FormsViewGroup, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.3.5.239-pre3\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
     </Reference>
@@ -81,9 +75,6 @@
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.Iconize, Version=2.0.0.24, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xam.Plugin.Iconize.2.0.0.24-beta\lib\MonoAndroid10\Plugin.Iconize.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

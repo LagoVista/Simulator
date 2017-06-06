@@ -26,6 +26,8 @@ namespace LagoVista.Simulator.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::LagoVista.XPlat.Droid.Resource.Id.transition_current_scene = global::LagoVista.Simulator.Droid.Resource.Id.transition_current_scene;
+			global::LagoVista.XPlat.Droid.Resource.Id.transition_scene_layoutid_cache = global::LagoVista.Simulator.Droid.Resource.Id.transition_scene_layoutid_cache;
 			global::LagoVista.XPlat.Droid.Resource.String.ApplicationName = global::LagoVista.Simulator.Droid.Resource.String.ApplicationName;
 			global::LagoVista.XPlat.Droid.Resource.String.Hello = global::LagoVista.Simulator.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::LagoVista.Simulator.Droid.Resource.Attribute.actionBarSize;

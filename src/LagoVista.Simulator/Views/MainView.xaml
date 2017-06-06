@@ -6,12 +6,12 @@
              x:Class="LagoVista.Simulator.Views.MainView"
              MenuVisible ="{Binding MenuVisible}"
              Title="NuvIoT Simulator">
-    <pge:LagoVistaContentPage.ToolbarItems>
+<!--  <pge:LagoVistaContentPage.ToolbarItems>
         <ToolbarItem Icon="add.png" Text="add" Command="{Binding AddNewSimulatorCommand}" />
         <ToolbarItem Icon="settings.png" Text="settings" Command="{Binding SettingsCommand}" />
         <ToolbarItem Icon="exit.png" Text="logout" Command="{Binding LogoutCommand}" />
     </pge:LagoVistaContentPage.ToolbarItems>
-
+-->
     <pge:LagoVistaContentPage.MainContent>
         <ListView ItemsSource="{Binding Simulators}" SelectedItem="{Binding SelectedSimulator}" >
             <ListView.ItemTemplate>

@@ -17,7 +17,6 @@ namespace LagoVista.XPlat.Core.Views
             BarTextColor = AppStyle.TitleBarText.ToXamFormsColor();
             BackgroundColor = AppStyle.PageBackground.ToXamFormsColor();
 
-            
         }
 
 

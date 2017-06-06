@@ -47,8 +47,7 @@ namespace LagoVista.Simulator.Windows
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
-            Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeModule());
-
+           
 
 
             /*                     .With(new Plugin.Iconize.Fonts.IoniconsModule())
@@ -121,7 +120,7 @@ namespace LagoVista.Simulator.Windows
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            var deferral = e.SuspendingOperation.GetDeferral();
+            var deferral = e.SuspendingOperation.GetDeferral();                                          
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }

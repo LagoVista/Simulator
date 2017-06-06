@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Controls\Common\Button.cs" />
     <Compile Include="Controls\Common\Entry.cs" />
+    <Compile Include="Controls\Common\IconButton.cs" />
     <Compile Include="Controls\FormControls\CheckboxRow.cs" />
     <Compile Include="Controls\FormControls\ChildListRow.cs" />
     <Compile Include="Controls\FormControls\EntityHeaderPicker.cs" />

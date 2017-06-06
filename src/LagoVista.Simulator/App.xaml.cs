@@ -32,10 +32,6 @@ namespace LagoVista.Simulator
         {
             InitializeComponent();
 
-            foreach (var module in Plugin.Iconize.Iconize.Modules)
-            {
-                var name = module.FontName;
-            }
 
            InitServices();
         }

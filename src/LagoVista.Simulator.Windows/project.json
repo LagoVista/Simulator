@@ -3,16 +3,7 @@
     "LagoVista.Core": "0.8.186-alpha1032",
     "LagoVista.Core.Networking": "0.8.186-alpha1032",
     "LagoVista.IoT.DeviceAdmin": "0.8.186-alpha1032",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
-    "Xam.Plugin.Iconize": "2.0.0.24-beta",
-    "Xam.Plugin.Iconize.EntypoPlus": "2.0.0.24-beta",
-    "Xam.Plugin.Iconize.FontAwesome": "2.0.0.24-beta",
-    "Xam.Plugin.Iconize.Ionicons": "2.0.0.24-beta",
-    "Xam.Plugin.Iconize.Material": "2.0.0.24-beta",
-    "Xam.Plugin.Iconize.Meteocons": "2.0.0.24-beta",
-    "Xam.Plugin.Iconize.SimpleLineIcons": "2.0.0.24-beta",
-    "Xam.Plugin.Iconize.Typicons": "2.0.0.24-beta",
-    "Xam.Plugin.Iconize.WeatherIcons": "2.0.0.24-beta"
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3"
   },
   "frameworks": {
     "uap10.0": {}
