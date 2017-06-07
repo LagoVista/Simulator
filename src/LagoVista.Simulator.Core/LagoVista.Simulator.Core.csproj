@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="0.8.186-alpha1032" />
-    <PackageReference Include="LagoVista.Core.Authentication" Version="0.8.186-alpha1032" />
-    <PackageReference Include="LagoVista.Core.Networking" Version="0.8.186-alpha1032" />
-    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="0.8.186-alpha1032" />
-    <PackageReference Include="LagoVista.IoT.Simulator.Admin" Version="0.8.186-alpha1032" />
+    <PackageReference Include="LagoVista.Core" Version="0.8.188-alpha1556" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="0.8.188-alpha1556" />
+    <PackageReference Include="LagoVista.Core.Networking" Version="0.8.188-alpha1556" />
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="0.8.188-alpha1556" />
+    <PackageReference Include="LagoVista.IoT.Simulator.Admin" Version="0.8.188-alpha1556" />
   </ItemGroup>
 
   <ItemGroup>

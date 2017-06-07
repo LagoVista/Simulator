@@ -13,7 +13,7 @@ namespace LagoVista.XPlat.Droid.IconFonts
         /// Initializes a new instance of the <see cref="TypiconsModule" /> class.
         /// </summary>
         public TypiconsModule()
-            : base("Typicons", "Typicons", "Iconize/iconize-typicons.ttf", TypiconsCollection.Icons)
+            : base("Typicons", "Typicons", "Resources/Fonts/iconize-typicons.ttf", TypiconsCollection.Icons)
         {
             // Intentionally left blank
         }

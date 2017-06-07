@@ -7,7 +7,7 @@ namespace LagoVista.Client.Core.Net
 {
     public class TokenManager : ITokenManager
     {
-        public Task<bool> ValidateTokenAsync(IAuthManager authManager, CancellationTokenSource cancellationTokenSource)
+        public Task<bool> ValidateTokenAsync(IAuthManager authManager, CancellationTokenSource cancellationTokenSource = null)
         {
             return Task.FromResult(true);
         }

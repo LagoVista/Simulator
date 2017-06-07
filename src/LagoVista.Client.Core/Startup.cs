@@ -7,6 +7,7 @@ using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
 using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.PlatformSupport;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
@@ -19,19 +20,17 @@ namespace LagoVista.Client.Core
             SLWIOC.RegisterSingleton<IAppStyle>(new AppStyle());
             SLWIOC.RegisterSingleton<ILogger>(new Loggers.MobileCenterLogger());
 
-
             SLWIOC.RegisterSingleton<ServerInfo>(serverInfo);
-            SLWIOC.RegisterSingleton<IAuthManager, AuthManager>();
+            SLWIOC.RegisterSingleton<IAuthClient>(new AuthClient());            
             SLWIOC.RegisterSingleton<ITokenManager, TokenManager>();
-            SLWIOC.RegisterSingleton<IAuthClient>(new AuthClient());
-
+            SLWIOC.RegisterSingleton<IAuthManager, AuthManager>();
 
             var client = new HttpClient();
             client.BaseAddress = serverInfo.BaseAddress;
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            SLWIOC.RegisterSingleton<HttpClient>(client);
 
+            SLWIOC.RegisterSingleton<HttpClient>(client);
         }
     }
 }

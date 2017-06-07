@@ -1,5 +1,7 @@
 ﻿using LagoVista.Client.Core;
+using LagoVista.Client.Core.Auth;
 using LagoVista.Client.Core.Models;
+using LagoVista.Client.Core.Net;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
 using LagoVista.Core.ViewModels;
@@ -8,6 +10,7 @@ using LagoVista.Simulator.Core.ViewModels.Auth;
 using LagoVista.Simulator.Core.ViewModels.Messages;
 using LagoVista.Simulator.Core.ViewModels.Simulator;
 using LagoVista.XPlat.Core.Services;
+using System.Reflection;
 
 using Xamarin.Forms;
 
