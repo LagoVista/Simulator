@@ -10,5 +10,7 @@ namespace LagoVista.Client.Core.ViewModels
         public String Name { get; set; }
 
         public ICommand Command { get; set; }
+
+        public object CommandParameter { get; set; }
     }
 }

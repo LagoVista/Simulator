@@ -17,22 +17,6 @@ namespace LagoVista.Xamarin.UWP.CustomRenderers
         protected override void OnElementChanged(ElementChangedEventArgs<Button> e)
         {
             base.OnElementChanged(e);
-
-            if(Control != null)
-            {
-                var style = new Style(typeof(Button))
-                {
-
-                };
-                style.Setters.Add(
-                    new Setter()
-                    {
-                        Property = U"Template",
-                    });
-
-
-                Control.Content.
-            }
         }
     }
 }

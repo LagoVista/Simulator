@@ -1,4 +1,5 @@
-﻿using LagoVista.Core.ViewModels;
+﻿using LagoVista.Core.Commanding;
+using LagoVista.Core.ViewModels;
 using System.Collections.Generic;
 
 namespace LagoVista.Client.Core.ViewModels
@@ -27,6 +28,12 @@ namespace LagoVista.Client.Core.ViewModels
 
     public abstract class XPlatViewModel : ViewModelBase
     {
+        public XPlatViewModel()
+        {
+            SaveCommand = new RelayCommand(SaveAsync, CanSave);
+            EditCommand = new RelayCommand(Edit);
+        }
+
         RightMenuIcon _rightMenuIcon;
         public RightMenuIcon RightMenuIcon
         {
@@ -54,5 +61,31 @@ namespace LagoVista.Client.Core.ViewModels
             get { return _menuItems; }
             set { Set(ref _menuItems, value); }
         }
+
+        public virtual void Edit()
+        {
+
+        }
+
+        public virtual void SaveAsync()
+        {
+
+        }
+
+        public virtual bool CanSave()
+        {
+            return true;
+        }
+
+        public virtual bool CanCancel()
+        {
+            return true;
+        }
+       
+
+        public RelayCommand SaveCommand { get; private set; }
+
+        public RelayCommand EditCommand { get; private set; }
+
     }
 }

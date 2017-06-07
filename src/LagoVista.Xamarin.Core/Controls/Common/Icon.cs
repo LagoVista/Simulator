@@ -1,25 +1,21 @@
-﻿using LagoVista.Core.Interfaces;
-using LagoVista.Core.IOC;
-using LagoVista.XPlat.Core.Icons;
+﻿using LagoVista.XPlat.Core.Icons;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LagoVista.XPlat.Core.Controls.Common
 {
-    /// <summary>
-    /// Defines the <see cref="IconButton" /> control.
-    /// </summary>
-    /// <seealso cref="Xamarin.Forms.Button" />
-    public class IconButton : Button
+    public class Icon : Label
     {
-        public IconButton()
+        public Icon()
         {
-            BackgroundColor = Xamarin.Forms.Color.Transparent;
-            TextColor = AppStyle.TitleBarText.ToXamFormsColor();
+
         }
 
-        private IAppStyle AppStyle { get { return SLWIOC.Get<IAppStyle>(); } }
-
-        public static BindableProperty IconKeyProperty = BindableProperty.Create(nameof(IconKey), typeof(string), typeof(IconButton), default(string), BindingMode.Default, null,
+        public static BindableProperty IconKeyProperty = BindableProperty.Create(nameof(IconKey), typeof(string), typeof(Icon), default(string), BindingMode.Default, null,
             (view, oldValue, newValue) => (view as Icon).IconKey = (string)newValue);
 
         public string IconKey
@@ -29,7 +25,10 @@ namespace LagoVista.XPlat.Core.Controls.Common
             {
                 SetValue(Icon.IconKeyProperty, value);
                 var icon = Iconize.FindIconForKey(value);
-
+                if(icon == null)
+                {
+                    throw new Exception("Could not find icon for: " + value);
+                }
                 switch (Device.RuntimePlatform)
                 {
                     case Device.UWP: FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;

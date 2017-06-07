@@ -38,7 +38,10 @@
   <ItemGroup>
     <Compile Include="Controls\Common\Button.cs" />
     <Compile Include="Controls\Common\Entry.cs" />
+    <Compile Include="Controls\Common\Icon.cs" />
     <Compile Include="Controls\Common\IconButton.cs" />
+    <Compile Include="Controls\Common\SideMenu.cs" />
+    <Compile Include="Controls\Common\SideMenuItem.cs" />
     <Compile Include="Controls\FormControls\CheckboxRow.cs" />
     <Compile Include="Controls\FormControls\ChildListRow.cs" />
     <Compile Include="Controls\FormControls\EntityHeaderPicker.cs" />
@@ -72,7 +75,6 @@
     <Compile Include="Services\StorageServiceBase.cs" />
     <Compile Include="Services\ViewModelNavigation.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Triggers\IconButtonTriggers.cs" />
     <Compile Include="Views\ILagoVistaPage.cs" />
     <Compile Include="Views\LagoVistaContentPage.cs" />
     <Compile Include="Views\LagoVistaNavigationPage.cs" />

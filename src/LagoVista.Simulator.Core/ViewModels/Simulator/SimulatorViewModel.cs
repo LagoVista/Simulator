@@ -20,7 +20,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
         public SimulatorViewModel()
         {
-            EditSimulatorCommand = new RelayCommand(EditSimulator);
             ConnectCommand = new RelayCommand(Connect, CanConnect);
             DisconnectCommand = new RelayCommand(Disconnect, CanDisconnect);
 
@@ -128,6 +127,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
            });
         }
 
+        public override void Edit()
+        {
+            EditSimulator();
+        }
+
         public override Task InitAsync()
         {
             return LoadSimulator();
@@ -178,7 +182,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 RaisePropertyChanged();
             }
         }
-
-        public RelayCommand EditSimulatorCommand { get; private set; }
+      
     }
 }

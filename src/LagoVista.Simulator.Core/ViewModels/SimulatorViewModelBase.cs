@@ -47,13 +47,7 @@ namespace LagoVista.Simulator.Core.ViewModels
             set { Set(ref _model, value); }
         }
 
-
-        private bool _menuVisible = false;
-        public bool MenuVisible
-        {
-            get { return _menuVisible; }
-            set { Set(ref _menuVisible, value); }
-        }
+        
     }
 
     public class SimulatorViewModelBase<TModel> : SimulatorViewModelBase where TModel : new()
@@ -63,20 +57,8 @@ namespace LagoVista.Simulator.Core.ViewModels
         public SimulatorViewModelBase()
         {
             _restClient = new RestClient<TModel>(HttpClient, AuthManager, TokenManager, Logger, NetworkService);
-            SaveCommand = new RelayCommand(SaveAsync, CanSave);
         }
 
-        public virtual void SaveAsync()
-        {
-
-        }
-
-        public virtual bool CanSave()
-        {
-            return true;
-        }
-
-        public RelayCommand SaveCommand { get; private set; }
 
         public IRestClient<TModel> RestClient { get { return _restClient; } }
 
@@ -218,12 +200,6 @@ namespace LagoVista.Simulator.Core.ViewModels
             }
         }
 
-        private bool _menuVisible;
-        public bool MenuVisible
-        {
-            get { return _menuVisible; }
-            set { Set(ref _menuVisible, value); }
-        }
 
         public bool IsEdit
         {

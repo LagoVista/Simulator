@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using LagoVista.Client.Core.Resources;
 using LagoVista.Simulator.Core.ViewModels.Simulator;
 using LagoVista.Simulator.Core.ViewModels.Auth;
+using System.Collections.Generic;
+using LagoVista.Client.Core.ViewModels;
 
 namespace LagoVista.Simulator.Core.ViewModels
 {
@@ -16,6 +18,16 @@ namespace LagoVista.Simulator.Core.ViewModels
             AddNewSimulatorCommand = new RelayCommand(AddNewSimulator);
             LogoutCommand = new RelayCommand(Logout);
             SettingsCommand = new RelayCommand(ToggleSettings);
+
+            MenuItems = new List<MenuItem>()
+            {
+                new MenuItem()
+                {
+                    Command = LogoutCommand,
+                    Name = "Logout",
+                    FontIconKey = "fa-sign-out"
+                }
+            };
         }
 
         public void AddNewSimulator()

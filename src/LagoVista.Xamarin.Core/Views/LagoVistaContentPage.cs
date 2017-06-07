@@ -19,7 +19,7 @@ namespace LagoVista.XPlat.Core
         Grid _contentGrid;
         Grid _loadingMask;
         Grid _loadingContainer;
-        Grid _menu;
+        SideMenu _menu;
         Grid _pageMenuMask;
         Label _title;
         ActivityIndicator _activityIndicator;
@@ -49,8 +49,6 @@ namespace LagoVista.XPlat.Core
              * 
              */
 
-            this.BackgroundColor = Xamarin.Forms.Color.Yellow; 
-
             CreateActivityIndicator();
             CreateMenu();
             AddToolBar();
@@ -61,6 +59,8 @@ namespace LagoVista.XPlat.Core
         private void AddBindings()
         {
             this.SetBinding(LagoVistaContentPage.MenuVisibleProperty, nameof(ViewModel.MenuVisible));
+            this.SetBinding(LagoVistaContentPage.SaveCommandProperty, nameof(ViewModel.SaveCommand));
+            this.SetBinding(LagoVistaContentPage.MenuItemsProperty, nameof(ViewModel.MenuItems));
         }
 
         private void CreateActivityIndicator()
@@ -86,7 +86,7 @@ namespace LagoVista.XPlat.Core
 
         private void CreateMenu()
         {
-            _menu = new Grid();
+            _menu = new SideMenu();
             _menu.TranslationX = -MENU_WIDTH;
             _menu.BackgroundColor = AppStyle.MenuBarBackground.ToXamFormsColor();
             _menu.WidthRequest = MENU_WIDTH;
@@ -225,6 +225,10 @@ namespace LagoVista.XPlat.Core
             set
             {
                 BindingContext = value;
+                if (value != null && value.MenuItems != null)
+                {
+                    _menu.MenuItems = value.MenuItems;
+                }
                 value.PropertyChanged += Value_PropertyChanged;
             }
         }
