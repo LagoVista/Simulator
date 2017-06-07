@@ -71,6 +71,8 @@ namespace LagoVista.XPlat.Core
             _activityIndicator = new ActivityIndicator() { IsRunning = false };
             _activityIndicator.Color = NamedColors.NuvIoTDark.ToXamFormsColor();
             _activityIndicator.Color = Xamarin.Forms.Color.White;
+            _activityIndicator.HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, false);
+            _activityIndicator.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
             switch (Device.RuntimePlatform)
             {
 
