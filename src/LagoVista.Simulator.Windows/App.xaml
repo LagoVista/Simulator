@@ -5,4 +5,8 @@
     xmlns:local="using:LagoVista.Simulator.Windows"
     RequestedTheme="Light">
 
+    <Application.Resources>
+        <SolidColorBrush x:Key="SystemControlHighlightBaseHighBrush" Color="White"/>
+     </Application.Resources>
+
 </Application>

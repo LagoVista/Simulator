@@ -19,9 +19,6 @@ namespace LagoVista.XPlat.Core.Views
 
         }
 
-
-//        https://wolfprogrammer.com/2016/07/07/custom-app-header-in-forms/
-
         private IAppStyle AppStyle { get { return SLWIOC.Get<IAppStyle>(); } }
     }
 }

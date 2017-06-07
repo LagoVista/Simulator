@@ -1,5 +1,6 @@
 ﻿using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
+using LagoVista.XPlat.Core.Triggers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace LagoVista.XPlat.Core.Controls.Common
         {
             BackgroundColor = Xamarin.Forms.Color.Transparent;
             TextColor = AppStyle.TitleBarText.ToXamFormsColor();
+
+            Behaviors.Add(new IconBehavior());
         }
 
         private IAppStyle AppStyle { get { return SLWIOC.Get<IAppStyle>(); } }

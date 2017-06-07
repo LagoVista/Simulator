@@ -5,9 +5,10 @@
              xmlns:iconize="clr-namespace:FormsPlugin.Iconize;assembly=FormsPlugin.Iconize"
              x:Class="LagoVista.Simulator.Views.MainView"
              LeftMenu="Menu" RightMenu="Add"
+             AddCommand ="{Binding AddNewSimulatorCommand}"
              Title="NuvIoT Simulator">
 
-    <pge:LagoVistaContentPage.MainContent>
+    <pge:LagoVistaContentPage.MainContent >
         <ListView ItemsSource="{Binding Simulators}" SelectedItem="{Binding SelectedSimulator}" RowHeight="64" >
             <ListView.ItemTemplate>
                 <DataTemplate>

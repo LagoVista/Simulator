@@ -31,6 +31,8 @@ namespace LagoVista.XPlat.Core
 
         bool _hasAppeared = false;
 
+        const int MENU_WIDTH = 300;
+
         public LagoVistaContentPage() : base()
         {
             NavigationPage.SetHasNavigationBar(this, false);
@@ -46,6 +48,8 @@ namespace LagoVista.XPlat.Core
              * You can add any content to that node, just as you would to the primary content node of the page.
              * 
              */
+
+            this.BackgroundColor = Xamarin.Forms.Color.Yellow; 
 
             CreateActivityIndicator();
             CreateMenu();
@@ -74,7 +78,7 @@ namespace LagoVista.XPlat.Core
 
             _loadingContainer = new Grid() { IsVisible = false };
 
-            _loadingMask = new Grid() { BackgroundColor = Xamarin.Forms.Color.Black, Opacity = 0.10 };
+            _loadingMask = new Grid() { BackgroundColor = Xamarin.Forms.Color.Red, Opacity = 0.10 };
             _loadingContainer.Children.Add(_loadingMask);
             _loadingContainer.Children.Add(_activityIndicator);
             _loadingContainer.SetValue(Grid.RowProperty, 1);
@@ -83,21 +87,21 @@ namespace LagoVista.XPlat.Core
         private void CreateMenu()
         {
             _menu = new Grid();
-            _menu.TranslationX = -300;
+            _menu.TranslationX = -MENU_WIDTH;
             _menu.BackgroundColor = AppStyle.MenuBarBackground.ToXamFormsColor();
-            _menu.WidthRequest = 300;
+            _menu.WidthRequest = MENU_WIDTH;
             _menu.HorizontalOptions = LayoutOptions.Start;
             _menu.SetValue(Grid.RowProperty, 1);
 
-            _pageMenuMask = new Grid();
+            _pageMenuMask = new Grid() { BackgroundColor = Xamarin.Forms.Color.Black, Opacity = 0.25 };
             _pageMenuMask.SetValue(Grid.RowProperty, 1);
             _pageMenuMask.IsVisible = false;
-            _pageMenuMask = new Grid() { BackgroundColor = Xamarin.Forms.Color.Black, Opacity = 0.25 };
         }
 
         private void AddToolBar()
         {
             _toolBar = new Grid();
+            _toolBar.HeightRequest = 64;
             _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(48) });
             _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
             _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
@@ -199,15 +203,19 @@ namespace LagoVista.XPlat.Core
                 _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = 48 });
                 _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
 
+
+                _contentGrid.BackgroundColor = AppStyle.TitleBarBackground.ToXamFormsColor();
+
                 Content = _contentGrid;
 
                 _mainContent = value;
+                _mainContent.BackgroundColor = AppStyle.PageBackground.ToXamFormsColor() ;
                 _mainContent.SetValue(Grid.RowProperty, 1);
-                _contentGrid.Children.Add(_toolBar);
                 _contentGrid.Children.Add(_mainContent);
                 _contentGrid.Children.Add(_pageMenuMask);
                 _contentGrid.Children.Add(_menu);
                 _contentGrid.Children.Add(_loadingContainer);
+                _contentGrid.Children.Add(_toolBar);
             }
         }
 
@@ -223,15 +231,7 @@ namespace LagoVista.XPlat.Core
 
         private void ToggleMenu(bool newMenuState)
         {
-            if (newMenuState)
-            {
-                _menu.TranslateTo(0, 0, 250, Easing.CubicInOut);
-            }
-            else
-            {
-                _menu.TranslateTo(-300, 0, 250, Easing.CubicInOut);
-            }
-
+            _menu.TranslateTo(newMenuState ? 0 : -MENU_WIDTH, 0, 250, Easing.CubicInOut);
             _pageMenuMask.IsVisible = (bool)newMenuState;
         }
 
