@@ -18,11 +18,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Auth
             _authClient = authClient;
         }
 
-        public override Task InitAsync()
-        {
-            return base.InitAsync();
-        }
-
 
         public async void Login()
         {

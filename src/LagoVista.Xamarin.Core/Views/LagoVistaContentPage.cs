@@ -232,14 +232,23 @@ namespace LagoVista.XPlat.Core
                 {
                     _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(0) });
                 }
-               
+
                 _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+
                 _contentGrid.BackgroundColor = AppStyle.TitleBarBackground.ToXamFormsColor();
 
                 Content = _contentGrid;
 
                 _mainContent = value;
-                _mainContent.BackgroundColor = AppStyle.PageBackground.ToXamFormsColor();
+
+                if (value.BackgroundColor != null && value.BackgroundColor.R > -1)
+                {
+                    _mainContent.BackgroundColor = value.BackgroundColor;                    
+                }
+                else
+                {
+                    _mainContent.BackgroundColor = AppStyle.PageBackground.ToXamFormsColor();
+                }
                 _mainContent.SetValue(Grid.RowProperty, 1);
                 _contentGrid.Children.Add(_mainContent);
                 _contentGrid.Children.Add(_pageMenuMask);
@@ -317,7 +326,7 @@ namespace LagoVista.XPlat.Core
             set
             {
                 SetValue(HasToolBarProperty, value);
-                if(_contentGrid != null)
+                if (_contentGrid != null)
                 {
                     if (value)
                     {

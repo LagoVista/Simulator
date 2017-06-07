@@ -10,7 +10,9 @@ namespace LagoVista.Simulator.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             LagoVista.XPlat.iOS.Startup.Init(app);
-            
+
+            UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
