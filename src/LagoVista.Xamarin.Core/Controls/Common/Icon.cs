@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace LagoVista.XPlat.Core.Controls.Common
+namespace LagoVista.XPlat.Core
 {
     public class Icon : Label
     {
@@ -29,6 +29,7 @@ namespace LagoVista.XPlat.Core.Controls.Common
                 {
                     throw new Exception("Could not find icon for: " + value);
                 }
+
                 switch (Device.RuntimePlatform)
                 {
                     case Device.UWP: FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;

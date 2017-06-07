@@ -77,6 +77,10 @@ namespace LagoVista.Client.Core.ViewModels
             return true;
         }
 
+        /// <summary>
+        /// Override this on the view model to determine if the data is dirty and we can close the page.
+        /// </summary>
+        /// <returns></returns>
         public virtual bool CanCancel()
         {
             return true;

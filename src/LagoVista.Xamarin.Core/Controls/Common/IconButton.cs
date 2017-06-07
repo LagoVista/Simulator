@@ -1,9 +1,10 @@
 ﻿using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
 using LagoVista.XPlat.Core.Icons;
+using System;
 using Xamarin.Forms;
 
-namespace LagoVista.XPlat.Core.Controls.Common
+namespace LagoVista.XPlat.Core
 {
     /// <summary>
     /// Defines the <see cref="IconButton" /> control.
@@ -20,15 +21,19 @@ namespace LagoVista.XPlat.Core.Controls.Common
         private IAppStyle AppStyle { get { return SLWIOC.Get<IAppStyle>(); } }
 
         public static BindableProperty IconKeyProperty = BindableProperty.Create(nameof(IconKey), typeof(string), typeof(IconButton), default(string), BindingMode.Default, null,
-            (view, oldValue, newValue) => (view as Icon).IconKey = (string)newValue);
+            (view, oldValue, newValue) => (view as IconButton).IconKey = (string)newValue);
 
         public string IconKey
         {
-            get { return (string)GetValue(Icon.IconKeyProperty); }
+            get { return (string)GetValue(IconButton.IconKeyProperty); }
             set
             {
-                SetValue(Icon.IconKeyProperty, value);
+                SetValue(IconButton.IconKeyProperty, value);
                 var icon = Iconize.FindIconForKey(value);
+                if (icon == null)
+                {
+                    throw new Exception("Could not find icon for: " + value);
+                }
 
                 switch (Device.RuntimePlatform)
                 {

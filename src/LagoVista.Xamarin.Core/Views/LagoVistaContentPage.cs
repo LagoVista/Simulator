@@ -26,8 +26,8 @@ namespace LagoVista.XPlat.Core
         View _mainContent;
         View _originalcontent;
 
-        Button _leftMenuButton;
-        Button _rightMenuButton;
+        IconButton _leftMenuButton;
+        IconButton _rightMenuButton;
 
         bool _hasAppeared = false;
 
@@ -60,6 +60,7 @@ namespace LagoVista.XPlat.Core
         {
             this.SetBinding(LagoVistaContentPage.MenuVisibleProperty, nameof(ViewModel.MenuVisible));
             this.SetBinding(LagoVistaContentPage.SaveCommandProperty, nameof(ViewModel.SaveCommand));
+            this.SetBinding(LagoVistaContentPage.EditCommandProperty, nameof(ViewModel.EditCommand));
             this.SetBinding(LagoVistaContentPage.MenuItemsProperty, nameof(ViewModel.MenuItems));
         }
 
@@ -102,7 +103,7 @@ namespace LagoVista.XPlat.Core
         {
             _toolBar = new Grid();
             _toolBar.HeightRequest = 64;
-            _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(48) });
+            _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
             _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
             _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
             _toolBar.BackgroundColor = AppStyle.TitleBarBackground.ToXamFormsColor();
@@ -142,11 +143,23 @@ namespace LagoVista.XPlat.Core
             switch (LeftMenu)
             {
                 case LeftMenuIcon.Back:
-                    //TODO: Need to check page state for dirty record.
-                    Navigation.PopAsync();
+                    if (ViewModel.CanCancel())
+                    {
+                        Navigation.PopAsync();
+                    }
                     break;
                 case LeftMenuIcon.Cancel:
-                    CancelCommand?.Execute(null);
+                    if (ViewModel.CanCancel())
+                    {
+                        if (CancelCommand != null)
+                        {
+                            CancelCommand.Execute(null);
+                        }
+                        else
+                        {
+                            Navigation.PopAsync();
+                        }
+                    }
                     break;
                 case LeftMenuIcon.Menu:
                     MenuVisible = !MenuVisible;
@@ -203,13 +216,12 @@ namespace LagoVista.XPlat.Core
                 _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = 48 });
                 _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
 
-
                 _contentGrid.BackgroundColor = AppStyle.TitleBarBackground.ToXamFormsColor();
 
                 Content = _contentGrid;
 
                 _mainContent = value;
-                _mainContent.BackgroundColor = AppStyle.PageBackground.ToXamFormsColor() ;
+                _mainContent.BackgroundColor = AppStyle.PageBackground.ToXamFormsColor();
                 _mainContent.SetValue(Grid.RowProperty, 1);
                 _contentGrid.Children.Add(_mainContent);
                 _contentGrid.Children.Add(_pageMenuMask);
@@ -265,7 +277,7 @@ namespace LagoVista.XPlat.Core
         }
         #endregion
 
-
+        #region Bindable Properties
         public static readonly BindableProperty SaveCommandProperty = BindableProperty.Create(nameof(SaveCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
             (view, oldValue, newValue) => (view as LagoVistaContentPage).SaveCommand = (ICommand)newValue);
 
@@ -346,7 +358,11 @@ namespace LagoVista.XPlat.Core
         public bool LeftMenuEnabled
         {
             get { return (bool)GetValue(MenuVisibleProperty); }
-            set { SetValue(MenuVisibleProperty, value); }
+            set
+            {
+                SetValue(MenuVisibleProperty, value);
+                _leftMenuButton.IsEnabled = value;
+            }
         }
 
         public static readonly BindableProperty RightMenuEnabledProperty = BindableProperty.Create(nameof(RightMenuEnabled), typeof(bool), typeof(LagoVistaContentPage), false, BindingMode.TwoWay, null,
@@ -355,7 +371,11 @@ namespace LagoVista.XPlat.Core
         public bool RightMenuEnabled
         {
             get { return (bool)GetValue(RightMenuEnabledProperty); }
-            set { SetValue(RightMenuEnabledProperty, value); }
+            set
+            {
+                SetValue(RightMenuEnabledProperty, value);
+                _rightMenuButton.IsEnabled = value;
+            }
         }
 
 
@@ -365,7 +385,11 @@ namespace LagoVista.XPlat.Core
         public string LeftMenuCustomIcon
         {
             get { return (string)GetValue(LeftMenuCustomIconProperty); }
-            set { SetValue(LeftMenuCustomIconProperty, value); }
+            set
+            {
+                SetValue(LeftMenuCustomIconProperty, value);
+                SetLeftMenuIcon();
+            }
         }
 
 
@@ -375,7 +399,11 @@ namespace LagoVista.XPlat.Core
         public string RightMenuCustomIcon
         {
             get { return (string)GetValue(RightMenuCustomIconProperty); }
-            set { SetValue(RightMenuCustomIconProperty, value); }
+            set
+            {
+                SetValue(RightMenuCustomIconProperty, value);
+                SetRightMenuIcon();
+            }
         }
 
         public static readonly BindableProperty LeftMenuCustomTextProperty = BindableProperty.Create(nameof(LeftMenuCustomText), typeof(string), typeof(LagoVistaContentPage), default(string), BindingMode.TwoWay, null,
@@ -384,7 +412,11 @@ namespace LagoVista.XPlat.Core
         public string LeftMenuCustomText
         {
             get { return (string)GetValue(LeftMenuCustomTextProperty); }
-            set { SetValue(LeftMenuCustomTextProperty, value); }
+            set
+            {
+                SetValue(LeftMenuCustomTextProperty, value);
+                SetLeftMenuIcon();
+            }
         }
 
 
@@ -394,12 +426,66 @@ namespace LagoVista.XPlat.Core
         public string RightMenuCustomText
         {
             get { return (string)GetValue(RightMenuCustomTextProperty); }
-            set { SetValue(RightMenuCustomTextProperty, value); }
+            set
+            {
+                SetValue(RightMenuCustomTextProperty, value);
+                SetRightMenuIcon();
+            }
         }
 
 
         public static readonly BindableProperty LeftMenuProperty = BindableProperty.Create(nameof(LeftMenu), typeof(LeftMenuIcon), typeof(LagoVistaContentPage), LeftMenuIcon.None, BindingMode.TwoWay, null,
             (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenu = (LeftMenuIcon)newValue, null, null, (view) => { return false; });
+
+        void SetLeftMenuIcon()
+        {
+            if (LeftMenu == LeftMenuIcon.None)
+            {
+                _leftMenuButton.IsVisible = false;
+            }
+            else
+            {
+                _leftMenuButton.IsVisible= true;
+                switch (LeftMenu)
+                {
+                    case LeftMenuIcon.Menu: _leftMenuButton.IconKey = "fa-bars"; break;
+                    case LeftMenuIcon.Cancel: _leftMenuButton.IconKey = "fa-chevron-left"; break;
+                    case LeftMenuIcon.Back: _leftMenuButton.IconKey = "fa-chevron-left"; break;
+                    case LeftMenuIcon.CustomIcon:
+                        if (string.IsNullOrEmpty(LeftMenuCustomIcon))
+                        {
+                            _leftMenuButton.IconKey = LeftMenuCustomIcon;
+                        }
+                        break;
+                    case LeftMenuIcon.CustomText: _leftMenuButton.Text = LeftMenuCustomText; break;
+                }
+            }
+        }
+
+        void SetRightMenuIcon()
+        {
+            if (RightMenu == RightMenuIcon.None)
+            {
+                _rightMenuButton.IsVisible = false;
+            }
+            {
+                _rightMenuButton.IsVisible = true;
+                switch (RightMenu)
+                {
+                    case RightMenuIcon.Add: _rightMenuButton.IconKey = "fa-plus"; break;
+                    case RightMenuIcon.Delete: _rightMenuButton.IconKey = "fa-trash"; break;
+                    case RightMenuIcon.Save: _rightMenuButton.IconKey = "fa-floppy-o"; break;
+                    case RightMenuIcon.Edit: _rightMenuButton.IconKey = "fa-pencil"; break;
+                    case RightMenuIcon.CustomIcon:
+                        if (string.IsNullOrEmpty(RightMenuCustomIcon))
+                        {
+                            _rightMenuButton.IconKey = RightMenuCustomIcon;
+                        }
+                        break;
+                    case RightMenuIcon.CustomText: _rightMenuButton.Text = RightMenuCustomText; break;
+                }
+            }
+        }
 
         public LeftMenuIcon LeftMenu
         {
@@ -407,29 +493,7 @@ namespace LagoVista.XPlat.Core
             set
             {
                 SetValue(LeftMenuProperty, value);
-
-                if (value != LeftMenuIcon.None)
-                {
-                    var iconStr = string.Empty;
-                    switch (value)
-                    {
-                        case LeftMenuIcon.Menu: iconStr = "fa-bars"; break;
-                        case LeftMenuIcon.Cancel: iconStr = "fa-bars"; break;
-                        case LeftMenuIcon.Back: iconStr = "fa-bars"; break;
-                        case LeftMenuIcon.CustomIcon: iconStr = LeftMenuCustomIcon; break;
-                    }
-
-                    var icon = Iconize.FindIconForKey(iconStr);
-
-                    switch (Device.RuntimePlatform)
-                    {
-                        case Device.UWP: _leftMenuButton.FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
-                        case Device.iOS: _leftMenuButton.FontFamily = Iconize.FindModuleOf(icon).FontName; break;
-                        case Device.Android: _leftMenuButton.FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
-                    }
-                    _leftMenuButton.Text = $"{icon.Character}";
-                    _leftMenuButton.IsVisible = true;
-                }
+                SetLeftMenuIcon();
             }
         }
 
@@ -443,29 +507,7 @@ namespace LagoVista.XPlat.Core
             {
 
                 SetValue(RightMenuProperty, value);
-                if (value != RightMenuIcon.None)
-                {
-                    var iconStr = string.Empty;
-                    switch (value)
-                    {
-                        case RightMenuIcon.Add: iconStr = "fa-plus"; break;
-                        case RightMenuIcon.Delete: iconStr = "fa-trash"; break;
-                        case RightMenuIcon.Save: iconStr = "fa-floppy-o"; break;
-                        case RightMenuIcon.Edit: iconStr = "fa-pencil"; break;
-                        case RightMenuIcon.CustomIcon: iconStr = RightMenuCustomIcon; break;
-                    }
-
-                    var icon = Iconize.FindIconForKey(iconStr);
-
-                    switch (Device.RuntimePlatform)
-                    {
-                        case Device.UWP: _rightMenuButton.FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
-                        case Device.iOS: _rightMenuButton.FontFamily = Iconize.FindModuleOf(icon).FontName; break;
-                        case Device.Android: _rightMenuButton.FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
-                    }
-                    _rightMenuButton.Text = $"{icon.Character}";
-                    _rightMenuButton.IsVisible = true;
-                }
+                SetRightMenuIcon();
             }
         }
 
@@ -477,6 +519,7 @@ namespace LagoVista.XPlat.Core
             get { return (IEnumerable<LagoVista.Client.Core.ViewModels.MenuItem>)GetValue(MenuItemsProperty); }
             set { SetValue(MenuItemsProperty, value); }
         }
+        #endregion
 
         protected async override void OnAppearing()
         {
