@@ -5,8 +5,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       x:Class="LagoVista.Simulator.Views.Simulator.SimulatorView"
       RightMenu="Edit"
+      LeftMenu="Back"
       Title="Simulator Messages">
-  
   
   <pge:LagoVistaContentPage.MainContent >
     <Grid>

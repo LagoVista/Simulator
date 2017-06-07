@@ -6,6 +6,7 @@ using LagoVista.XPlat.Core.Controls.Common;
 using LagoVista.XPlat.Core.Icons;
 using LagoVista.XPlat.Core.Views;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -32,6 +33,7 @@ namespace LagoVista.XPlat.Core
         bool _hasAppeared = false;
 
         const int MENU_WIDTH = 300;
+        const int TOOL_BAR_HEIGHT = 64;
 
         public LagoVistaContentPage() : base()
         {
@@ -68,6 +70,7 @@ namespace LagoVista.XPlat.Core
         {
             _activityIndicator = new ActivityIndicator() { IsRunning = false };
             _activityIndicator.Color = NamedColors.NuvIoTDark.ToXamFormsColor();
+            _activityIndicator.Color = Xamarin.Forms.Color.White;
             switch (Device.RuntimePlatform)
             {
 
@@ -79,7 +82,7 @@ namespace LagoVista.XPlat.Core
 
             _loadingContainer = new Grid() { IsVisible = false };
 
-            _loadingMask = new Grid() { BackgroundColor = Xamarin.Forms.Color.Red, Opacity = 0.10 };
+            _loadingMask = new Grid() { BackgroundColor = Xamarin.Forms.Color.Black, Opacity = 0.50 };
             _loadingContainer.Children.Add(_loadingMask);
             _loadingContainer.Children.Add(_activityIndicator);
             _loadingContainer.SetValue(Grid.RowProperty, 1);
@@ -88,13 +91,14 @@ namespace LagoVista.XPlat.Core
         private void CreateMenu()
         {
             _menu = new SideMenu();
+            _menu.IsVisible = false;
             _menu.TranslationX = -MENU_WIDTH;
             _menu.BackgroundColor = AppStyle.MenuBarBackground.ToXamFormsColor();
             _menu.WidthRequest = MENU_WIDTH;
             _menu.HorizontalOptions = LayoutOptions.Start;
             _menu.SetValue(Grid.RowProperty, 1);
 
-            _pageMenuMask = new Grid() { BackgroundColor = Xamarin.Forms.Color.Black, Opacity = 0.25 };
+            _pageMenuMask = new Grid() { BackgroundColor = Xamarin.Forms.Color.Black, Opacity = 0.50 };
             _pageMenuMask.SetValue(Grid.RowProperty, 1);
             _pageMenuMask.IsVisible = false;
         }
@@ -102,7 +106,7 @@ namespace LagoVista.XPlat.Core
         private void AddToolBar()
         {
             _toolBar = new Grid();
-            _toolBar.HeightRequest = 64;
+            _toolBar.HeightRequest = TOOL_BAR_HEIGHT;
             _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
             _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
             _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
@@ -213,9 +217,23 @@ namespace LagoVista.XPlat.Core
             set
             {
                 _contentGrid = new Grid();
-                _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = 48 });
-                _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+                switch (Device.RuntimePlatform)
+                {
+                    case Device.iOS:
+                        _contentGrid.Margin = new Thickness(0, 20, 0, 0);
+                        break;
+                }
 
+                if (HasToolBar)
+                {
+                    _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(TOOL_BAR_HEIGHT) });
+                }
+                else
+                {
+                    _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(0) });
+                }
+               
+                _contentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
                 _contentGrid.BackgroundColor = AppStyle.TitleBarBackground.ToXamFormsColor();
 
                 Content = _contentGrid;
@@ -245,10 +263,22 @@ namespace LagoVista.XPlat.Core
             }
         }
 
-        private void ToggleMenu(bool newMenuState)
+        private async void ToggleMenu(bool newMenuState)
         {
-            _menu.TranslateTo(newMenuState ? 0 : -MENU_WIDTH, 0, 250, Easing.CubicInOut);
-            _pageMenuMask.IsVisible = (bool)newMenuState;
+            if (newMenuState)
+            {
+                _pageMenuMask.IsVisible = true;
+                _menu.IsVisible = true;
+            }
+
+            await _menu.TranslateTo(newMenuState ? 0 : -MENU_WIDTH, 0, 250, Easing.CubicInOut);
+
+            await Task.Delay(300);
+            if (!newMenuState)
+            {
+                _pageMenuMask.IsVisible = false;
+                _menu.IsVisible = false;
+            }
         }
 
         private void Value_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -278,6 +308,29 @@ namespace LagoVista.XPlat.Core
         #endregion
 
         #region Bindable Properties
+        public static readonly BindableProperty HasToolBarProperty = BindableProperty.Create(nameof(HasToolBar), typeof(bool), typeof(LagoVistaContentPage), true, BindingMode.TwoWay, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).HasToolBar = (bool)newValue, null, null, (view) => { return true; });
+
+        public bool HasToolBar
+        {
+            get { return (bool)GetValue(HasToolBarProperty); }
+            set
+            {
+                SetValue(HasToolBarProperty, value);
+                if(_contentGrid != null)
+                {
+                    if (value)
+                    {
+                        _contentGrid.RowDefinitions[0] = new RowDefinition() { Height = new GridLength(TOOL_BAR_HEIGHT) };
+                    }
+                    else
+                    {
+                        _contentGrid.RowDefinitions[0] = new RowDefinition() { Height = new GridLength(0) };
+                    }
+                }
+            }
+        }
+
         public static readonly BindableProperty SaveCommandProperty = BindableProperty.Create(nameof(SaveCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
             (view, oldValue, newValue) => (view as LagoVistaContentPage).SaveCommand = (ICommand)newValue);
 
@@ -445,7 +498,7 @@ namespace LagoVista.XPlat.Core
             }
             else
             {
-                _leftMenuButton.IsVisible= true;
+                _leftMenuButton.IsVisible = true;
                 switch (LeftMenu)
                 {
                     case LeftMenuIcon.Menu: _leftMenuButton.IconKey = "fa-bars"; break;
@@ -549,6 +602,9 @@ namespace LagoVista.XPlat.Core
 
         protected async override void OnDisappearing()
         {
+            _menu.IsVisible = false;
+            _menu.TranslationX = -MENU_WIDTH;
+
             base.OnDisappearing();
 
             if (ViewModel != null)
