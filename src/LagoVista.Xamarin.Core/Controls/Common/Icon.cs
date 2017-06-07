@@ -32,9 +32,9 @@ namespace LagoVista.XPlat.Core
 
                 switch (Device.RuntimePlatform)
                 {
-                    case Device.UWP: FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
+                    case Device.UWP: FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontFamily}"; break;
                     case Device.iOS: FontFamily = Iconize.FindModuleOf(icon).FontName; break;
-                    case Device.Android: FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontName}"; break;
+                    case Device.Android: FontFamily = $"{Iconize.FindModuleOf(icon).FontPath}#{Iconize.FindModuleOf(icon).FontFamily}"; break;
                 }
 
                 Text = $"{icon.Character}";
