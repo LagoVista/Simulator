@@ -1,4 +1,5 @@
-﻿using LagoVista.Core.Models.UIMetaData;
+﻿using LagoVista.Core.Attributes;
+using LagoVista.Core.Models.UIMetaData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,31 +27,35 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             _editor.TextChanged += _editor_TextChanged;
             _editor.IsEnabled = field.IsUserEditable;
 
-            switch(field.DataType)
+            if (Enum.TryParse<FieldTypes>(field.FieldType, out FieldTypes fieldType))
             {
-                case FormField.FieldType_Key:
-                    _editor.Keyboard = Keyboard.Create(KeyboardFlags.None);
-                    break;
-                case FormField.FieldType_Decimal:
-                case FormField.FieldType_Integer:
-                    _editor.Keyboard = Keyboard.Numeric;
-                    break;
+                switch (FieldType)
+                {
+                    case FieldTypes.Key:
+                        //_editor.Keyboard = Keyboard.Create(KeyboardFlags.None);
+                        _editor.Keyboard = Keyboard.Plain;
+                        break;
+                    case FieldTypes.Decimal:
+                    case FieldTypes.Integer:
+                        _editor.Keyboard = Keyboard.Numeric;
+                        break;
+                }
+
+                _validationMessage = new LagoVista.XPlat.Core.Label();
+                _validationMessage.TextColor = Color.Red;
+                _validationMessage.Text = field.RequiredMessage;
+                _validationMessage.IsVisible = false;
+
+                Children.Add(_label);
+                Children.Add(_editor);
+                Children.Add(_validationMessage);
+                Margin = new Thickness(10, 5, 0, 10);
             }
-
-            _validationMessage = new LagoVista.XPlat.Core.Label();
-            _validationMessage.TextColor = Color.Red;
-            _validationMessage.Text = field.RequiredMessage;
-            _validationMessage.IsVisible = false;
-
-            Children.Add(_label);
-            Children.Add(_editor);
-            Children.Add(_validationMessage);
-            Margin = new Thickness(10, 5, 0, 10);
         }
 
         public override bool Validate()
         {
-            if(Field.IsRequired && String.IsNullOrEmpty(Field.Value))
+            if (Field.IsRequired && String.IsNullOrEmpty(Field.Value))
             {
                 _validationMessage.IsVisible = true;
                 _validationMessage.Text = Field.RequiredMessage;
@@ -74,27 +79,37 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
         {
             if (!String.IsNullOrEmpty(e.NewTextValue))
             {
-                switch (Field.FieldType)
+                switch (FieldType)
                 {
-                    case FormField.FieldType_Integer:
-                        if (!int.TryParse(e.NewTextValue, out int value))
+                    case FieldTypes.Integer:
                         {
-                            _editor.Text = e.OldTextValue;
+                            if (!int.TryParse(e.NewTextValue, out int value))
+                            {
+                                _editor.Text = e.OldTextValue;
+                            }
+                        }
+                        break;
+                    case FieldTypes.Decimal:
+                        {
+                            if (!double.TryParse(e.NewTextValue, out double value))
+                            {
+                                _editor.Text = e.OldTextValue;
+                            }
                         }
                         break;
                 }
             }
 
             Field.Value = e.NewTextValue;
-            if(Field.IsRequired && String.IsNullOrEmpty(Field.Value))
+            if (Field.IsRequired && String.IsNullOrEmpty(Field.Value))
             {
                 _validationMessage.IsVisible = true;
                 _validationMessage.Text = Field.RequiredMessage;
             }
-            else if(!String.IsNullOrEmpty(Field.RegEx) && !String.IsNullOrEmpty(Field.Value))
+            else if (!String.IsNullOrEmpty(Field.RegEx) && !String.IsNullOrEmpty(Field.Value))
             {
                 var regEx = new Regex(Field.RegEx);
-                if(!regEx.Match(Field.Value).Success)
+                if (!regEx.Match(Field.Value).Success)
                 {
                     _validationMessage.Text = Field.RegExMessage;
                     _validationMessage.IsVisible = true;

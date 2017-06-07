@@ -1,4 +1,6 @@
-﻿using LagoVista.Core.Models.UIMetaData;
+﻿using LagoVista.Core.Attributes;
+using LagoVista.Core.Models.UIMetaData;
+using System;
 using Xamarin.Forms;
 
 namespace LagoVista.XPlat.Core.Controls.FormControls
@@ -8,7 +10,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
         FormField _field;
         FormViewer _viewer;
 
-        public FormControl(FormViewer viewer, FormField field) 
+        public FormControl(FormViewer viewer, FormField field)
         {
             _field = field;
             _viewer = viewer;
@@ -23,6 +25,21 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
         public virtual void Refresh()
         {
 
+        }
+
+        public FieldTypes FieldType
+        {
+            get
+            {
+                if (Enum.TryParse<FieldTypes>(Field.FieldType, out FieldTypes fieldType))
+                {
+                    return fieldType;
+                }
+                else
+                {
+                    throw new Exception("Could not create field type from field type: " + Field.FieldType);
+                }
+            }
         }
     }
 }
