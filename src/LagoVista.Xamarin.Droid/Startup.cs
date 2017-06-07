@@ -8,8 +8,9 @@ namespace LagoVista.XPlat.Droid
 {
     public static class Startup
     {
-        public static void Init(Context context)
+        public static void Init(Context context, string key)
         {
+            SLWIOC.RegisterSingleton<ILogger>(new Loggers.MobileCenterLogger(key));
             SLWIOC.Register<IStorageService>(new StorageService());
             SLWIOC.Register<INetworkService>(new NetworkService());
             SLWIOC.Register<IDeviceInfo>(new DeviceInfo());

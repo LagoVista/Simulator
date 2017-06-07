@@ -6,8 +6,6 @@ using LagoVista.Core.Authentication.Interfaces;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
 using LagoVista.Core.Networking.Interfaces;
-using LagoVista.Core.PlatformSupport;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
@@ -18,7 +16,6 @@ namespace LagoVista.Client.Core
         public static void Init(ServerInfo serverInfo)
         {
             SLWIOC.RegisterSingleton<IAppStyle>(new AppStyle());
-            SLWIOC.RegisterSingleton<ILogger>(new Loggers.MobileCenterLogger());
 
             SLWIOC.RegisterSingleton<ServerInfo>(serverInfo);
             SLWIOC.RegisterSingleton<IAuthClient>(new AuthClient());            

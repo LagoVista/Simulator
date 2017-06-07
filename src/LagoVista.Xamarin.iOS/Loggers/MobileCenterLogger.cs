@@ -1,23 +1,30 @@
-﻿using LagoVista.Core.PlatformSupport;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace LagoVista.Client.Core.Loggers
+using Foundation;
+using UIKit;
+using LagoVista.Core.PlatformSupport;
+using Microsoft.Azure.Mobile;
+
+namespace LagoVista.XPlat.iOS.Loggers
 {
     public class MobileCenterLogger : ILogger
     {
-        public void Log(LogLevel level, string area, string message, params KeyValuePair<string, string>[] args)
+        public MobileCenterLogger(string key)
         {
-            Debug.WriteLine($"{area} - {message}");
+            MobileCenter.Start($"ios={key}");
+        }
+
+        public void Log(LagoVista.Core.PlatformSupport.LogLevel level, string area, string message, params KeyValuePair<string, string>[] args)
+        {
+            throw new NotImplementedException();
         }
 
         public void LogException(string area, Exception ex, params KeyValuePair<string, string>[] args)
         {
-            Debug.WriteLine($"{area} - {ex.Message}");
+            throw new NotImplementedException();
         }
 
         public void SetKeys(params string[] args)

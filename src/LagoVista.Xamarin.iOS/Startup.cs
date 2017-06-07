@@ -8,8 +8,9 @@ namespace LagoVista.XPlat.iOS
 {
     public static class Startup
     {
-        public static void Init(UIApplication app)
+        public static void Init(UIApplication app, string key)
         {
+            SLWIOC.RegisterSingleton<ILogger>(new Loggers.MobileCenterLogger(key));
             SLWIOC.Register<IStorageService>(new StorageService());
             SLWIOC.Register<INetworkService>(new NetworkService());
             SLWIOC.Register<IDeviceInfo>(new DeviceInfo());

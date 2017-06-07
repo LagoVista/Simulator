@@ -16,6 +16,8 @@ namespace LagoVista.Simulator.Windows
 {
     sealed partial class App : Application
     {
+        private const string MOBILE_CENTER_KEY = "f4def9b7-eb9f-465f-a474-1956ab779936";
+
         public App()
         {
             this.InitializeComponent();
@@ -43,7 +45,7 @@ namespace LagoVista.Simulator.Windows
 
                 Xamarin.Forms.Forms.Init(e);
               
-                LagoVista.Core.UWP.Startup.Init(this, rootFrame.Dispatcher);
+                LagoVista.Core.UWP.Startup.Init(this, rootFrame.Dispatcher, MOBILE_CENTER_KEY);
 
                 SLWIOC.RegisterSingleton<IDeviceInfo>(new DeviceInfo());
                 SLWIOC.Register<ITCPClient, TCPClient>();
