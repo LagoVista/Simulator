@@ -1,4 +1,5 @@
 ﻿using LagoVista.Core.Commanding;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.Core.ViewModels
@@ -32,6 +33,10 @@ namespace LagoVista.Simulator.Core.ViewModels
             await AuthManager.LoadAsync();
             if(AuthManager.IsAuthenticated)
             {
+                Logger.SetUserId(AuthManager.User.Email);
+                Logger.SetKeys(new KeyValuePair<string, string>("OrgId", AuthManager.User.CurrentOrganization.Text));
+                    
+
                 await ViewModelNavigation.SetAsNewRootAsync<MainViewModel>();
             }
             else

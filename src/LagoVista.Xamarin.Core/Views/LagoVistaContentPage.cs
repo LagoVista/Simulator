@@ -588,12 +588,15 @@ namespace LagoVista.XPlat.Core
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+            
+
             _originalcontent = this.Content;
 
             if (!_hasAppeared)
             {
                 if (ViewModel != null)
                 {
+                    ViewModel.Logger.Log(LagoVista.Core.PlatformSupport.LogLevel.Message, ViewModel.GetType().Name, "Appeared");
                     this.Content.BindingContext = ViewModel;
                     await ViewModel.InitAsync();
                 }
@@ -602,6 +605,7 @@ namespace LagoVista.XPlat.Core
             {
                 if (ViewModel != null)
                 {
+                    ViewModel.Logger.Log(LagoVista.Core.PlatformSupport.LogLevel.Message, ViewModel.GetType().Name, "Re-appeared");
                     this.Content.BindingContext = null;
                     this.Content.BindingContext = ViewModel;
                     await ViewModel.ReloadedAsync();
@@ -620,6 +624,7 @@ namespace LagoVista.XPlat.Core
 
             if (ViewModel != null)
             {
+                ViewModel.Logger.Log(LagoVista.Core.PlatformSupport.LogLevel.Message, ViewModel.GetType().Name, "Disappeared");
                 await ViewModel.IsClosingAsync();
             }
         }
