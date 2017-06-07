@@ -30,32 +30,32 @@
 	<string>1.0</string>
   <key>UIAppFonts</key>
   <array>
-    <string>iconize-entypoplus.ttf</string>
-    <string>iconize-fontawesome.ttf</string>
-    <string>iconize-ionicons.ttf</string>
-    <string>iconize-material.ttf</string>
-    <string>iconize-meteocons.ttf</string>    
-    <string>iconize-simplelineicons.ttf</string>
-    <string>iconize-typicons.ttf</string>
-    <string>iconize-weathericons.ttf</string>
-    <string>Roboto-Black.ttf</string>
-    <string>Roboto-BlackItalic.ttf</string>
-    <string>Roboto-Bold.ttf</string>
-    <string>Roboto-BoldItalic.ttf</string>
-    <string>Roboto-Italic.ttf</string>
-    <string>Roboto-Light.ttf</string>
-    <string>Roboto-LightItalic.ttf</string>
-    <string>Roboto-Medium.ttf</string>
-    <string>Roboto-MediumItalic.ttf</string>
-    <string>Roboto-Regular.ttf</string>
-    <string>Roboto-Thin.ttf</string>
-    <string>Roboto-ThinItalic.ttf</string>
-    <string>RobotoCondensed-Bold.ttf</string>
-    <string>RobotoCondensed-BoldItalic.ttf</string>
-    <string>RobotoCondensed-Italic.ttf</string>
-    <string>RobotoCondensed-Light.ttf</string>
-    <string>RobotoCondensed-LightItalic.ttf</string>
-    <string>RobotoCondensed-Regular.ttf</string>
+    <string>Fonts/iconize-entypoplus.ttf</string>
+    <string>Fonts/iconize-fontawesome.ttf</string>
+    <string>Fonts/iconize-ionicons.ttf</string>
+    <string>Fonts/iconize-material.ttf</string>
+    <string>Fonts/iconize-meteocons.ttf</string>    
+    <string>Fonts/iconize-simplelineicons.ttf</string>
+    <string>Fonts/iconize-typicons.ttf</string>
+    <string>Fonts/iconize-weathericons.ttf</string>
+    <string>Fonts/Roboto-Black.ttf</string>
+    <string>Fonts/Roboto-BlackItalic.ttf</string>
+    <string>Fonts/Roboto-Bold.ttf</string>
+    <string>Fonts/Roboto-BoldItalic.ttf</string>
+    <string>Fonts/Roboto-Italic.ttf</string>
+    <string>Fonts/Roboto-Light.ttf</string>
+    <string>Fonts/Roboto-LightItalic.ttf</string>
+    <string>Fonts/Roboto-Medium.ttf</string>
+    <string>Fonts/Roboto-MediumItalic.ttf</string>
+    <string>Fonts/Roboto-Regular.ttf</string>
+    <string>Fonts/Roboto-Thin.ttf</string>
+    <string>Fonts/Roboto-ThinItalic.ttf</string>
+    <string>Fonts/RobotoCondensed-Bold.ttf</string>
+    <string>Fonts/RobotoCondensed-BoldItalic.ttf</string>
+    <string>Fonts/RobotoCondensed-Italic.ttf</string>
+    <string>Fonts/RobotoCondensed-Light.ttf</string>
+    <string>Fonts/RobotoCondensed-LightItalic.ttf</string>
+    <string>Fonts/RobotoCondensed-Regular.ttf</string>
   </array> 
 	<key>CFBundleIconFiles</key>
 	<array>

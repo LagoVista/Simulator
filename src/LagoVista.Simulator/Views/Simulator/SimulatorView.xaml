@@ -6,6 +6,8 @@
       x:Class="LagoVista.Simulator.Views.Simulator.SimulatorView"
       RightMenu="Edit"
       Title="Simulator Messages">
+  
+  
   <pge:LagoVistaContentPage.MainContent >
     <Grid>
       <Grid.RowDefinitions>

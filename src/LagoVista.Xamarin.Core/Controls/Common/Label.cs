@@ -10,7 +10,6 @@ namespace LagoVista.XPlat.Core
 {
     public class Label : Xamarin.Forms.Label
     {
-
         public Label()
         {
             this.TextColor = AppStyle.LabelText.ToXamFormsColor();

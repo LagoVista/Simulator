@@ -8,7 +8,6 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
         FormField _field;
         FormViewer _viewer;
 
-
         public FormControl(FormViewer viewer, FormField field) 
         {
             _field = field;
