@@ -17,6 +17,20 @@ namespace LagoVista.XPlat.iOS.Loggers
 
         KeyValuePair<String, String>[] _args;
 
+
+        public TimedEvent StartTimedEvent(string area, string description)
+        {
+            return new TimedEvent(area, description);
+        }
+
+        public void EndTimedEvent(TimedEvent evt)
+        {
+            var duration = DateTime.Now - evt.StartTime;
+
+            Log(LagoVista.Core.PlatformSupport.LogLevel.Message, evt.Area, evt.Description, new KeyValuePair<string, string>("duration", Math.Round(duration.TotalSeconds, 4).ToString()));
+        }
+
+
         public MobileCenterLogger(string key)
         {
             MobileCenter.Start($"uwp={key}", typeof(Analytics));
