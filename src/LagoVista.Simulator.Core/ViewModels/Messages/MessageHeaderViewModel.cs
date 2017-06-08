@@ -3,6 +3,8 @@ using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
 using System.Threading.Tasks;
 using LagoVista.Core;
+using System.Linq;
+using LagoVista.Client.Core.Resources;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
@@ -17,6 +19,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 if (LaunchArgs.LaunchType == LaunchTypes.Create)
                 {
                     var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.MessageTemplate>();
+                    if (parent.DynamicAttributes.Where(attr => attr.Key == Model.Key).Any())
+                    {
+                        Popups.ShowAsync(ClientResources.Common_KeyInUse);
+                        return;
+                    }
                     parent.MessageHeaders.Add(Model);
                 }
 
@@ -24,21 +31,24 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             }
         }
 
-        public override async Task InitAsync()
+        public override  Task InitAsync()
         {
-            var newMessageTemplate = await RestClient.CreateNewAsync("/api/simulator/messageheader/factory");
-            Model = (IsEdit) ? this.LaunchArgs.GetChild<MessageHeader>() : newMessageTemplate.Model;
-            View = newMessageTemplate.View;
-            View[nameof(Model.Key).ToFieldKey()].IsUserEditable = false;
+            return PerformNetworkOperation(async () =>
+            {
+                var newMessageTemplate = await RestClient.CreateNewAsync("/api/simulator/messageheader/factory");
+                Model = (IsEdit) ? this.LaunchArgs.GetChild<MessageHeader>() : newMessageTemplate.Model;
+                View = newMessageTemplate.View;
+                View[nameof(Model.Key).ToFieldKey()].IsUserEditable = IsCreate;
 
-            var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
-            form.AddViewCell(nameof(Model.Name));
-            form.AddViewCell(nameof(Model.Key));
-            form.AddViewCell(nameof(Model.Value));
-            form.AddViewCell(nameof(Model.Description));
-            ModelToView(Model, form);
+                var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
+                form.AddViewCell(nameof(Model.Name));
+                form.AddViewCell(nameof(Model.Key));
+                form.AddViewCell(nameof(Model.Value));
+                form.AddViewCell(nameof(Model.Description));
+                ModelToView(Model, form);
 
-            FormAdapter = form;
+                FormAdapter = form;
+            });
         }
     }
 }

@@ -159,6 +159,9 @@
   <data name="MessageHeader_Title" xml:space="preserve">
     <value>Message Header</value>
   </data>
+  <data name="SendMessage_Title" xml:space="preserve">
+    <value>Message Sender</value>
+  </data>
   <data name="SimulatorEditor_Title" xml:space="preserve">
     <value>Simulator Editor</value>
   </data>

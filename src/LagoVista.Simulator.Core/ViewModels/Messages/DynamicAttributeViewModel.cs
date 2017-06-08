@@ -1,9 +1,7 @@
 ﻿using LagoVista.Core.Models.UIMetaData;
-using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
 using System.Linq;
 using System.Threading.Tasks;
-using LagoVista.Core;
 using LagoVista.Client.Core.Resources;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
@@ -40,15 +38,12 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 Model = IsEdit ? this.LaunchArgs.GetChild<MessageDynamicAttribute>() : attribute.Model;
                 View = attribute.View;
 
-                var form = new EditFormAdapter(Model, attribute.View, ViewModelNavigation);
+                var form = new EditFormAdapter(Model, attribute.View, ViewModelNavigation);                
                 form.AddViewCell(nameof(Model.Name));
                 form.AddViewCell(nameof(Model.Key));
                 form.AddViewCell(nameof(Model.ParameterType));
                 form.AddViewCell(nameof(Model.DefaultValue));
                 form.AddViewCell(nameof(Model.Description));
-
-                View[nameof(Model.Key)].IsUserEditable = IsCreate;
-
                 ModelToView(Model, form);
 
                 FormAdapter = form;
