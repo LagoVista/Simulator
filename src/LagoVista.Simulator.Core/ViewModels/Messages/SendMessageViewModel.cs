@@ -1,4 +1,5 @@
 ﻿using LagoVista.Client.Core.Net;
+using LagoVista.Client.Core.ViewModels;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
-    public class SendMessageViewModel : ViewModelBase
+    public class SendMessageViewModel : XPlatViewModel
     {
         public SendMessageViewModel()
         {

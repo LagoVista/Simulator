@@ -49,7 +49,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                 Children.Add(_label);
                 Children.Add(_editor);
                 Children.Add(_validationMessage);
-                Margin = new Thickness(10, 5, 0, 10);
+                Margin = new Thickness(10, 5, 20, 0);
             }
         }
 

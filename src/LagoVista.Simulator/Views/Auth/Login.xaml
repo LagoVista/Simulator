@@ -2,10 +2,10 @@
 <pge:LagoVistaContentPage     
     xmlns:pge="clr-namespace:LagoVista.XPlat.Core;assembly=LagoVista.XPlat.Core"
     xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    xmlns:ext="clr-namespace:LagoVista.Simulator;assembly=LagoVista.Simulator"
-    Title="{ext:Translate Common_Login}"
+    xmlns:ext="clr-namespace:LagoVista.Simulator;assembly=LagoVista.Simulator"    
     HasToolBar="False"
-    x:Class="LagoVista.Simulator.Views.Auth.Login" >
+    x:Class="LagoVista.Simulator.Views.Auth.Login" 
+    Title="{ext:Translate Common_Login}">
     <pge:LagoVistaContentPage.MainContent>
         <ScrollView>
             <Grid BackgroundColor="#2196F3">

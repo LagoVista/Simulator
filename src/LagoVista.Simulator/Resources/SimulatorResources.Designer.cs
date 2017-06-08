@@ -80,6 +80,15 @@ namespace LagoVista.Simulator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End Point.
+        /// </summary>
+        public static string Common_EndPoint {
+            get {
+                return ResourceManager.GetString("Common_EndPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Get Started.
         /// </summary>
         public static string Common_GetStarted {
@@ -107,11 +116,92 @@ namespace LagoVista.Simulator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Messages.
+        /// </summary>
+        public static string Common_Messages {
+            get {
+                return ResourceManager.GetString("Common_Messages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Common_Password {
             get {
                 return ResourceManager.GetString("Common_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port.
+        /// </summary>
+        public static string Common_Port {
+            get {
+                return ResourceManager.GetString("Common_Port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        public static string Common_Send {
+            get {
+                return ResourceManager.GetString("Common_Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transport.
+        /// </summary>
+        public static string Common_Transport {
+            get {
+                return ResourceManager.GetString("Common_Transport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dynamic Attributes.
+        /// </summary>
+        public static string DynamicAttr_Title {
+            get {
+                return ResourceManager.GetString("DynamicAttr_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message Editor.
+        /// </summary>
+        public static string MessageEditor_Title {
+            get {
+                return ResourceManager.GetString("MessageEditor_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message Header.
+        /// </summary>
+        public static string MessageHeader_Title {
+            get {
+                return ResourceManager.GetString("MessageHeader_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simulator.
+        /// </summary>
+        public static string Simulator_Title {
+            get {
+                return ResourceManager.GetString("Simulator_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simulator Editor.
+        /// </summary>
+        public static string SimulatorEditor_Title {
+            get {
+                return ResourceManager.GetString("SimulatorEditor_Title", resourceCulture);
             }
         }
         

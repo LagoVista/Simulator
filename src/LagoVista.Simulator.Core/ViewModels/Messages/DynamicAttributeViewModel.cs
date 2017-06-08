@@ -39,7 +39,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
                 Model = IsEdit ? this.LaunchArgs.GetChild<MessageDynamicAttribute>() : attribute.Model;
                 View = attribute.View;
-                View[nameof(Model.Key).ToFieldKey()].IsUserEditable = false;
 
                 var form = new EditFormAdapter(Model, attribute.View, ViewModelNavigation);
                 form.AddViewCell(nameof(Model.Name));
@@ -48,7 +47,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 form.AddViewCell(nameof(Model.DefaultValue));
                 form.AddViewCell(nameof(Model.Description));
 
-                View[nameof(Model.Key)].IsUserEditable = this.LaunchArgs.LaunchType == LaunchTypes.Create;
+                View[nameof(Model.Key)].IsUserEditable = IsCreate;
 
                 ModelToView(Model, form);
 

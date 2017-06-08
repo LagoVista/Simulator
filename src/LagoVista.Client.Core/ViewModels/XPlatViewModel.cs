@@ -20,10 +20,9 @@ namespace LagoVista.Client.Core.ViewModels
         None,
         Menu,
         Back,
-        Cancel,
+        Cancel,        
         CustomIcon,
         CustomText
-
     }
 
     public abstract class XPlatViewModel : ViewModelBase

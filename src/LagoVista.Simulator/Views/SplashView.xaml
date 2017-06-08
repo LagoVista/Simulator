@@ -5,8 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="LagoVista.Simulator.Views.SplashView"
     xmlns:trs="clr-namespace:LagoVista.Simulator;assembly=LagoVista.Simulator"
-    HasToolBar="false"
-    Title="Welcome - IoT Simulator">
+    HasToolBar="false" >
     <pge:LagoVistaContentPage.Content>
         <Grid>
             <Grid IsVisible="{Binding NotLoggedIn}">
@@ -24,9 +23,6 @@
                 <Image Source="nuviot.png" VerticalOptions="Center" HorizontalOptions="Center"  Grid.Row="2"/>
                 <Image Source="softwarelogistics.png" HorizontalOptions="Center" Grid.Row="4" Margin="20" />
                 <pge:Button Command="{Binding LoginCommand}" Text="{trs:Translate Common_GetStarted}" WidthRequest="200" HeightRequest="48" Margin="10" HorizontalOptions="Center"  Grid.Row="6" />
-            </Grid>
-            <Grid BackgroundColor="{StaticResource NuvIoTDark}" IsVisible="{Binding IsLoading}">
-
             </Grid>
         </Grid>
     </pge:LagoVistaContentPage.Content>

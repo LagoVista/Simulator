@@ -12,7 +12,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
     public class ChildListRow : FormControl
     {
         Label _label;
-        Image _addImage;
+        IconButton _addImage;
         StackLayout _childItemList;
 
         public event EventHandler<string> Add;
@@ -23,29 +23,28 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
         {
             var titleBar = new Grid();
             HorizontalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
-            titleBar.BackgroundColor = Color.FromRgb(0xBB, 0xDB, 0xFB);
+            titleBar.BackgroundColor = AppStyle.MenuBarBackground.ToXamFormsColor();
             titleBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
             titleBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
             titleBar.HorizontalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
             titleBar.HeightRequest = 48;
 
             _label = new Label();
-            _label.FontSize = 24;
-            _label.Margin = new Thickness(10, 6, 0, 0);
-            _label.TextColor = Color.FromRgb(0x5B, 0x5B, 0x5B);
+            _label.FontSize = 20;
+            _label.Margin = new Thickness(10, 0, 0, 0);
+            _label.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
+            _label.TextColor = AppStyle.MenuBarForeground.ToXamFormsColor();
             _label.Text = field.Label;
 
-            _addImage = new Image();
+            _addImage = new IconButton();
             _addImage.SetValue(Grid.ColumnProperty, 1);
-            _addImage.Margin = new Thickness(0, 12, 28, 0);
-            _addImage.WidthRequest = 24;
-            _addImage.HeightRequest = 24;
-
-            var tapGenerator = new TapGestureRecognizer();
-            tapGenerator.Tapped += Add_Tapped;
-
-            _addImage.GestureRecognizers.Add(tapGenerator);
-            _addImage.Source = new FileImageSource() { File = "add.png" };
+            _addImage.Margin = new Thickness(0, 0, 20, 0);
+            _addImage.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
+            _addImage.IconKey = "fa-plus";
+            _addImage.WidthRequest = 48;
+            _addImage.HeightRequest = 48;
+            _addImage.FontSize = 22;
+            _addImage.Clicked += _addImage_Clicked;
 
             _childItemList = new StackLayout();
 
@@ -56,10 +55,10 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             Children.Add(_childItemList);
         }
 
-        private void Add_Tapped(object sender, EventArgs e)
+        private void _addImage_Clicked(object sender, EventArgs e)
         {
             Add?.Invoke(this, Field.Name);
-        }
+        }        
 
         private void Item_Tapped(object sender, EventArgs e)
         {

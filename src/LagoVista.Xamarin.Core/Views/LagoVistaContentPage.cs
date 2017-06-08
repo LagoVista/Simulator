@@ -33,7 +33,7 @@ namespace LagoVista.XPlat.Core
         bool _hasAppeared = false;
 
         const int MENU_WIDTH = 300;
-        const int TOOL_BAR_HEIGHT = 64;
+        const int TOOL_BAR_HEIGHT = 48;
 
         public LagoVistaContentPage() : base()
         {
@@ -122,7 +122,7 @@ namespace LagoVista.XPlat.Core
 
             _leftMenuButton = new IconButton();
             _leftMenuButton.IsVisible = false;
-            _leftMenuButton.HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, false);
+            _leftMenuButton.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
             _leftMenuButton.TextColor = AppStyle.TitleBarText.ToXamFormsColor();
             _leftMenuButton.WidthRequest = 48;
             _leftMenuButton.HeightRequest = 48;
@@ -132,7 +132,7 @@ namespace LagoVista.XPlat.Core
             _rightMenuButton = new IconButton();
             _rightMenuButton.SetValue(Grid.ColumnProperty, 2);
             _rightMenuButton.IsVisible = false;
-            _rightMenuButton.HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, false);
+            _rightMenuButton.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
             _rightMenuButton.TextColor = AppStyle.TitleBarText.ToXamFormsColor();
             _rightMenuButton.WidthRequest = 48;
             _rightMenuButton.HeightRequest = 48;
@@ -429,6 +429,20 @@ namespace LagoVista.XPlat.Core
             }
         }
 
+
+        public new static readonly BindableProperty TitleProperty = BindableProperty.Create(nameof(Title), typeof(string), typeof(LagoVistaContentPage), default(string), BindingMode.TwoWay, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).Title = (string)newValue);
+
+        public new string Title
+        {
+            get { return (string)GetValue(TitleProperty); }
+            set
+            {
+                SetValue(TitleProperty, value);
+                _title.Text = value;
+            }
+        }
+
         public static readonly BindableProperty RightMenuEnabledProperty = BindableProperty.Create(nameof(RightMenuEnabled), typeof(bool), typeof(LagoVistaContentPage), false, BindingMode.TwoWay, null,
             (view, oldValue, newValue) => (view as LagoVistaContentPage).RightMenuEnabled = (bool)newValue, null, null, (view) => { return false; });
 
@@ -444,7 +458,7 @@ namespace LagoVista.XPlat.Core
 
 
         public static readonly BindableProperty LeftMenuCustomIconProperty = BindableProperty.Create(nameof(LeftMenuCustomIcon), typeof(string), typeof(LagoVistaContentPage), default(string), BindingMode.TwoWay, null,
-            (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenuCustomIcon = (string)newValue, null, null, (view) => { return false; });
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenuCustomIcon = (string)newValue);
 
         public string LeftMenuCustomIcon
         {
@@ -458,7 +472,7 @@ namespace LagoVista.XPlat.Core
 
 
         public static readonly BindableProperty RightMenuCustomIconProperty = BindableProperty.Create(nameof(RightMenuCustomIcon), typeof(string), typeof(LagoVistaContentPage), default(string), BindingMode.TwoWay, null,
-            (view, oldValue, newValue) => (view as LagoVistaContentPage).RightMenuCustomIcon = (string)newValue, null, null, (view) => { return false; });
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).RightMenuCustomIcon = (string)newValue);
 
         public string RightMenuCustomIcon
         {
@@ -471,7 +485,7 @@ namespace LagoVista.XPlat.Core
         }
 
         public static readonly BindableProperty LeftMenuCustomTextProperty = BindableProperty.Create(nameof(LeftMenuCustomText), typeof(string), typeof(LagoVistaContentPage), default(string), BindingMode.TwoWay, null,
-            (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenuCustomText = (string)newValue, null, null, (view) => { return false; });
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenuCustomText = (string)newValue);
 
         public string LeftMenuCustomText
         {
@@ -485,7 +499,7 @@ namespace LagoVista.XPlat.Core
 
 
         public static readonly BindableProperty RightMenuCustomTextProperty = BindableProperty.Create(nameof(RightMenuCustomText), typeof(string), typeof(LagoVistaContentPage), default(string), BindingMode.TwoWay, null,
-            (view, oldValue, newValue) => (view as LagoVistaContentPage).RightMenuCustomText = (string)newValue, null, null, (view) => { return false; });
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).RightMenuCustomText = (string)newValue);
 
         public string RightMenuCustomText
         {
@@ -499,7 +513,7 @@ namespace LagoVista.XPlat.Core
 
 
         public static readonly BindableProperty LeftMenuProperty = BindableProperty.Create(nameof(LeftMenu), typeof(LeftMenuIcon), typeof(LagoVistaContentPage), LeftMenuIcon.None, BindingMode.TwoWay, null,
-            (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenu = (LeftMenuIcon)newValue, null, null, (view) => { return false; });
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenu = (LeftMenuIcon)newValue);
 
         void SetLeftMenuIcon()
         {

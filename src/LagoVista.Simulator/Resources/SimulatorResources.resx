@@ -123,6 +123,9 @@
   <data name="Common_EmailAddress" xml:space="preserve">
     <value>Email Address</value>
   </data>
+  <data name="Common_EndPoint" xml:space="preserve">
+    <value>End Point</value>
+  </data>
   <data name="Common_GetStarted" xml:space="preserve">
     <value>Get Started</value>
   </data>
@@ -132,8 +135,35 @@
   <data name="Common_Login" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="Common_Messages" xml:space="preserve">
+    <value>Messages</value>
+  </data>
   <data name="Common_Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="Common_Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Common_Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="Common_Transport" xml:space="preserve">
+    <value>Transport</value>
+  </data>
+  <data name="DynamicAttr_Title" xml:space="preserve">
+    <value>Dynamic Attributes</value>
+  </data>
+  <data name="MessageEditor_Title" xml:space="preserve">
+    <value>Message Editor</value>
+  </data>
+  <data name="MessageHeader_Title" xml:space="preserve">
+    <value>Message Header</value>
+  </data>
+  <data name="SimulatorEditor_Title" xml:space="preserve">
+    <value>Simulator Editor</value>
+  </data>
+  <data name="Simulator_Title" xml:space="preserve">
+    <value>Simulator</value>
   </data>
   <data name="Welcome_Title" xml:space="preserve">
     <value>Welcome - IoT Simulator</value>

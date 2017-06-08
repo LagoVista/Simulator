@@ -8,6 +8,7 @@ using UIKit;
 using LagoVista.Core.PlatformSupport;
 using Microsoft.Azure.Mobile;
 using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.Azure.Mobile.Crashes;
 
 namespace LagoVista.XPlat.iOS.Loggers
 {
@@ -33,7 +34,7 @@ namespace LagoVista.XPlat.iOS.Loggers
 
         public MobileCenterLogger(string key)
         {
-            MobileCenter.Start($"uwp={key}", typeof(Analytics));
+            MobileCenter.Start($"ios={key}", typeof(Analytics), typeof(Crashes));
         }
 
         public void Log(LagoVista.Core.PlatformSupport.LogLevel level, string area, string message, params KeyValuePair<string, string>[] args)

@@ -46,7 +46,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
             var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
             form.OptionSelected += Form_OptionSelected;
-            View[nameof(Model.Key).ToFieldKey()].IsUserEditable = false;
+            View[nameof(Model.Key).ToFieldKey()].IsUserEditable = IsCreate;
             form.AddViewCell(nameof(Model.Name));
             form.AddViewCell(nameof(Model.Key));
             form.AddViewCell(nameof(Model.PayloadType));

@@ -1,4 +1,6 @@
 ﻿using LagoVista.Core.Attributes;
+using LagoVista.Core.Interfaces;
+using LagoVista.Core.IOC;
 using LagoVista.Core.Models.UIMetaData;
 using System;
 using Xamarin.Forms;
@@ -26,6 +28,8 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
         {
 
         }
+
+        public IAppStyle AppStyle { get { return SLWIOC.Get<IAppStyle>(); } }
 
         public FieldTypes FieldType
         {
