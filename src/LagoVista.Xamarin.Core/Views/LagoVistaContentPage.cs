@@ -610,7 +610,7 @@ namespace LagoVista.XPlat.Core
             {
                 if (ViewModel != null)
                 {
-                    ViewModel.Logger.Log(LagoVista.Core.PlatformSupport.LogLevel.Message, ViewModel.GetType().Name, "Appeared");
+                    ViewModel.Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Message, ViewModel.GetType().Name, "Appeared");
                     this.Content.BindingContext = ViewModel;
                     await ViewModel.InitAsync();
                 }
@@ -619,7 +619,7 @@ namespace LagoVista.XPlat.Core
             {
                 if (ViewModel != null)
                 {
-                    ViewModel.Logger.Log(LagoVista.Core.PlatformSupport.LogLevel.Message, ViewModel.GetType().Name, "Re-appeared");
+                    ViewModel.Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Message, ViewModel.GetType().Name, "Re-appeared");
                     this.Content.BindingContext = null;
                     this.Content.BindingContext = ViewModel;
                     await ViewModel.ReloadedAsync();
@@ -638,7 +638,7 @@ namespace LagoVista.XPlat.Core
 
             if (ViewModel != null)
             {
-                ViewModel.Logger.Log(LagoVista.Core.PlatformSupport.LogLevel.Message, ViewModel.GetType().Name, "Disappeared");
+                ViewModel.Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Message, ViewModel.GetType().Name, "Disappeared");
                 await ViewModel.IsClosingAsync();
             }
         }

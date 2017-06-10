@@ -1,8 +1,8 @@
 ﻿{
   "dependencies": {
-    "LagoVista.Core": "0.8.189-alpha1138",
-    "LagoVista.Core.Networking": "0.8.189-alpha1138",
-    "LagoVista.IoT.DeviceAdmin": "0.8.189-alpha1138",
+    "LagoVista.Core": "1.2.24-alpha1613",
+    "LagoVista.Core.Networking": "1.2.24-alpha1613",
+    "LagoVista.IoT.DeviceAdmin": "1.2.24-alpha1613",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3"
   },
   "frameworks": {

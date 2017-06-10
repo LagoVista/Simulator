@@ -18,8 +18,6 @@ namespace LagoVista.XPlat.Droid.Loggers
 {
     public class MobileCenterLogger : ILogger
     {
-        private String _userId;
-
         KeyValuePair<String, String>[] _args;
 
 
@@ -32,7 +30,7 @@ namespace LagoVista.XPlat.Droid.Loggers
         {
             var duration = DateTime.Now - evt.StartTime;
 
-            Log(LagoVista.Core.PlatformSupport.LogLevel.Message, evt.Area, evt.Description, new KeyValuePair<string, string>("duration", Math.Round(duration.TotalSeconds, 4).ToString()));
+            AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Message, evt.Area, evt.Description, new KeyValuePair<string, string>("duration", Math.Round(duration.TotalSeconds, 4).ToString()));
         }
 
 
@@ -41,11 +39,10 @@ namespace LagoVista.XPlat.Droid.Loggers
             MobileCenter.Start($"android={key}", typeof(Analytics), typeof(Crashes));
         }
 
-        public void Log(LagoVista.Core.PlatformSupport.LogLevel level, string area, string message, params KeyValuePair<string, string>[] args)
+        public void AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel level, string area, string message, params KeyValuePair<string, string>[] args)
         {
             var dictionary = new Dictionary<string, string>();
             dictionary.Add("Area", "area");
-            dictionary.Add("UseId", String.IsNullOrEmpty(_userId) ? "UNKNOWN" : _userId);
             dictionary.Add("Level", level.ToString());
 
             if (_args != null)
@@ -64,11 +61,10 @@ namespace LagoVista.XPlat.Droid.Loggers
             Analytics.TrackEvent(message, dictionary);
         }
 
-        public void LogException(string area, Exception ex, params KeyValuePair<string, string>[] args)
+        public void AddException(string area, Exception ex, params KeyValuePair<string, string>[] args)
         {
             var dictionary = new Dictionary<string, string>();
             dictionary.Add("Area", "area");
-            dictionary.Add("UseId",  String.IsNullOrEmpty(_userId) ? "UNKNOWN" : _userId);
             dictionary.Add("Type", "exception");
             dictionary.Add("StackTrace", ex.StackTrace);
 
@@ -88,20 +84,14 @@ namespace LagoVista.XPlat.Droid.Loggers
             Analytics.TrackEvent(ex.Message, dictionary);
         }
 
-        public void SetKeys(params KeyValuePair<String, String>[] args)
+        public void AddKVPs(params KeyValuePair<String, String>[] args)
         {
             _args = args;
-        }
-
-        public void SetUserId(string userId)
-        {
-            _userId = userId;
-        }
+        }        
 
         public void TrackEvent(string message, Dictionary<string, string> args)
         {
             var dictionary = new Dictionary<string, string>();
-            dictionary.Add("UseId", String.IsNullOrEmpty(_userId) ? "UNKNOWN" : _userId);
 
             foreach (var arg in args)
             {

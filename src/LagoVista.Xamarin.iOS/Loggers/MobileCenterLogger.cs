@@ -28,7 +28,7 @@ namespace LagoVista.XPlat.iOS.Loggers
         {
             var duration = DateTime.Now - evt.StartTime;
 
-            Log(LagoVista.Core.PlatformSupport.LogLevel.Message, evt.Area, evt.Description, new KeyValuePair<string, string>("duration", Math.Round(duration.TotalSeconds, 4).ToString()));
+            AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Message, evt.Area, evt.Description, new KeyValuePair<string, string>("duration", Math.Round(duration.TotalSeconds, 4).ToString()));
         }
 
 
@@ -37,7 +37,7 @@ namespace LagoVista.XPlat.iOS.Loggers
             MobileCenter.Start($"ios={key}", typeof(Analytics), typeof(Crashes));
         }
 
-        public void Log(LagoVista.Core.PlatformSupport.LogLevel level, string area, string message, params KeyValuePair<string, string>[] args)
+        public void AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel level, string area, string message, params KeyValuePair<string, string>[] args)
         {
             var dictionary = new Dictionary<string, string>();
             dictionary.Add("Area", "area");
@@ -60,7 +60,7 @@ namespace LagoVista.XPlat.iOS.Loggers
             Analytics.TrackEvent(message, dictionary);
         }
 
-        public void LogException(string area, Exception ex, params KeyValuePair<string, string>[] args)
+        public void AddException(string area, Exception ex, params KeyValuePair<string, string>[] args)
         {
             var dictionary = new Dictionary<string, string>();
             dictionary.Add("Area", "area");
@@ -84,7 +84,7 @@ namespace LagoVista.XPlat.iOS.Loggers
             Analytics.TrackEvent(ex.Message, dictionary);
         }
 
-        public void SetKeys(params KeyValuePair<String, String>[] args)
+        public void AddKVPs(params KeyValuePair<String, String>[] args)
         {
             _args = args;
         }

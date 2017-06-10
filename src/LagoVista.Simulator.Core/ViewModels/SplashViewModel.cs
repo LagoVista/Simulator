@@ -33,10 +33,7 @@ namespace LagoVista.Simulator.Core.ViewModels
             await AuthManager.LoadAsync();
             if(AuthManager.IsAuthenticated)
             {
-                Logger.SetUserId(AuthManager.User.Email);
-                Logger.SetKeys(new KeyValuePair<string, string>("OrgId", AuthManager.User.CurrentOrganization.Text));
-                    
-
+                Logger.AddKVPs(new KeyValuePair<string, string>("Email", AuthManager.User.Email), new KeyValuePair<string, string>("OrgId", AuthManager.User.CurrentOrganization.Text));
                 await ViewModelNavigation.SetAsNewRootAsync<MainViewModel>();
             }
             else
