@@ -123,19 +123,19 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="LagoVista.Core, Version=0.8.0.0, Culture=neutral, PublicKeyToken=2698135e9954a85d, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.Core.Networking.1.2.24-alpha1613\lib\netstandard1.2\LagoVista.Core.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.Core.Networking.1.2.26-alpha1825\lib\netstandard1.2\LagoVista.Core.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.Core.Authentication, Version=0.8.0.0, Culture=neutral, PublicKeyToken=dcf35d1740df1edc, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.Core.Authentication.1.2.24-alpha1613\lib\netstandard1.2\LagoVista.Core.Authentication.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.Core.Authentication.1.2.26-alpha1825\lib\netstandard1.2\LagoVista.Core.Authentication.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.Core.Networking, Version=0.8.0.0, Culture=neutral, PublicKeyToken=650a46bd96014ff6, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.Core.Networking.1.2.24-alpha1613\lib\netstandard1.2\LagoVista.Core.Networking.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.Core.Networking.1.2.26-alpha1825\lib\netstandard1.2\LagoVista.Core.Networking.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.IoT.DeviceAdmin, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.IoT.DeviceAdmin.1.2.24-alpha1613\lib\netstandard1.2\LagoVista.IoT.DeviceAdmin.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.IoT.DeviceAdmin.1.2.26-alpha1825\lib\netstandard1.2\LagoVista.IoT.DeviceAdmin.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.IoT.Simulator.Admin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.IoT.Simulator.Admin.1.2.24-alpha1613\lib\netstandard1.2\LagoVista.IoT.Simulator.Admin.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.IoT.Simulator.Admin.1.2.26-alpha1825\lib\netstandard1.2\LagoVista.IoT.Simulator.Admin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -175,16 +175,6 @@
     <ProjectReference Include="..\LagoVista.Simulator\LagoVista.Simulator.csproj">
       <Project>{0337fc19-1182-48cf-b4fb-d7818509de3d}</Project>
       <Name>LagoVista.Simulator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LagoVista.Xamarin.Core\LagoVista.XPlat.Core.csproj">
-      <Project>{d5dd4ca3-3b5c-4a0e-aa82-4cebb9a7160d}</Project>
-      <Name>LagoVista.XPlat.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LagoVista.Xamarin.iOS\LagoVista.Xamarin.iOS.csproj">
-      <Project>{e5400b5b-9f73-4c70-b958-b44a37d8f6f6}</Project>
-      <Name>LagoVista.Xamarin.iOS</Name>
-      <IsAppExtension>false</IsAppExtension>
-      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

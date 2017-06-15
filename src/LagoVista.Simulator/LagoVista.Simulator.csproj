@@ -96,7 +96,7 @@
       <Project>{9a2fb24b-41db-4015-9c3f-db8c6bb087e9}</Project>
       <Name>LagoVista.Simulator.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LagoVista.Xamarin.Core\LagoVista.XPlat.Core.csproj">
+    <ProjectReference Include="..\LagoVista.XPlat.Core\LagoVista.XPlat.Core.csproj">
       <Project>{d5dd4ca3-3b5c-4a0e-aa82-4cebb9a7160d}</Project>
       <Name>LagoVista.XPlat.Core</Name>
     </ProjectReference>

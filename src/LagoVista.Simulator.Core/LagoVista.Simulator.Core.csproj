@@ -5,16 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.24-alpha1613" />
-    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.24-alpha1613" />
-    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.24-alpha1613" />
-    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.24-alpha1613" />
-    <PackageReference Include="LagoVista.IoT.Simulator.Admin" Version="1.2.24-alpha1613" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.26-alpha1825" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.26-alpha1825" />
+    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.26-alpha1825" />
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.26-alpha1825" />
+    <PackageReference Include="LagoVista.IoT.Simulator.Admin" Version="1.2.26-alpha1825" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LagoVista.Client.Core\LagoVista.Client.Core.csproj" />
-    <ProjectReference Include="..\LagoVista.Xamarin.Core\LagoVista.XPlat.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -50,6 +50,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             form.AddViewCell(nameof(Model.Name));
             form.AddViewCell(nameof(Model.Key));
             form.AddViewCell(nameof(Model.PayloadType));
+            form.AddViewCell(nameof(Model.HttpVerb));
             form.AddViewCell(nameof(Model.EndPoint));
             form.AddViewCell(nameof(Model.Port));
             form.AddViewCell(nameof(Model.Transport));
