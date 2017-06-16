@@ -36,7 +36,7 @@ namespace LagoVista.Simulator
 
             LagoVista.Client.Core.Startup.Init(serverInfo);
             LagoVista.XPlat.Core.Startup.Init(this);
-
+                
             SLWIOC.RegisterSingleton<IAppConfig>(new AppConfig());
             var navigation = new ViewModelNavigation(this);
             navigation.Add<SplashViewModel, Views.SplashView>();

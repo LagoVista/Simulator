@@ -1,9 +1,9 @@
 ﻿{
   "dependencies": {
-    "LagoVista.Core": "1.2.26-alpha1825",
-    "LagoVista.Core.Networking": "1.2.26-alpha1825",
+    "LagoVista.Core": "1.2.29-alpha1859",
+    "LagoVista.Core.Networking": "1.2.29-alpha1859",
     "LagoVista.Core.UWP": "1.2.25-alpha1524",
-    "LagoVista.IoT.DeviceAdmin": "1.2.26-alpha1825",
+    "LagoVista.IoT.DeviceAdmin": "1.2.29-alpha1859",
     "Microsoft.Azure.Mobile.Analytics": "0.12.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
     "Newtonsoft.Json": "10.0.2",

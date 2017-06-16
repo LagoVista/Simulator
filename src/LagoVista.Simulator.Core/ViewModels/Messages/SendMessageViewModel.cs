@@ -21,21 +21,21 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
         public override Task InitAsync()
         {
-            MessageTemplate = LaunchArgs.Parent as MessageTemplate;
+            MsgTemplate = LaunchArgs.Parent as MessageTemplate;
 
             return base.InitAsync();
         }
 
-        public void Send()
+        public async void Send()
         {
-            switch (MessageTemplate.Transport.Value)
+            switch (MsgTemplate.Transport.Value)
             {
                 case TransportTypes.TCP:
                     {
                         if (LaunchArgs.HasParam("tcpclient"))
                         {
                             var client = LaunchArgs.GetParam<ITCPClient>("tcpclient");
-                            client.WriteAsync(MessageTemplate.TextPayload);
+                            await client.WriteAsync(MsgTemplate.TextPayload);
                         }
                     }
                     break;
@@ -46,19 +46,30 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 case TransportTypes.RestHttp:
                     {
                         var client = new HttpClient();
+                        foreach (var hdr in MsgTemplate.MessageHeaders)
+                        {
+                            client.DefaultRequestHeaders.Add(hdr.Name, hdr.Value);
+                        }
 
+                        switch (MsgTemplate.HttpVerb)
+                        {
+                            case MessageTemplate.HttpVerb_GET:
+                                var uri = $"{MsgTemplate.EndPoint}:{MsgTemplate.Port}/{MsgTemplate.PathAndQueryString}";
+                                var response = await client.GetAsync(uri);
 
+                                break;
+                        }
                     }
                     break;
 
             }
 
-            Popups.ShowAsync("MESSAGE SENT!");
+            await Popups.ShowAsync("MESSAGE SENT!");
         }
 
 
         MessageTemplate _message;
-        public MessageTemplate MessageTemplate
+        public MessageTemplate MsgTemplate
         {
             get { return _message; }
             set { Set(ref _message, value); }

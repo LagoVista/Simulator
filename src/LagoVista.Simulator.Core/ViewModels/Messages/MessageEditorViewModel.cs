@@ -28,14 +28,21 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         {
             var newMessageTemplate = await RestClient.CreateNewAsync("/api/simulator/messagetemplate/factory");
             Model = (IsEdit) ? this.LaunchArgs.GetChild<MessageTemplate>() : newMessageTemplate.Model;
+
             View = newMessageTemplate.View;
             if (IsCreate)
             {
+
                 var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
+
                 Model.EndPoint = parent.DefaultEndPoint;
+
                 Model.Port = parent.DefaultPort;
+
                 Model.Transport = parent.DefaultTransport;
+
                 View[nameof(Model.TextPayload).ToFieldKey()].IsVisible = false;
+
                 View[nameof(Model.BinaryPayload).ToFieldKey()].IsVisible = false;
             }
             else
@@ -49,11 +56,12 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             View[nameof(Model.Key).ToFieldKey()].IsUserEditable = IsCreate;
             form.AddViewCell(nameof(Model.Name));
             form.AddViewCell(nameof(Model.Key));
-            form.AddViewCell(nameof(Model.PayloadType));
-            form.AddViewCell(nameof(Model.HttpVerb));
+            form.AddViewCell(nameof(Model.Transport));
             form.AddViewCell(nameof(Model.EndPoint));
             form.AddViewCell(nameof(Model.Port));
-            form.AddViewCell(nameof(Model.Transport));
+
+            form.AddViewCell(nameof(Model.PayloadType));
+            form.AddViewCell(nameof(Model.HttpVerb));
             form.AddViewCell(nameof(Model.TextPayload));
             form.AddViewCell(nameof(Model.BinaryPayload));
             form.AddViewCell(nameof(Model.PathAndQueryString));
@@ -66,11 +74,21 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             FormAdapter = form;
         }
 
+        private void SetForMQTT()
+        {
+
+        }
+
+        private void SetForAMQP()
+        {
+
+        }
+
         private void Form_OptionSelected(object sender, OptionSelectedEventArgs e)
         {
-            if(e.Key == nameof(Model.PayloadType).ToFieldKey())
+            if (e.Key == nameof(Model.PayloadType).ToFieldKey())
             {
-                if(e.Value == MessageTemplate.PayloadTypes_Binary)
+                if (e.Value == MessageTemplate.PayloadTypes_Binary)
                 {
                     FormAdapter.HideView(nameof(Model.TextPayload));
                     FormAdapter.ShowView(nameof(Model.BinaryPayload));
@@ -86,6 +104,17 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     FormAdapter.HideView(nameof(Model.BinaryPayload));
                 }
             }
+
+            if (e.Key == nameof(Model.Transport).ToFieldKey())
+            {
+                if (e.Value == LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_RestHttp)
+                {
+                    FormAdapter.ShowView(nameof(Model.HttpVerb));
+                    FormAdapter.HideView(nameof(Model.PayloadType));
+
+                }
+            }
+
         }
     }
 }

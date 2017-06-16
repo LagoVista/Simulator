@@ -104,11 +104,17 @@ namespace LagoVista.Simulator.Core.ViewModels
                         }
                         else
                         {
-                            var eh = Activator.CreateInstance(prop.PropertyType) as EntityHeader;
-                            eh.Id = formItem.Value;
-                            eh.Text = formItem.Options.Where(opt => opt.Key == formItem.Value).First().Label;
-
-                            prop.SetValue(model, eh);
+                            if (prop.PropertyType == typeof(String))
+                            {
+                                prop.SetValue(model, formItem.Options.Where(opt => opt.Key == formItem.Value).First().Key);
+                            }
+                            else
+                            {
+                                var eh = Activator.CreateInstance(prop.PropertyType) as EntityHeader;
+                                eh.Id = formItem.Value;
+                                eh.Text = formItem.Options.Where(opt => opt.Key == formItem.Value).First().Label;
+                                prop.SetValue(model, eh);
+                            }
                         }
                         break;
                     case FormField.FieldType_Integer:
@@ -181,8 +187,15 @@ namespace LagoVista.Simulator.Core.ViewModels
                     case FormField.FieldType_Picker:
                         if (value != null)
                         {
-                            var entityHeader = value as EntityHeader;
-                            formItem.Value = entityHeader.Id;
+                            if (value.GetType() == typeof(String))
+                            {
+                                formItem.Value = value.ToString();
+                            }
+                            else
+                            {
+                                var entityHeader = value as EntityHeader;
+                                formItem.Value = entityHeader.Id;
+                            }
                         }
                         break;
                     case FormField.FieldType_CheckBox:
