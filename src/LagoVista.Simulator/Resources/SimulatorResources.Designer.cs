@@ -188,6 +188,24 @@ namespace LagoVista.Simulator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input.
+        /// </summary>
+        public static string SendMessage_Input {
+            get {
+                return ResourceManager.GetString("SendMessage_Input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output.
+        /// </summary>
+        public static string SendMessage_Ouptut {
+            get {
+                return ResourceManager.GetString("SendMessage_Ouptut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Message Sender.
         /// </summary>
         public static string SendMessage_Title {

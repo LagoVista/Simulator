@@ -159,6 +159,12 @@
   <data name="MessageHeader_Title" xml:space="preserve">
     <value>Message Header</value>
   </data>
+  <data name="SendMessage_Input" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="SendMessage_Ouptut" xml:space="preserve">
+    <value>Output</value>
+  </data>
   <data name="SendMessage_Title" xml:space="preserve">
     <value>Message Sender</value>
   </data>

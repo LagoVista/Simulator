@@ -45,19 +45,26 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     break;
                 case TransportTypes.RestHttp:
                     {
-                        var client = new HttpClient();
-                        foreach (var hdr in MsgTemplate.MessageHeaders)
+                        try
                         {
-                            client.DefaultRequestHeaders.Add(hdr.Name, hdr.Value);
+                            var client = new HttpClient();
+                            foreach (var hdr in MsgTemplate.MessageHeaders)
+                            {
+                                client.DefaultRequestHeaders.Add(hdr.Name, hdr.Value);
+                            }
+
+                            switch (MsgTemplate.HttpVerb)
+                            {
+                                case MessageTemplate.HttpVerb_GET:
+                                    var uri = $"{MsgTemplate.EndPoint}:{MsgTemplate.Port}/{MsgTemplate.PathAndQueryString}";
+                                    var response = await client.GetAsync(uri);
+
+                                    break;
+                            }
                         }
-
-                        switch (MsgTemplate.HttpVerb)
+                        catch(Exception ex)
                         {
-                            case MessageTemplate.HttpVerb_GET:
-                                var uri = $"{MsgTemplate.EndPoint}:{MsgTemplate.Port}/{MsgTemplate.PathAndQueryString}";
-                                var response = await client.GetAsync(uri);
-
-                                break;
+                            ReceivedContennt = ex.Message;
                         }
                     }
                     break;
@@ -65,6 +72,20 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             }
 
             await Popups.ShowAsync("MESSAGE SENT!");
+        }
+
+        private string _sentContent;
+        public String SentContent
+        {
+            get { return _sentContent; }
+            set { Set(ref _sentContent, value); }
+        }
+
+        private string _receivedContent;
+        public String ReceivedContennt
+        {
+            get { return _receivedContent; }
+            set { Set(ref _receivedContent, value); }
         }
 
 

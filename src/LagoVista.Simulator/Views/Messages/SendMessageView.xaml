@@ -3,53 +3,56 @@
       xmlns:pge="clr-namespace:LagoVista.XPlat.Core;assembly=LagoVista.XPlat.Core"
       xmlns="http://xamarin.com/schemas/2014/forms"
       xmlns:trs="clr-namespace:LagoVista.Simulator;assembly=LagoVista.Simulator"
-      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"      
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       x:Class="LagoVista.Simulator.Views.Messages.SendMessageView"
       LeftMenu="Back"
       Title="{trs:Translate SendMessage_Title}">
 
-    <pge:LagoVistaContentPage.MainContent>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+  <pge:LagoVistaContentPage.MainContent>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="120" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto" />
+          <ColumnDefinition Width="120" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-                <pge:Icon IconKey="fa-comments-o" FontSize="92" Margin="0,0,20,0"  TextColor="{StaticResource NuvIoTDark}" Grid.RowSpan="4" />
+        <pge:Icon IconKey="fa-comments-o" FontSize="92" Margin="0,0,20,0"  TextColor="{StaticResource NuvIoTDark}" Grid.RowSpan="4" />
 
-                <Label Text="{Binding MessageTemplate.Name}" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" FontSize="32" />
-                <Label Text="{trs:Translate Common_Transport}" Grid.Column="1" Grid.Row="1" TextColor="{StaticResource NuvIoTDark}" Font="Bold,16" />
-                <Label Text="{trs:Translate Common_EndPoint}" Grid.Column="1" Grid.Row="2" TextColor="{StaticResource NuvIoTDark}" Font="Bold,16" />
-                <Label Text="{trs:Translate Common_Port}" Grid.Column="1" Grid.Row="3" TextColor="{StaticResource NuvIoTDark}" Font="Bold,16" />
+        <Label Text="{Binding MessageTemplate.Name}" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" FontSize="32" />
+        <Label Text="{trs:Translate Common_Transport}" Grid.Column="1" Grid.Row="1" TextColor="{StaticResource NuvIoTDark}" Font="Bold,16" />
+        <Label Text="{trs:Translate Common_EndPoint}" Grid.Column="1" Grid.Row="2" TextColor="{StaticResource NuvIoTDark}" Font="Bold,16" />
+        <Label Text="{trs:Translate Common_Port}" Grid.Column="1" Grid.Row="3" TextColor="{StaticResource NuvIoTDark}" Font="Bold,16" />
 
-                <Label Text="{Binding MessageTemplate.Transport.Text}" Grid.Column="2" Grid.Row="1" Font="16" />
-                <Label Text="{Binding MessageTemplate.EndPoint}"  Grid.Column="2" Grid.Row="2" Font="16" />
-                <Label Text="{Binding MessageTemplate.Port}" Grid.Column="2" Grid.Row="3" Font="16" />
-            </Grid>
+        <Label Text="{Binding MessageTemplate.Transport.Text}" Grid.Column="2" Grid.Row="1" Font="16" />
+        <Label Text="{Binding MessageTemplate.EndPoint}"  Grid.Column="2" Grid.Row="2" Font="16" />
+        <Label Text="{Binding MessageTemplate.Port}" Grid.Column="2" Grid.Row="3" Font="16" />
+      </Grid>
 
-            <Button Text="{trs:Translate Common_Send}" Command="{Binding SendCommand}" Grid.Row="1" />
+      <Button Text="{trs:Translate Common_Send}" Command="{Binding SendCommand}" Grid.Row="1" />
 
-            <Grid Grid.Row="2">
-                <Label Text="Outgoing" />
-            </Grid>
-            <Grid Grid.Row="3" >
-                <Label Text="Incoming" />
-            </Grid>
-        </Grid>
-    </pge:LagoVistaContentPage.MainContent>
+      <Label Grid.Row="2" Text="{trs:Translate SendMessage_Sent}" />
+      <Label Grid.Row="3" Text="{Binding SentContent}" />
+
+      <Label Grid.Row="4" Text="{trs:Translate SendMessage_Received}" />
+      <Label Grid.Row="5" Text="{Binding ReceivedContent}" />
+    </Grid>
+  </pge:LagoVistaContentPage.MainContent>
 </pge:LagoVistaContentPage>
