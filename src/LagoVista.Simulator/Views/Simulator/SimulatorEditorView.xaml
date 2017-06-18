@@ -12,7 +12,7 @@
 
 
   <pge:LagoVistaContentPage.MainContent >
-    <pge:FormViewer Form="{Binding FormAdapter}" />
+    <pge:FormViewer Form="{Binding FormAdapter}"  />
   </pge:LagoVistaContentPage.MainContent >
 
 

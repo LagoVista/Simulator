@@ -120,6 +120,12 @@
   <data name="AppName" xml:space="preserve">
     <value>IoT Simulator</value>
   </data>
+  <data name="Common_Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="Common_Disconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
   <data name="Common_EmailAddress" xml:space="preserve">
     <value>Email Address</value>
   </data>

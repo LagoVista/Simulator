@@ -45,8 +45,8 @@
       </Grid>
 
       <StackLayout Grid.Row="1">
-        <Button Command="{Binding ConnectCommand}" Text="Connect" />
-        <Button Command="{Binding DisconnectCommand}" Grid.Row="1" Text="Disconnect" />        
+        <Button Command="{Binding ConnectCommand}" Text="{trs:Translate Common_Connect}"  IsVisible="{Binding ConnectionVisible}" />
+        <Button Command="{Binding DisconnectCommand}" Grid.Row="1" Text="{trs:Translate Common_Disconnect}"  IsVisible="{Binding ConnectionVisible}"/>        
       </StackLayout>
 
       <Grid HeightRequest="48" BackgroundColor="{StaticResource MenuBarBackground}" Grid.Row="2"  >

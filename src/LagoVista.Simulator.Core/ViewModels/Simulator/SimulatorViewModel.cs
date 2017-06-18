@@ -13,7 +13,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
     public class SimulatorViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator>
     {
         ITCPClient _tcpClient;
-     //   IUDPClient _udpClient;
+        //   IUDPClient _udpClient;
 
         bool _isConnected;
 
@@ -22,13 +22,35 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         {
             ConnectCommand = new RelayCommand(Connect, CanConnect);
             DisconnectCommand = new RelayCommand(Disconnect, CanDisconnect);
-
         }
 
         public async void EditSimulator()
         {
             await ViewModelNavigation.NavigateAndEditAsync<SimulatorEditorViewModel>(Model.Id);
         }
+
+        private Task LoadSimulator()
+        {
+            return PerformNetworkOperation(async () =>
+            {
+                var existingSimulator = await RestClient.CreateNewAsync($"/api/simulator/{LaunchArgs.ChildId}");
+                if (existingSimulator != null)
+                {
+                    Model = existingSimulator.Model;
+                    MessageTemplates = existingSimulator.Model.MessageTemplates;
+                    ConnectCommand.RaiseCanExecuteChanged();
+                    DisconnectCommand.RaiseCanExecuteChanged();
+                    RaisePropertyChanged(nameof(ConnectionVisible));
+                }
+                else
+                {
+                    await Popups.ShowAsync("Sorry, could not load simulator, please try again later.");
+                }
+
+                return true;
+            });
+        }
+
 
         public async void Connect()
         {
@@ -46,15 +68,17 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 }
 
                 _isConnected = true;
+                
             }
-            catch(Exception)
+            catch (Exception ex)
             {
+                //Popups.ShowAsync(Resources.SimulatorCoreResources)
                 _isConnected = false;
             }
             finally
             {
                 ConnectCommand.RaiseCanExecuteChanged();
-                DisconnectCommand.RaiseCanExecuteChanged();
+                DisconnectCommand.RaiseCanExecuteChanged();                
             }
         }
 
@@ -64,14 +88,14 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             switch (Model.DefaultTransport.Value)
             {
                 case TransportTypes.TCP:
-                    if(_tcpClient != null)
+                    if (_tcpClient != null)
                     {
                         try
                         {
                             await _tcpClient.CloseAsync();
                             _tcpClient.Dispose();
                         }
-                        catch(Exception)
+                        catch (Exception)
                         {
 
                         }
@@ -106,25 +130,15 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                             Model.DefaultTransport.Value == TransportTypes.UDP);
         }
 
-        private Task LoadSimulator()
+        public bool ConnectionVisible
         {
-            return PerformNetworkOperation(async () =>
-           {
-               var existingSimulator = await RestClient.CreateNewAsync($"/api/simulator/{LaunchArgs.ChildId}");
-               if (existingSimulator != null)
-               {
-                   Model = existingSimulator.Model;
-                   MessageTemplates = existingSimulator.Model.MessageTemplates;
-                   ConnectCommand.RaiseCanExecuteChanged();
-                   DisconnectCommand.RaiseCanExecuteChanged();
-               }
-               else
-               {
-                   await Popups.ShowAsync("Sorry, could not load simulator, please try again later.");
-               }
-
-               return true;
-           });
+            get
+            {
+                return Model != null && (Model.DefaultTransport.Value == TransportTypes.AMQP ||
+                                 Model.DefaultTransport.Value == TransportTypes.MQTT ||
+                                 Model.DefaultTransport.Value == TransportTypes.TCP ||
+                                 Model.DefaultTransport.Value == TransportTypes.UDP);
+            }
         }
 
         public override void Edit()
@@ -182,6 +196,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 RaisePropertyChanged();
             }
         }
-      
+
     }
 }

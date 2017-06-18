@@ -96,5 +96,32 @@ namespace LagoVista.Simulator.Core.Resources {
                 return ResourceManager.GetString("SendMessage_MessageSent", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connected!.
+        /// </summary>
+        internal static string Simulator_Connected {
+            get {
+                return ResourceManager.GetString("Simulator_Connected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disconnected.
+        /// </summary>
+        internal static string Simulator_Disconnected {
+            get {
+                return ResourceManager.GetString("Simulator_Disconnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error Connecting.
+        /// </summary>
+        internal static string Simulator_ErrorConnecting {
+            get {
+                return ResourceManager.GetString("Simulator_ErrorConnecting", resourceCulture);
+            }
+        }
     }
 }
