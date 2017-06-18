@@ -15,6 +15,10 @@
             <Color x:Key="NuvIoTWhite">#F3F3F3</Color>
             <Color x:Key="MenuBarBackground">#2E353D</Color>
             <Color x:Key="MenuBarForeground">#F3F3F3</Color>
+            <Style TargetType="Label" x:Key="SectionLabel" >
+                <Setter Property="FontAttributes"  Value="Bold" />
+                <Setter Property="Margin" Value="10,10,0,0" />
+            </Style>
         </ResourceDictionary>
 	</Application.Resources>
 </Application>
