@@ -105,6 +105,7 @@ namespace LagoVista.XPlat.Core
                                 childListControl.ChildItems = Form.ChildLists[field.Name];
                             }
                             childListControl.Add += ChildListControl_Add;
+                            childListControl.Deleted += ChildListControl_Deleted; 
                             childListControl.ItemSelected += ChildListControl_ItemSelected;
                             AddChild(childListControl);
                             break;
@@ -112,8 +113,12 @@ namespace LagoVista.XPlat.Core
                     }
                 }
             }
-        }        
+        }
 
+        private void ChildListControl_Deleted(object sender, DeleteItemEventArgs e)
+        {
+            Form.InvokeItemDeleted(e);
+        }
 
         private void Picker_OptionSelected(object sender, OptionSelectedEventArgs e)
         {
@@ -125,9 +130,9 @@ namespace LagoVista.XPlat.Core
             Form.InvokeItemSelected(e);
         }
 
-        private void ChildListControl_Add(object sender, string e)
+        private void ChildListControl_Add(object sender, string childType)
         {
-            Form.InvokeAdd(e);
+            Form.InvokeAdd(childType);
         }
     }
 }

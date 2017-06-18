@@ -2,6 +2,7 @@
 using LagoVista.IoT.Simulator.Admin.Models;
 using System.Threading.Tasks;
 using LagoVista.Core;
+using System.Linq;
 using LagoVista.Core.Models.UIMetaData;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
@@ -53,6 +54,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
             var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
             form.OptionSelected += Form_OptionSelected;
+            form.DeleteItem += Form_DeleteItem;
             View[nameof(Model.Key).ToFieldKey()].IsUserEditable = IsCreate;
             form.AddViewCell(nameof(Model.Name));
             form.AddViewCell(nameof(Model.Key));
@@ -74,6 +76,23 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             FormAdapter = form;
         }
 
+        
+
+        private void Form_DeleteItem(object sender, DeleteItemEventArgs e)
+        {
+            if(e.Type == nameof(Model.MessageHeaders))
+            {
+                var hdr = Model.MessageHeaders.Where(itm => itm.Id == e.Id).FirstOrDefault();
+                Model.MessageHeaders.Remove(hdr);
+            }
+
+            if (e.Type == nameof(Model.DynamicAttributes))
+            {
+                var attr = Model.DynamicAttributes.Where(itm => itm.Id == e.Id).FirstOrDefault();
+                Model.DynamicAttributes.Remove(attr);
+            }
+        }
+
         private void SetForMQTT()
         {
 
@@ -86,7 +105,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
         private void Form_OptionSelected(object sender, OptionSelectedEventArgs e)
         {
-            if (e.Key == nameof(Model.PayloadType).ToFieldKey())
+            if (e.Key == nameof(Model.PayloadType))
             {
                 if (e.Value == MessageTemplate.PayloadTypes_Binary)
                 {
@@ -105,7 +124,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 }
             }
 
-            if (e.Key == nameof(Model.Transport).ToFieldKey())
+            if (e.Key == nameof(Model.Transport))
             {
                 if (e.Value == LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_RestHttp)
                 {

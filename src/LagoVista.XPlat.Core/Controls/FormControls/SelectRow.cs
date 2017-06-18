@@ -72,7 +72,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                 Field.Value = Field.Options[_picker.SelectedIndex - 1].Key;
             }
 
-            OptionSelected?.Invoke(this, new OptionSelectedEventArgs() { Key = Field.Name, Value = Field.Value });
+            OptionSelected?.Invoke(this, new OptionSelectedEventArgs() { Key = Field.Name.ToPropertyName(), Value = Field.Value });
         }
 
         public override bool Validate()

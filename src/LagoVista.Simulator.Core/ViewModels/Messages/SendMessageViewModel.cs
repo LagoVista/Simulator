@@ -50,7 +50,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                             var client = new HttpClient();
                             foreach (var hdr in MsgTemplate.MessageHeaders)
                             {
-                                client.DefaultRequestHeaders.Add(hdr.Name, hdr.Value);
+                             
                             }
 
                             switch (MsgTemplate.HttpVerb)

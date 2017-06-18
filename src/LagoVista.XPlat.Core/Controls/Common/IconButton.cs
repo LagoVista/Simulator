@@ -45,5 +45,7 @@ namespace LagoVista.XPlat.Core
                 Text = $"{icon.Character}";
             }
         }
+
+        public object Tag { get; set; }
     }
 }

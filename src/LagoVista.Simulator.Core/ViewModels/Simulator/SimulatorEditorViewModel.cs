@@ -3,6 +3,7 @@ using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core;
 using LagoVista.Core.ViewModels;
 using LagoVista.Simulator.Core.ViewModels.Messages;
+using System.Linq;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
@@ -44,7 +45,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             {
                 var uri = this.LaunchArgs.LaunchType == LaunchTypes.Edit ? $"/api/simulator/{LaunchArgs.ChildId}" : "/api/simulator/factory";
 
-                var simulator = await RestClient.GetAsync(uri);
+                var simulator = await RestClient.GetAsync(uri);               
 
                 var form = new EditFormAdapter(simulator.Model, simulator.View, ViewModelNavigation);
                 Model = simulator.Model;
@@ -64,6 +65,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 ModelToView(Model, form);
                 FormAdapter = form;
             });
-        }
+        }       
     }
 }

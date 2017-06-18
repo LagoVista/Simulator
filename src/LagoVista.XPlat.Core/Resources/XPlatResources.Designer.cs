@@ -105,5 +105,23 @@ namespace LagoVista.XPlat.Core.Resources {
                 return ResourceManager.GetString("Common_Yes", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete this item?  This can not be undone..
+        /// </summary>
+        public static string Msg_ConfirmDeleteItem {
+            get {
+                return ResourceManager.GetString("Msg_ConfirmDeleteItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Delete.
+        /// </summary>
+        public static string Msg_ConfirmDeleteItemTitle {
+            get {
+                return ResourceManager.GetString("Msg_ConfirmDeleteItemTitle", resourceCulture);
+            }
+        }
     }
 }

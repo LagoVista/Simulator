@@ -43,6 +43,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
                 form.AddViewCell(nameof(Model.Name));
                 form.AddViewCell(nameof(Model.Key));
+                form.AddViewCell(nameof(Model.HeaderName));
                 form.AddViewCell(nameof(Model.Value));
                 form.AddViewCell(nameof(Model.Description));
                 ModelToView(Model, form);

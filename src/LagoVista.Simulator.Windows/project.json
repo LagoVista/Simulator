@@ -1,12 +1,12 @@
 ﻿{
   "dependencies": {
-    "LagoVista.Core": "1.2.29-alpha1859",
-    "LagoVista.Core.Networking": "1.2.29-alpha1859",
-    "LagoVista.Core.UWP": "1.2.25-alpha1524",
-    "LagoVista.IoT.DeviceAdmin": "1.2.29-alpha1859",
+    "LagoVista.Core": "1.2.32-alpha1416",
+    "LagoVista.Core.Networking": "1.2.32-alpha1416",
+    "LagoVista.Core.UWP": "1.2.32-alpha1052",
+    "LagoVista.IoT.DeviceAdmin": "1.2.32-alpha1416",
     "Microsoft.Azure.Mobile.Analytics": "0.12.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
-    "Newtonsoft.Json": "10.0.2",
+    "Newtonsoft.Json": "10.0.3",
     "Xamarin.Forms": "2.3.5.239-pre3"
   },
   "frameworks": {

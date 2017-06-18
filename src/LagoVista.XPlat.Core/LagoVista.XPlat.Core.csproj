@@ -52,6 +52,7 @@
     <Compile Include="Controls\FormViewer.cs" />
     <Compile Include="Controls\Common\Label.cs" />
     <Compile Include="Extensions\ColorExtension.cs" />
+    <Compile Include="Extensions\ProperyNameExtensions.cs" />
     <Compile Include="Resources\XPlatResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
