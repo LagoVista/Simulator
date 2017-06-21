@@ -11,7 +11,7 @@
     <AssemblyName>LagoVista.Simulator.Windows</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -19,6 +19,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>LagoVista.Simulator.Windows_StoreKey.pfx</PackageCertificateKeyFile>
     <PackageCertificateThumbprint>781400CD9B85D7A93678541F0D09D4180714538B</PackageCertificateThumbprint>
+    <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -123,7 +124,6 @@
     <Content Include="Assets\Fonts\iconize-entypoplus.ttf" />
     <None Include="LagoVista.Simulator.Windows_StoreKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
-    <None Include="project.json" />
     <None Include="project.lock.json" />
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +206,10 @@
       <Project>{786a2d0b-c3e4-4d7a-89c5-86ebc94e1b45}</Project>
       <Name>LagoVista.Client.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LagoVista.MQTT.Core\LagoVista.MQTT.Core.csproj">
+      <Project>{076b08b6-234f-4ae3-8815-7e36a47f9475}</Project>
+      <Name>LagoVista.MQTT.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LagoVista.Simulator\LagoVista.Simulator.csproj">
       <Project>{b5ec62f1-6739-4055-b6fc-21776e60f98a}</Project>
       <Name>LagoVista.Simulator</Name>
@@ -214,6 +218,39 @@
       <Project>{d5dd4ca3-3b5c-4a0e-aa82-4cebb9a7160d}</Project>
       <Name>LagoVista.XPlat.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LagoVista.XPlat.UWP\LagoVista.XPlat.UWP.csproj">
+      <Project>{9ed662b0-40c9-4899-b11e-f10c3c9d6aeb}</Project>
+      <Name>LagoVista.XPlat.UWP</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="LagoVista.Core">
+      <Version>1.2.35-alpha1836</Version>
+    </PackageReference>
+    <PackageReference Include="LagoVista.Core.Networking">
+      <Version>1.2.35-alpha1836</Version>
+    </PackageReference>
+    <PackageReference Include="LagoVista.Core.UWP">
+      <Version>1.2.32-alpha1052</Version>
+    </PackageReference>
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin">
+      <Version>1.2.35-alpha1836</Version>
+    </PackageReference>
+    <PackageReference Include="LagoVista.UserAdmin">
+      <Version>1.2.35-alpha1836</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Azure.Mobile.Analytics">
+      <Version>0.13.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.3.3</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms">
+      <Version>2.3.5.239-pre3</Version>
+    </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

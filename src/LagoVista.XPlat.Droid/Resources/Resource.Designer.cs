@@ -3593,11 +3593,11 @@ namespace LagoVista.XPlat.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f08004f
-			public static int ApplicationName = 2131230799;
+			// aapt resource value: 0x7f080050
+			public static int ApplicationName = 2131230800;
 			
-			// aapt resource value: 0x7f08004e
-			public static int Hello = 2131230798;
+			// aapt resource value: 0x7f08004f
+			public static int Hello = 2131230799;
 			
 			// aapt resource value: 0x7f080016
 			public static int abc_action_bar_home_description = 2131230742;
@@ -3726,28 +3726,31 @@ namespace LagoVista.XPlat.Droid
 			public static int mobile_center_distribute_install_ready_title = 2131230789;
 			
 			// aapt resource value: 0x7f080046
-			public static int mobile_center_distribute_unknown_sources_dialog_message = 2131230790;
+			public static int mobile_center_distribute_notification_category = 2131230790;
 			
 			// aapt resource value: 0x7f080047
-			public static int mobile_center_distribute_unknown_sources_dialog_settings = 2131230791;
+			public static int mobile_center_distribute_unknown_sources_dialog_message = 2131230791;
 			
 			// aapt resource value: 0x7f080048
-			public static int mobile_center_distribute_update_dialog_download = 2131230792;
+			public static int mobile_center_distribute_unknown_sources_dialog_settings = 2131230792;
 			
 			// aapt resource value: 0x7f080049
-			public static int mobile_center_distribute_update_dialog_message_mandatory = 2131230793;
+			public static int mobile_center_distribute_update_dialog_download = 2131230793;
 			
 			// aapt resource value: 0x7f08004a
-			public static int mobile_center_distribute_update_dialog_message_optional = 2131230794;
+			public static int mobile_center_distribute_update_dialog_message_mandatory = 2131230794;
 			
 			// aapt resource value: 0x7f08004b
-			public static int mobile_center_distribute_update_dialog_postpone = 2131230795;
+			public static int mobile_center_distribute_update_dialog_message_optional = 2131230795;
 			
 			// aapt resource value: 0x7f08004c
-			public static int mobile_center_distribute_update_dialog_title = 2131230796;
+			public static int mobile_center_distribute_update_dialog_postpone = 2131230796;
 			
 			// aapt resource value: 0x7f08004d
-			public static int mobile_center_distribute_update_dialog_view_release_notes = 2131230797;
+			public static int mobile_center_distribute_update_dialog_title = 2131230797;
+			
+			// aapt resource value: 0x7f08004e
+			public static int mobile_center_distribute_update_dialog_view_release_notes = 2131230798;
 			
 			// aapt resource value: 0x7f080001
 			public static int mr_button_content_description = 2131230721;

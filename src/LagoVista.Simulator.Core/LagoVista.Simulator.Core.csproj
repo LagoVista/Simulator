@@ -5,15 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.32-alpha1416" />
-    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.32-alpha1416" />
-    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.32-alpha1416" />
-    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.32-alpha1416" />
-    <PackageReference Include="LagoVista.IoT.Simulator.Admin" Version="1.2.32-alpha1416" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.35-alpha1836" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.35-alpha1836" />
+    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.35-alpha1836" />
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.35-alpha1836" />
+    <PackageReference Include="LagoVista.IoT.Simulator.Admin" Version="1.2.35-alpha1836" />
+    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.35-alpha1836" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LagoVista.Client.Core\LagoVista.Client.Core.csproj" />
+    <ProjectReference Include="..\LagoVista.MQTT.Core\LagoVista.MQTT.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

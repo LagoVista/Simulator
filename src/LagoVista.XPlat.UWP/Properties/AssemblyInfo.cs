@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LagoVista UWP Cross Platform Components")]
+[assembly: AssemblyTitle("LagoVista.XPlat.UWP")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Software Logistics, LLC")]
-[assembly: AssemblyProduct("LagoVista Devices and IoT Frameworks")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("LagoVista.XPlat.UWP")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

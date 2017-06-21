@@ -41,6 +41,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     break;
                 case TransportTypes.AMQP:
                     break;
+                case TransportTypes.MQTT:
+                    break;
                 case TransportTypes.RestHttps:
                 case TransportTypes.RestHttp:
                     {
@@ -85,6 +87,16 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     break;
                 case TransportTypes.AMQP:
                     break;
+
+                case TransportTypes.MQTT:
+                    if (LaunchArgs.HasParam("tcpclient"))
+                    {
+                        var client = LaunchArgs.GetParam<ITCPClient>("tcpclient");
+                        await client.WriteAsync(MsgTemplate.TextPayload);
+                    }
+
+                    break;
+
                 case TransportTypes.RestHttps:
                 case TransportTypes.RestHttp:
                     {
