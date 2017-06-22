@@ -2,16 +2,19 @@
 using LagoVista.Core.Commanding;
 using LagoVista.Core.IOC;
 using LagoVista.Core.Models.UIMetaData;
+using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
     public class SimulatorViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator>
     {
+        IMQTTDeviceClient _mqttClient;
         ITCPClient _tcpClient;
         //   IUDPClient _udpClient;
 
@@ -58,6 +61,14 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             {
                 switch (Model.DefaultTransport.Value)
                 {
+                    case TransportTypes.MQTT:
+                        _mqttClient = SLWIOC.Create<IMQTTDeviceClient>();
+                        _mqttClient.ServerURL = Model.DefaultEndPoint;
+                        _mqttClient.DeviceId = Model.DeviceId;
+                        var result = await _mqttClient.Connect();
+                        Debug.WriteLine(result);
+
+                        break;
                     case TransportTypes.TCP:
 
                         _tcpClient = SLWIOC.Create<ITCPClient>();
@@ -72,7 +83,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             }
             catch (Exception ex)
             {
-                //Popups.ShowAsync(Resources.SimulatorCoreResources)
+                Debug.WriteLine(ex.Message);
+                await Popups.ShowAsync(ex.Message);
                 _isConnected = false;
             }
             finally

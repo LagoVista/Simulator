@@ -75,7 +75,7 @@ namespace LagoVista.MQTT.Core.Clients
             try
             {
                 _mqttClient = new MqttClient(_channel);
-                _mqttClient.Init(MQTTAddress, 1883, false);
+                _mqttClient.Init(ServerURL, 1883, false);
                 _mqttClient.ConnectionClosed += _mqttClient_ConnectionClosed;
                 _mqttClient.MqttMsgPublished += client_MqttMsgPublished;
                 _mqttClient.MqttMsgSubscribed += _mqttClient_MqttMsgSubscribed;

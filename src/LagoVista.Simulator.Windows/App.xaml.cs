@@ -53,6 +53,7 @@ namespace LagoVista.Simulator.Windows
 
                 SLWIOC.RegisterSingleton<IDeviceInfo>(new DeviceInfo());
                 SLWIOC.Register<ITCPClient, TCPClient>();
+
                 SLWIOC.Register<IMqttNetworkChannel, MqttNetworkChannel>();
                 SLWIOC.Register<IMQTTAppClient, MQTTAppClient>();
                 SLWIOC.Register<IMQTTDeviceClient, MQTTDeviceClient>();
