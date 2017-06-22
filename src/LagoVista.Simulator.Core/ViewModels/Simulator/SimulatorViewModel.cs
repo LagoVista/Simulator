@@ -16,7 +16,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
     {
         IMQTTDeviceClient _mqttClient;
         ITCPClient _tcpClient;
-        //   IUDPClient _udpClient;
+        IUDPClient _udpClient;
 
         bool _isConnected;
 
@@ -63,9 +63,12 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 {
                     case TransportTypes.MQTT:
                         _mqttClient = SLWIOC.Create<IMQTTDeviceClient>();
-                        _mqttClient.ServerURL = Model.DefaultEndPoint;
-                        _mqttClient.DeviceId = Model.DeviceId;
-                        var result = await _mqttClient.Connect();
+                        _mqttClient.BrokerHostName = Model.DefaultEndPoint;
+                        _mqttClient.BrokerPort = Model.DefaultPort;
+                        _mqttClient.DeviceId = Model.UserName;
+                        _mqttClient.Password = Model.Password;
+
+                        var result = await _mqttClient.ConnectAsync();
                         Debug.WriteLine(result);
 
                         break;
@@ -99,6 +102,13 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
             switch (Model.DefaultTransport.Value)
             {
+                case TransportTypes.MQTT:
+                    if(_mqttClient != null)
+                    {
+                        _mqttClient.Disconnect();
+                        _mqttClient = null;
+                    }
+                    break;
                 case TransportTypes.TCP:
                     if (_tcpClient != null)
                     {
@@ -186,9 +196,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             {
                 if (value != null && _selectedMessageTemplate != value)
                 {
-                    var parameters = new Dictionary<string, object>();
-                    parameters.Add("tcpclient", _tcpClient);
-
                     var launchArgs = new ViewModelLaunchArgs()
                     {
                         ViewModelType = typeof(Messages.SendMessageViewModel),
@@ -196,10 +203,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                         LaunchType = LaunchTypes.Other,
                     };
 
-                    if (_tcpClient != null)
-                    {
-                        launchArgs.Parameters.Add("tcpclient", _tcpClient);
-                    }
+                    if (_tcpClient != null) launchArgs.Parameters.Add("tcpclient", _tcpClient);
+                    if (_mqttClient != null) launchArgs.Parameters.Add("mqttclient", _mqttClient);
+                    if (_udpClient != null) launchArgs.Parameters.Add("udpclient", _udpClient);
 
                     ViewModelNavigation.NavigateAsync(launchArgs);
                 }

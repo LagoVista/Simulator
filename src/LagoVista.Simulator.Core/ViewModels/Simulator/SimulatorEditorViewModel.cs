@@ -4,6 +4,8 @@ using LagoVista.Core;
 using LagoVista.Core.ViewModels;
 using LagoVista.Simulator.Core.ViewModels.Messages;
 using System.Linq;
+using LagoVista.Core.Validation;
+using System.Diagnostics;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
@@ -19,18 +21,27 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         {
             if (ViewToModel(FormAdapter, Model))
             {
+                InvokeResult result;
                 IsBusy = true;
                 if (LaunchArgs.LaunchType == LaunchTypes.Create)
                 {
-                    await RestClient.AddAsync("/api/simulator", this.Model);
+                    result = await RestClient.AddAsync("/api/simulator", this.Model);
                 }
                 else
                 {
-                    await RestClient.UpdateAsync("/api/simulator", this.Model);
+                    result = await RestClient.UpdateAsync("/api/simulator", this.Model);
                 }
+
                 IsBusy = false;
 
-                await this.ViewModelNavigation.GoBackAsync();
+                if (result.Successful)
+                {
+                    await this.ViewModelNavigation.GoBackAsync();
+                }
+                else
+                {
+                    Debug.WriteLine(result.Errors.First().Message);
+                }
             }
         }
 
@@ -56,6 +67,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 form.AddViewCell(nameof(Model.DefaultTransport));
                 form.AddViewCell(nameof(Model.DefaultEndPoint));
                 form.AddViewCell(nameof(Model.DefaultPort));
+                form.AddViewCell(nameof(Model.DefaultPayloadType));
                 form.AddViewCell(nameof(Model.DeviceId));
                 form.AddViewCell(nameof(Model.UserName));
                 form.AddViewCell(nameof(Model.Password));

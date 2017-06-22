@@ -35,15 +35,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             {
 
                 var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
-
                 Model.EndPoint = parent.DefaultEndPoint;
-
                 Model.Port = parent.DefaultPort;
-
                 Model.Transport = parent.DefaultTransport;
-
+                
                 View[nameof(Model.TextPayload).ToFieldKey()].IsVisible = false;
-
                 View[nameof(Model.BinaryPayload).ToFieldKey()].IsVisible = false;
             }
             else
@@ -62,6 +58,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             form.AddViewCell(nameof(Model.EndPoint));
             form.AddViewCell(nameof(Model.Port));
 
+            form.AddViewCell(nameof(Model.Topic));
             form.AddViewCell(nameof(Model.PayloadType));
             form.AddViewCell(nameof(Model.HttpVerb));
             form.AddViewCell(nameof(Model.TextPayload));
@@ -74,9 +71,15 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             ModelToView(Model, form);
 
             FormAdapter = form;
-        }
 
-        
+            switch(Model.Transport.Value)
+            {
+                case TransportTypes.MQTT: SetForMQTT(); break;
+                case TransportTypes.RestHttp:
+                case TransportTypes.RestHttps: SetForREST(); break;
+
+            }
+        }
 
         private void Form_DeleteItem(object sender, DeleteItemEventArgs e)
         {
@@ -94,6 +97,25 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         }
 
         private void SetForMQTT()
+        {
+            View[nameof(Model.Topic).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.HttpVerb).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = true;
+
+            View[nameof(Model.Transport).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.EndPoint).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.Port).ToFieldKey()].IsVisible = true;
+        }
+
+        private void SetForREST()
+        {
+            View[nameof(Model.Topic).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.HttpVerb).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.PayloadType).ToFieldKey()].IsVisible = true;
+        }
+
+        private void SetForTCP()
         {
 
         }
@@ -128,12 +150,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             {
                 if (e.Value == LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_RestHttp)
                 {
-                    FormAdapter.ShowView(nameof(Model.HttpVerb));
-                    FormAdapter.HideView(nameof(Model.PayloadType));
-
+                    SetForREST();
                 }
             }
-
         }
     }
 }

@@ -42,13 +42,13 @@
       <HintPath>..\..\packages\Xamarin.Forms.2.3.5.239-pre3\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.Core, Version=0.8.0.0, Culture=neutral, PublicKeyToken=2698135e9954a85d, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.Core.Networking.1.2.36-alpha1023\lib\netstandard1.2\LagoVista.Core.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.Core.Networking.1.2.36-alpha1233\lib\netstandard1.2\LagoVista.Core.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.Core.Networking, Version=0.8.0.0, Culture=neutral, PublicKeyToken=650a46bd96014ff6, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.Core.Networking.1.2.36-alpha1023\lib\netstandard1.2\LagoVista.Core.Networking.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.Core.Networking.1.2.36-alpha1233\lib\netstandard1.2\LagoVista.Core.Networking.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.UserAdmin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.UserAdmin.1.2.36-alpha1023\lib\netstandard1.2\LagoVista.UserAdmin.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.UserAdmin.1.2.36-alpha1233\lib\netstandard1.2\LagoVista.UserAdmin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Mobile, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Azure.Mobile.0.13.0\lib\MonoAndroid403\Microsoft.Azure.Mobile.dll</HintPath>

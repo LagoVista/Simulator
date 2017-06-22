@@ -1,6 +1,7 @@
 ﻿using LagoVista.Client.Core.Net;
 using LagoVista.Client.Core.ViewModels;
 using LagoVista.Core.Commanding;
+using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.IoT.Simulator.Admin.Resources;
@@ -89,10 +90,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     break;
 
                 case TransportTypes.MQTT:
-                    if (LaunchArgs.HasParam("tcpclient"))
+                    if (LaunchArgs.HasParam("mqttclient"))
                     {
-                        var client = LaunchArgs.GetParam<ITCPClient>("tcpclient");
-                        await client.WriteAsync(MsgTemplate.TextPayload);
+                        var client = LaunchArgs.GetParam<IMQTTDeviceClient>("mqttclient");
+                        client.Publish(MsgTemplate.Topic,  MsgTemplate.TextPayload);
                     }
 
                     break;

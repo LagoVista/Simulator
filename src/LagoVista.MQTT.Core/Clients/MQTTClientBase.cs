@@ -15,6 +15,8 @@ namespace LagoVista.MQTT.Core.Clients
 {
     public abstract class MQTTClientBase : IMQTTClientBase
     {
+        private String _clientId;
+
         protected static String DEVICE_EVENT_PATTERN = "iot-2/type/(.+)/id/(.+)/evt/(.+)/fmt/(.+)";
         protected static String DEVICE_STATUS_PATTERN = "iot-2/type/(.+)/id/(.+)/mon";
         protected static String APP_STATUS_PATTERN = "iot-2/app/(.+)/mon";
@@ -50,6 +52,7 @@ namespace LagoVista.MQTT.Core.Clients
         public MQTTClientBase(IMqttNetworkChannel channel)
         {
             _channel = channel;
+            _clientId = Guid.NewGuid().ToString();
         }
 
 
@@ -68,20 +71,24 @@ namespace LagoVista.MQTT.Core.Clients
 
         }
 
-        public abstract String ClientId { get; }
+        public String ClientId { get { return _clientId; } }
 
-        public async Task<ConnAck> Connect()
+        public abstract String UserName { get; }
+
+        public abstract string Password { get; set; }
+
+        public async Task<ConnAck> ConnectAsync()
         {
             try
             {
                 _mqttClient = new MqttClient(_channel);
-                _mqttClient.Init(ServerURL, 1883, false);
+                _mqttClient.Init(BrokerHostName, BrokerPort, false);
                 _mqttClient.ConnectionClosed += _mqttClient_ConnectionClosed;
                 _mqttClient.MqttMsgPublished += client_MqttMsgPublished;
                 _mqttClient.MqttMsgSubscribed += _mqttClient_MqttMsgSubscribed;
                 _mqttClient.MqttMsgPublishReceived += client_MqttMsgArrived;
 
-                var result = await _mqttClient.Connect(ClientId, String.IsNullOrEmpty(APIKey) ? "use-token-auth" : APIKey, APIToken);
+                var result = await _mqttClient.Connect(ClientId, UserName, Password);
 
                 if (ConnectionStateChanged != null)
                     ConnectionStateChanged(this, true);
@@ -160,37 +167,30 @@ namespace LagoVista.MQTT.Core.Clients
             }
         }
 
-        public virtual void OnEventReceived(String evtName, string format, string payload)
-        {
-
-        }
-
-        public virtual void OnDeviceStatusReceived(String deviceType, string deviceId, string payload)
-        {
-
-        }
-
-        public virtual void OnCommandReceived(String cmdName, string format, string payload)
-        {
-
-        }
-
-        public virtual void OnAppStatusReceived(String appId, string payload)
-        {
-
-        }
+        public virtual void OnEventReceived(String evtName, string format, string payload) { }
+        public virtual void OnDeviceStatusReceived(String deviceType, string deviceId, string payload) { }
+        public virtual void OnCommandReceived(String cmdName, string format, string payload) { }
+        public virtual void OnAppStatusReceived(String appId, string payload) { }
 
         protected UInt16 Subscribe(string[] topics, byte[] qosLevels)
         {
             return _mqttClient.Subscribe(topics, qosLevels);
         }
 
-        protected UInt16 Publish(String topic, byte[] data)
+        public UInt16 Publish<T>(String topic, T payload, byte qosLevel = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE)
         {
-            return _mqttClient.Publish(topic, data);
+            var json = JsonConvert.SerializeObject(payload);
+            return Publish(topic, json, qosLevel);
         }
 
-        protected UInt16 Subscribe(string topic, byte qosLevel = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE)
+        public UInt16 Publish(String topic, String payload = "", byte qosLevel = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE)
+        {
+            var buffer = String.IsNullOrEmpty(payload) ? new byte[0] : System.Text.UTF8Encoding.UTF8.GetBytes(payload);
+            return _mqttClient.Publish(topic, buffer, qosLevel, false);
+        }
+
+
+        public UInt16 Subscribe(string topic, byte qosLevel = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE)
         {
             return Subscribe(new String[] { topic }, new byte[] { qosLevel });
         }
@@ -204,7 +204,6 @@ namespace LagoVista.MQTT.Core.Clients
             Debug.WriteLine("BLUEMIXMQTT-Disconnect - Started");
             try
             {
-
                 _mqttClient.Disconnect();
 
                 Debug.WriteLine("BLUEMIXMQTT-Disconnect - Disconnected");
@@ -212,6 +211,18 @@ namespace LagoVista.MQTT.Core.Clients
             catch (Exception ex)
             {
                 Debug.WriteLine("BLUEMIXMQTT-Disconnect" + ex.Message);
+            }
+            finally
+            {
+                _mqttClient = null;
+            }
+        }
+
+        public void Dispose()
+        {
+            if (_mqttClient != null)
+            {
+                Disconnect();
             }
         }
 
@@ -226,35 +237,10 @@ namespace LagoVista.MQTT.Core.Clients
             }
         }
 
-        public String OrgId
-        {
-            get;
-            set;
-        }
 
-        public String APIKey
-        {
-            get;
-            set;
-        }
+        public String BrokerHostName { get; set; }
 
-        public String APIToken
-        {
-            get;
-            set;
-        }
-
-        public String ServerURL
-        {
-            get;
-            set;
-        }
-
-        private String MQTTAddress
-        {
-            get { return String.Format("{0}.{1}", OrgId, ServerURL); }
-        }
-
+        public int BrokerPort { get; set; }
 
         public override string ToString()
         {

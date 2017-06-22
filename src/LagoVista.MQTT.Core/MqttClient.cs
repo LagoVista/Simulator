@@ -67,7 +67,7 @@ namespace LagoVista.MQTT.Core
 
         // broker hostname (or ip address) and port
         string _brokerHostName;
-        int _brokerHost;
+        int _brokerPort;
 
         // running status of threads
         bool _isRunning;
@@ -185,15 +185,15 @@ namespace LagoVista.MQTT.Core
         public void Init(string brokerHostName, int brokerPort, bool secure)
         {
             this._brokerHostName = brokerHostName;
-            this._brokerHost = brokerPort;
+            this._brokerPort = brokerPort;
 
             // reference to MQTT settings
             this._settings = MqttSettings.Instance;
             // set settings port based on secure connection or not
             if (!secure)
-                this._settings.Port = this._brokerHost;
+                this._settings.Port = this._brokerPort;
             else
-                this._settings.SslPort = this._brokerHost;
+                this._settings.SslPort = this._brokerPort;
 
             this._syncEndReceiving = new AutoResetEvent(false);
             this.keepAliveEvent = new AutoResetEvent(false);
@@ -274,7 +274,7 @@ namespace LagoVista.MQTT.Core
             ushort keepAlivePeriod)
         {
             // create CONNECT message
-            MqttMsgConnect connect = new MqttMsgConnect(clientId,
+            var connect = new MqttMsgConnect(clientId,
                 username,
                 password,
                 willRetain,
@@ -286,7 +286,7 @@ namespace LagoVista.MQTT.Core
                 keepAlivePeriod,
                 (byte)this.ProtocolVersion);
 
-            await _channel.InitAsync(this._brokerHostName, 1883, false);
+            await _channel.InitAsync(this._brokerHostName, _brokerPort, false);
 
             try
             {

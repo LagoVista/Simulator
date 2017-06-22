@@ -10,58 +10,51 @@ using System.Threading.Tasks;
 namespace LagoVista.MQTT.Core.Clients
 {
     public class MQTTDeviceClient : MQTTClientBase, IMQTTDeviceClient
-    {
-        public const string DEVICE_ORGID = "DEVICE_ORG_ID";
-        public const string DEVICE_AUTH_TOKEN = "DEVICE_AUTH_TOKEN";
+    {        
+        const string DEVICE_PASSWORD = "MQTT_APP_CLIENT_DEVICE_AUTH_TOKEN";
+        const string DEVICE_ID = "MQTT_APP_CLIENT_DEVICE_ID";
+        const string DEVICE_TYPE = "MQTT_APP_CLIENT_DEVICE_PASSWORD";
 
-        public const string DEVICE_TYPE = "DEVICE_TYPE";
-        public const string DEVICE_ID = "DEVICE_ID";
-        public const string SERVER_URL = "SERVER_URL";
+        const string BROKER_HOST_NAME = "MQTT_APP_CLIENT_BROKER_HOST_NAME";
+        const string BROKER_PORT_NUMBER = "MQTT_APP_CLIENT_BROKER_PORT_NUMBER";
 
         public MQTTDeviceClient(IMqttNetworkChannel channel) : base(channel)
         {
+
         }
 
-        public String DeviceType
-        {
-            get;
-            set;
-        }
-
-        public String DeviceId
-        {
-            get;
-            set;
-        }
+        public String DeviceType { get; set; }
+        public String DeviceId { get; set; }
+        public override  String Password { get; set; }
 
         public bool SettingsReady
         {
-            get { return !(String.IsNullOrEmpty(OrgId) || !String.IsNullOrEmpty(APIToken) || !String.IsNullOrEmpty(DeviceId) || !String.IsNullOrEmpty(DeviceType)) || !String.IsNullOrEmpty(ServerURL); }
+            get { return !String.IsNullOrEmpty(BrokerHostName); }
         }
 
         public async Task<bool> ReadSettingsAsync()
         {
-            OrgId = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(DEVICE_ORGID);
-            APIToken = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(DEVICE_AUTH_TOKEN);
+            BrokerPort = Convert.ToInt32(await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(BROKER_PORT_NUMBER, "1883"));
+            Password = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(DEVICE_PASSWORD);
             DeviceType = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(DEVICE_TYPE);
             DeviceId = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(DEVICE_ID);
-            ServerURL = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(SERVER_URL, DEFAULT_DOMAIN);
+            BrokerHostName = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(BROKER_HOST_NAME, DEFAULT_DOMAIN);
 
             return SettingsReady;
         }
 
         public async Task SaveSettingsAsync()
         {
-            await LagoVista.Core.PlatformSupport.Services.Storage.StoreKVP<String>(DEVICE_ORGID, OrgId);
-            await LagoVista.Core.PlatformSupport.Services.Storage.StoreKVP<String>(DEVICE_AUTH_TOKEN, APIToken);
+            await LagoVista.Core.PlatformSupport.Services.Storage.StoreKVP<String>(DEVICE_PASSWORD, Password);
             await LagoVista.Core.PlatformSupport.Services.Storage.StoreKVP<String>(DEVICE_TYPE, DeviceType);
             await LagoVista.Core.PlatformSupport.Services.Storage.StoreKVP<String>(DEVICE_ID, DeviceId);
-            await LagoVista.Core.PlatformSupport.Services.Storage.StoreKVP<String>(SERVER_URL, ServerURL);
+            await LagoVista.Core.PlatformSupport.Services.Storage.StoreKVP<String>(BROKER_HOST_NAME, BrokerHostName);
+            await LagoVista.Core.PlatformSupport.Services.Storage.StoreKVP<String>(BROKER_PORT_NUMBER, BrokerPort.ToString());
         }
 
-        public override String ClientId
+        public override String UserName
         {
-            get { return String.Format("d:{0}:{1}:{2}", OrgId, DeviceType, DeviceId); }
+            get { return DeviceId; }
         }
 
         public UInt16 PublishEvent(String evt, String format, String msg, byte qosLevel = 0)

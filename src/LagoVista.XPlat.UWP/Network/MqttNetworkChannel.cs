@@ -92,17 +92,20 @@ namespace LagoVista.XPlat.UWP
         public async Task InitAsync(String remoteHostName, int remotePort, bool secure)
         {
             // check if remoteHostName is a valid IP address and get it
-            var remoteIpAddress = IPAddress.Parse(remoteHostName);
 
             this._remoteHostName = remoteHostName;
-            this._remoteIpAddress = remoteIpAddress;
+
+            if (IPAddress.TryParse(remoteHostName, out IPAddress remoteIPAddress))
+            {
+                _remoteIpAddress = remoteIPAddress;
+            }
             this._remotePort = remotePort;
             this._secure = secure;
 
             // in this case the parameter remoteHostName isn't a valid IP address
             if (_remoteIpAddress == null)
             {
-                IPHostEntry hostEntry = await Dns.GetHostEntryAsync(_remoteHostName);
+                var hostEntry = await Dns.GetHostEntryAsync(_remoteHostName);
                 if ((hostEntry != null) && (hostEntry.AddressList.Length > 0))
                 {
                     // check for the first address not null
