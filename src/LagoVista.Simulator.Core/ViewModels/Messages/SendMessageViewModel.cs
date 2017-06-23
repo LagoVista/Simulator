@@ -37,12 +37,30 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             {
 
                 case TransportTypes.TCP:
+                    sentContent.AppendLine($"Host   : {MsgTemplate.EndPoint}");
+                    sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
+                    sentContent.AppendLine($"Body");
+                    sentContent.AppendLine($"---------------------------------");
+                    sentContent.Append(MsgTemplate.TextPayload);
+
                     break;
                 case TransportTypes.UDP:
+                    sentContent.AppendLine($"Host   : {MsgTemplate.EndPoint}");
+                    sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
+                    sentContent.AppendLine($"Body");
+                    sentContent.AppendLine($"---------------------------------");
+                    sentContent.Append(MsgTemplate.TextPayload);
+
                     break;
                 case TransportTypes.AMQP:
                     break;
                 case TransportTypes.MQTT:
+                    sentContent.AppendLine($"Host   : {MsgTemplate.EndPoint}");
+                    sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
+                    sentContent.AppendLine($"Topic  : {MsgTemplate.Port}");
+
+                    sentContent.Append(MsgTemplate.TextPayload);
+
                     break;
                 case TransportTypes.RestHttps:
                 case TransportTypes.RestHttp:
@@ -81,7 +99,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                         try
                         {
                             var client = LaunchArgs.GetParam<ITCPClient>("tcpclient");
-                            await client.WriteAsync(MsgTemplate.TextPayload);
+                            var msg = MsgTemplate.TextPayload;
+                            if (MsgTemplate.AppendCR) msg += "\r";
+                            if (MsgTemplate.AppendLF) msg += "\n";
+                            await client.WriteAsync(msg);
                         }
                         catch (Exception ex)
                         {
@@ -98,7 +119,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                         try
                         {
                             var client = LaunchArgs.GetParam<IUDPClient>("udpclient");
-                            await client.WriteAsync(MsgTemplate.TextPayload);
+                            var msg = MsgTemplate.TextPayload;
+                            if (MsgTemplate.AppendCR) msg += "\r";
+                            if (MsgTemplate.AppendLF) msg += "\n";
+                            await client.WriteAsync(msg);
                         }
                         catch (Exception ex)
                         {
@@ -187,6 +211,80 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
             IsBusy = false;
             await Popups.ShowAsync(Success ? SimulatorCoreResources.SendMessage_MessageSent : SimulatorCoreResources.SendMessage_ErrorSendingMessage);
+        }
+
+        public byte[] GetBinaryPayload(string binaryPayload)
+        {
+            if (String.IsNullOrEmpty(binaryPayload))
+            {
+                return new byte[0];
+            }
+
+            try
+            {
+                var bytes = new List<Byte>();
+
+                var bytesList = binaryPayload.Split(' ');
+                foreach (var byteStr in bytesList)
+                {
+                    var lowerByteStr = byteStr.ToLower();
+                    if (lowerByteStr.Contains("soh"))
+                    {
+                        bytes.Add(0x01);
+
+                    }
+                    else if (lowerByteStr.Contains("stx"))
+                    {
+                        bytes.Add(0x02);
+                    }
+                    else if (lowerByteStr.Contains("etx"))
+                    {
+                        bytes.Add(0x03);
+                    }
+                    else if (lowerByteStr.Contains("eot"))
+                    {
+                        bytes.Add(0x04);
+                    }
+                    else if (lowerByteStr.Contains("ack"))
+                    {
+                        bytes.Add(0x06);
+                    }
+                    else if (lowerByteStr.Contains("cr"))
+                    {
+                        bytes.Add(0x0d);
+                    }
+                    else if (lowerByteStr.Contains("lf"))
+                    {
+                        bytes.Add(0x0a);
+                    }
+                    else if (lowerByteStr.Contains("nak"))
+                    {
+                        bytes.Add(0x15);
+                    }
+                    else if (lowerByteStr.Contains("esc"))
+                    {
+                        bytes.Add(0x1b);
+                    }
+                    else if (lowerByteStr.Contains("del"))
+                    {
+                        bytes.Add(0x1b);
+                    }
+                    else if (lowerByteStr.StartsWith("0x"))
+                    {
+                        bytes.Add(Byte.Parse(byteStr.Substring(2), System.Globalization.NumberStyles.HexNumber));
+                    }
+                    else
+                    {
+                        bytes.Add(Byte.Parse(byteStr, System.Globalization.NumberStyles.HexNumber));
+                    }
+                }
+
+                return bytes.ToArray();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(SimulatorCoreResources.SendMessage_InvalidBinaryPayload + " " + ex.Message);
+            }
         }
 
         private string _sentContent;

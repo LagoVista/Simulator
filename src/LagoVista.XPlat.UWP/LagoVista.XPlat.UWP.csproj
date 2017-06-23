@@ -116,13 +116,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LagoVista.Core">
-      <Version>1.2.36-alpha1233</Version>
+      <Version>1.2.37-alpha1421</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.3.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>2.3.5.239-pre3</Version>
+      <Version>2.3.5.253-pre5</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

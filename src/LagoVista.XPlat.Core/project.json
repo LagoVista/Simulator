@@ -1,12 +1,12 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "LagoVista.Core": "1.2.36-alpha1233",
-    "LagoVista.Core.Networking": "1.2.36-alpha1233",
-    "LagoVista.UserAdmin": "1.2.36-alpha1233",
+    "LagoVista.Core": "1.2.37-alpha1516",
+    "LagoVista.Core.Networking": "1.2.37-alpha1516",
+    "LagoVista.UserAdmin": "1.2.37-alpha1516",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
     "NETStandard.Library": "1.6.1",
-    "Xamarin.Forms": "2.3.5.239-pre3"
+    "Xamarin.Forms": "2.3.5.253-pre5"
   },
   "frameworks": {
     "netstandard1.2": {}

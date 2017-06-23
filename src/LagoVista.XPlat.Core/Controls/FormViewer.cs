@@ -91,6 +91,7 @@ namespace LagoVista.XPlat.Core
                     switch (field.FieldType)
                     {
                         case FormField.FieldType_MultilineText: AddChild(new TextAreaRow(this, field)); break;
+                        case "Bool": AddChild(new CheckBoxRow(this, field)); break;
                         case FormField.FieldType_CheckBox: AddChild(new CheckBoxRow(this, field)); break;
                         case FormField.FeildType_EntityHeaderPicker: AddChild(new EntityHeaderPicker(this, field)); break;
                         case FormField.FieldType_Picker:

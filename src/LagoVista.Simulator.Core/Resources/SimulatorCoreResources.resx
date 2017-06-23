@@ -126,6 +126,9 @@
   <data name="SendMessage_ErrorSendingMessage" xml:space="preserve">
     <value>Error Sending Message</value>
   </data>
+  <data name="SendMessage_InvalidBinaryPayload" xml:space="preserve">
+    <value>Invalid Binary Payload</value>
+  </data>
   <data name="SendMessage_MessageSent" xml:space="preserve">
     <value>MESSAGE SENT!</value>
   </data>

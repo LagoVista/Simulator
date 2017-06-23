@@ -89,6 +89,15 @@ namespace LagoVista.Simulator.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Binary Payload.
+        /// </summary>
+        internal static string SendMessage_InvalidBinaryPayload {
+            get {
+                return ResourceManager.GetString("SendMessage_InvalidBinaryPayload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MESSAGE SENT!.
         /// </summary>
         internal static string SendMessage_MessageSent {

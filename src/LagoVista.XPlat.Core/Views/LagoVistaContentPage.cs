@@ -178,6 +178,11 @@ namespace LagoVista.XPlat.Core
             }
         }
 
+        protected override bool OnBackButtonPressed()
+        {
+            return ViewModel.CanCancel();
+        }
+
         private void _rightMenuButton_Clicked(object sender, System.EventArgs e)
         {
             switch (RightMenu)
@@ -601,7 +606,6 @@ namespace LagoVista.XPlat.Core
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            
 
             _originalcontent = this.Content;
 
@@ -627,6 +631,7 @@ namespace LagoVista.XPlat.Core
 
             _hasAppeared = true;
         }
+
 
         protected async override void OnDisappearing()
         {

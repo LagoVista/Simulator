@@ -29,6 +29,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
         public async void EditSimulator()
         {
+            if(_isConnected)
+            {
+                await DisconnectAsync();
+            }
             await ViewModelNavigation.NavigateAndEditAsync<SimulatorEditorViewModel>(Model.Id);
         }
 
@@ -59,6 +63,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         {
             try
             {
+                IsBusy = true;
                 switch (Model.DefaultTransport.Value)
                 {
                     case TransportTypes.MQTT:
@@ -82,6 +87,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                         break;
                 }
 
+                RightMenuIcon = Client.Core.ViewModels.RightMenuIcon.None;
+
                 _isConnected = true;
 
             }
@@ -95,12 +102,27 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             {
                 ConnectCommand.RaiseCanExecuteChanged();
                 DisconnectCommand.RaiseCanExecuteChanged();
+                IsBusy = false;
             }
         }
 
-        public async void Disconnect()
+        public override bool CanCancel()
         {
+            if (_isConnected)
+            {
+                Disconnect();
+                return true;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
+
+
+        public async Task DisconnectAsync()
+        {
             switch (Model.DefaultTransport.Value)
             {
                 case TransportTypes.MQTT:
@@ -129,6 +151,13 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             _isConnected = false;
             ConnectCommand.RaiseCanExecuteChanged();
             DisconnectCommand.RaiseCanExecuteChanged();
+
+            RightMenuIcon = Client.Core.ViewModels.RightMenuIcon.None;
+        }
+
+        public async void Disconnect()
+        {
+            await DisconnectAsync();
         }
 
         public bool CanConnect()

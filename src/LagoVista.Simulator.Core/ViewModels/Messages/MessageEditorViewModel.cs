@@ -38,15 +38,14 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 Model.EndPoint = parent.DefaultEndPoint;
                 Model.Port = parent.DefaultPort;
                 Model.Transport = parent.DefaultTransport;
+                Model.PayloadType = parent.DefaultPayloadType;
                 
                 View[nameof(Model.TextPayload).ToFieldKey()].IsVisible = false;
                 View[nameof(Model.BinaryPayload).ToFieldKey()].IsVisible = false;
             }
-            else
-            {
-                View[nameof(Model.TextPayload).ToFieldKey()].IsVisible = Model.PayloadType.Value == PaylodTypes.String;
-                View[nameof(Model.BinaryPayload).ToFieldKey()].IsVisible = Model.PayloadType.Value == PaylodTypes.Binary;
-            }
+
+            View[nameof(Model.TextPayload).ToFieldKey()].IsVisible = Model.PayloadType.Value == PaylodTypes.String;
+            View[nameof(Model.BinaryPayload).ToFieldKey()].IsVisible = Model.PayloadType.Value == PaylodTypes.Binary;
 
             var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
             form.OptionSelected += Form_OptionSelected;
@@ -59,13 +58,20 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             form.AddViewCell(nameof(Model.Port));
 
             form.AddViewCell(nameof(Model.Topic));
+            form.AddViewCell(nameof(Model.AppendCR));
+            form.AddViewCell(nameof(Model.AppendLF));
             form.AddViewCell(nameof(Model.PayloadType));
             form.AddViewCell(nameof(Model.HttpVerb));
             form.AddViewCell(nameof(Model.TextPayload));
             form.AddViewCell(nameof(Model.BinaryPayload));
             form.AddViewCell(nameof(Model.PathAndQueryString));
 
-            form.AddChildList<MessageHeaderViewModel>(nameof(Model.MessageHeaders), Model.MessageHeaders);
+            if (Model.Transport.Value == TransportTypes.RestHttp ||
+                Model.Transport.Value == TransportTypes.RestHttps)
+            {
+                form.AddChildList<MessageHeaderViewModel>(nameof(Model.MessageHeaders), Model.MessageHeaders);
+            }
+
             form.AddChildList<DynamicAttributeViewModel>(nameof(Model.DynamicAttributes), Model.DynamicAttributes);
 
             ModelToView(Model, form);
@@ -75,9 +81,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             switch(Model.Transport.Value)
             {
                 case TransportTypes.MQTT: SetForMQTT(); break;
+                case TransportTypes.TCP: SetForTCP(); break;
+                case TransportTypes.UDP: SetForUDP(); break;
                 case TransportTypes.RestHttp:
                 case TransportTypes.RestHttps: SetForREST(); break;
-
             }
         }
 
@@ -99,29 +106,55 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         private void SetForMQTT()
         {
             View[nameof(Model.Topic).ToFieldKey()].IsVisible = true;
-            View[nameof(Model.HttpVerb).ToFieldKey()].IsVisible = true;
-            View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = true;
 
-            View[nameof(Model.Transport).ToFieldKey()].IsVisible = true;
-            View[nameof(Model.EndPoint).ToFieldKey()].IsVisible = true;
-            View[nameof(Model.Port).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.HttpVerb).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.Transport).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.EndPoint).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.Port).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.AppendCR).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.AppendLF).ToFieldKey()].IsVisible = false;
         }
 
         private void SetForREST()
         {
-            View[nameof(Model.Topic).ToFieldKey()].IsVisible = true;
             View[nameof(Model.HttpVerb).ToFieldKey()].IsVisible = true;
             View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = true;
-            View[nameof(Model.PayloadType).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.PayloadType).ToFieldKey()].IsVisible = false;
+
+
+            View[nameof(Model.Topic).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.Topic).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.AppendCR).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.AppendLF).ToFieldKey()].IsVisible = false;
         }
 
         private void SetForTCP()
         {
+            View[nameof(Model.Transport).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.EndPoint).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.Port).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.Topic).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = false;
 
+            View[nameof(Model.PayloadType).ToFieldKey()].IsVisible = false;
+
+            View[nameof(Model.AppendCR).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.AppendLF).ToFieldKey()].IsVisible = true;
         }
 
-        private void SetForAMQP()
+        private void SetForUDP()
         {
+            View[nameof(Model.Transport).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.EndPoint).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.Port).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.Topic).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = false;
+
+            View[nameof(Model.PayloadType).ToFieldKey()].IsVisible = false;
+
+            View[nameof(Model.AppendCR).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.AppendLF).ToFieldKey()].IsVisible = true;
 
         }
 

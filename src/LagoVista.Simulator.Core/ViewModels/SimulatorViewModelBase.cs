@@ -91,6 +91,7 @@ namespace LagoVista.Simulator.Core.ViewModels
                 var prop = modelProperties.Where(prp => prp.Name.ToLower() == formItem.Name.ToLower()).FirstOrDefault();
                 switch (formItem.FieldType)
                 {
+                    case "Bool":
                     case FormField.FieldType_CheckBox:
                         if (bool.TryParse(formItem.Value, out bool result))
                         {
