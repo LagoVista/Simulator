@@ -108,6 +108,8 @@
   <ItemGroup>
     <Compile Include="CustomRenderers\TitleBarButton.cs" />
     <Compile Include="Network\MqttNetworkChannel.cs" />
+    <Compile Include="Network\TCPClient.cs" />
+    <Compile Include="Network\UDPClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <EmbeddedResource Include="Properties\LagoVista.XPlat.UWP.rd.xml" />

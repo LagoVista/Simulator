@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.Net
@@ -7,12 +8,14 @@ namespace LagoVista.Client.Core.Net
     {
         Task ConnectAsync(string host, int port);
 
-        Task<int> ReadAsync(byte[] buffer);
+        Task<byte[]> ReceiveAsync();
 
-        Task WriteAsync(byte[] buffer, int start, int length);
+        Task<int> WriteAsync(byte[] buffer, int start, int length);
 
-        Task WriteAsync(string output);
+        Task<int> WriteAsync(string output);
 
-        Task CloseAsync();
+        Task<int> WriteAsync<T>(T obj) where T : class;
+
+        Task DisconnectAsync();
     }
 }

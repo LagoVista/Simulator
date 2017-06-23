@@ -73,16 +73,17 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
                         break;
                     case TransportTypes.TCP:
-
                         _tcpClient = SLWIOC.Create<ITCPClient>();
                         await _tcpClient.ConnectAsync(Model.DefaultEndPoint, Model.DefaultPort);
                         break;
                     case TransportTypes.UDP:
+                        _udpClient = SLWIOC.Create<IUDPClient>();
+                        await _udpClient.ConnectAsync(Model.DefaultEndPoint, Model.DefaultPort);
                         break;
                 }
 
                 _isConnected = true;
-                
+
             }
             catch (Exception ex)
             {
@@ -93,7 +94,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             finally
             {
                 ConnectCommand.RaiseCanExecuteChanged();
-                DisconnectCommand.RaiseCanExecuteChanged();                
+                DisconnectCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -103,7 +104,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             switch (Model.DefaultTransport.Value)
             {
                 case TransportTypes.MQTT:
-                    if(_mqttClient != null)
+                    if (_mqttClient != null)
                     {
                         _mqttClient.Disconnect();
                         _mqttClient = null;
@@ -112,22 +113,16 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 case TransportTypes.TCP:
                     if (_tcpClient != null)
                     {
-                        try
-                        {
-                            await _tcpClient.CloseAsync();
-                            _tcpClient.Dispose();
-                        }
-                        catch (Exception)
-                        {
-
-                        }
-                        finally
-                        {
-                            _tcpClient = null;
-                        }
+                        await _tcpClient.DisconnectAsync();
+                        _tcpClient.Dispose();
                     }
                     break;
                 case TransportTypes.UDP:
+                    if (_udpClient != null)
+                    {
+                        await _udpClient.DisconnectAsync();
+                        _udpClient.Dispose();
+                    }
                     break;
             }
 

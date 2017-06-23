@@ -70,32 +70,64 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         {
             IsBusy = true;
             var fullResponseString = new StringBuilder();
-            
+
             Success = true;
 
             switch (MsgTemplate.Transport.Value)
             {
                 case TransportTypes.TCP:
+                    if (LaunchArgs.HasParam("tcpclient"))
                     {
-                        if (LaunchArgs.HasParam("tcpclient"))
+                        try
                         {
                             var client = LaunchArgs.GetParam<ITCPClient>("tcpclient");
                             await client.WriteAsync(MsgTemplate.TextPayload);
                         }
+                        catch (Exception ex)
+                        {
+                            fullResponseString.AppendLine(Resources.SimulatorCoreResources.SendMessage_ErrorSendingMessage);
+                            fullResponseString.AppendLine();
+                            fullResponseString.Append(ex.Message);
+                            Success = false;
+                        }
                     }
                     break;
                 case TransportTypes.UDP:
+                    if (LaunchArgs.HasParam("udpclient"))
+                    {
+                        try
+                        {
+                            var client = LaunchArgs.GetParam<IUDPClient>("udpclient");
+                            await client.WriteAsync(MsgTemplate.TextPayload);
+                        }
+                        catch (Exception ex)
+                        {
+                            fullResponseString.AppendLine(Resources.SimulatorCoreResources.SendMessage_ErrorSendingMessage);
+                            fullResponseString.AppendLine();
+                            fullResponseString.Append(ex.Message);
+                            Success = false;
+                        }
+                    }
                     break;
                 case TransportTypes.AMQP:
                     break;
 
                 case TransportTypes.MQTT:
-                    if (LaunchArgs.HasParam("mqttclient"))
+                    try
                     {
-                        var client = LaunchArgs.GetParam<IMQTTDeviceClient>("mqttclient");
-                        client.Publish(MsgTemplate.Topic,  MsgTemplate.TextPayload);
+                        if (LaunchArgs.HasParam("mqttclient"))
+                        {
+                            var client = LaunchArgs.GetParam<IMQTTDeviceClient>("mqttclient");
+                            client.Publish(MsgTemplate.Topic, MsgTemplate.TextPayload);
+                        }
                     }
-
+                    catch (Exception ex)
+                    {
+                        fullResponseString.AppendLine(Resources.SimulatorCoreResources.SendMessage_ErrorSendingMessage);
+                        fullResponseString.AppendLine();
+                        fullResponseString.Append(ex.Message);
+                        Success = false;
+                    }
                     break;
 
                 case TransportTypes.RestHttps:
@@ -108,7 +140,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                             var uri = $"{protocol}://{MsgTemplate.EndPoint}:{MsgTemplate.Port}/{MsgTemplate.PathAndQueryString}";
 
                             HttpResponseMessage responseMessage = null;
-                            
+
 
                             foreach (var hdr in MsgTemplate.MessageHeaders)
                             {
