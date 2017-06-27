@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.2</TargetFramework>
+    <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.37-alpha1516" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.41-alpha1417" />
   </ItemGroup>
 
   <ItemGroup>

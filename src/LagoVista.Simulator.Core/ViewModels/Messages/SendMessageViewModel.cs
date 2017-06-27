@@ -6,6 +6,7 @@ using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.IoT.Simulator.Admin.Resources;
 using LagoVista.Simulator.Core.Resources;
+using Microsoft.Azure.EventHubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
                     break;
                 case TransportTypes.AMQP:
+
+
                     break;
                 case TransportTypes.MQTT:
                     sentContent.AppendLine($"Host   : {MsgTemplate.EndPoint}");
@@ -134,6 +137,18 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     }
                     break;
                 case TransportTypes.AMQP:
+                    try
+                    {
+                        var client = LaunchArgs.GetParam<EventHubClient>("ehclient");
+                        await client.SendAsync(new EventData(Encoding.UTF8.GetBytes(MsgTemplate.TextPayload)));
+                    }
+                    catch (Exception ex)
+                    {
+                        fullResponseString.AppendLine(Resources.SimulatorCoreResources.SendMessage_ErrorSendingMessage);
+                        fullResponseString.AppendLine();
+                        fullResponseString.Append(ex.Message);
+                        Success = false;
+                    }
                     break;
 
                 case TransportTypes.MQTT:

@@ -5,6 +5,7 @@ using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
+using Microsoft.Azure.EventHubs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,6 +18,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         IMQTTDeviceClient _mqttClient;
         ITCPClient _tcpClient;
         IUDPClient _udpClient;
+        EventHubClient _eventHubClient;
 
         bool _isConnected;
 
@@ -29,7 +31,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
         public async void EditSimulator()
         {
-            if(_isConnected)
+            if (_isConnected)
             {
                 await DisconnectAsync();
             }
@@ -66,6 +68,15 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 IsBusy = true;
                 switch (Model.DefaultTransport.Value)
                 {
+                    case TransportTypes.AMQP:
+                        var bldr = new EventHubsConnectionStringBuilder(Model.DefaultEndPoint)
+                        {
+                            EntityPath = Model.DeviceId
+                        };
+
+                        _eventHubClient = EventHubClient.CreateFromConnectionString(bldr.ToString());
+
+                        break;
                     case TransportTypes.MQTT:
                         _mqttClient = SLWIOC.Create<IMQTTDeviceClient>();
                         _mqttClient.BrokerHostName = Model.DefaultEndPoint;
@@ -227,6 +238,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                         LaunchType = LaunchTypes.Other,
                     };
 
+                    if (_eventHubClient != null) launchArgs.Parameters.Add("ehclient", _eventHubClient);
                     if (_tcpClient != null) launchArgs.Parameters.Add("tcpclient", _tcpClient);
                     if (_mqttClient != null) launchArgs.Parameters.Add("mqttclient", _mqttClient);
                     if (_udpClient != null) launchArgs.Parameters.Add("udpclient", _udpClient);
