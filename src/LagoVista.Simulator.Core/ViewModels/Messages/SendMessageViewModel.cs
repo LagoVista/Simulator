@@ -26,8 +26,21 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         public override Task InitAsync()
         {
             MsgTemplate = LaunchArgs.Parent as MessageTemplate;
+
             BuildRequestContent();
+
             return base.InitAsync();
+        }
+
+        private String GetPayload()
+        {
+            var payload = MsgTemplate.TextPayload;
+            foreach (var attr in MsgTemplate.DynamicAttributes)
+            {
+                payload = payload.Replace($"~{attr.Key}~", attr.DefaultValue);
+            }
+
+            return payload;
         }
 
         private void BuildRequestContent()
@@ -50,7 +63,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(MsgTemplate.TextPayload);
+                    sentContent.Append(GetPayload());
 
                     break;
                 case TransportTypes.AMQP:
@@ -62,7 +75,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
                     sentContent.AppendLine($"Topic  : {MsgTemplate.Port}");
 
-                    sentContent.Append(MsgTemplate.TextPayload);
+                    sentContent.Append(GetPayload());
 
                     break;
                 case TransportTypes.RestHttps:
@@ -80,6 +93,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                             sentContent.AppendLine($"{hdr.HeaderName}\t:{hdr.Value}");
                         }
 
+                        sentContent.Append(GetPayload());
                     }
                     break;
             }
@@ -192,10 +206,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                                     responseMessage = await client.GetAsync(uri);
                                     break;
                                 case MessageTemplate.HttpVerb_POST:
-                                    responseMessage = await client.PostAsync(uri, new StringContent(MsgTemplate.TextPayload));
+                                    responseMessage = await client.PostAsync(uri, new StringContent(GetPayload()));
                                     break;
                                 case MessageTemplate.HttpVerb_PUT:
-                                    responseMessage = await client.PutAsync(uri, new StringContent(MsgTemplate.TextPayload));
+                                    responseMessage = await client.PutAsync(uri, new StringContent(GetPayload()));
                                     break;
                                 case MessageTemplate.HttpVerb_DELETE: responseMessage = await client.DeleteAsync(uri); break;
                             }

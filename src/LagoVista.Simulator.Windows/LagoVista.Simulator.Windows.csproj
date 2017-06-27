@@ -231,7 +231,7 @@
       <Version>1.2.41-alpha1417</Version>
     </PackageReference>
     <PackageReference Include="LagoVista.Core.UWP">
-      <Version>1.2.32-alpha1052</Version>
+      <Version>1.2.41-alpha1537</Version>
     </PackageReference>
     <PackageReference Include="LagoVista.IoT.DeviceAdmin">
       <Version>1.2.41-alpha1417</Version>

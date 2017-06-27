@@ -1,6 +1,7 @@
 ﻿using LagoVista.XPlat.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,18 @@ namespace LagoVista.Simulator.Views.Messages
         public SendMessageView()
         {
             InitializeComponent();
+        }
+
+        public void ShowDynamicArgsClick(object sender, EventArgs args)
+        {
+            if (AttributeEditor.IsVisible)
+            {
+                AttributeEditor.IsVisible = false;
+            }
+            else
+            {
+                AttributeEditor.IsVisible = true;
+            }
         }
     }
 }
