@@ -203,6 +203,9 @@ namespace LagoVista.XPlat.Core
                 case RightMenuIcon.Save:
                     SaveCommand?.Execute(null);
                     break;
+                case RightMenuIcon.Settings:
+                    SettingsCommand?.Execute(null);
+                    break;
             }
         }
         #endregion
@@ -344,6 +347,15 @@ namespace LagoVista.XPlat.Core
                     }
                 }
             }
+        }
+
+        public static readonly BindableProperty SettingsCommandProperty = BindableProperty.Create(nameof(SettingsCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
+           (view, oldValue, newValue) => (view as LagoVistaContentPage).SettingsCommand = (ICommand)newValue);
+
+        public ICommand SettingsCommand
+        {
+            get { return (ICommand)GetValue(SettingsCommandProperty); }
+            set { SetValue(SettingsCommandProperty, value); }
         }
 
         public static readonly BindableProperty SaveCommandProperty = BindableProperty.Create(nameof(SaveCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
@@ -550,6 +562,7 @@ namespace LagoVista.XPlat.Core
             {
                 _rightMenuButton.IsVisible = false;
             }
+            else
             {
                 _rightMenuButton.IsVisible = true;
                 switch (RightMenu)
@@ -558,6 +571,7 @@ namespace LagoVista.XPlat.Core
                     case RightMenuIcon.Delete: _rightMenuButton.IconKey = "fa-trash"; break;
                     case RightMenuIcon.Save: _rightMenuButton.IconKey = "fa-floppy-o"; break;
                     case RightMenuIcon.Edit: _rightMenuButton.IconKey = "fa-pencil"; break;
+                    case RightMenuIcon.Settings: _rightMenuButton.IconKey = "fa-cog"; break;
                     case RightMenuIcon.CustomIcon:
                         if (string.IsNullOrEmpty(RightMenuCustomIcon))
                         {

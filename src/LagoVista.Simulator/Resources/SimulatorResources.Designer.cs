@@ -206,6 +206,24 @@ namespace LagoVista.Simulator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply.
+        /// </summary>
+        public static string SendMessage_Apply {
+            get {
+                return ResourceManager.GetString("SendMessage_Apply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dynamic Attributes.
+        /// </summary>
+        public static string SendMessage_DynamicAttributes {
+            get {
+                return ResourceManager.GetString("SendMessage_DynamicAttributes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Received Content.
         /// </summary>
         public static string SendMessage_Received {

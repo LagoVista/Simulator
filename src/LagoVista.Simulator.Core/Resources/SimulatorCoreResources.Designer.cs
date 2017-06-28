@@ -62,6 +62,15 @@ namespace LagoVista.Simulator.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event Hub Name.
+        /// </summary>
+        internal static string EditSimulator_EventHubName {
+            get {
+                return ResourceManager.GetString("EditSimulator_EventHubName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could Not Send Message.
         /// </summary>
         internal static string SendMessage_CouldNotSendMessage {

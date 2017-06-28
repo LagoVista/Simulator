@@ -11,6 +11,7 @@ namespace LagoVista.Client.Core.ViewModels
         Edit,
         Save,
         Delete,
+        Settings,
         CustomIcon,
         CustomText
     }

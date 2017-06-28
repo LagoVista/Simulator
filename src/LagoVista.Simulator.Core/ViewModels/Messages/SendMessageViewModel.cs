@@ -21,6 +21,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         public SendMessageViewModel()
         {
             SendCommand = new RelayCommand(Send);
+            ApplySettingsCommand = new RelayCommand(ApplySettings);
+            ShowSettingsCommand = new RelayCommand(ShowSettings);
         }
 
         public override Task InitAsync()
@@ -32,15 +34,25 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             return base.InitAsync();
         }
 
-        private String GetPayload()
+        private String ReplaceTokens(String input)
         {
-            var payload = MsgTemplate.TextPayload;
             foreach (var attr in MsgTemplate.DynamicAttributes)
             {
-                payload = payload.Replace($"~{attr.Key}~", attr.DefaultValue);
+                input = input.Replace($"~{attr.Key}~", attr.DefaultValue);
             }
 
-            return payload;
+            return input;
+        }
+
+        public void ShowSettings()
+        {
+            SettingsVisible = true;
+        }
+
+        public void ApplySettings()
+        {
+            SettingsVisible = false;
+            BuildRequestContent();
         }
 
         private void BuildRequestContent()
@@ -55,7 +67,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(MsgTemplate.TextPayload);
+                    sentContent.Append(ReplaceTokens(MsgTemplate.TextPayload));
 
                     break;
                 case TransportTypes.UDP:
@@ -63,19 +75,24 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(GetPayload());
+                    sentContent.Append(ReplaceTokens(MsgTemplate.TextPayload));
 
                     break;
-                case TransportTypes.AMQP:
+                case TransportTypes.AzureEventHub:
+                    sentContent.AppendLine($"Host   : {MsgTemplate.Name}");
+                    sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
+                    sentContent.AppendLine($"Body");
+                    sentContent.AppendLine($"---------------------------------");
+                    sentContent.Append(ReplaceTokens(MsgTemplate.TextPayload));
 
 
                     break;
                 case TransportTypes.MQTT:
                     sentContent.AppendLine($"Host   : {MsgTemplate.EndPoint}");
                     sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
-                    sentContent.AppendLine($"Topic  : {MsgTemplate.Port}");
+                    sentContent.AppendLine($"Topic  : {ReplaceTokens(MsgTemplate.Topic)}");
 
-                    sentContent.Append(GetPayload());
+                    sentContent.Append(ReplaceTokens(MsgTemplate.TextPayload));
 
                     break;
                 case TransportTypes.RestHttps:
@@ -86,14 +103,14 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                         sentContent.AppendLine($"Method : {MsgTemplate.HttpVerb}");
                         sentContent.AppendLine($"Host   : {MsgTemplate.EndPoint}");
                         sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
-                        sentContent.AppendLine($"Query  : {MsgTemplate.PathAndQueryString}");
+                        sentContent.AppendLine($"Query  : {ReplaceTokens(MsgTemplate.PathAndQueryString)}");
 
                         foreach (var hdr in MsgTemplate.MessageHeaders)
                         {
-                            sentContent.AppendLine($"{hdr.HeaderName}\t:{hdr.Value}");
+                            sentContent.AppendLine($"{hdr.HeaderName}\t:{ReplaceTokens(hdr.Value)}");
                         }
 
-                        sentContent.Append(GetPayload());
+                        sentContent.Append(ReplaceTokens(MsgTemplate.TextPayload));
                     }
                     break;
             }
@@ -119,7 +136,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                             var msg = MsgTemplate.TextPayload;
                             if (MsgTemplate.AppendCR) msg += "\r";
                             if (MsgTemplate.AppendLF) msg += "\n";
-                            await client.WriteAsync(msg);
+                            await client.WriteAsync(ReplaceTokens(msg));
                         }
                         catch (Exception ex)
                         {
@@ -139,7 +156,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                             var msg = MsgTemplate.TextPayload;
                             if (MsgTemplate.AppendCR) msg += "\r";
                             if (MsgTemplate.AppendLF) msg += "\n";
-                            await client.WriteAsync(msg);
+                            await client.WriteAsync(ReplaceTokens(msg));
                         }
                         catch (Exception ex)
                         {
@@ -150,11 +167,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                         }
                     }
                     break;
-                case TransportTypes.AMQP:
+                case TransportTypes.AzureEventHub:
                     try
                     {
                         var client = LaunchArgs.GetParam<EventHubClient>("ehclient");
-                        await client.SendAsync(new EventData(Encoding.UTF8.GetBytes(MsgTemplate.TextPayload)));
+                        await client.SendAsync(new EventData(Encoding.UTF8.GetBytes(ReplaceTokens(MsgTemplate.TextPayload))));
                     }
                     catch (Exception ex)
                     {
@@ -171,7 +188,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                         if (LaunchArgs.HasParam("mqttclient"))
                         {
                             var client = LaunchArgs.GetParam<IMQTTDeviceClient>("mqttclient");
-                            client.Publish(MsgTemplate.Topic, MsgTemplate.TextPayload);
+                            client.Publish(ReplaceTokens(MsgTemplate.Topic), ReplaceTokens(MsgTemplate.TextPayload));
                         }
                     }
                     catch (Exception ex)
@@ -190,14 +207,14 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                         {
                             var client = new HttpClient();
                             var protocol = MsgTemplate.Transport.Value == TransportTypes.RestHttps ? "https" : "http";
-                            var uri = $"{protocol}://{MsgTemplate.EndPoint}:{MsgTemplate.Port}/{MsgTemplate.PathAndQueryString}";
+                            var uri = $"{protocol}://{MsgTemplate.EndPoint}:{MsgTemplate.Port}/{ReplaceTokens(MsgTemplate.PathAndQueryString)}";
 
                             HttpResponseMessage responseMessage = null;
 
 
                             foreach (var hdr in MsgTemplate.MessageHeaders)
                             {
-                                client.DefaultRequestHeaders.Add(hdr.HeaderName, hdr.Value);
+                                client.DefaultRequestHeaders.Add(hdr.HeaderName, ReplaceTokens(hdr.Value));
                             }
 
                             switch (MsgTemplate.HttpVerb)
@@ -206,10 +223,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                                     responseMessage = await client.GetAsync(uri);
                                     break;
                                 case MessageTemplate.HttpVerb_POST:
-                                    responseMessage = await client.PostAsync(uri, new StringContent(GetPayload()));
+                                    responseMessage = await client.PostAsync(uri, new StringContent(ReplaceTokens(MsgTemplate.TextPayload)));
                                     break;
                                 case MessageTemplate.HttpVerb_PUT:
-                                    responseMessage = await client.PutAsync(uri, new StringContent(GetPayload()));
+                                    responseMessage = await client.PutAsync(uri, new StringContent(ReplaceTokens(MsgTemplate.TextPayload)));
                                     break;
                                 case MessageTemplate.HttpVerb_DELETE: responseMessage = await client.DeleteAsync(uri); break;
                             }
@@ -344,6 +361,18 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             get { return _success; }
             set { Set(ref _success, value); }
         }
+
+        private bool _settingsVisible = false;
+        public bool SettingsVisible
+        {
+            get { return _settingsVisible; }
+            set { Set(ref _settingsVisible, value); }
+        }
+       
+
+        public RelayCommand ShowSettingsCommand { get; set; }
+
+        public RelayCommand ApplySettingsCommand { get; set; }
 
         public RelayCommand SendCommand { get; set; }
     }

@@ -69,9 +69,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 switch (Model.DefaultTransport.Value)
                 {
                     case TransportTypes.AMQP:
-                        var bldr = new EventHubsConnectionStringBuilder(Model.DefaultEndPoint)
+                        string connectionString = $"Endpoint=sb://{Model.Name}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={Model.AuthToken}";
+                        var bldr = new EventHubsConnectionStringBuilder(connectionString)
                         {
-                            EntityPath = Model.DeviceId
+                            EntityPath = Model.HubName
                         };
 
                         _eventHubClient = EventHubClient.CreateFromConnectionString(bldr.ToString());

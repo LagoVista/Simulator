@@ -6,10 +6,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       x:Class="LagoVista.Simulator.Views.Messages.SendMessageView"
       LeftMenu="Back"
+      RightMenu="Settings"
+      SettingsCommand="{Binding ShowSettingsCommand}"
       Title="{trs:Translate SendMessage_Title}">
 
   <pge:LagoVistaContentPage.MainContent>
-    <Grid >
+    <Grid>
       <Grid.RowDefinitions>
         <RowDefinition Height="auto" />
         <RowDefinition Height="auto" />
@@ -31,7 +33,6 @@
         <Label Text="{Binding MsgTemplate.Name}" FontSize="36" TextColor="{StaticResource NuvIoTDark}" />
         <pge:Icon IconKey="fa-comments-o" FontSize="92" Margin="0,0,20,0"  TextColor="{StaticResource NuvIoTDark}" Grid.Row="1" />
         <pge:IconButton IconKey="fa-paper-plane-o" FontSize="72" WidthRequest="92" TextColor="Black" HeightRequest="92" Margin="0,0,20,0" VerticalOptions="End"  Command="{Binding SendCommand}" Grid.Column="2" Grid.Row="1" />
-        <pge:IconButton IconKey="fa-cog" FontSize="24" Clicked="ShowDynamicArgsClick"  Grid.Row="1" Grid.Column="2" WidthRequest="32" HeightRequest="32" />
       </Grid>
 
       <Label Grid.Row="1" Text="{trs:Translate SendMessage_Sent}" Style="{StaticResource SectionLabel}" />
@@ -49,8 +50,15 @@
           <Label Text="{Binding ReceivedContennt}" FontFamily="Consolas"  FontSize="12" />
         </Grid>
       </ScrollView>
-      <Frame Grid.RowSpan="4" Grid.Row="1" x:Name="AttributeEditor" IsVisible="false" BackgroundColor="White">
-        <ListView ItemsSource="{Binding MsgTemplate.DynamicAttributes}" >
+      <Grid Grid.RowSpan="5" Grid.Row="0" IsVisible="{Binding SettingsVisible}" BackgroundColor="White">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Label Text="{trs:Translate SendMessage_DynamicAttributes}" Style="{StaticResource SectionLabel}"/>
+        <ListView ItemsSource="{Binding MsgTemplate.DynamicAttributes}" Margin="10" Grid.Row="1"  >
           <ListView.ItemTemplate>
             <DataTemplate>
               <ViewCell>
@@ -66,7 +74,8 @@
             </DataTemplate>
           </ListView.ItemTemplate>
         </ListView>
-      </Frame>
+        <Button Command="{Binding ApplySettingsCommand}" Text="{trs:Translate SendMessage_Apply}" Grid.Row="2" Margin="10" WidthRequest="120" />
+      </Grid>
     </Grid>
   </pge:LagoVistaContentPage.MainContent>
 </pge:LagoVistaContentPage>

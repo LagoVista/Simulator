@@ -18,17 +18,5 @@ namespace LagoVista.Simulator.Views.Messages
         {
             InitializeComponent();
         }
-
-        public void ShowDynamicArgsClick(object sender, EventArgs args)
-        {
-            if (AttributeEditor.IsVisible)
-            {
-                AttributeEditor.IsVisible = false;
-            }
-            else
-            {
-                AttributeEditor.IsVisible = true;
-            }
-        }
     }
 }

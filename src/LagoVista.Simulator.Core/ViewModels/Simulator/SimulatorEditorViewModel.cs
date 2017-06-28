@@ -6,6 +6,8 @@ using LagoVista.Simulator.Core.ViewModels.Messages;
 using System.Linq;
 using LagoVista.Core.Validation;
 using System.Diagnostics;
+using LagoVista.Simulator.Core.Resources;
+using LagoVista.IoT.Simulator.Admin.Models;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
@@ -70,13 +72,56 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 form.AddViewCell(nameof(Model.DefaultPayloadType));
                 form.AddViewCell(nameof(Model.DeviceId));
                 form.AddViewCell(nameof(Model.UserName));
+                form.AddViewCell(nameof(Model.HubName));
                 form.AddViewCell(nameof(Model.Password));
                 form.AddViewCell(nameof(Model.AuthToken));
                 form.AddViewCell(nameof(Model.Description));
                 form.AddChildList<MessageEditorViewModel>(nameof(Model.MessageTemplates), Model.MessageTemplates);
                 ModelToView(Model, form);
                 FormAdapter = form;
+
+                switch (Model.DefaultTransport.Value)
+                {
+                    case TransportTypes.MQTT: SetForMQTT(); break;
+                    case TransportTypes.TCP: SetForTCP(); break;
+                    case TransportTypes.UDP: SetForUDP(); break;
+                    case TransportTypes.RestHttp:
+                    case TransportTypes.RestHttps: SetForREST(); break;
+                    case TransportTypes.AzureEventHub: SetForAzureEventHub(); break;
+                }
             });
-        }       
+        }     
+        
+        private void SetForAzureEventHub()
+        {
+            View[nameof(Model.DefaultEndPoint).ToFieldKey()].Label = SimulatorCoreResources.EditSimulator_EventHubName;
+            View[nameof(Model.DefaultEndPoint).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.AuthToken).ToFieldKey()].IsVisible = true;
+
+
+            View[nameof(Model.DefaultPort).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.UserName).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.Password).ToFieldKey()].IsVisible = false;
+        }
+
+        private void SetForMQTT()
+        {
+
+        }
+
+        private void SetForTCP()
+        {
+
+        }
+
+        private void SetForUDP()
+        {
+
+        }
+
+        private void SetForREST()
+        {
+
+        }
     }
 }
