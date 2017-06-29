@@ -121,7 +121,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
         private void SetForREST()
         {
-
+            View[nameof(Model.HubName).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.DefaultPort).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.UserName).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.Password).ToFieldKey()].IsVisible = true;
         }
     }
 }

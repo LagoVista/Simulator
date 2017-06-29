@@ -176,6 +176,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         {
             return Model != null && !_isConnected && (Model.DefaultTransport.Value == TransportTypes.AMQP ||
                             Model.DefaultTransport.Value == TransportTypes.MQTT ||
+                             Model.DefaultTransport.Value == TransportTypes.AzureEventHub ||
+                             Model.DefaultTransport.Value == TransportTypes.AzureIoTHub ||
+                             Model.DefaultTransport.Value == TransportTypes.AzureServiceBus ||
                             Model.DefaultTransport.Value == TransportTypes.TCP ||
                             Model.DefaultTransport.Value == TransportTypes.UDP);
         }
@@ -184,6 +187,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         {
             return Model != null && _isConnected && (Model.DefaultTransport.Value == TransportTypes.AMQP ||
                             Model.DefaultTransport.Value == TransportTypes.MQTT ||
+                             Model.DefaultTransport.Value == TransportTypes.AzureEventHub ||
+                             Model.DefaultTransport.Value == TransportTypes.AzureIoTHub ||
+                             Model.DefaultTransport.Value == TransportTypes.AzureServiceBus ||
                             Model.DefaultTransport.Value == TransportTypes.TCP ||
                             Model.DefaultTransport.Value == TransportTypes.UDP);
         }
@@ -195,6 +201,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 return Model != null && (Model.DefaultTransport.Value == TransportTypes.AMQP ||
                                  Model.DefaultTransport.Value == TransportTypes.MQTT ||
                                  Model.DefaultTransport.Value == TransportTypes.TCP ||
+                             Model.DefaultTransport.Value == TransportTypes.AzureEventHub ||
+                             Model.DefaultTransport.Value == TransportTypes.AzureIoTHub ||
+                             Model.DefaultTransport.Value == TransportTypes.AzureServiceBus ||
                                  Model.DefaultTransport.Value == TransportTypes.UDP);
             }
         }
