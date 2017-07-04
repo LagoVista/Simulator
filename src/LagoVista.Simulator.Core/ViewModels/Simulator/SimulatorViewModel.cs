@@ -1,4 +1,5 @@
 ﻿using LagoVista.Client.Core.Net;
+using LagoVista.Client.Core.ViewModels;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.IOC;
 using LagoVista.Core.Models.UIMetaData;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
-    public class SimulatorViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator>
+    public class SimulatorViewModel : IoTAppViewModelBase<IoT.Simulator.Admin.Models.Simulator>
     {
         IMQTTDeviceClient _mqttClient;
         ITCPClient _tcpClient;

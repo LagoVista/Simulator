@@ -5,10 +5,11 @@ using LagoVista.Core.Authentication.Models;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.Models;
 using LagoVista.UserAdmin.Models.Account;
+using LagoVista.Client.Core.ViewModels;
 
 namespace LagoVista.Simulator.Core.ViewModels.Auth
 {
-    public class LoginViewModel : SimulatorViewModelBase<UserInfo>
+    public class LoginViewModel : IoTAppViewModelBase<UserInfo>
     {
         IAuthClient _authClient;
 

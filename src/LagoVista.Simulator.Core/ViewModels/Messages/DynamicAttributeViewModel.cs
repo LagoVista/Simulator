@@ -3,10 +3,11 @@ using LagoVista.IoT.Simulator.Admin.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using LagoVista.Client.Core.Resources;
+using LagoVista.Client.Core.ViewModels;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
-    public class DynamicAttributeViewModel : SimulatorViewModelBase<MessageDynamicAttribute>
+    public class DynamicAttributeViewModel : IoTAppViewModelBase<MessageDynamicAttribute>
     {
         public override void SaveAsync()
         {

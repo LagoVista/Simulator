@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using LagoVista.Core;
 using System.Linq;
 using LagoVista.Client.Core.Resources;
+using LagoVista.Client.Core.ViewModels;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
-    public class MessageHeaderViewModel : SimulatorViewModelBase<MessageHeader>
+    public class MessageHeaderViewModel : IoTAppViewModelBase<MessageHeader>
     {
         public override void SaveAsync()
         {

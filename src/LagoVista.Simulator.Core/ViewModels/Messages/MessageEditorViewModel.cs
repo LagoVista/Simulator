@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using LagoVista.Core;
 using System.Linq;
 using LagoVista.Core.Models.UIMetaData;
+using LagoVista.Client.Core.ViewModels;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
-    public class MessageEditorViewModel : SimulatorViewModelBase<MessageTemplate>
+    public class MessageEditorViewModel : IoTAppViewModelBase<MessageTemplate>
     {
         public override void SaveAsync()
         {

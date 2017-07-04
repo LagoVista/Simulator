@@ -1,25 +1,23 @@
 ﻿using LagoVista.Client.Core.Net;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
+using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.PlatformSupport;
-using LagoVista.Core.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
 using System.Linq;
-using System;
-using LagoVista.Core.Models;
-using LagoVista.Core.Commanding;
+using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using LagoVista.Core.Models.UIMetaData;
+using LagoVista.Core.Models;
+using LagoVista.Core.ViewModels;
 using LagoVista.Client.Core.Resources;
-using LagoVista.Client.Core.ViewModels;
 
-namespace LagoVista.Simulator.Core.ViewModels
+namespace LagoVista.Client.Core.ViewModels
 {
-
-    public class SimulatorViewModelBase : XPlatViewModel
+    public class IoTAppViewModelBase : XPlatViewModel
     {
         protected HttpClient HttpClient { get { return SLWIOC.Get<HttpClient>(); } }
         protected IAuthManager AuthManager { get { return SLWIOC.Get<IAuthManager>(); } }
@@ -27,11 +25,11 @@ namespace LagoVista.Simulator.Core.ViewModels
         protected INetworkService NetworkService { get { return SLWIOC.Get<INetworkService>(); } }
     }
 
-    public class SimulatorViewModelBase<TModel, TSummaryModel> : SimulatorViewModelBase where TModel : new() where TSummaryModel : class
+    public class IoTAppViewModelBase<TModel, TSummaryModel> : IoTAppViewModelBase where TModel : new() where TSummaryModel : class
     {
         IRestClient<TModel, TSummaryModel> _restClient;
 
-        public SimulatorViewModelBase()
+        public IoTAppViewModelBase()
         {
             _restClient = new RestClient<TModel, TSummaryModel>(HttpClient, AuthManager, TokenManager, Logger, NetworkService);
 
@@ -47,14 +45,14 @@ namespace LagoVista.Simulator.Core.ViewModels
             set { Set(ref _model, value); }
         }
 
-        
+
     }
 
-    public class SimulatorViewModelBase<TModel> : SimulatorViewModelBase where TModel : new()
+    public class IoTAppViewModelBase<TModel> : IoTAppViewModelBase where TModel : new()
     {
         IRestClient<TModel> _restClient;
 
-        public SimulatorViewModelBase()
+        public IoTAppViewModelBase()
         {
             _restClient = new RestClient<TModel>(HttpClient, AuthManager, TokenManager, Logger, NetworkService);
         }
@@ -75,7 +73,7 @@ namespace LagoVista.Simulator.Core.ViewModels
         {
             get { return _view; }
             set { Set(ref _view, value); }
-        }        
+        }
 
         public bool ViewToModel(EditFormAdapter form, TModel model)
         {
@@ -151,7 +149,7 @@ namespace LagoVista.Simulator.Core.ViewModels
 
         public async Task<bool> PerformNetworkOperation(Func<Task<bool>> action)
         {
-            if(!IsNetworkConnected)
+            if (!IsNetworkConnected)
             {
                 await Popups.ShowAsync(ClientResources.Common_NoConnection);
                 return false;

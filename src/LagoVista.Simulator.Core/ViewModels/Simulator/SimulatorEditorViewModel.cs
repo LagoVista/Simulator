@@ -8,10 +8,11 @@ using LagoVista.Core.Validation;
 using System.Diagnostics;
 using LagoVista.Simulator.Core.Resources;
 using LagoVista.IoT.Simulator.Admin.Models;
+using LagoVista.Client.Core.ViewModels;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
-    public class SimulatorEditorViewModel : SimulatorViewModelBase<IoT.Simulator.Admin.Models.Simulator>
+    public class SimulatorEditorViewModel : IoTAppViewModelBase<IoT.Simulator.Admin.Models.Simulator>
     {
 
         public SimulatorEditorViewModel()

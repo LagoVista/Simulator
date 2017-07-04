@@ -1,10 +1,11 @@
-﻿using LagoVista.Core.Commanding;
+﻿using LagoVista.Client.Core.ViewModels;
+using LagoVista.Core.Commanding;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.Core.ViewModels
 {
-    public class SplashViewModel : SimulatorViewModelBase
+    public class SplashViewModel : IoTAppViewModelBase
     {
 
         private bool _notLoggedIn = false;
