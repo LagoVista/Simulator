@@ -32,8 +32,10 @@ namespace LagoVista.Client.Core.Auth
                 if (response.IsSuccessStatusCode)
                 {
                     var resultContent = await response.Content.ReadAsStringAsync();
-
-                    return JsonConvert.DeserializeObject<APIResponse<AuthResponse>>(resultContent);
+                    var serializerSettings = new JsonSerializerSettings();
+                    serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    var authResponse = JsonConvert.DeserializeObject<APIResponse<AuthResponse>>(resultContent, serializerSettings);
+                    return authResponse;                    
                 }
                 else
                 {

@@ -39,9 +39,9 @@
         <Label Text="{trs:Translate Common_EndPoint}" Grid.Column="1" Grid.Row="2" TextColor="{StaticResource NuvIoTDark}" Font="Bold,16" />
         <Label Text="{trs:Translate Common_Port}" Grid.Column="1" Grid.Row="3" TextColor="{StaticResource NuvIoTDark}" Font="Bold,16" />
                 
-        <Label Text="{Binding Model.DefaultEndPoint}" Grid.Column="2" Grid.Row="1" Font="16" />
-        <Label Text="{Binding Model.DefaultPort}"  Grid.Column="2" Grid.Row="2" Font="16" />
-        <Label Text="{Binding Model.DefaultTransport.Text}" Grid.Column="2" Grid.Row="3" Font="16" />
+        <Label Text="{Binding Model.DefaultTransport.Text}" Grid.Column="2" Grid.Row="1" Font="16" />
+        <Label Text="{Binding Model.DefaultEndPoint}"  Grid.Column="2" Grid.Row="2" Font="16" />
+        <Label Text="{Binding Model.DefaultPort}" Grid.Column="2" Grid.Row="3" Font="16" />
       </Grid>
 
       <StackLayout Grid.Row="1">

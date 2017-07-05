@@ -5,12 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.48-alpha1640" />
-    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.48-alpha1640" />
-    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.48-alpha1640" />
-    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.48-alpha1640" />
-    <PackageReference Include="LagoVista.IoT.Simulator.Admin" Version="1.2.48-alpha1640" />
-    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.48-alpha1640" />
+    <Compile Remove="Net\**" />
+    <Compile Remove="ViewModels\Account\**" />
+    <Compile Remove="ViewModels\Orgs\**" />
+    <EmbeddedResource Remove="Net\**" />
+    <EmbeddedResource Remove="ViewModels\Account\**" />
+    <EmbeddedResource Remove="ViewModels\Orgs\**" />
+    <None Remove="Net\**" />
+    <None Remove="ViewModels\Account\**" />
+    <None Remove="ViewModels\Orgs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LagoVista.Core" Version="1.2.49-alpha1816" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.49-alpha1816" />
+    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.49-alpha1816" />
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.49-alpha1816" />
+    <PackageReference Include="LagoVista.IoT.Simulator.Admin" Version="1.2.49-alpha1816" />
+    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.49-alpha1816" />
     <PackageReference Include="Microsoft.Azure.EventHubs" Version="1.0.1" />
   </ItemGroup>
 
@@ -32,12 +44,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SimulatorCoreResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Net\" />
-    <Folder Include="ViewModels\Account\" />
-    <Folder Include="ViewModels\Orgs\" />
   </ItemGroup>
 
 </Project>

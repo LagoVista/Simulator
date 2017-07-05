@@ -4,8 +4,9 @@ using LagoVista.Core.Authentication.Interfaces;
 using LagoVista.Core.Authentication.Models;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.Models;
-using LagoVista.UserAdmin.Models.Account;
+using LagoVista.UserAdmin.Models.Users;
 using LagoVista.Client.Core.ViewModels;
+using LagoVista.Client.Core.Resources;
 
 namespace LagoVista.Simulator.Core.ViewModels.Auth
 {
@@ -27,7 +28,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Auth
             {
                 Email = EmailAddress,
                 Password = Password,
-                UserName = EmailAddress
+                UserName = EmailAddress,
+                GrantType = "password"
             };
 
             var result = await _authClient.LoginAsync(loginInfo);
@@ -50,6 +52,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Auth
             else
             {
                 IsBusy = false;
+                await Popups.ShowAsync(ClientResources.Auth_FailedLogin);
             }
         }
 

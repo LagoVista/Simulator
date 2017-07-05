@@ -32,7 +32,7 @@ namespace LagoVista.Simulator.Core.ViewModels
 
         public void AddNewSimulator()
         {
-            ViewModelNavigation.NavigateAndCreateAsync<IoTAppViewModelBase>();
+            ViewModelNavigation.NavigateAndCreateAsync<SimulatorEditorViewModel>();
         }
 
         private Task LoadSimulators()
@@ -90,7 +90,7 @@ namespace LagoVista.Simulator.Core.ViewModels
             {
                 if (value != null && _selectedSimulator != value)
                 {
-                    ViewModelNavigation.NavigateAndEditAsync<IoTAppViewModelBase>(value.Id);
+                    ViewModelNavigation.NavigateAndEditAsync<SimulatorViewModel>(value.Id);
                 }
 
                 _selectedSimulator = value;

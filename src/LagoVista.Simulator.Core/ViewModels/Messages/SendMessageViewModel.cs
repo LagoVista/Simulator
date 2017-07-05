@@ -36,6 +36,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
         private String ReplaceTokens(String input)
         {
+            if(String.IsNullOrEmpty(input))
+            {
+                return "";
+            }
+
             foreach (var attr in MsgTemplate.DynamicAttributes)
             {
                 input = input.Replace($"~{attr.Key}~", attr.DefaultValue);

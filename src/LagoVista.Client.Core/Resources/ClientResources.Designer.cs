@@ -62,6 +62,15 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, we could not validate the Email Address and Password you supplied..
+        /// </summary>
+        public static string Auth_FailedLogin {
+            get {
+                return ResourceManager.GetString("Auth_FailedLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Common_Add {
