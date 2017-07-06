@@ -50,6 +50,7 @@ namespace LagoVista.Simulator
             navigation.Add<MessageHeaderViewModel, Views.Messages.MessageHeaderView>();
             navigation.Add<DynamicAttributeViewModel, Views.Messages.DynamicAttributeView>();
             navigation.Add<RegisterUserViewModel, Views.Users.RegisterView>();
+            navigation.Add<VerifyUserViewModel, Views.Users.VerifyUserView>();
 
             navigation.Start<SplashViewModel>();
 

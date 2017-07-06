@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Users
 {
-    public class RegisterUserViewModel : IoTAppViewModelBase
+    public class RegisterUserViewModel : IoTAppViewModelBase<RegisterViewModel>
     {
         public RegisterUserViewModel()
         {
@@ -66,6 +66,20 @@ namespace LagoVista.Client.Core.ViewModels.Users
                 await Popups.ShowAsync(ClientResources.Register_Password_Confirm_NoMatch);
                 return;
             }
+
+            await PerformNetworkOperation(async () => {
+                var result = await RestClient.AddAsync("/api/user/register", ViewModel);
+                if(result.Successful)
+                {
+                    await ViewModelNavigation.NavigateAsync<VerifyUserViewModel>();
+                }
+                else
+                {
+                    
+                }
+            });
+
+            
         }
 
         public RegisterViewModel ViewModel { get; private set; }

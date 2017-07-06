@@ -14,9 +14,9 @@ using Xamarin.Forms.Xaml;
 namespace LagoVista.Simulator.Views.Users
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RegisterView : LagoVistaContentPage
+    public partial class VerifyUserView : LagoVistaContentPage
     {
-        public RegisterView()
+        public VerifyUserView()
         {
             InitializeComponent();
         }

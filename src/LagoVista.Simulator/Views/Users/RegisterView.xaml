@@ -4,8 +4,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:ext="clr-namespace:LagoVista.Simulator;assembly=LagoVista.Simulator"    
     HasToolBar="False"
-      x:Class="LagoVista.Simulator.Views.Users.RegisterView"
-           Title="{ext:Translate Register_Title}">
+    x:Class="LagoVista.Simulator.Views.Users.RegisterView"
+    Title="{ext:Translate Register_Title}">
     <pge:LagoVistaContentPage.MainContent>
         <ScrollView>
             <Grid BackgroundColor="#2196F3">
