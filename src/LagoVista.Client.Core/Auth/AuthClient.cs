@@ -10,6 +10,7 @@ using LagoVista.Core.Networking.Models;
 using LagoVista.Core.Authentication.Models;
 using LagoVista.Core.IOC;
 using Newtonsoft.Json.Serialization;
+using LagoVista.Core.Validation;
 
 namespace LagoVista.Client.Core.Auth
 {
@@ -20,7 +21,7 @@ namespace LagoVista.Client.Core.Auth
             
         }
 
-        public async Task<APIResponse<AuthResponse>> LoginAsync(AuthRequest loginInfo, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<InvokeResult<AuthResponse>> LoginAsync(AuthRequest loginInfo, CancellationTokenSource cancellationTokenSource = null)
         {
             var client = SLWIOC.Get<HttpClient>();
 
@@ -34,21 +35,21 @@ namespace LagoVista.Client.Core.Auth
                     var resultContent = await response.Content.ReadAsStringAsync();
                     var serializerSettings = new JsonSerializerSettings();
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    var authResponse = JsonConvert.DeserializeObject<APIResponse<AuthResponse>>(resultContent, serializerSettings);
+                    var authResponse = JsonConvert.DeserializeObject<InvokeResult<AuthResponse>>(resultContent, serializerSettings);
                     return authResponse;                    
                 }
                 else
                 {
-                    return APIResponse<AuthResponse>.FromFailedStatusCode(response.StatusCode);
+                    return InvokeResult<AuthResponse>.FromErrors(new ErrorMessage() { Message = response.ReasonPhrase });
                 }
             }
             catch(Exception ex)
             {
-                return APIResponse<AuthResponse>.FromException(ex);
+                return InvokeResult<AuthResponse>.FromException("AuthClient_LoginAsync", ex);
             }
         }
 
-        public Task<APIResponse> ResetPasswordAsync(string emailAddress, CancellationTokenSource cancellationTokenSource = null)
+        public Task<InvokeResult> ResetPasswordAsync(string emailAddress, CancellationTokenSource cancellationTokenSource = null)
         {
             throw new NotImplementedException();
         }

@@ -2,6 +2,7 @@
 using LagoVista.Core.Models;
 using LagoVista.Core.PlatformSupport;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.Net
@@ -18,14 +19,15 @@ namespace LagoVista.Client.Core.Net
             _storage = storage;
         }
 
-        public string AuthToken { get; set; }
-        public long AuthTokenExpiration { get; set; }
+        public string AccessToken { get; set; }
+        public string AccessTokenExpirationUTC { get; set; }
         public string DeviceId { get; set; }
         public String DeviceType { get; set; }
         public bool IsAuthenticated { get; set; }
         public string RefreshToken { get; set; }
-        public long RefreshTokenExpiration { get; set; }
+        public string RefreshTokenExpirationUTC { get; set; }
         public UserInfo User { get; set; }
+        public List<string> Roles { get; set; }
 
         public async Task LoadAsync()
         {
@@ -36,28 +38,38 @@ namespace LagoVista.Client.Core.Net
                 DeviceId = _deviceInfo.DeviceUniqueId;
                 DeviceType = _deviceInfo.DeviceType;
                 IsAuthenticated = false;
+                AccessToken = null;
+                RefreshToken = null;
+                User = null;
+                AccessTokenExpirationUTC = null;
+                RefreshTokenExpirationUTC = null;
+                IsAuthenticated = false;
+                Roles = new List<string>();
             }
             else
             {
-                AuthToken = storedAuthmanager.AuthToken;
-                AuthTokenExpiration = storedAuthmanager.AuthTokenExpiration;
+                AccessToken = storedAuthmanager.AccessToken;
+                AccessTokenExpirationUTC = storedAuthmanager.AccessTokenExpirationUTC;
                 DeviceId = storedAuthmanager.DeviceId;
                 DeviceType = storedAuthmanager.DeviceType;
                 IsAuthenticated = storedAuthmanager.IsAuthenticated;
                 RefreshToken = storedAuthmanager.RefreshToken;
-                RefreshTokenExpiration = storedAuthmanager.RefreshTokenExpiration;
+                RefreshTokenExpirationUTC = storedAuthmanager.RefreshTokenExpirationUTC;
                 User = storedAuthmanager.User;
+                Roles = storedAuthmanager.Roles;
+
             }
         }
 
         public async Task LogoutAsync()
         {
-            AuthToken = null;
-            AuthTokenExpiration = -1;
+            AccessToken = null;
+            AccessTokenExpirationUTC = null;
             IsAuthenticated = false;
             RefreshToken = null;
-            RefreshTokenExpiration = -1;
+            RefreshTokenExpirationUTC = null;
             User = null;
+            Roles = new List<string>();
 
             await PersistAsync();
         }

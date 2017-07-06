@@ -1,6 +1,11 @@
 ﻿using LagoVista.Client.Core.Resources;
+using LagoVista.Core.Authentication.Models;
 using LagoVista.Core.Commanding;
+using LagoVista.Core.Interfaces;
+using LagoVista.Core.Models;
 using LagoVista.Core.Models.UIMetaData;
+using LagoVista.Core.PlatformSupport;
+using LagoVista.Core.ViewModels;
 using LagoVista.UserAdmin.ViewModels.Users;
 using System;
 using System.Collections.Generic;
@@ -12,15 +17,19 @@ namespace LagoVista.Client.Core.ViewModels.Users
 {
     public class RegisterUserViewModel : IoTAppViewModelBase<RegisterViewModel>
     {
-        public RegisterUserViewModel()
+        public RegisterUserViewModel(IAppConfig appConfig, IDeviceInfo deviceInfo, IClientAppInfo clientAppInfo)
         {
             ViewModel = new RegisterViewModel();
+            ViewModel.AppId = appConfig.AppName;
+            ViewModel.DeviceId = deviceInfo.DeviceUniqueId;
+            ViewModel.ClientType = "mobileapp";
+            ViewModel.InstallationId = appConfig.InstallationId;
             RegisterCommand = new RelayCommand(Register);
         }
 
         public async void Register()
         {
-            if(String.IsNullOrEmpty(ViewModel.FirstName))
+            if (String.IsNullOrEmpty(ViewModel.FirstName))
             {
                 await Popups.ShowAsync(ClientResources.Register_FirstName_Required);
                 return;
@@ -67,19 +76,33 @@ namespace LagoVista.Client.Core.ViewModels.Users
                 return;
             }
 
-            await PerformNetworkOperation(async () => {
-                var result = await RestClient.AddAsync("/api/user/register", ViewModel);
-                if(result.Successful)
-                {
+            await PerformNetworkOperation(async () =>
+            {
+                var result = await RestClient.PostAsync<AuthResponse>("/api/user/register", ViewModel);
+                if (result.Successful)
+                {                    
+                    /* Make sure our Access Token is saved so the REST service can use it */
+                    AuthManager.AccessToken = result.Result.AccessToken;
+                    AuthManager.AccessTokenExpirationUTC = result.Result.AccessTokenExpiresUTC;
+                    AuthManager.RefreshToken = result.Result.RefreshToken;
+                    AuthManager.RefreshTokenExpirationUTC = result.Result.RefreshTokenExpiresUTC;
+                    AuthManager.IsAuthenticated = true;
+
+                    var user = await RestClient.GetAsync<UserInfo>("/api/user");
+                    AuthManager.User = user.Model;
+                    await AuthManager.PersistAsync();
+
+                    Logger.AddKVPs(new KeyValuePair<string, string>("Email", AuthManager.User.Email));
+
                     await ViewModelNavigation.NavigateAsync<VerifyUserViewModel>();
                 }
                 else
                 {
-                    
+                    await ShowServerErrorMessage(result);
                 }
             });
 
-            
+
         }
 
         public RegisterViewModel ViewModel { get; private set; }

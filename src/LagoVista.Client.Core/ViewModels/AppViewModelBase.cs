@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using LagoVista.Core.Models;
 using LagoVista.Core.ViewModels;
 using LagoVista.Client.Core.Resources;
+using LagoVista.Core.Validation;
 
 namespace LagoVista.Client.Core.ViewModels
 {
@@ -211,6 +212,29 @@ namespace LagoVista.Client.Core.ViewModels
                 }
             }
         }
+
+        public async Task ShowServerErrorMessage(InvokeResult result)
+        {
+            var bldr = new StringBuilder();
+            foreach(var err in result.Errors)
+            {
+                bldr.AppendLine(err.Message);
+            }
+
+            await Popups.ShowAsync(bldr.ToString());
+        }
+
+        public async Task ShowServerErrorMessage<TResponseModel>(InvokeResult<TResponseModel> result)
+        {
+            var bldr = new StringBuilder();
+            foreach (var err in result.Errors)
+            {
+                bldr.AppendLine(err.Message);
+            }
+
+            await Popups.ShowAsync(bldr.ToString());
+        }
+
 
 
         public bool IsEdit

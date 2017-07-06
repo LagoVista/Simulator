@@ -12,7 +12,12 @@ namespace LagoVista.Client.Core.Net
         Task<DetailResponse<TModel>> CreateNewAsync(String path, CancellationTokenSource cancellationTokenSource = null);
         Task<InvokeResult> AddAsync(String path, TModel model, CancellationTokenSource cancellationTokenSource = null);
         Task<InvokeResult> UpdateAsync(String path, TModel model, CancellationTokenSource cancellationTokenSource = null);
+        Task<InvokeResult<TResponseModel>> PostAsync<TResponseModel>(String path, TModel model, CancellationTokenSource cancellationTokenSource = null);
+
         Task<DetailResponse<TModel>> GetAsync(String path, CancellationTokenSource cancellationTokenSource = null);
+
+        Task<DetailResponse<TResponseModel>> GetAsync<TResponseModel>(String path, CancellationTokenSource cancellationTokenSource = null) where TResponseModel : new();
+
         Task<InvokeResult> DeleteAsync(String path, TModel model, CancellationTokenSource cancellationTokenSource = null);
     }
 

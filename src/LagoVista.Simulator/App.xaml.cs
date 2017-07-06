@@ -1,4 +1,8 @@
-﻿using LagoVista.Client.Core;
+﻿#define ENV_LOCAL
+//#define ENV_DEV
+//#define ENV_PROD
+
+using LagoVista.Client.Core;
 using LagoVista.Client.Core.Auth;
 using LagoVista.Client.Core.Models;
 using LagoVista.Client.Core.Net;
@@ -15,6 +19,7 @@ using System.Reflection;
 
 using Xamarin.Forms;
 
+
 namespace LagoVista.Simulator
 {
     public partial class App : Application
@@ -29,15 +34,36 @@ namespace LagoVista.Simulator
 
         private void InitServices()
         {
+#if ENV_PROD
+            var serverInfo = new ServerInfo()
+            {
+                SSL = true,
+                RootUrl = "api.nuviot.com",
+            };
+#elif ENV_DEV
             var serverInfo = new ServerInfo()
             {
                 SSL = true,
                 RootUrl = "dev-api.nuviot.com",
             };
+#elif ENV_LOCAL
+            var serverInfo = new ServerInfo()
+            {
+                SSL = false,
+                RootUrl = "localhost:5001",
+            };
+#endif
 
             LagoVista.Client.Core.Startup.Init(serverInfo);
             LagoVista.XPlat.Core.Startup.Init(this);
-                
+
+            var clientAppInfo = new ClientAppInfo()
+            {
+                MainViewModel = typeof(MainViewModel)
+            };
+
+            SLWIOC.RegisterSingleton<IClientAppInfo>(clientAppInfo);
+
             SLWIOC.RegisterSingleton<IAppConfig>(new AppConfig());
             var navigation = new ViewModelNavigation(this);
             navigation.Add<SplashViewModel, Views.SplashView>();

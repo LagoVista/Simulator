@@ -50,7 +50,7 @@ namespace LagoVista.Client.Core.Net
             }
 
             _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AuthToken);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AccessToken);
 
             try
             {
@@ -81,6 +81,52 @@ namespace LagoVista.Client.Core.Net
             }
         }
 
+        public async Task<InvokeResult<TResponseModel>> PostAsync<TResponseModel>(string path, TModel model, CancellationTokenSource cancellationTokenSource = null)
+        {
+            if (cancellationTokenSource == null)
+            {
+                cancellationTokenSource = new CancellationTokenSource(15 * 1000); /* Abort after 15 seconds */
+            }
+
+            if (!await _tokenManager.ValidateTokenAsync(_authManager, cancellationTokenSource))
+            {
+                var errs = new InvokeResult();
+                errs.Errors.Add(new ErrorMessage("could Not Add Item: " + System.Net.HttpStatusCode.Unauthorized));
+            }
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AccessToken);
+
+            try
+            {
+                var json = JsonConvert.SerializeObject(model);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync(path, content, cancellationTokenSource.Token);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJSON = await response.Content.ReadAsStringAsync();
+                    var serializerSettings = new JsonSerializerSettings();
+                    serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+                    return JsonConvert.DeserializeObject<InvokeResult<TResponseModel>>(responseJSON, serializerSettings);
+                }
+                else
+                {
+                    var result = new InvokeResult<TResponseModel>();
+                    result.Errors.Add(new ErrorMessage("failure code response"));
+                    return result;
+                }
+            }
+            catch (Exception)
+            {
+                var result = new InvokeResult<TResponseModel>();
+                result.Errors.Add(new ErrorMessage("failure code response"));
+                return result;
+            }
+        }
+
+
         public Task<DetailResponse<TModel>> CreateNewAsync(string path, CancellationTokenSource cancellationTokenSource = null)
         {
             return GetAsync(path, cancellationTokenSource);
@@ -105,7 +151,7 @@ namespace LagoVista.Client.Core.Net
             }
 
             _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AuthToken);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AccessToken);
 
             var response = await _httpClient.GetAsync(path, cancellationTokenSource.Token);
             if (response.IsSuccessStatusCode)
@@ -116,6 +162,40 @@ namespace LagoVista.Client.Core.Net
                 serializerSettings.ContractResolver = new Utils.JsonNamesHelper();
 
                 return JsonConvert.DeserializeObject<DetailResponse<TModel>>(responseJSON, serializerSettings);
+            }
+            else
+            {
+                var result = new InvokeResult();
+                result.Errors.Add(new ErrorMessage("failure code response"));
+                return null;
+            }
+        }
+
+        public async Task<DetailResponse<TResponseModel>> GetAsync<TResponseModel>(string path, CancellationTokenSource cancellationTokenSource = null) where TResponseModel : new()
+        {
+            if (cancellationTokenSource == null)
+            {
+                cancellationTokenSource = new CancellationTokenSource(15 * 1000); /* Abort after 15 seconds */
+            }
+
+            if (!await _tokenManager.ValidateTokenAsync(_authManager, cancellationTokenSource))
+            {
+                var errs = new InvokeResult();
+                errs.Errors.Add(new ErrorMessage("could Not Add Item: " + System.Net.HttpStatusCode.Unauthorized));
+            }
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AccessToken);
+
+            var response = await _httpClient.GetAsync(path, cancellationTokenSource.Token);
+            if (response.IsSuccessStatusCode)
+            {
+                var responseJSON = await response.Content.ReadAsStringAsync();
+                var serializerSettings = new JsonSerializerSettings();
+
+                serializerSettings.ContractResolver = new Utils.JsonNamesHelper();
+
+                return JsonConvert.DeserializeObject<DetailResponse<TResponseModel>>(responseJSON, serializerSettings);
             }
             else
             {
@@ -139,7 +219,7 @@ namespace LagoVista.Client.Core.Net
             }
 
             _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AuthToken);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AccessToken);
 
             try
             {
@@ -202,7 +282,7 @@ namespace LagoVista.Client.Core.Net
 
 
             _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AuthToken);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AccessToken);
 
             try
             {

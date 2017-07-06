@@ -40,6 +40,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppConfig.cs" />
+    <Compile Include="ClientAppInfo.cs" />
     <Compile Include="Clients\IRESTClient.cs" />
     <Compile Include="Clients\IUDPClient.cs" />
     <Compile Include="Extensions\TranslationExtensions.cs" />

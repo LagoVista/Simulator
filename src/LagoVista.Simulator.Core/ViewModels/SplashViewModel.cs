@@ -1,5 +1,7 @@
 ﻿using LagoVista.Client.Core.ViewModels;
+using LagoVista.Client.Core.ViewModels.Users;
 using LagoVista.Core.Commanding;
+using LagoVista.Core.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -32,10 +34,25 @@ namespace LagoVista.Simulator.Core.ViewModels
         public override async Task InitAsync()
         {
             await AuthManager.LoadAsync();
-            if(AuthManager.IsAuthenticated)
+            if (AuthManager.IsAuthenticated)
             {
-                Logger.AddKVPs(new KeyValuePair<string, string>("Email", AuthManager.User.Email), new KeyValuePair<string, string>("OrgId", AuthManager.User.CurrentOrganization.Text));
-                await ViewModelNavigation.SetAsNewRootAsync<MainViewModel>();
+                if (EntityHeader.IsNullOrEmpty(AuthManager.User.CurrentOrganization))
+                {
+                    Logger.AddKVPs(new KeyValuePair<string, string>("Email", AuthManager.User.Email));
+                }
+                else
+                {
+                    Logger.AddKVPs(new KeyValuePair<string, string>("Email", AuthManager.User.Email), new KeyValuePair<string, string>("OrgId", AuthManager.User.CurrentOrganization.Text));
+                }
+
+                if (!AuthManager.User.EmailConfirmed || !AuthManager.User.PhoneNumberConfirmed)
+                {
+                    await ViewModelNavigation.SetAsNewRootAsync<VerifyUserViewModel>();
+                }
+                else
+                {
+                    await ViewModelNavigation.SetAsNewRootAsync<MainViewModel>();
+                }
             }
             else
             {
@@ -46,7 +63,7 @@ namespace LagoVista.Simulator.Core.ViewModels
 
         public async void Login()
         {
-            await  ViewModelNavigation.SetAsNewRootAsync<Auth.LoginViewModel>();
+            await ViewModelNavigation.SetAsNewRootAsync<Auth.LoginViewModel>();
         }
 
         public RelayCommand LoginCommand { get; private set; }

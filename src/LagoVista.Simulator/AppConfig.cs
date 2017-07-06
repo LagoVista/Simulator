@@ -22,5 +22,9 @@ namespace LagoVista.Simulator
         public string CompanyLogo => "";
 
         public bool EmitTestingCode => true;
+
+        public string AppId => "b551f8dc-f7c2-405c-8c21-530a9bc11003";
+
+        public string InstallationId => "dontcare";
     }
 }

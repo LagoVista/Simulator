@@ -40,14 +40,15 @@ namespace LagoVista.Simulator.Core.ViewModels.Auth
 
             var result = await _authClient.LoginAsync(loginInfo);
 
-            if (result.Success)
+            if (result.Successful)
             {
                 var authResult = result.Result;
-                AuthManager.AuthToken = authResult.AuthToken;
-                AuthManager.AuthTokenExpiration = authResult.AuthTokenExpiration;
+                AuthManager.AccessToken = authResult.AccessToken;
+                AuthManager.AccessTokenExpirationUTC = authResult.AccessTokenExpiresUTC;
                 AuthManager.RefreshToken = authResult.RefreshToken;
-                AuthManager.RefreshTokenExpiration = authResult.RefreshTokenExpiration;
+                AuthManager.RefreshTokenExpirationUTC = authResult.RefreshTokenExpiresUTC;
                 AuthManager.IsAuthenticated = true;
+                
 
                 var user = await RestClient.GetAsync("/api/user");
                 AuthManager.User = user.Model;
