@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LagoVista.Client.Core.Resources;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -23,6 +24,23 @@ namespace LagoVista.Simulator
                 return null;
 
             return Resources.SimulatorResources.ResourceManager.GetString(Text, CultureInfo.CurrentCulture);
+        }
+    }
+
+    [ContentProperty("Text")]
+    public class ClientTranslateExtension : IMarkupExtension
+    {
+
+        // Look at: poeditor.com 
+
+        public string Text { get; set; }
+
+        public object ProvideValue(IServiceProvider serviceProvider)
+        {
+            if (Text == null)
+                return null;
+
+            return ClientResources.ResourceManager.GetString(Text, CultureInfo.CurrentCulture);
         }
     }
 }

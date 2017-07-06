@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LagoVista.Client.Core.ViewModels.Account
+namespace LagoVista.Client.Core.ViewModels.Users
 {
-    class EditUserViewModel
+    class ConfirmEmailViewModel
     {
     }
 }

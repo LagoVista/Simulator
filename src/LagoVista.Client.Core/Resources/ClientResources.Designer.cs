@@ -141,5 +141,167 @@ namespace LagoVista.Client.Core.Resources {
                 return ResourceManager.GetString("Common_Yes", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Password.
+        /// </summary>
+        public static string Register_Confirm_Password {
+            get {
+                return ResourceManager.GetString("Register_Confirm_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to confirm password.
+        /// </summary>
+        public static string Register_ConfirmPassword_Watermark {
+            get {
+                return ResourceManager.GetString("Register_ConfirmPassword_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string Register_Email {
+            get {
+                return ResourceManager.GetString("Register_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid email address..
+        /// </summary>
+        public static string Register_Email_Invalid {
+            get {
+                return ResourceManager.GetString("Register_Email_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email is a Required FIeld.
+        /// </summary>
+        public static string Register_Email_Required {
+            get {
+                return ResourceManager.GetString("Register_Email_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to enter email address.
+        /// </summary>
+        public static string Register_Email_WaterMark {
+            get {
+                return ResourceManager.GetString("Register_Email_WaterMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First Name.
+        /// </summary>
+        public static string Register_FirstName {
+            get {
+                return ResourceManager.GetString("Register_FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First Name is a Required Field.
+        /// </summary>
+        public static string Register_FirstName_Required {
+            get {
+                return ResourceManager.GetString("Register_FirstName_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to enter first name.
+        /// </summary>
+        public static string Register_FirstName_WaterMark {
+            get {
+                return ResourceManager.GetString("Register_FirstName_WaterMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Name.
+        /// </summary>
+        public static string Register_LastName {
+            get {
+                return ResourceManager.GetString("Register_LastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Name is a Required Field.
+        /// </summary>
+        public static string Register_LastName_Required {
+            get {
+                return ResourceManager.GetString("Register_LastName_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to enter last name.
+        /// </summary>
+        public static string Register_LastName_WaterMark {
+            get {
+                return ResourceManager.GetString("Register_LastName_WaterMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Register_Password {
+            get {
+                return ResourceManager.GetString("Register_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password and Confirm Password must match..
+        /// </summary>
+        public static string Register_Password_Confirm_NoMatch {
+            get {
+                return ResourceManager.GetString("Register_Password_Confirm_NoMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is a Required Field.
+        /// </summary>
+        public static string Register_Password_Required {
+            get {
+                return ResourceManager.GetString("Register_Password_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your password must contain at least 8 characters, with at least one number and one upper case and one lower case letter.
+        /// </summary>
+        public static string Register_Password_Requirements {
+            get {
+                return ResourceManager.GetString("Register_Password_Requirements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to enter password.
+        /// </summary>
+        public static string Register_Password_Watermark {
+            get {
+                return ResourceManager.GetString("Register_Password_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string Register_Title {
+            get {
+                return ResourceManager.GetString("Register_Title", resourceCulture);
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ using LagoVista.Core.Models;
 using LagoVista.UserAdmin.Models.Users;
 using LagoVista.Client.Core.ViewModels;
 using LagoVista.Client.Core.Resources;
+using LagoVista.Client.Core.ViewModels.Users;
 
 namespace LagoVista.Simulator.Core.ViewModels.Auth
 {
@@ -17,9 +18,14 @@ namespace LagoVista.Simulator.Core.ViewModels.Auth
         public LoginViewModel(IAuthClient authClient)
         {
             LoginCommand = new RelayCommand(Login);
+            RegisterCommand = new RelayCommand(Register);
             _authClient = authClient;
         }
 
+        public async void Register()
+        {
+            await ViewModelNavigation.NavigateAsync<RegisterUserViewModel>();
+        }
 
         public async void Login()
         {
@@ -57,6 +63,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Auth
         }
 
         public RelayCommand LoginCommand { get; private set; }
+        public RelayCommand RegisterCommand { get; private set; }
 
         private string _emailAddress;
         private string _password;

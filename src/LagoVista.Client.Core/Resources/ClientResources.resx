@@ -144,4 +144,58 @@
   <data name="Common_Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="Register_ConfirmPassword_Watermark" xml:space="preserve">
+    <value>confirm password</value>
+  </data>
+  <data name="Register_Confirm_Password" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="Register_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Register_Email_Invalid" xml:space="preserve">
+    <value>Please enter a valid email address.</value>
+  </data>
+  <data name="Register_Email_Required" xml:space="preserve">
+    <value>Email is a Required FIeld</value>
+  </data>
+  <data name="Register_Email_WaterMark" xml:space="preserve">
+    <value>enter email address</value>
+  </data>
+  <data name="Register_FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Register_FirstName_Required" xml:space="preserve">
+    <value>First Name is a Required Field</value>
+  </data>
+  <data name="Register_FirstName_WaterMark" xml:space="preserve">
+    <value>enter first name</value>
+  </data>
+  <data name="Register_LastName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Register_LastName_Required" xml:space="preserve">
+    <value>Last Name is a Required Field</value>
+  </data>
+  <data name="Register_LastName_WaterMark" xml:space="preserve">
+    <value>enter last name</value>
+  </data>
+  <data name="Register_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Register_Password_Confirm_NoMatch" xml:space="preserve">
+    <value>Password and Confirm Password must match.</value>
+  </data>
+  <data name="Register_Password_Required" xml:space="preserve">
+    <value>Password is a Required Field</value>
+  </data>
+  <data name="Register_Password_Requirements" xml:space="preserve">
+    <value>Your password must contain at least 8 characters, with at least one number and one upper case and one lower case letter</value>
+  </data>
+  <data name="Register_Password_Watermark" xml:space="preserve">
+    <value>enter password</value>
+  </data>
+  <data name="Register_Title" xml:space="preserve">
+    <value>Register</value>
+  </data>
 </root>

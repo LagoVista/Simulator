@@ -2,6 +2,7 @@
 using LagoVista.Client.Core.Auth;
 using LagoVista.Client.Core.Models;
 using LagoVista.Client.Core.Net;
+using LagoVista.Client.Core.ViewModels.Users;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
 using LagoVista.Core.ViewModels;
@@ -48,6 +49,7 @@ namespace LagoVista.Simulator
             navigation.Add<SendMessageViewModel, Views.Messages.SendMessageView>();
             navigation.Add<MessageHeaderViewModel, Views.Messages.MessageHeaderView>();
             navigation.Add<DynamicAttributeViewModel, Views.Messages.DynamicAttributeView>();
+            navigation.Add<RegisterUserViewModel, Views.Users.RegisterView>();
 
             navigation.Start<SplashViewModel>();
 
