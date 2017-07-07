@@ -23,6 +23,7 @@ namespace LagoVista.Client.Core.ViewModels
         protected HttpClient HttpClient { get { return SLWIOC.Get<HttpClient>(); } }
         protected IAuthManager AuthManager { get { return SLWIOC.Get<IAuthManager>(); } }
         protected ITokenManager TokenManager { get { return SLWIOC.Get<ITokenManager>(); } }
+        protected IRawRestClient RawRestClient { get { return SLWIOC.Get<IRawRestClient>(); } }
         protected INetworkService NetworkService { get { return SLWIOC.Get<INetworkService>(); } }
     }
 
@@ -32,7 +33,7 @@ namespace LagoVista.Client.Core.ViewModels
 
         public IoTAppViewModelBase()
         {
-            _restClient = new RestClient<TModel, TSummaryModel>(HttpClient, AuthManager, TokenManager, Logger, NetworkService);
+            _restClient = new RestClient<TModel, TSummaryModel>(RawRestClient);
 
         }
 
@@ -55,7 +56,7 @@ namespace LagoVista.Client.Core.ViewModels
 
         public IoTAppViewModelBase()
         {
-            _restClient = new RestClient<TModel>(HttpClient, AuthManager, TokenManager, Logger, NetworkService);
+            _restClient = new RestClient<TModel>(RawRestClient);
         }
 
 

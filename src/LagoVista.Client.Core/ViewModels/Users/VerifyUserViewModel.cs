@@ -1,6 +1,7 @@
 ﻿using LagoVista.Client.Core.Net;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.Models;
+using LagoVista.Core.Networking.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
 
         public void SendEmailConfirmation()
         {
-            var client = new RestClient<UserInfo>(HttpClient, AuthManager, TokenManager, Logger, NetworkService);
+
         }
 
         public void SendSMSConfirmation()
