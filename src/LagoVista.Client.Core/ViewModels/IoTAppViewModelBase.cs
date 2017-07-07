@@ -25,6 +25,29 @@ namespace LagoVista.Client.Core.ViewModels
         protected ITokenManager TokenManager { get { return SLWIOC.Get<ITokenManager>(); } }
         protected IRawRestClient RawRestClient { get { return SLWIOC.Get<IRawRestClient>(); } }
         protected INetworkService NetworkService { get { return SLWIOC.Get<INetworkService>(); } }
+
+
+        public async Task ShowServerErrorMessageAsync(InvokeResult result)
+        {
+            var bldr = new StringBuilder();
+            foreach (var err in result.Errors)
+            {
+                bldr.AppendLine(err.Message);
+            }
+
+            await Popups.ShowAsync(bldr.ToString());
+        }
+
+        public async Task ShowServerErrorMessage<TResponseModel>(InvokeResult<TResponseModel> result)
+        {
+            var bldr = new StringBuilder();
+            foreach (var err in result.Errors)
+            {
+                bldr.AppendLine(err.Message);
+            }
+
+            await Popups.ShowAsync(bldr.ToString());
+        }
     }
 
     public class IoTAppViewModelBase<TModel, TSummaryModel> : IoTAppViewModelBase where TModel : new() where TSummaryModel : class
@@ -213,30 +236,6 @@ namespace LagoVista.Client.Core.ViewModels
                 }
             }
         }
-
-        public async Task ShowServerErrorMessage(InvokeResult result)
-        {
-            var bldr = new StringBuilder();
-            foreach(var err in result.Errors)
-            {
-                bldr.AppendLine(err.Message);
-            }
-
-            await Popups.ShowAsync(bldr.ToString());
-        }
-
-        public async Task ShowServerErrorMessage<TResponseModel>(InvokeResult<TResponseModel> result)
-        {
-            var bldr = new StringBuilder();
-            foreach (var err in result.Errors)
-            {
-                bldr.AppendLine(err.Message);
-            }
-
-            await Popups.ShowAsync(bldr.ToString());
-        }
-
-
 
         public bool IsEdit
         {

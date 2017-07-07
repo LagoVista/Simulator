@@ -123,6 +123,15 @@
   <data name="Common_Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="Common_EmailAddress" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="Common_Email_Password" xml:space="preserve">
+    <value>-enter password-</value>
+  </data>
+  <data name="Common_Email_Watermark" xml:space="preserve">
+    <value>-enter email address-</value>
+  </data>
   <data name="Common_ErrorCommunicatingWithServer" xml:space="preserve">
     <value>Sorry, there was an error communicating with the server.   Please try again later.</value>
   </data>
@@ -135,11 +144,17 @@
   <data name="Common_Login" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="Common_Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
   <data name="Common_No" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="Common_NoConnection" xml:space="preserve">
     <value>There does not appear to be a connection to the internet, please check your connectoin and try again .ater.</value>
+  </data>
+  <data name="Common_Password" xml:space="preserve">
+    <value>Password</value>
   </data>
   <data name="Common_Yes" xml:space="preserve">
     <value>Yes</value>
@@ -197,5 +212,29 @@
   </data>
   <data name="Register_Title" xml:space="preserve">
     <value>Register</value>
+  </data>
+  <data name="Verify_ConfirmCode" xml:space="preserve">
+    <value>Confirm Code</value>
+  </data>
+  <data name="Verify_PhoneNumber" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="Verify_PhoneNumber_Watermark" xml:space="preserve">
+    <value>-enter your phone number-</value>
+  </data>
+  <data name="Verify_ReceivedCode" xml:space="preserve">
+    <value>Recevied Code</value>
+  </data>
+  <data name="Verify_ReceivedCode_Watermark" xml:space="preserve">
+    <value>-enter 6 digit code-</value>
+  </data>
+  <data name="Verify_SendEmail" xml:space="preserve">
+    <value>Send Confirmation Email</value>
+  </data>
+  <data name="Verify_SendSMS" xml:space="preserve">
+    <value>Send SMS Confirmation</value>
+  </data>
+  <data name="Verify_Title" xml:space="preserve">
+    <value>Verify Your Identity</value>
   </data>
 </root>

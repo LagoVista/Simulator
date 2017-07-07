@@ -619,9 +619,11 @@ namespace LagoVista.XPlat.Core
 
         protected async override void OnAppearing()
         {
+            _originalcontent = this.Content;
+
             base.OnAppearing();
 
-            _originalcontent = this.Content;
+            
 
             if (!_hasAppeared)
             {

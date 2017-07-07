@@ -5,9 +5,9 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using LagoVista.Client.Core.Resources;
 using LagoVista.Simulator.Core.ViewModels.Simulator;
-using LagoVista.Simulator.Core.ViewModels.Auth;
 using System.Collections.Generic;
 using LagoVista.Client.Core.ViewModels;
+using LagoVista.Client.Core.ViewModels.Auth;
 
 namespace LagoVista.Simulator.Core.ViewModels
 {

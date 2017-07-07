@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace LagoVista.Simulator
+namespace LagoVista.XPlat.Core.Extensions
 {
     [ContentProperty("Text")]
-    public class TranslateExtension : IMarkupExtension
+    public class ClientTranslateExtension : IMarkupExtension
     {
 
         // Look at: poeditor.com 
@@ -23,7 +23,7 @@ namespace LagoVista.Simulator
             if (Text == null)
                 return null;
 
-            return Resources.SimulatorResources.ResourceManager.GetString(Text, CultureInfo.CurrentCulture);
+            return ClientResources.ResourceManager.GetString(Text, CultureInfo.CurrentCulture);
         }
     }
 }

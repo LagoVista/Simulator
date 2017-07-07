@@ -53,6 +53,7 @@
     <Compile Include="Controls\Common\Label.cs" />
     <Compile Include="Extensions\ColorExtension.cs" />
     <Compile Include="Extensions\ProperyNameExtensions.cs" />
+    <Compile Include="Extensions\TranslateExtensions.cs" />
     <Compile Include="Resources\XPlatResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -62,10 +63,19 @@
     <Compile Include="Services\StorageServiceBase.cs" />
     <Compile Include="Services\ViewModelNavigation.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Views\Auth\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ILagoVistaPage.cs" />
     <Compile Include="Views\LagoVistaContentPage.cs" />
     <Compile Include="Views\LagoVistaNavigationPage.cs" />
     <Compile Include="Views\LagoVistaStartupPage.cs" />
+    <Compile Include="Views\Users\RegisterView.xaml.cs">
+      <DependentUpon>RegisterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Users\VerifyUserView.xaml.cs">
+      <DependentUpon>VerifyUserView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\XPlatResources.resx">
@@ -82,6 +92,24 @@
       <Project>{786a2d0b-c3e4-4d7a-89c5-86ebc94e1b45}</Project>
       <Name>LagoVista.Client.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Users\RegisterView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Auth\LoginView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Users\VerifyUserView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>

@@ -18,7 +18,7 @@ namespace LagoVista.Client.Core
             SLWIOC.RegisterSingleton<IAppStyle>(new AppStyle());
 
             SLWIOC.RegisterSingleton<ServerInfo>(serverInfo);
-            SLWIOC.RegisterSingleton<IAuthClient>(new AuthClient());            
+            SLWIOC.RegisterSingleton<IAuthClient>(new AuthClient());
             SLWIOC.RegisterSingleton<ITokenManager, TokenManager>();
             SLWIOC.RegisterSingleton<IAuthManager, AuthManager>();
 
@@ -28,8 +28,8 @@ namespace LagoVista.Client.Core
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             SLWIOC.RegisterSingleton<HttpClient>(client);
-       
+
             SLWIOC.RegisterSingleton<IRawRestClient, RawRestClient>();
- }
+        }
     }
 }

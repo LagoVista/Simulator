@@ -24,19 +24,18 @@ namespace LagoVista.Client.Core.Net
     {
         HttpClient _httpClient;
         IAuthManager _authManager;
-        ITokenManager _tokenManager;
         ILogger _logger;
         IAuthClient _authClient;
         IDeviceInfo _deviceInfo;
         IAppConfig _appConfig;
         SemaphoreSlim _callSemaphore;
 
-        public RawRestClient(HttpClient httpClient, IDeviceInfo deviceInfo, IAppConfig appConfig, IAuthClient authClient, IAuthManager authManager, ITokenManager tokenManager, ILogger logger)
+        public RawRestClient(HttpClient httpClient, IDeviceInfo deviceInfo, IAppConfig appConfig, IAuthClient authClient, IAuthManager authManager, ILogger logger)
         {
             _httpClient = httpClient;
             _authClient = authClient;
+            _deviceInfo = deviceInfo;
             _authManager = authManager;
-            _tokenManager = tokenManager;
             _logger = logger;
             _appConfig = appConfig;
             _callSemaphore = new SemaphoreSlim(1);
@@ -48,7 +47,7 @@ namespace LagoVista.Client.Core.Net
             authRequest.AppId = _appConfig.AppId;
             authRequest.ClientType = "mobileapp";
             authRequest.DeviceId = _deviceInfo.DeviceUniqueId;
-        //    authRequest.AppInstanceId = _authManager.App;
+            authRequest.AppInstanceId = _authManager.AppInstanceId;
             authRequest.GrantType = "refreshtoken";
             authRequest.RefreshToken = _authManager.RefreshToken;
 
@@ -73,52 +72,55 @@ namespace LagoVista.Client.Core.Net
         public async Task<RawResponse> PerformCall(Func<Task<HttpResponseMessage>> call, CancellationTokenSource cancellationTokenSource)
         {
             await _callSemaphore.WaitAsync();
-            if (!await _tokenManager.ValidateTokenAsync(_authManager, cancellationTokenSource))
-            {
-                return RawResponse.FromTokenError();
-            }
 
             _httpClient.DefaultRequestHeaders.Clear();
-            if (_authManager.User != null && _authManager.IsAuthenticated)
+            if (_authManager.IsAuthenticated)
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AccessToken);
             }
 
             var retry = true;
 
+            var rawResponse = RawResponse.FromNotCompleted();
+
             while (retry)
             {
+                retry = false;
                 try
                 {
                     var response = await call();
                     if (response.IsSuccessStatusCode)
                     {
-                        return RawResponse.FromSuccess(await response.Content.ReadAsStringAsync());
+                        rawResponse = RawResponse.FromSuccess(await response.Content.ReadAsStringAsync());                        
                     }
                     else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                     {
                         retry = ((await RenewRefreshToken()).Successful);
+                        if(!retry)
+                        {
+                            rawResponse = RawResponse.FromNotAuthorized();
+                        }
                     }
                     else
                     {
                         /* Check for 401 (I think, if so then attempt to get a new access token,  */
-                        return RawResponse.FromHttpFault((int)response.StatusCode, response.ReasonPhrase);
+                        rawResponse = RawResponse.FromHttpFault((int)response.StatusCode, response.ReasonPhrase);
                     }
 
                 }
                 catch (TaskCanceledException tce)
                 {
-                    _callSemaphore.Release();
-                    return RawResponse.FromException(tce, tce.CancellationToken.IsCancellationRequested);
+                    rawResponse = RawResponse.FromException(tce, tce.CancellationToken.IsCancellationRequested);
                 }
                 catch (Exception ex)
                 {
-                    _callSemaphore.Release();
-                    return RawResponse.FromException(ex);
+                    rawResponse = RawResponse.FromException(ex);
                 }
             }
 
-            return RawResponse.FromNotAuthorized();
+            _callSemaphore.Release();
+
+            return rawResponse;
         }
 
         public Task<RawResponse> GetAsync(string path, CancellationTokenSource cancellationTokenSource)

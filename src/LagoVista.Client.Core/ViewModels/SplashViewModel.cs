@@ -40,8 +40,6 @@ namespace LagoVista.Client.Core.ViewModels
 
         public override async Task InitAsync()
         {
-            var result = await _rawRestClient.GetAsync("/api/user", new System.Threading.CancellationTokenSource());
-
             await AuthManager.LoadAsync();
             if (AuthManager.IsAuthenticated)
             {

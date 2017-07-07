@@ -7,15 +7,17 @@ using LagoVista.Client.Core.Auth;
 using LagoVista.Client.Core.Models;
 using LagoVista.Client.Core.Net;
 using LagoVista.Client.Core.ViewModels;
+using LagoVista.Client.Core.ViewModels.Auth;
 using LagoVista.Client.Core.ViewModels.Users;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
 using LagoVista.Core.ViewModels;
 using LagoVista.Simulator.Core.ViewModels;
-using LagoVista.Simulator.Core.ViewModels.Auth;
 using LagoVista.Simulator.Core.ViewModels.Messages;
 using LagoVista.Simulator.Core.ViewModels.Simulator;
 using LagoVista.XPlat.Core.Services;
+using LagoVista.XPlat.Core.Views.Auth;
+using LagoVista.XPlat.Core.Views.Users;
 using System.Reflection;
 
 using Xamarin.Forms;
@@ -55,8 +57,10 @@ namespace LagoVista.Simulator
             };
 #endif
 
-            LagoVista.XPlat.Core.Startup.Init(this);
-            LagoVista.Client.Core.Startup.Init(serverInfo);
+            /* Configuring he IoC is something like this...be warned
+             * 
+             * https://www.youtube.com/watch?v=7-FbfkUD78w
+             */
 
             var clientAppInfo = new ClientAppInfo()
             {
@@ -64,11 +68,12 @@ namespace LagoVista.Simulator
             };
 
             SLWIOC.RegisterSingleton<IClientAppInfo>(clientAppInfo);
-
             SLWIOC.RegisterSingleton<IAppConfig>(new AppConfig());
+
+            LagoVista.XPlat.Core.Startup.Init(this);
+            LagoVista.Client.Core.Startup.Init(serverInfo);
+
             var navigation = new ViewModelNavigation(this);
-            navigation.Add<SplashViewModel, Views.SplashView>();
-            navigation.Add<LoginViewModel, Views.Auth.Login>();
             navigation.Add<MainViewModel, Views.MainView>();
             navigation.Add<SimulatorViewModel, Views.Simulator.SimulatorView>();
             navigation.Add<SimulatorEditorViewModel, Views.Simulator.SimulatorEditorView>();
@@ -76,8 +81,11 @@ namespace LagoVista.Simulator
             navigation.Add<SendMessageViewModel, Views.Messages.SendMessageView>();
             navigation.Add<MessageHeaderViewModel, Views.Messages.MessageHeaderView>();
             navigation.Add<DynamicAttributeViewModel, Views.Messages.DynamicAttributeView>();
-            navigation.Add<RegisterUserViewModel, Views.Users.RegisterView>();
-            navigation.Add<VerifyUserViewModel, Views.Users.VerifyUserView>();
+
+            navigation.Add<SplashViewModel, Views.SplashView>();
+            navigation.Add<LoginViewModel, LoginView>();
+            navigation.Add<RegisterUserViewModel, RegisterView>();
+            navigation.Add<VerifyUserViewModel, VerifyUserView>();
 
             navigation.Start<SplashViewModel>();
 

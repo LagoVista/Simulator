@@ -80,6 +80,33 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -enter password-.
+        /// </summary>
+        public static string Common_Email_Password {
+            get {
+                return ResourceManager.GetString("Common_Email_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -enter email address-.
+        /// </summary>
+        public static string Common_Email_Watermark {
+            get {
+                return ResourceManager.GetString("Common_Email_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email Address.
+        /// </summary>
+        public static string Common_EmailAddress {
+            get {
+                return ResourceManager.GetString("Common_EmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sorry, there was an error communicating with the server.   Please try again later..
         /// </summary>
         public static string Common_ErrorCommunicatingWithServer {
@@ -116,6 +143,15 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string Common_Logout {
+            get {
+                return ResourceManager.GetString("Common_Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         public static string Common_No {
@@ -130,6 +166,15 @@ namespace LagoVista.Client.Core.Resources {
         public static string Common_NoConnection {
             get {
                 return ResourceManager.GetString("Common_NoConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Common_Password {
+            get {
+                return ResourceManager.GetString("Common_Password", resourceCulture);
             }
         }
         
@@ -301,6 +346,78 @@ namespace LagoVista.Client.Core.Resources {
         public static string Register_Title {
             get {
                 return ResourceManager.GetString("Register_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Code.
+        /// </summary>
+        public static string Verify_ConfirmCode {
+            get {
+                return ResourceManager.GetString("Verify_ConfirmCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone Number.
+        /// </summary>
+        public static string Verify_PhoneNumber {
+            get {
+                return ResourceManager.GetString("Verify_PhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -enter your phone number-.
+        /// </summary>
+        public static string Verify_PhoneNumber_Watermark {
+            get {
+                return ResourceManager.GetString("Verify_PhoneNumber_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recevied Code.
+        /// </summary>
+        public static string Verify_ReceivedCode {
+            get {
+                return ResourceManager.GetString("Verify_ReceivedCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -enter 6 digit code-.
+        /// </summary>
+        public static string Verify_ReceivedCode_Watermark {
+            get {
+                return ResourceManager.GetString("Verify_ReceivedCode_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send Confirmation Email.
+        /// </summary>
+        public static string Verify_SendEmail {
+            get {
+                return ResourceManager.GetString("Verify_SendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send SMS Confirmation.
+        /// </summary>
+        public static string Verify_SendSMS {
+            get {
+                return ResourceManager.GetString("Verify_SendSMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify Your Identity.
+        /// </summary>
+        public static string Verify_Title {
+            get {
+                return ResourceManager.GetString("Verify_Title", resourceCulture);
             }
         }
     }

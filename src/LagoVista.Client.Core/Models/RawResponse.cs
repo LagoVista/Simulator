@@ -14,7 +14,8 @@ namespace LagoVista.Client.Core.Models
         None,
         HttpFault,
         Cancelled,
-        NotAuthorized
+        NotAuthorized,
+        NotCompleted,
     }
 
     public class RawResponse
@@ -36,6 +37,15 @@ namespace LagoVista.Client.Core.Models
                 Success = true,
                 Content = content,
                 FaultType = FaultTypes.None
+            };
+        }
+
+        public static RawResponse FromNotCompleted()
+        {
+            return new RawResponse()
+            {
+                Success = false,
+                FaultType = FaultTypes.NotCompleted
             };
         }
 
@@ -99,7 +109,6 @@ namespace LagoVista.Client.Core.Models
         {
             return DeserializeContent<ListResponse<TModel>>();
         }
-
 
         public InvokeResult ToInvokeResult()
         {

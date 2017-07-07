@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
-namespace LagoVista.Simulator.Views.Auth
+namespace LagoVista.XPlat.Core.Views.Auth
 {
-    public partial class Login : LagoVistaContentPage
+    public partial class LoginView : LagoVistaContentPage
     {
-        public Login()
+        public LoginView()
         {
             InitializeComponent();
         }    
