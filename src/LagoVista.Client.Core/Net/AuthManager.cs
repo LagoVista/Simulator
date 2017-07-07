@@ -28,6 +28,7 @@ namespace LagoVista.Client.Core.Net
         public string RefreshTokenExpirationUTC { get; set; }
         public UserInfo User { get; set; }
         public List<string> Roles { get; set; }
+        public string AppInstanceId { get; set; }
 
         public async Task LoadAsync()
         {

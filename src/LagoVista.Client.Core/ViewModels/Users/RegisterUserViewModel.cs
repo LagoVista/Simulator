@@ -85,6 +85,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
                     AuthManager.AccessTokenExpirationUTC = result.Result.AccessTokenExpiresUTC;
                     AuthManager.RefreshToken = result.Result.RefreshToken;
                     AuthManager.RefreshTokenExpirationUTC = result.Result.RefreshTokenExpiresUTC;
+                    AuthManager.AppInstanceId = result.Result.AppInstanceId;
                     AuthManager.IsAuthenticated = true;
 
                     var user = await RestClient.GetAsync<UserInfo>("/api/user");

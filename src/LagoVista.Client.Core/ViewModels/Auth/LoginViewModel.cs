@@ -48,10 +48,10 @@ namespace LagoVista.Client.Core.ViewModels.Auth
                 AuthManager.AccessToken = authResult.AccessToken;
                 AuthManager.AccessTokenExpirationUTC = authResult.AccessTokenExpiresUTC;
                 AuthManager.RefreshToken = authResult.RefreshToken;
+                AuthManager.AppInstanceId = authResult.AppInstanceId;
                 AuthManager.RefreshTokenExpirationUTC = authResult.RefreshTokenExpiresUTC;
                 AuthManager.IsAuthenticated = true;
-
-
+                
                 var user = await RestClient.GetAsync("/api/user");
                 AuthManager.User = user.Model;
                 await AuthManager.PersistAsync();
