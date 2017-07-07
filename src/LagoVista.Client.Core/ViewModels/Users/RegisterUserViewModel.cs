@@ -23,7 +23,6 @@ namespace LagoVista.Client.Core.ViewModels.Users
             ViewModel.AppId = appConfig.AppName;
             ViewModel.DeviceId = deviceInfo.DeviceUniqueId;
             ViewModel.ClientType = "mobileapp";
-            ViewModel.InstallationId = appConfig.InstallationId;
             RegisterCommand = new RelayCommand(Register);
         }
 

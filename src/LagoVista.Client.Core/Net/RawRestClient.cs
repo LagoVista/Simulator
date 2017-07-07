@@ -8,6 +8,9 @@ using LagoVista.Core.Interfaces;
 using LagoVista.Client.Core.Models;
 using System.Net.Http.Headers;
 using System.Text;
+using LagoVista.Core.Validation;
+using LagoVista.Core.Authentication.Interfaces;
+using LagoVista.Core.Authentication.Models;
 
 namespace LagoVista.Client.Core.Net
 {
@@ -23,16 +26,48 @@ namespace LagoVista.Client.Core.Net
         IAuthManager _authManager;
         ITokenManager _tokenManager;
         ILogger _logger;
-
+        IAuthClient _authClient;
+        IDeviceInfo _deviceInfo;
+        IAppConfig _appConfig;
         SemaphoreSlim _callSemaphore;
 
-        public RawRestClient(HttpClient httpClient, IAuthManager authManager, ITokenManager tokenManager, ILogger logger)
+        public RawRestClient(HttpClient httpClient, IDeviceInfo deviceInfo, IAppConfig appConfig, IAuthClient authClient, IAuthManager authManager, ITokenManager tokenManager, ILogger logger)
         {
             _httpClient = httpClient;
+            _authClient = authClient;
             _authManager = authManager;
             _tokenManager = tokenManager;
             _logger = logger;
+            _appConfig = appConfig;
             _callSemaphore = new SemaphoreSlim(1);
+        }
+
+        private async Task<InvokeResult> RenewRefreshToken()
+        {
+            var authRequest = new AuthRequest();
+            authRequest.AppId = _appConfig.AppId;
+            authRequest.ClientType = "mobileapp";
+            authRequest.DeviceId = _deviceInfo.DeviceUniqueId;
+        //    authRequest.AppInstanceId = _authManager.App;
+            authRequest.GrantType = "refreshtoken";
+            authRequest.RefreshToken = _authManager.RefreshToken;
+
+            var response = await _authClient.LoginAsync(authRequest);
+            if (response.Successful)
+            {
+                _authManager.AccessToken = response.Result.AccessToken;
+                _authManager.AccessTokenExpirationUTC = response.Result.AccessTokenExpiresUTC;
+                _authManager.RefreshToken = response.Result.RefreshToken;
+                _authManager.RefreshTokenExpirationUTC = response.Result.RefreshTokenExpiresUTC;
+                await _authManager.PersistAsync();
+                return InvokeResult.Success;
+            }
+            else
+            {
+                var result = new InvokeResult();
+                result.Concat(response);
+                return result;
+            }
         }
 
         public async Task<RawResponse> PerformCall(Func<Task<HttpResponseMessage>> call, CancellationTokenSource cancellationTokenSource)
@@ -44,7 +79,10 @@ namespace LagoVista.Client.Core.Net
             }
 
             _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AccessToken);
+            if (_authManager.User != null && _authManager.IsAuthenticated)
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AccessToken);
+            }
 
             var retry = true;
 
@@ -56,6 +94,10 @@ namespace LagoVista.Client.Core.Net
                     if (response.IsSuccessStatusCode)
                     {
                         return RawResponse.FromSuccess(await response.Content.ReadAsStringAsync());
+                    }
+                    else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    {
+                        retry = ((await RenewRefreshToken()).Successful);
                     }
                     else
                     {

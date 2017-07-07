@@ -28,6 +28,8 @@ namespace LagoVista.Client.Core
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             SLWIOC.RegisterSingleton<HttpClient>(client);
-        }
+       
+            SLWIOC.RegisterSingleton<IRawRestClient, RawRestClient>();
+ }
     }
 }

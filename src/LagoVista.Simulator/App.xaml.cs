@@ -6,6 +6,7 @@ using LagoVista.Client.Core;
 using LagoVista.Client.Core.Auth;
 using LagoVista.Client.Core.Models;
 using LagoVista.Client.Core.Net;
+using LagoVista.Client.Core.ViewModels;
 using LagoVista.Client.Core.ViewModels.Users;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
@@ -54,8 +55,8 @@ namespace LagoVista.Simulator
             };
 #endif
 
-            LagoVista.Client.Core.Startup.Init(serverInfo);
             LagoVista.XPlat.Core.Startup.Init(this);
+            LagoVista.Client.Core.Startup.Init(serverInfo);
 
             var clientAppInfo = new ClientAppInfo()
             {

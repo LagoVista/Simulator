@@ -1,14 +1,19 @@
-﻿using LagoVista.Client.Core.ViewModels;
+﻿using LagoVista.Client.Core.Net;
+using LagoVista.Client.Core.ViewModels;
 using LagoVista.Client.Core.ViewModels.Users;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.Models;
+using LagoVista.Core.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LagoVista.Simulator.Core.ViewModels
+namespace LagoVista.Client.Core.ViewModels
 {
     public class SplashViewModel : IoTAppViewModelBase
     {
+
+        IClientAppInfo _clientAppInfo;
+        IRawRestClient _rawRestClient;
 
         private bool _notLoggedIn = false;
         public bool NotLoggedIn
@@ -24,15 +29,19 @@ namespace LagoVista.Simulator.Core.ViewModels
             set { Set(ref _isLoading, value); }
         }
 
-        public SplashViewModel()
+        public SplashViewModel(IClientAppInfo clientAppInfo, IRawRestClient rawRestClient)
         {
             LoginCommand = new RelayCommand(Login);
             NotLoggedIn = false;
             IsLoading = true;
+            _clientAppInfo = clientAppInfo;
+            _rawRestClient = rawRestClient;
         }
 
         public override async Task InitAsync()
         {
+            var result = await _rawRestClient.GetAsync("/api/user", new System.Threading.CancellationTokenSource());
+
             await AuthManager.LoadAsync();
             if (AuthManager.IsAuthenticated)
             {
@@ -49,9 +58,15 @@ namespace LagoVista.Simulator.Core.ViewModels
                 {
                     await ViewModelNavigation.SetAsNewRootAsync<VerifyUserViewModel>();
                 }
+                else if(EntityHeader.IsNullOrEmpty(AuthManager.User.CurrentOrganization))
+                {
+                    await ViewModelNavigation.SetAsNewRootAsync<Orgs.OrgEditorViewModel>();
+                }
                 else
                 {
-                    await ViewModelNavigation.SetAsNewRootAsync<MainViewModel>();
+                    var launchArgs = new ViewModelLaunchArgs();
+                    launchArgs.ViewModelType = _clientAppInfo.MainViewModel;
+                    await ViewModelNavigation.NavigateAsync(launchArgs);
                 }
             }
             else
