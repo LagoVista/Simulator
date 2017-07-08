@@ -116,7 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LagoVista.Core">
-      <Version>1.2.51-alpha0935</Version>
+      <Version>1.2.52-alpha0818</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.3.3</Version>
