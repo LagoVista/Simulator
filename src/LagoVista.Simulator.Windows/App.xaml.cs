@@ -37,6 +37,28 @@ namespace LagoVista.Simulator.Windows
             };
         }
 
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                var logger = SLWIOC.Get<ILogger>();
+
+                var protocolActivatedEventArgs = (args as ProtocolActivatedEventArgs);
+                if (protocolActivatedEventArgs == null)
+                {
+                    logger.AddCustomEvent(LogLevel.Error, "App_OnActivated", "EventArgs Not ProtocolActivatedEventArgs", new System.Collections.Generic.KeyValuePair<string, string>("type", args.GetType().Name));
+                }
+                else
+                {                    
+                    logger.AddCustomEvent(LogLevel.Message, "App_OnActivated", "URI App Activation", new System.Collections.Generic.KeyValuePair<string, string>("uri", protocolActivatedEventArgs.Uri.ToString()));
+                    LagoVista.Simulator.App.Instance.HandleURIActivation(protocolActivatedEventArgs.Uri);
+                }
+            }
+
+            base.OnActivated(args);
+        }
+
+
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             var rootFrame = Window.Current.Content as Frame;
@@ -48,7 +70,7 @@ namespace LagoVista.Simulator.Windows
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 Xamarin.Forms.Forms.Init(e);
-              
+
                 LagoVista.Core.UWP.Startup.Init(this, rootFrame.Dispatcher, MOBILE_CENTER_KEY);
 
                 SLWIOC.RegisterSingleton<IDeviceInfo>(new DeviceInfo());
@@ -59,7 +81,7 @@ namespace LagoVista.Simulator.Windows
                 SLWIOC.Register<IMQTTAppClient, MQTTAppClient>();
                 SLWIOC.Register<IMQTTDeviceClient, MQTTDeviceClient>();
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated){ }
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated) { }
 
                 Window.Current.Content = rootFrame;
             }
@@ -82,7 +104,7 @@ namespace LagoVista.Simulator.Windows
 
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            var deferral = e.SuspendingOperation.GetDeferral();                                          
+            var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }

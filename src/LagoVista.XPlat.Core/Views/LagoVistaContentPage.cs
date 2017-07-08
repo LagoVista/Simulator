@@ -2,8 +2,10 @@
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
 using LagoVista.Core.Models.Drawing;
+using LagoVista.Core.PlatformSupport;
 using LagoVista.XPlat.Core.Controls.Common;
 using LagoVista.XPlat.Core.Views;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -54,6 +56,19 @@ namespace LagoVista.XPlat.Core
             CreateMenu();
             AddToolBar();
             AddBindings();
+        }
+
+        public void HandleURIActivation(Uri uri)
+        {
+            var logger = SLWIOC.Get<ILogger>();
+            if (ViewModel != null)
+            {
+                ViewModel.HandleURIActivation(uri);
+            }
+            else
+            {
+                logger.AddCustomEvent(LogLevel.Error, "LagoVistaNavigationPage_HandleURIActivation", "Main Page Null");
+            }
         }
 
         #region Initial Page Construction

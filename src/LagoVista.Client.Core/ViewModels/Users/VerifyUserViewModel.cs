@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using LagoVista.Client.Core.ViewModels.Auth;
 using LagoVista.UserAdmin.Models.DTOs;
 using LagoVista.Client.Core.Resources;
+using System.Collections.Generic;
 
 namespace LagoVista.Client.Core.ViewModels.Users
 {
@@ -86,6 +87,85 @@ namespace LagoVista.Client.Core.ViewModels.Users
                     await Popups.ShowAsync(result.ErrorMessage);
                 }
             });
+        }
+
+        public override void HandleURIActivation(Uri uri)
+        {
+            var query = uri.Query.TrimStart('?');
+            var segments = query.Split('&');
+            var kvps = new Dictionary<string, string>();
+            foreach(var segment in segments)
+            {
+                var parts = segment.Split('=');
+                if(parts.Length != 2)
+                {
+                    Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Invalid Query String", new KeyValuePair<string, string>("queryString", query));
+                    return;
+                }
+
+                if(String.IsNullOrEmpty(parts[0]))
+                {
+                    Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Invalid Key on Query String", new KeyValuePair<string, string>("queryString", query));
+                    return;
+                }
+
+                if (String.IsNullOrEmpty(parts[1]))
+                {
+                    Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Invalid Value on Query String", new KeyValuePair<string, string>("queryString", query));
+                    return;
+                }
+
+                kvps.Add(parts[0].ToLower(), parts[1]);
+            }
+
+            if(!kvps.ContainsKey("code"))
+            {
+                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Missing Code", new KeyValuePair<string, string>("queryString", query));
+                return;
+            }
+
+            if (!kvps.ContainsKey("userid"))
+            {
+                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Missing User ID", new KeyValuePair<string, string>("queryString", query));
+                return;
+            }
+
+
+            var code = kvps["code"];
+            var userId = kvps["userid"];
+
+            if(userId != AuthManager.User.Id)
+            {
+                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Link/User Id Mismatch", 
+                    new KeyValuePair<string, string>("linkUser", userId),
+                     new KeyValuePair<string, string>("currentUser", AuthManager.User.Id));
+                return;
+            }
+
+            PerformNetworkOperation(async () =>
+            {
+                var vm = new ConfirmEmailDTO();
+                vm.ReceivedCode = code;
+                var json = JsonConvert.SerializeObject(vm);
+                var result = await _restClient.PostAsync("/api/verify/email", json, new CancellationTokenSource());
+                if (result.Success)
+                {
+                    if (result.ToInvokeResult().Successful)
+                    {
+                        Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "EmailConfirmed", new KeyValuePair<string, string>("userid", userId));
+                        await Popups.ShowAsync(ClientResources.Verify_Email_Confirmed);
+                    }
+                    else
+                    {
+                        await ShowServerErrorMessageAsync(result.ToInvokeResult());
+                    }
+                }
+                else
+                {
+                    await Popups.ShowAsync(result.ErrorMessage);
+                }
+            });
+
         }
 
         public void SendSMSConfirmation()

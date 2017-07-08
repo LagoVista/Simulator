@@ -57,6 +57,7 @@ namespace LagoVista.Client.Core.Net
                 _authManager.AccessToken = response.Result.AccessToken;
                 _authManager.AccessTokenExpirationUTC = response.Result.AccessTokenExpiresUTC;
                 _authManager.RefreshToken = response.Result.RefreshToken;
+                _authManager.AppInstanceId = response.Result.AppInstanceId;
                 _authManager.RefreshTokenExpirationUTC = response.Result.RefreshTokenExpiresUTC;
                 await _authManager.PersistAsync();
                 return InvokeResult.Success;

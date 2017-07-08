@@ -114,6 +114,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
             });
         }
 
+
         public RegisterUserDTO RegisterModel { get; private set; }
 
 

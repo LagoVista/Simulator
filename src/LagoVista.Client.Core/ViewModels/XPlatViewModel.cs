@@ -1,5 +1,6 @@
 ﻿using LagoVista.Core.Commanding;
 using LagoVista.Core.ViewModels;
+using System;
 using System.Collections.Generic;
 
 namespace LagoVista.Client.Core.ViewModels
@@ -60,6 +61,11 @@ namespace LagoVista.Client.Core.ViewModels
         {
             get { return _menuItems; }
             set { Set(ref _menuItems, value); }
+        }
+
+        public virtual void HandleURIActivation(Uri uri)
+        {
+
         }
 
         public virtual void Edit()

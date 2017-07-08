@@ -21,16 +21,21 @@ using LagoVista.XPlat.Core.Views.Users;
 using System.Reflection;
 
 using Xamarin.Forms;
-
+using System;
+using LagoVista.XPlat.Core.Views;
+using LagoVista.Core.PlatformSupport;
 
 namespace LagoVista.Simulator
 {
     public partial class App : Application
     {
+        static App _instance;
+
         public App()
         {
             InitializeComponent();
 
+            _instance = this;
 
            InitServices();
         }
@@ -90,6 +95,31 @@ namespace LagoVista.Simulator
             navigation.Start<SplashViewModel>();
 
             SLWIOC.RegisterSingleton<IViewModelNavigation>(navigation);
+        }
+
+        public static App Instance { get { return _instance; } }
+        
+        public void HandleURIActivation(Uri uri)
+        {
+            var logger = SLWIOC.Get<ILogger>();
+            if (this.MainPage == null)
+            {
+                logger.AddCustomEvent(LogLevel.Error, "App_HandleURIActivation", "Main Page Null");
+            }
+            else
+            {
+                var page = this.MainPage as LagoVistaNavigationPage;
+                if (page != null)
+                {
+                    page.HandleURIActivation(uri);
+                }
+                else
+                {
+             
+                    logger.AddCustomEvent(LogLevel.Error, "App_HandleURIActivation", "InvalidPageType - Not LagoVistaNavigationPage", new System.Collections.Generic.KeyValuePair<string, string>("type", this.MainPage.GetType().Name));
+                }
+            }
+
         }
 
         protected override void OnStart()
