@@ -9,6 +9,7 @@ using LagoVista.Core;
 using Newtonsoft.Json;
 using LagoVista.Client.Core.ViewModels.Auth;
 using LagoVista.UserAdmin.Models.DTOs;
+using LagoVista.Client.Core.Resources;
 
 namespace LagoVista.Client.Core.ViewModels.Users
 {
@@ -26,24 +27,27 @@ namespace LagoVista.Client.Core.ViewModels.Users
             _restClient = restClient;
         }
 
-        public async void SendEmailConfirmation()
+        public void SendEmailConfirmation()
         {
-            var result = await _restClient.GetAsync("/api/verify/sendconfirmationemail", new CancellationTokenSource());
-            if (result.Success)
+            PerformNetworkOperation(async () =>
             {
-                if (result.ToInvokeResult().Successful)
+                var result = await _restClient.GetAsync("/api/verify/sendconfirmationemail", new CancellationTokenSource());
+                if (result.Success)
                 {
-
+                    if (result.ToInvokeResult().Successful)
+                    {
+                        await Popups.ShowAsync(ClientResources.Verify_EmailSent);
+                    }
+                    else
+                    {
+                        await ShowServerErrorMessageAsync(result.ToInvokeResult());
+                    }
                 }
                 else
                 {
-                    await ShowServerErrorMessageAsync(result.ToInvokeResult());
+                    await Popups.ShowAsync(result.ErrorMessage);
                 }
-            }
-            else
-            {
-
-            }
+            });
         }
 
         public async void Logout()
@@ -57,52 +61,57 @@ namespace LagoVista.Client.Core.ViewModels.Users
             return !(String.IsNullOrEmpty(PhoneNumber));
         }
 
-        public async void ConfirmSMSCode()
+        public void ConfirmSMSCode()
         {
-            var vm = new VerfiyPhoneNumberDTO();
-            vm.PhoneNumber = PhoneNumber;
-            vm.SMSCode = SMSCode;
-            var json = JsonConvert.SerializeObject(vm);
-            var result = await _restClient.PostAsync("/api/verify/sms", json, new CancellationTokenSource());
-            if (result.Success)
+            PerformNetworkOperation(async () =>
             {
-                if (result.ToInvokeResult().Successful)
+                var vm = new VerfiyPhoneNumberDTO();
+                vm.PhoneNumber = PhoneNumber;
+                vm.SMSCode = SMSCode;
+                var json = JsonConvert.SerializeObject(vm);
+                var result = await _restClient.PostAsync("/api/verify/sms", json, new CancellationTokenSource());
+                if (result.Success)
                 {
-
+                    if (result.ToInvokeResult().Successful)
+                    {
+                        await Popups.ShowAsync(ClientResources.Verify_SMS_Confirmed);
+                    }
+                    else
+                    {
+                        await ShowServerErrorMessageAsync(result.ToInvokeResult());
+                    }
                 }
                 else
                 {
-                    await ShowServerErrorMessageAsync(result.ToInvokeResult());
+                    await Popups.ShowAsync(result.ErrorMessage);
                 }
-            }
-            else
-            {
-                await ShowServerErrorMessageAsync(result.ToInvokeResult());
-            }
-
+            });
         }
 
-        public async void SendSMSConfirmation()
+        public void SendSMSConfirmation()
         {
-            var vm = new VerfiyPhoneNumberDTO();
-            vm.PhoneNumber = PhoneNumber;
-            var json = JsonConvert.SerializeObject(vm);
-            var result = await _restClient.PostAsync("/api/verify/sendsmscode", json, new CancellationTokenSource());
-            if (result.Success)
+            PerformNetworkOperation(async () =>
             {
-                if (result.ToInvokeResult().Successful)
+                var vm = new VerfiyPhoneNumberDTO();
+                vm.PhoneNumber = PhoneNumber;
+                var json = JsonConvert.SerializeObject(vm);
+                var result = await _restClient.PostAsync("/api/verify/sendsmscode", json, new CancellationTokenSource());
+                if (result.Success)
                 {
-
+                    if (result.ToInvokeResult().Successful)
+                    {
+                        await Popups.ShowAsync(ClientResources.Verify_SMSSent);
+                    }
+                    else
+                    {
+                        await ShowServerErrorMessageAsync(result.ToInvokeResult());
+                    }
                 }
                 else
                 {
-                    await ShowServerErrorMessageAsync(result.ToInvokeResult());
+                    await Popups.ShowAsync(result.ErrorMessage);
                 }
-            }
-            else
-            {
-                await ShowServerErrorMessageAsync(result.ToInvokeResult());
-            }
+            });
         }
 
         private string _phoneNumber;

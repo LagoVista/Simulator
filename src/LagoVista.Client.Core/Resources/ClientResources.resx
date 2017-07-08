@@ -216,6 +216,9 @@
   <data name="Verify_ConfirmCode" xml:space="preserve">
     <value>Confirm Code</value>
   </data>
+  <data name="Verify_EmailSent" xml:space="preserve">
+    <value>An email message has been sent and and should arrive in your inbox shortly.  If you don't receive this in a few minutes please check other folders it may arrive in. </value>
+  </data>
   <data name="Verify_PhoneNumber" xml:space="preserve">
     <value>Phone Number</value>
   </data>
@@ -234,7 +237,16 @@
   <data name="Verify_SendSMS" xml:space="preserve">
     <value>Send SMS Confirmation</value>
   </data>
+  <data name="Verify_SMSSent" xml:space="preserve">
+    <value>An SMS message has been sent, please check your phone and enter the code you receive.</value>
+  </data>
   <data name="Verify_Title" xml:space="preserve">
     <value>Verify Your Identity</value>
+  </data>
+  <data name="Verify_Email_Confirmed" xml:space="preserve">
+    <value>Thank you, your email address has been confirmed.</value>
+  </data>
+  <data name="Verify_SMS_Confirmed" xml:space="preserve">
+    <value>Thank you, your phone number has been confirmed.</value>
   </data>
 </root>

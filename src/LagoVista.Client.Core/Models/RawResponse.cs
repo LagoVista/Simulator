@@ -116,8 +116,12 @@ namespace LagoVista.Client.Core.Models
             if(!Success)
             {
                 result.Errors.Add(new LagoVista.Core.Validation.ErrorMessage(ErrorMessage));
+                return result;
             }
-            return result;
+            else
+            {
+                return DeserializeContent<InvokeResult>();
+            }
         }
 
         public InvokeResult<TModel> ToInvokeResult<TModel>() where TModel:new()

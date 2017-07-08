@@ -359,6 +359,24 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thank you, your email address has been confirmed..
+        /// </summary>
+        public static string Verify_Email_Confirmed {
+            get {
+                return ResourceManager.GetString("Verify_Email_Confirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An email message has been sent and and should arrive in your inbox shortly.  If you don&apos;t receive this in a few minutes please check other folders it may arrive in. .
+        /// </summary>
+        public static string Verify_EmailSent {
+            get {
+                return ResourceManager.GetString("Verify_EmailSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone Number.
         /// </summary>
         public static string Verify_PhoneNumber {
@@ -409,6 +427,24 @@ namespace LagoVista.Client.Core.Resources {
         public static string Verify_SendSMS {
             get {
                 return ResourceManager.GetString("Verify_SendSMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you, your phone number has been confirmed..
+        /// </summary>
+        public static string Verify_SMS_Confirmed {
+            get {
+                return ResourceManager.GetString("Verify_SMS_Confirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An SMS message has been sent, please check your phone and enter the code you receive..
+        /// </summary>
+        public static string Verify_SMSSent {
+            get {
+                return ResourceManager.GetString("Verify_SMSSent", resourceCulture);
             }
         }
         

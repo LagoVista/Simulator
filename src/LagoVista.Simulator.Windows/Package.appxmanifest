@@ -20,7 +20,14 @@
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
-    </Application>
+      <Extensions>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="nuviot">
+            <uap:Logo>images\icon.png</uap:Logo>
+            <uap:DisplayName>SDK Sample URI Scheme</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
+      </Extensions>    </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
