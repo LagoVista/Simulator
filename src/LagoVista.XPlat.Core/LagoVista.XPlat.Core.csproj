@@ -72,13 +72,19 @@
     <Compile Include="Views\Auth\ResetPasswordView.xaml.cs">
       <DependentUpon>ResetPasswordView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Auth\SendResetPasswordView.xaml.cs">
-      <DependentUpon>SendResetPasswordView.xaml</DependentUpon>
+    <Compile Include="Views\Auth\SendResetPasswordLinkView.xaml.cs">
+      <DependentUpon>SendResetPasswordLinkView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ILagoVistaPage.cs" />
     <Compile Include="Views\LagoVistaContentPage.cs" />
     <Compile Include="Views\LagoVistaNavigationPage.cs" />
     <Compile Include="Views\LagoVistaStartupPage.cs" />
+    <Compile Include="Views\Orgs\InviteUserView.xaml.cs">
+      <DependentUpon>InviteUserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Orgs\OrgEditorView.xaml.cs">
+      <DependentUpon>OrgEditorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Users\RegisterView.xaml.cs">
       <DependentUpon>RegisterView.xaml</DependentUpon>
     </Compile>
@@ -133,7 +139,20 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\Auth\SendResetPasswordView.xaml">
+    <EmbeddedResource Include="Views\Auth\SendResetPasswordLinkView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Orgs\OrgEditorView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Orgs\InviteUserView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

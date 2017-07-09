@@ -26,6 +26,8 @@ namespace LagoVista.Client.Core.ViewModels.Users
             RegisterModel.DeviceId = deviceInfo.DeviceUniqueId;
             RegisterModel.ClientType = "mobileapp";
             RegisterCommand = new RelayCommand(Register);
+
+            CancelCommand = new RelayCommand(() => ViewModelNavigation.GoBackAsync());
         }
 
         public async void Register()
@@ -67,7 +69,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
             var passwordRegEx = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
             if (!passwordRegEx.Match(RegisterModel.Password).Success)
             {
-                await Popups.ShowAsync(ClientResources.Register_Password_Requirements);
+                await Popups.ShowAsync(ClientResources.Password_Requirements);
                 return;
             }
 
@@ -126,5 +128,8 @@ namespace LagoVista.Client.Core.ViewModels.Users
         }
 
         public RelayCommand RegisterCommand { get; private set; }
+
+        public RelayCommand CancelCommand { get; set; }
+
     }
 }

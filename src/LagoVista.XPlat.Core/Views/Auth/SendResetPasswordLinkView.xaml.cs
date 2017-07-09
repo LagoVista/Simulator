@@ -3,9 +3,9 @@
 namespace LagoVista.XPlat.Core.Views.Auth
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ResetPasswordView : LagoVistaContentPage
+    public partial class SendResetPasswordView : LagoVistaContentPage
     {
-        public ResetPasswordView()
+        public SendResetPasswordView()
         {
             InitializeComponent();
         }

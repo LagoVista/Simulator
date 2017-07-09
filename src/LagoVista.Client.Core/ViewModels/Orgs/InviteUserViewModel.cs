@@ -4,26 +4,30 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LagoVista.Client.Core.ViewModels.Auth
+namespace LagoVista.Client.Core.ViewModels.Orgs
 {
-    public class ResetPasswordViewModel : IoTAppViewModelBase
+    public class InviteUserViewModel : IoTAppViewModelBase
     {
         IRawRestClient _rawRestClient;
 
-        public ResetPasswordViewModel(IRawRestClient rawRestClient)
+        public InviteUserViewModel(IRawRestClient rawRestClient)
         {
             _rawRestClient = rawRestClient;
-
-            ResetPasswordCommand = new RelayCommand(ResetPassword);
+            InviteUserCommand = new RelayCommand(InviteUser);
             CancelCommand = new RelayCommand(() => ViewModelNavigation.GoBackAsync());
         }
 
-        public void ResetPassword()
+        public void InviteUser()
         {
 
         }
- 
-        public RelayCommand ResetPasswordCommand { get; set; }
+
+        public String InviteUserHelpMessage
+        {
+            get;set;
+        }
+
+        public RelayCommand InviteUserCommand { get; private set; }
         public RelayCommand CancelCommand { get; set; }
     }
 }

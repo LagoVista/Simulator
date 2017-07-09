@@ -1,33 +1,33 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<pge:LagoVistaContentPage     
+<pge:LagoVistaContentPage
     xmlns:pge="clr-namespace:LagoVista.XPlat.Core;assembly=LagoVista.XPlat.Core"
     xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ext="clr-namespace:LagoVista.XPlat.Core.Extensions"
     HasToolBar="False"
-    x:Class="LagoVista.XPlat.Core.Views.Auth.LoginView" 
+    x:Class="LagoVista.XPlat.Core.Views.Auth.LoginView"
     Title="{ext:ClientTranslate Common_Login}">
-    <pge:LagoVistaContentPage.MainContent>
-        <ScrollView>
-            <Grid BackgroundColor="#2196F3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Image Source="nuviot.png" HorizontalOptions="Center" />
-                <StackLayout Grid.Row="1" Margin="20" WidthRequest="300" HorizontalOptions="Center" >
-                  
-                  <pge:Label Text="{ext:ClientTranslate Common_EmailAddress}"  TextColor="White" />
-                    <pge:Entry Text="{Binding EmailAddress, Mode=TwoWay}" Placeholder="{ext:ClientTranslate Common_Email_Watermark}"  Keyboard="Email" />
-                  
-                    <pge:Label Text="{ext:ClientTranslate Common_Password}" TextColor="White" />
-                    <pge:Entry Text="{Binding Password, Mode=TwoWay}" Placeholder="{ext:ClientTranslate Common_Email_Password}" IsPassword="True" Keyboard="Plain" Margin="0,0,0,40" />
-                  
-                  <pge:Button Command="{Binding LoginCommand}" Text="{ext:ClientTranslate Common_Login}" HeightRequest="48" />
-                  <pge:Button Command="{Binding RegisterCommand}" Text="{ext:ClientTranslate Register_Title}" HeightRequest="48" />
-                </StackLayout>
-                <Image Source="softwarelogistics.png" HorizontalOptions="Center" Grid.Row="2" />
-            </Grid>
-        </ScrollView>
-    </pge:LagoVistaContentPage.MainContent>
+  <pge:LagoVistaContentPage.MainContent>
+    <ScrollView>
+      <Grid BackgroundColor="#2196F3">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Image Source="nuviot.png" HorizontalOptions="Center" />
+        <StackLayout Grid.Row="1" Margin="20" WidthRequest="300" HorizontalOptions="Center" >
+
+          <pge:Label Text="{ext:ClientTranslate Common_EmailAddress}"  TextColor="White" />
+          <pge:Entry Text="{Binding EmailAddress, Mode=TwoWay}" Placeholder="{ext:ClientTranslate Common_Email_Watermark}"  Keyboard="Email" />
+
+          <pge:Label Text="{ext:ClientTranslate Common_Password}" TextColor="White" />
+          <pge:Entry Text="{Binding Password, Mode=TwoWay}" Placeholder="{ext:ClientTranslate Common_Email_Password}" IsPassword="True" Keyboard="Plain" Margin="0,0,0,40" />
+
+          <pge:Button Command="{Binding LoginCommand}" Text="{ext:ClientTranslate Common_Login}" HeightRequest="48" />
+          <pge:Button Command="{Binding RegisterCommand}" Text="{ext:ClientTranslate Register_Title}" HeightRequest="48" />
+        </StackLayout>
+        <Image Source="softwarelogistics.png" HorizontalOptions="Center" Grid.Row="2" />
+      </Grid>
+    </ScrollView>
+  </pge:LagoVistaContentPage.MainContent>
 </pge:LagoVistaContentPage>

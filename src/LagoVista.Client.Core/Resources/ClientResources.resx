@@ -127,10 +127,10 @@
     <value>Email Address</value>
   </data>
   <data name="Common_Email_Password" xml:space="preserve">
-    <value>-enter password-</value>
+    <value>-enter your password-</value>
   </data>
   <data name="Common_Email_Watermark" xml:space="preserve">
-    <value>-enter email address-</value>
+    <value>-enter your email address-</value>
   </data>
   <data name="Common_ErrorCommunicatingWithServer" xml:space="preserve">
     <value>Sorry, there was an error communicating with the server.   Please try again later.</value>
@@ -160,22 +160,16 @@
     <value>Yes</value>
   </data>
   <data name="Register_ConfirmPassword_Watermark" xml:space="preserve">
-    <value>confirm password</value>
+    <value>-confirm your password-</value>
   </data>
   <data name="Register_Confirm_Password" xml:space="preserve">
     <value>Confirm Password</value>
-  </data>
-  <data name="Register_Email" xml:space="preserve">
-    <value>Email</value>
   </data>
   <data name="Register_Email_Invalid" xml:space="preserve">
     <value>Please enter a valid email address.</value>
   </data>
   <data name="Register_Email_Required" xml:space="preserve">
     <value>Email is a Required FIeld</value>
-  </data>
-  <data name="Register_Email_WaterMark" xml:space="preserve">
-    <value>enter email address</value>
   </data>
   <data name="Register_FirstName" xml:space="preserve">
     <value>First Name</value>
@@ -184,7 +178,7 @@
     <value>First Name is a Required Field</value>
   </data>
   <data name="Register_FirstName_WaterMark" xml:space="preserve">
-    <value>enter first name</value>
+    <value>-enter your first name-</value>
   </data>
   <data name="Register_LastName" xml:space="preserve">
     <value>Last Name</value>
@@ -193,7 +187,7 @@
     <value>Last Name is a Required Field</value>
   </data>
   <data name="Register_LastName_WaterMark" xml:space="preserve">
-    <value>enter last name</value>
+    <value>-enter your last name-</value>
   </data>
   <data name="Register_Password" xml:space="preserve">
     <value>Password</value>
@@ -204,11 +198,11 @@
   <data name="Register_Password_Required" xml:space="preserve">
     <value>Password is a Required Field</value>
   </data>
-  <data name="Register_Password_Requirements" xml:space="preserve">
+  <data name="Password_Requirements" xml:space="preserve">
     <value>Your password must contain at least 8 characters, with at least one number and one upper case and one lower case letter</value>
   </data>
   <data name="Register_Password_Watermark" xml:space="preserve">
-    <value>enter password</value>
+    <value>-enter a password-</value>
   </data>
   <data name="Register_Title" xml:space="preserve">
     <value>Register</value>
@@ -248,5 +242,116 @@
   </data>
   <data name="Verify_SMS_Confirmed" xml:space="preserve">
     <value>Thank you, your phone number has been confirmed.</value>
+  </data>
+  <data name="ChangePassword_OldPassword" xml:space="preserve">
+    <value>Old Password</value>
+  </data>
+  <data name="ChangePassword_ConfirmNewPassword" xml:space="preserve">
+    <value>Confirm New Password</value>
+  </data>
+  <data name="ChangePassword_ConfirmNewPassword_WaterMark" xml:space="preserve">
+    <value>-confirm your new password-</value>
+  </data>
+  <data name="ChangePassword_ConfirmPasswordRequired" xml:space="preserve">
+    <value>Confirm Password is a Required Field</value>
+  </data>
+  <data name="ChangePassword_NewConfirmMatch" xml:space="preserve">
+    <value>Your New Password and Confrim Password Must Match</value>
+  </data>
+  <data name="ChangePassword_NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="ChangePassword_NewPasswordRequired" xml:space="preserve">
+    <value>New Password is a Required Field</value>
+  </data>
+  <data name="ChangePassword_NewPassword_WaterMark" xml:space="preserve">
+    <value>-enter a new password-</value>
+  </data>
+  <data name="ChangePassword_OldPasswordRequired" xml:space="preserve">
+    <value>Old Password is a Required Field</value>
+  </data>
+  <data name="ChangePassword_OldPassword_WaterMark" xml:space="preserve">
+    <value>-enter your old password-</value>
+  </data>
+  <data name="ChangePassword_Title" xml:space="preserve">
+    <value>Change your Password</value>
+  </data>
+  <data name="Common_Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="ChangePassword_Confirmed" xml:space="preserve">
+    <value>Your Password has been Changed</value>
+  </data>
+  <data name="InviteUser_Email" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="InviteUser_Email_Watermark" xml:space="preserve">
+    <value>-send invitation to email-</value>
+  </data>
+  <data name="InviteUser_Help" xml:space="preserve">
+    <value>Send an Invitation to some one to join the [ORGNAME] organization.  They will be prompted to create a new user if they don't already have one, or will be added to your organization if they do.</value>
+  </data>
+  <data name="InviteUser_Message" xml:space="preserve">
+    <value>Welcome Message</value>
+  </data>
+  <data name="InviteUser_Message_Watermark" xml:space="preserve">
+    <value>-add a message to the invitation-</value>
+  </data>
+  <data name="InviteUser_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="InviteUser_Name_Watermark" xml:space="preserve">
+    <value>-name of individual to invite-</value>
+  </data>
+  <data name="InviteUser_Title" xml:space="preserve">
+    <value>Invite a New User</value>
+  </data>
+  <data name="Register_Email" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="Register_Email_WaterMark" xml:space="preserve">
+    <value>-enter your email address-</value>
+  </data>
+  <data name="ResetPassword_ConfirmNewPassword" xml:space="preserve">
+    <value>Confirm New Password</value>
+  </data>
+  <data name="ResetPassword_ConfirmNewPassword_Watermark" xml:space="preserve">
+    <value>-confirm your new password-</value>
+  </data>
+  <data name="ResetPassword_NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="ResetPassword_NewPassword_Watermark" xml:space="preserve">
+    <value>-enter a new password-</value>
+  </data>
+  <data name="ResetPassword_Title" xml:space="preserve">
+    <value>Reset your Password</value>
+  </data>
+  <data name="SendResetPasswordLink_Email" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="SendResetPasswordLink_Email_Watermark" xml:space="preserve">
+    <value>-enter your accounts email address-</value>
+  </data>
+  <data name="SendResetPasswordLink_Help" xml:space="preserve">
+    <value>If you forgot your password, you can have a link sent to your email address to let you reset it to a new one.</value>
+  </data>
+  <data name="SendResetPasswordLink_Message" xml:space="preserve">
+    <value>If your account exissts an email will be sent to our email address with instructions on how to reset your password</value>
+  </data>
+  <data name="SendResetPasswordLink_Title" xml:space="preserve">
+    <value>Reset your Password</value>
+  </data>
+  <data name="SendRestPasswordLink_Send" xml:space="preserve">
+    <value>Send Link</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="InviteUser_Submit" xml:space="preserve">
+    <value>Invite User</value>
+  </data>
+  <data name="ResetPassword_Submit" xml:space="preserve">
+    <value>Reset Password</value>
   </data>
 </root>

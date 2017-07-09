@@ -24,6 +24,7 @@ using Xamarin.Forms;
 using System;
 using LagoVista.XPlat.Core.Views;
 using LagoVista.Core.PlatformSupport;
+using LagoVista.Client.Core.ViewModels.Orgs;
 
 namespace LagoVista.Simulator
 {
@@ -88,9 +89,15 @@ namespace LagoVista.Simulator
             navigation.Add<DynamicAttributeViewModel, Views.Messages.DynamicAttributeView>();
 
             navigation.Add<SplashViewModel, Views.SplashView>();
+
+            navigation.Add<LoginViewModel, LoginView>();
+            navigation.Add<ChangePasswordViewModel, ChangePasswordView>();
+            navigation.Add<SendResetPasswordLinkViewModel, SendResetPasswordView>();
+
             navigation.Add<LoginViewModel, LoginView>();
             navigation.Add<RegisterUserViewModel, RegisterView>();
             navigation.Add<VerifyUserViewModel, VerifyUserView>();
+            navigation.Add<OrgEditorViewModel, OrgEditorView>();
 
             navigation.Start<SplashViewModel>();
 

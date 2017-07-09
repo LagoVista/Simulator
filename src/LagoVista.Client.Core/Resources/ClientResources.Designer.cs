@@ -71,6 +71,114 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your Password has been Changed.
+        /// </summary>
+        public static string ChangePassword_Confirmed {
+            get {
+                return ResourceManager.GetString("ChangePassword_Confirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm New Password.
+        /// </summary>
+        public static string ChangePassword_ConfirmNewPassword {
+            get {
+                return ResourceManager.GetString("ChangePassword_ConfirmNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -confirm your new password-.
+        /// </summary>
+        public static string ChangePassword_ConfirmNewPassword_WaterMark {
+            get {
+                return ResourceManager.GetString("ChangePassword_ConfirmNewPassword_WaterMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Password is a Required Field.
+        /// </summary>
+        public static string ChangePassword_ConfirmPasswordRequired {
+            get {
+                return ResourceManager.GetString("ChangePassword_ConfirmPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your New Password and Confrim Password Must Match.
+        /// </summary>
+        public static string ChangePassword_NewConfirmMatch {
+            get {
+                return ResourceManager.GetString("ChangePassword_NewConfirmMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Password.
+        /// </summary>
+        public static string ChangePassword_NewPassword {
+            get {
+                return ResourceManager.GetString("ChangePassword_NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -enter a new password-.
+        /// </summary>
+        public static string ChangePassword_NewPassword_WaterMark {
+            get {
+                return ResourceManager.GetString("ChangePassword_NewPassword_WaterMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Password is a Required Field.
+        /// </summary>
+        public static string ChangePassword_NewPasswordRequired {
+            get {
+                return ResourceManager.GetString("ChangePassword_NewPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old Password.
+        /// </summary>
+        public static string ChangePassword_OldPassword {
+            get {
+                return ResourceManager.GetString("ChangePassword_OldPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -enter your old password-.
+        /// </summary>
+        public static string ChangePassword_OldPassword_WaterMark {
+            get {
+                return ResourceManager.GetString("ChangePassword_OldPassword_WaterMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old Password is a Required Field.
+        /// </summary>
+        public static string ChangePassword_OldPasswordRequired {
+            get {
+                return ResourceManager.GetString("ChangePassword_OldPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change your Password.
+        /// </summary>
+        public static string ChangePassword_Title {
+            get {
+                return ResourceManager.GetString("ChangePassword_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Common_Add {
@@ -80,7 +188,16 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to -enter password-.
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Common_Cancel {
+            get {
+                return ResourceManager.GetString("Common_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -enter your password-.
         /// </summary>
         public static string Common_Email_Password {
             get {
@@ -89,7 +206,7 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to -enter email address-.
+        ///   Looks up a localized string similar to -enter your email address-.
         /// </summary>
         public static string Common_Email_Watermark {
             get {
@@ -179,11 +296,110 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string Common_Submit {
+            get {
+                return ResourceManager.GetString("Common_Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
         public static string Common_Yes {
             get {
                 return ResourceManager.GetString("Common_Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email Address.
+        /// </summary>
+        public static string InviteUser_Email {
+            get {
+                return ResourceManager.GetString("InviteUser_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -send invitation to email-.
+        /// </summary>
+        public static string InviteUser_Email_Watermark {
+            get {
+                return ResourceManager.GetString("InviteUser_Email_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send an Invitation to some one to join the [ORGNAME] organization.  They will be prompted to create a new user if they don&apos;t already have one, or will be added to your organization if they do..
+        /// </summary>
+        public static string InviteUser_Help {
+            get {
+                return ResourceManager.GetString("InviteUser_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome Message.
+        /// </summary>
+        public static string InviteUser_Message {
+            get {
+                return ResourceManager.GetString("InviteUser_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -add a message to the invitation-.
+        /// </summary>
+        public static string InviteUser_Message_Watermark {
+            get {
+                return ResourceManager.GetString("InviteUser_Message_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string InviteUser_Name {
+            get {
+                return ResourceManager.GetString("InviteUser_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -name of individual to invite-.
+        /// </summary>
+        public static string InviteUser_Name_Watermark {
+            get {
+                return ResourceManager.GetString("InviteUser_Name_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invite User.
+        /// </summary>
+        public static string InviteUser_Submit {
+            get {
+                return ResourceManager.GetString("InviteUser_Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invite a New User.
+        /// </summary>
+        public static string InviteUser_Title {
+            get {
+                return ResourceManager.GetString("InviteUser_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your password must contain at least 8 characters, with at least one number and one upper case and one lower case letter.
+        /// </summary>
+        public static string Password_Requirements {
+            get {
+                return ResourceManager.GetString("Password_Requirements", resourceCulture);
             }
         }
         
@@ -197,7 +413,7 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to confirm password.
+        ///   Looks up a localized string similar to -confirm your password-.
         /// </summary>
         public static string Register_ConfirmPassword_Watermark {
             get {
@@ -206,7 +422,7 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email.
+        ///   Looks up a localized string similar to Email Address.
         /// </summary>
         public static string Register_Email {
             get {
@@ -233,7 +449,7 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to enter email address.
+        ///   Looks up a localized string similar to -enter your email address-.
         /// </summary>
         public static string Register_Email_WaterMark {
             get {
@@ -260,7 +476,7 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to enter first name.
+        ///   Looks up a localized string similar to -enter your first name-.
         /// </summary>
         public static string Register_FirstName_WaterMark {
             get {
@@ -287,7 +503,7 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to enter last name.
+        ///   Looks up a localized string similar to -enter your last name-.
         /// </summary>
         public static string Register_LastName_WaterMark {
             get {
@@ -323,16 +539,7 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your password must contain at least 8 characters, with at least one number and one upper case and one lower case letter.
-        /// </summary>
-        public static string Register_Password_Requirements {
-            get {
-                return ResourceManager.GetString("Register_Password_Requirements", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to enter password.
+        ///   Looks up a localized string similar to -enter a password-.
         /// </summary>
         public static string Register_Password_Watermark {
             get {
@@ -346,6 +553,114 @@ namespace LagoVista.Client.Core.Resources {
         public static string Register_Title {
             get {
                 return ResourceManager.GetString("Register_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm New Password.
+        /// </summary>
+        public static string ResetPassword_ConfirmNewPassword {
+            get {
+                return ResourceManager.GetString("ResetPassword_ConfirmNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -confirm your new password-.
+        /// </summary>
+        public static string ResetPassword_ConfirmNewPassword_Watermark {
+            get {
+                return ResourceManager.GetString("ResetPassword_ConfirmNewPassword_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Password.
+        /// </summary>
+        public static string ResetPassword_NewPassword {
+            get {
+                return ResourceManager.GetString("ResetPassword_NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -enter a new password-.
+        /// </summary>
+        public static string ResetPassword_NewPassword_Watermark {
+            get {
+                return ResourceManager.GetString("ResetPassword_NewPassword_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Password.
+        /// </summary>
+        public static string ResetPassword_Submit {
+            get {
+                return ResourceManager.GetString("ResetPassword_Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset your Password.
+        /// </summary>
+        public static string ResetPassword_Title {
+            get {
+                return ResourceManager.GetString("ResetPassword_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email Address.
+        /// </summary>
+        public static string SendResetPasswordLink_Email {
+            get {
+                return ResourceManager.GetString("SendResetPasswordLink_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -enter your accounts email address-.
+        /// </summary>
+        public static string SendResetPasswordLink_Email_Watermark {
+            get {
+                return ResourceManager.GetString("SendResetPasswordLink_Email_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you forgot your password, you can have a link sent to your email address to let you reset it to a new one..
+        /// </summary>
+        public static string SendResetPasswordLink_Help {
+            get {
+                return ResourceManager.GetString("SendResetPasswordLink_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If your account exissts an email will be sent to our email address with instructions on how to reset your password.
+        /// </summary>
+        public static string SendResetPasswordLink_Message {
+            get {
+                return ResourceManager.GetString("SendResetPasswordLink_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset your Password.
+        /// </summary>
+        public static string SendResetPasswordLink_Title {
+            get {
+                return ResourceManager.GetString("SendResetPasswordLink_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send Link.
+        /// </summary>
+        public static string SendRestPasswordLink_Send {
+            get {
+                return ResourceManager.GetString("SendRestPasswordLink_Send", resourceCulture);
             }
         }
         
