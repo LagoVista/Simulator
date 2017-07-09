@@ -58,15 +58,15 @@ namespace LagoVista.Client.Core.ViewModels.Auth
             await PerformNetworkOperation(async () =>
             {
                 var json = JsonConvert.SerializeObject(Model);
-                var result = await _rawRestClient.PostAsync("/api/auth/resetpassword", json, new System.Threading.CancellationTokenSource());
+                var result = await _rawRestClient.PostAsync("/api/auth/changepassword", json, new System.Threading.CancellationTokenSource());
                 if (result.Success)
                 {
                     await Popups.ShowAsync(ClientResources.ChangePassword_Confirmed);
-                    base.CloseScreen();
+                    await base.ViewModelNavigation.GoBackAsync();
                 }
                 else
                 {
-                    await ShowServerErrorMessageAsync(result.ToInvokeResult())
+                    await ShowServerErrorMessageAsync(result.ToInvokeResult());
                 }
             });
         }
