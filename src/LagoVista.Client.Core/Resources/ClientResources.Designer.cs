@@ -314,6 +314,42 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Call was not completed..
+        /// </summary>
+        public static string Err_CallNotCompleted {
+            get {
+                return ResourceManager.GetString("Err_CallNotCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Authorized.
+        /// </summary>
+        public static string Err_NotAuthorized {
+            get {
+                return ResourceManager.GetString("Err_NotAuthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, you have been logged out.  Please login again..
+        /// </summary>
+        public static string Err_PleaseLoginAgain {
+            get {
+                return ResourceManager.GetString("Err_PleaseLoginAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Token Error.
+        /// </summary>
+        public static string Err_TokenError {
+            get {
+                return ResourceManager.GetString("Err_TokenError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email Address.
         /// </summary>
         public static string InviteUser_Email {
@@ -391,6 +427,15 @@ namespace LagoVista.Client.Core.Resources {
         public static string InviteUser_Title {
             get {
                 return ResourceManager.GetString("InviteUser_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Organization Editor.
+        /// </summary>
+        public static string OrgEditor_Title {
+            get {
+                return ResourceManager.GetString("OrgEditor_Title", resourceCulture);
             }
         }
         

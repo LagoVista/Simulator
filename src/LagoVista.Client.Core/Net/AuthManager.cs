@@ -50,6 +50,7 @@ namespace LagoVista.Client.Core.Net
             else
             {
                 AccessToken = storedAuthmanager.AccessToken;
+                AppInstanceId = storedAuthmanager.AppInstanceId;
                 AccessTokenExpirationUTC = storedAuthmanager.AccessTokenExpirationUTC;
                 DeviceId = storedAuthmanager.DeviceId;
                 DeviceType = storedAuthmanager.DeviceType;

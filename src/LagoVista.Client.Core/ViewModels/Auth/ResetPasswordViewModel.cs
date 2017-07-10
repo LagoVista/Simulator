@@ -1,6 +1,7 @@
 ﻿using LagoVista.Client.Core.Net;
 using LagoVista.Client.Core.Resources;
 using LagoVista.Core.Commanding;
+using LagoVista.UserAdmin.Models.DTOs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace LagoVista.Client.Core.ViewModels.Auth
         {
             _rawRestClient = rawRestClient;
 
-            Model = new ReestPassword();
+            Model = new ResetPassword();
 
             ResetPasswordCommand = new RelayCommand(ResetPassword);
             CancelCommand = new RelayCommand(() => ViewModelNavigation.GoBackAsync());

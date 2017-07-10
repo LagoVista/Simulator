@@ -17,11 +17,11 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Users
 {
-    public class RegisterUserViewModel : IoTAppViewModelBase<RegisterUserDTO>
+    public class RegisterUserViewModel : IoTAppViewModelBase<RegisterUser>
     {
         public RegisterUserViewModel(IAppConfig appConfig, IDeviceInfo deviceInfo, IClientAppInfo clientAppInfo)
         {
-            RegisterModel = new RegisterUserDTO();
+            RegisterModel = new RegisterUser();
             RegisterModel.AppId = appConfig.AppName;
             RegisterModel.DeviceId = deviceInfo.DeviceUniqueId;
             RegisterModel.ClientType = "mobileapp";
@@ -117,7 +117,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
         }
 
 
-        public RegisterUserDTO RegisterModel { get; private set; }
+        public RegisterUser RegisterModel { get; private set; }
 
 
         private String _confirmPassword;

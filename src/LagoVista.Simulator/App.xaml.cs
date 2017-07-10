@@ -16,15 +16,11 @@ using LagoVista.Simulator.Core.ViewModels;
 using LagoVista.Simulator.Core.ViewModels.Messages;
 using LagoVista.Simulator.Core.ViewModels.Simulator;
 using LagoVista.XPlat.Core.Services;
-using LagoVista.XPlat.Core.Views.Auth;
-using LagoVista.XPlat.Core.Views.Users;
-using System.Reflection;
 
 using Xamarin.Forms;
 using System;
 using LagoVista.XPlat.Core.Views;
 using LagoVista.Core.PlatformSupport;
-using LagoVista.Client.Core.ViewModels.Orgs;
 
 namespace LagoVista.Simulator
 {
@@ -76,10 +72,10 @@ namespace LagoVista.Simulator
             SLWIOC.RegisterSingleton<IClientAppInfo>(clientAppInfo);
             SLWIOC.RegisterSingleton<IAppConfig>(new AppConfig());
 
-            LagoVista.XPlat.Core.Startup.Init(this);
+            var navigation = new ViewModelNavigation(this);
+            LagoVista.XPlat.Core.Startup.Init(this, navigation);
             LagoVista.Client.Core.Startup.Init(serverInfo);
 
-            var navigation = new ViewModelNavigation(this);
             navigation.Add<MainViewModel, Views.MainView>();
             navigation.Add<SimulatorViewModel, Views.Simulator.SimulatorView>();
             navigation.Add<SimulatorEditorViewModel, Views.Simulator.SimulatorEditorView>();
@@ -89,15 +85,6 @@ namespace LagoVista.Simulator
             navigation.Add<DynamicAttributeViewModel, Views.Messages.DynamicAttributeView>();
 
             navigation.Add<SplashViewModel, Views.SplashView>();
-
-            navigation.Add<LoginViewModel, LoginView>();
-            navigation.Add<ChangePasswordViewModel, ChangePasswordView>();
-            navigation.Add<SendResetPasswordLinkViewModel, SendResetPasswordView>();
-
-            navigation.Add<LoginViewModel, LoginView>();
-            navigation.Add<RegisterUserViewModel, RegisterView>();
-            navigation.Add<VerifyUserViewModel, VerifyUserView>();
-            navigation.Add<OrgEditorViewModel, OrgEditorView>();
 
             navigation.Start<SplashViewModel>();
 

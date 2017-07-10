@@ -1,4 +1,5 @@
-﻿using LagoVista.Core.Models.UIMetaData;
+﻿using LagoVista.Client.Core.Resources;
+using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core.Validation;
 using Newtonsoft.Json;
 using System;
@@ -45,7 +46,9 @@ namespace LagoVista.Client.Core.Models
             return new RawResponse()
             {
                 Success = false,
-                FaultType = FaultTypes.NotCompleted
+                FaultType = FaultTypes.NotCompleted,
+                ErrorMessage = ClientResources.Err_CallNotCompleted
+
             };
         }
 
@@ -54,7 +57,8 @@ namespace LagoVista.Client.Core.Models
             return new RawResponse()
             {
                 Success = false,
-                FaultType = FaultTypes.TokenError
+                FaultType = FaultTypes.TokenError,
+                ErrorMessage = ClientResources.Err_TokenError,
             };
         }
 
@@ -74,7 +78,8 @@ namespace LagoVista.Client.Core.Models
             return new RawResponse()
             {
                 Success = false,
-                FaultType = FaultTypes.NotAuthorized
+                FaultType = FaultTypes.NotAuthorized,
+                ErrorMessage = ClientResources.Err_NotAuthorized,
             };
         }
 
@@ -92,7 +97,7 @@ namespace LagoVista.Client.Core.Models
 
         public TModel DeserializeContent<TModel>()
         {
-            if(!HasContent)
+            if (!HasContent)
             {
                 throw new InvalidOperationException("Attempt to deserilaized empty content.");
             }
@@ -113,7 +118,7 @@ namespace LagoVista.Client.Core.Models
         public InvokeResult ToInvokeResult()
         {
             var result = new InvokeResult();
-            if(!Success)
+            if (!Success)
             {
                 result.Errors.Add(new LagoVista.Core.Validation.ErrorMessage(ErrorMessage));
                 return result;
@@ -124,7 +129,7 @@ namespace LagoVista.Client.Core.Models
             }
         }
 
-        public InvokeResult<TModel> ToInvokeResult<TModel>() where TModel:new()
+        public InvokeResult<TModel> ToInvokeResult<TModel>() where TModel : new()
         {
             var result = new InvokeResult<TModel>();
             result.Result = DeserializeContent<TModel>();
@@ -134,6 +139,6 @@ namespace LagoVista.Client.Core.Models
             }
             return result;
         }
-        
+
     }
 }

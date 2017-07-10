@@ -15,6 +15,8 @@ using LagoVista.Core.Models;
 using LagoVista.Core.ViewModels;
 using LagoVista.Client.Core.Resources;
 using LagoVista.Core.Validation;
+using System.Threading;
+using LagoVista.Client.Core.Exceptions;
 
 namespace LagoVista.Client.Core.ViewModels
 {
@@ -47,6 +49,30 @@ namespace LagoVista.Client.Core.ViewModels
             }
 
             await Popups.ShowAsync(bldr.ToString());
+        }
+
+        public async Task<InvokeResult> RefreshUserFromServerAsync()
+        {
+            var getUserResult = await RawRestClient.GetAsync("/api/user", new CancellationTokenSource());
+            if (getUserResult.Success)
+            {
+                AuthManager.User = getUserResult.DeserializeContent<DetailResponse<UserInfo>>().Model;
+                await AuthManager.PersistAsync();
+            }
+
+            return getUserResult.ToInvokeResult();
+        }
+
+        public async void Logout()
+        {
+            await AuthManager.LogoutAsync();
+            await ViewModelNavigation.SetAsNewRootAsync<Auth.LoginViewModel>();
+        }
+
+        public async Task ForceLogoutAsync()
+        {
+            await Popups.ShowAsync(ClientResources.Err_PleaseLoginAgain);
+            Logout();
         }
     }
 
@@ -161,6 +187,7 @@ namespace LagoVista.Client.Core.ViewModels
                         }
 
                         break;
+                    case "NameSpace":
                     case FormField.FieldType_MultilineText:
                     case FormField.FieldType_Text:
                     case FormField.FieldType_Key:
@@ -185,6 +212,10 @@ namespace LagoVista.Client.Core.ViewModels
             try
             {
                 await action();
+            }
+            catch(CouldNotRenewTokenException)
+            {
+                await ForceLogoutAsync();
             }
             catch (Exception ex)
             {

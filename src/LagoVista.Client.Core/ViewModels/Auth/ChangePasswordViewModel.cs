@@ -78,7 +78,7 @@ namespace LagoVista.Client.Core.ViewModels.Auth
             set { Set(ref _confirmPassword, value); }
         }
 
-        public ChangePasswordDTO Model { get; set; }
+        public ChangePassword Model { get; set; }
 
         public RelayCommand ChangePasswordCommand { get; private set; }
         public RelayCommand CancelCommand { get; set; }

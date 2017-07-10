@@ -1,11 +1,25 @@
-﻿namespace LagoVista.XPlat.Core
+﻿using LagoVista.Client.Core.ViewModels.Auth;
+using LagoVista.Client.Core.ViewModels.Orgs;
+using LagoVista.Client.Core.ViewModels.Users;
+using LagoVista.XPlat.Core.Services;
+using LagoVista.XPlat.Core.Views.Auth;
+using LagoVista.XPlat.Core.Views.Orgs;
+using LagoVista.XPlat.Core.Views.Users;
+
+namespace LagoVista.XPlat.Core
 {
     public static class Startup
     {
 
-        public static void Init(Xamarin.Forms.Application app)
+        public static void Init(Xamarin.Forms.Application app, ViewModelNavigation nav)
         {
+            nav.Add<LoginViewModel, LoginView>();
+            nav.Add<ChangePasswordViewModel, ChangePasswordView>();
+            nav.Add<SendResetPasswordLinkViewModel, SendResetPasswordView>();
 
+            nav.Add<RegisterUserViewModel, RegisterView>();
+            nav.Add<VerifyUserViewModel, VerifyUserView>();
+            nav.Add<OrgEditorViewModel, OrgEditorView>();
         }
     }
 }

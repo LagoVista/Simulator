@@ -354,4 +354,19 @@
   <data name="ResetPassword_Submit" xml:space="preserve">
     <value>Reset Password</value>
   </data>
+  <data name="Err_CallNotCompleted" xml:space="preserve">
+    <value>Call was not completed.</value>
+  </data>
+  <data name="Err_NotAuthorized" xml:space="preserve">
+    <value>Not Authorized</value>
+  </data>
+  <data name="Err_TokenError" xml:space="preserve">
+    <value>Token Error</value>
+  </data>
+  <data name="OrgEditor_Title" xml:space="preserve">
+    <value>Organization Editor</value>
+  </data>
+  <data name="Err_PleaseLoginAgain" xml:space="preserve">
+    <value>Sorry, you have been logged out.  Please login again.</value>
+  </data>
 </root>

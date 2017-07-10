@@ -58,7 +58,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             return PerformNetworkOperation(async () =>
             {
                 var uri = this.LaunchArgs.LaunchType == LaunchTypes.Edit ? $"/api/simulator/{LaunchArgs.ChildId}" : "/api/simulator/factory";
-
                 var simulator = await RestClient.GetAsync(uri);               
 
                 var form = new EditFormAdapter(simulator.Model, simulator.View, ViewModelNavigation);

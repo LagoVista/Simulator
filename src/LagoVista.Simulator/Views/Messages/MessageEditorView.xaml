@@ -7,7 +7,7 @@
         x:Class="LagoVista.Simulator.Views.Messages.MessageEditorView"
         RightMenu="Save"
         LeftMenu="Cancel"
-        Title="{trs:Translate MessageEditor_Title}">
+        Title="{trs:Translate OrgEditor_Title}">
 
     <pge:LagoVistaContentPage.MainContent>
         <pge:FormViewer Form="{Binding FormAdapter}" />
