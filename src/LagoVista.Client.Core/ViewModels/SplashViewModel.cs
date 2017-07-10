@@ -13,7 +13,7 @@ namespace LagoVista.Client.Core.ViewModels
     {
 
         IClientAppInfo _clientAppInfo;
-        IRawRestClient _rawRestClient;
+        IRestClient _rawRestClient;
 
         private bool _notLoggedIn = false;
         public bool NotLoggedIn
@@ -29,7 +29,7 @@ namespace LagoVista.Client.Core.ViewModels
             set { Set(ref _isLoading, value); }
         }
 
-        public SplashViewModel(IClientAppInfo clientAppInfo, IRawRestClient rawRestClient)
+        public SplashViewModel(IClientAppInfo clientAppInfo, IRestClient rawRestClient)
         {
             LoginCommand = new RelayCommand(Login);
             NotLoggedIn = false;

@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Users
 {
-    public class RegisterUserViewModel : IoTAppViewModelBase<RegisterUser>
+    public class RegisterUserViewModel : FormViewModelBase<RegisterUser>
     {
         public RegisterUserViewModel(IAppConfig appConfig, IDeviceInfo deviceInfo, IClientAppInfo clientAppInfo)
         {
@@ -44,13 +44,11 @@ namespace LagoVista.Client.Core.ViewModels.Users
                 return;
             }
 
-
             if (String.IsNullOrEmpty(RegisterModel.Email))
             {
                 await Popups.ShowAsync(ClientResources.Register_Email_Required);
                 return;
             }
-
 
             var emailRegEx = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             if (!emailRegEx.Match(RegisterModel.Email).Success)
@@ -64,7 +62,6 @@ namespace LagoVista.Client.Core.ViewModels.Users
                 await Popups.ShowAsync(ClientResources.Register_Password_Required);
                 return;
             }
-
 
             var passwordRegEx = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
             if (!passwordRegEx.Match(RegisterModel.Password).Success)

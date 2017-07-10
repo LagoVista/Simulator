@@ -29,7 +29,7 @@ namespace LagoVista.Client.Core
 
             SLWIOC.RegisterSingleton<HttpClient>(client);
 
-            SLWIOC.RegisterSingleton<IRawRestClient, RawRestClient>();
+            SLWIOC.RegisterSingleton<LagoVista.Client.Core.Net.IRestClient, RawRestClient>();
         }
     }
 }

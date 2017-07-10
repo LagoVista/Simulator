@@ -11,6 +11,9 @@ using System.Text;
 using LagoVista.Core.Validation;
 using LagoVista.Core.Authentication.Interfaces;
 using LagoVista.Core.Authentication.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using LagoVista.Client.Core.Resources;
 
 namespace LagoVista.Client.Core.Net
 {
@@ -20,7 +23,7 @@ namespace LagoVista.Client.Core.Net
      * only one will succeed and the user will be locked out since the refresh tokens are single use.
      * 
      */
-    public class RawRestClient : IRawRestClient
+    public class RawRestClient : LagoVista.Client.Core.Net.IRestClient
     {
         HttpClient _httpClient;
         IAuthManager _authManager;
@@ -115,7 +118,7 @@ namespace LagoVista.Client.Core.Net
                     {
                         _logger.AddCustomEvent(LogLevel.Message, "RawRestClient_PerformCall", $"Http Error {(int)response.StatusCode}");
                         /* Check for 401 (I think, if so then attempt to get a new access token,  */
-                        rawResponse = RawResponse.FromHttpFault((int)response.StatusCode, response.ReasonPhrase);
+                        rawResponse = RawResponse.FromHttpFault((int)response.StatusCode, $"{ClientResources.Err_GeneralErrorCallingServer} : HTTP{(int)response.StatusCode} - {response.ReasonPhrase}");
                     }
 
                 }
@@ -185,6 +188,23 @@ namespace LagoVista.Client.Core.Net
                 _logger.EndTimedEvent(timedEvent);
                 return result;
             }, cancellationTokenSource);
+        }
+
+        public async Task<InvokeResult> PostAsync<TModel>(string path, TModel model, CancellationTokenSource cancellationTokenSource = null) where TModel : new()
+        {
+            if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+
+            var json = JsonConvert.SerializeObject(model, new Newtonsoft.Json.JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver(), });
+            var response = await PostAsync(path, json, cancellationTokenSource);
+            return response.ToInvokeResult();
+        }
+
+        public async Task<InvokeResult<TResponseModel>> GetAsync<TResponseModel>(string path, CancellationTokenSource cancellationTokenSource = null) where TResponseModel : new()
+        {
+            if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+
+            var response = await GetAsync(path, cancellationTokenSource);
+            return response.ToInvokeResult<TResponseModel>();
         }
     }
 }

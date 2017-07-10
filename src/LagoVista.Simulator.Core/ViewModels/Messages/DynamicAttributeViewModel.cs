@@ -7,7 +7,7 @@ using LagoVista.Client.Core.ViewModels;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
-    public class DynamicAttributeViewModel : IoTAppViewModelBase<MessageDynamicAttribute>
+    public class DynamicAttributeViewModel : FormViewModelBase<MessageDynamicAttribute>
     {
         public override void SaveAsync()
         {

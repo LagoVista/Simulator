@@ -8,13 +8,14 @@ using LagoVista.Core.Interfaces;
 using LagoVista.Core.Models;
 using LagoVista.Core.PlatformSupport;
 using LagoVista.Core.ViewModels;
+using LagoVista.UserAdmin.ViewModels.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace LagoVista.Client.Core.ViewModels.Auth
 {
-    public class LoginViewModel : IoTAppViewModelBase<UserInfo>
+    public class LoginViewModel : FormViewModelBase<UserInfo>
     {
         IAuthClient _authClient;
         IAppConfig _appConfig;
@@ -25,6 +26,7 @@ namespace LagoVista.Client.Core.ViewModels.Auth
         {
             LoginCommand = new RelayCommand(Login);
             RegisterCommand = new RelayCommand(Register);
+            ForgotPasswordCommand = new RelayCommand(ForgotPassword);
             _authClient = authClient;
             _clientAppInfo = clientAppInfo;
             _appConfig = appConfig;
@@ -34,6 +36,11 @@ namespace LagoVista.Client.Core.ViewModels.Auth
         public async void Register()
         {
             await ViewModelNavigation.NavigateAsync<RegisterUserViewModel>();
+        }
+
+        public async void ForgotPassword()
+        {
+            await ViewModelNavigation.NavigateAsync<SendResetPasswordLinkViewModel>();
         }
 
         public async void Login()
@@ -100,6 +107,8 @@ namespace LagoVista.Client.Core.ViewModels.Auth
 
         public RelayCommand LoginCommand { get; private set; }
         public RelayCommand RegisterCommand { get; private set; }
+        public RelayCommand ForgotPasswordCommand { get; private set; }
+
 
         private string _emailAddress;
         private string _password;

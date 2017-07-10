@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Users
 {
-    public class OrganizationViewModel : IoTAppViewModelBase<CreateOrganizationViewModel>
+    public class OrganizationViewModel : FormViewModelBase<CreateOrganizationViewModel>
     {
         IClientAppInfo _clientAppInfo;
 

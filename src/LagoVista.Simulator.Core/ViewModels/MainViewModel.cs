@@ -11,7 +11,7 @@ using LagoVista.Client.Core.ViewModels.Auth;
 
 namespace LagoVista.Simulator.Core.ViewModels
 {
-    public class MainViewModel : IoTAppViewModelBase<IoT.Simulator.Admin.Models.Simulator, IoT.Simulator.Admin.Models.SimulatorSummary>
+    public class MainViewModel : ListViewModelBase<IoT.Simulator.Admin.Models.Simulator, IoT.Simulator.Admin.Models.SimulatorSummary>
     {
         public MainViewModel()
         {
@@ -40,7 +40,7 @@ namespace LagoVista.Simulator.Core.ViewModels
             return PerformNetworkOperation(async () =>
             {
                 Simulators = null;
-                var listResponse = await RestClient.GetForOrgAsync($"/api/org/{AuthManager.User.CurrentOrganization.Id}/simulators", null);
+                var listResponse = await FormRestClient.GetForOrgAsync($"/api/org/{AuthManager.User.CurrentOrganization.Id}/simulators", null);
                 if (listResponse == null)
                 {
                     await Popups.ShowAsync(ClientResources.Common_ErrorCommunicatingWithServer);

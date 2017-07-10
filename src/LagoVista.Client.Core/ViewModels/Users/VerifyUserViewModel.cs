@@ -34,7 +34,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
         {
             PerformNetworkOperation(async () =>
             {
-                var result = await RawRestClient.GetAsync("/api/verify/sendconfirmationemail", new CancellationTokenSource());
+                var result = await RestClient.GetAsync("/api/verify/sendconfirmationemail", new CancellationTokenSource());
                 if (result.Success)
                 {
                     if (result.ToInvokeResult().Successful)
@@ -66,7 +66,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
                 vm.PhoneNumber = PhoneNumber;
                 vm.SMSCode = SMSCode;
                 var json = JsonConvert.SerializeObject(vm);
-                var result = await RawRestClient.PostAsync("/api/verify/sms", json, new CancellationTokenSource());
+                var result = await RestClient.PostAsync("/api/verify/sms", json, new CancellationTokenSource());
                 if (result.Success)
                 {
                     if (result.ToInvokeResult().Successful)
@@ -98,47 +98,19 @@ namespace LagoVista.Client.Core.ViewModels.Users
             });
         }
 
-        public override void HandleURIActivation(Uri uri)
-        {
-            var query = uri.Query.TrimStart('?');
-            var segments = query.Split('&');
-            var kvps = new Dictionary<string, string>();
-            foreach(var segment in segments)
-            {
-                var parts = segment.Split('=');
-                if(parts.Length != 2)
-                {
-                    Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Invalid Query String", new KeyValuePair<string, string>("queryString", query));
-                    return;
-                }
-
-                if(String.IsNullOrEmpty(parts[0]))
-                {
-                    Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Invalid Key on Query String", new KeyValuePair<string, string>("queryString", query));
-                    return;
-                }
-
-                if (String.IsNullOrEmpty(parts[1]))
-                {
-                    Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Invalid Value on Query String", new KeyValuePair<string, string>("queryString", query));
-                    return;
-                }
-
-                kvps.Add(parts[0].ToLower(), parts[1]);
-            }
-
+        public override void HandleURIActivation(Uri uri, Dictionary<string, string> kvps)
+        {          
             if(!kvps.ContainsKey("code"))
             {
-                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Missing Code", new KeyValuePair<string, string>("queryString", query));
+                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Missing Code", new KeyValuePair<string, string>("queryString", uri.Query));
                 return;
             }
 
             if (!kvps.ContainsKey("userid"))
             {
-                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Missing User ID", new KeyValuePair<string, string>("queryString", query));
+                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Missing User ID", new KeyValuePair<string, string>("queryString", uri.Query));
                 return;
             }
-
 
             var code = kvps["code"];
             var userId = kvps["userid"];
@@ -150,13 +122,13 @@ namespace LagoVista.Client.Core.ViewModels.Users
                      new KeyValuePair<string, string>("currentUser", AuthManager.User.Id));
                 return;
             }
-
+            
             PerformNetworkOperation(async () =>
             {
                 var vm = new ConfirmEmail();
                 vm.ReceivedCode = WebUtility.UrlDecode(code);
                 var json = JsonConvert.SerializeObject(vm);
-                var result = await RawRestClient.PostAsync("/api/verify/email", json, new CancellationTokenSource());
+                var result = await RestClient.PostAsync("/api/verify/email", json, new CancellationTokenSource());
                 if (result.Success)
                 {
                     if (result.ToInvokeResult().Successful)
@@ -196,7 +168,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
                 var vm = new VerfiyPhoneNumber();
                 vm.PhoneNumber = PhoneNumber;
                 var json = JsonConvert.SerializeObject(vm);
-                var result = await RawRestClient.PostAsync("/api/verify/sendsmscode", json, new CancellationTokenSource());
+                var result = await RestClient.PostAsync("/api/verify/sendsmscode", json, new CancellationTokenSource());
                 if (result.Success)
                 {
                     if (result.ToInvokeResult().Successful)

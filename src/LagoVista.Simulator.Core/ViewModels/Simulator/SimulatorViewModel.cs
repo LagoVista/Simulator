@@ -4,6 +4,7 @@ using LagoVista.Core.Commanding;
 using LagoVista.Core.IOC;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core.Networking.Interfaces;
+using LagoVista.Core.Validation;
 using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
 using Microsoft.Azure.EventHubs;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
-    public class SimulatorViewModel : IoTAppViewModelBase<IoT.Simulator.Admin.Models.Simulator>
+    public class SimulatorViewModel : FormViewModelBase<IoT.Simulator.Admin.Models.Simulator>
     {
         IMQTTDeviceClient _mqttClient;
         ITCPClient _tcpClient;
@@ -57,10 +58,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                     await Popups.ShowAsync("Sorry, could not load simulator, please try again later.");
                 }
 
-                return true;
+                return InvokeResult.Success;
             });
         }
-
 
         public async void Connect()
         {

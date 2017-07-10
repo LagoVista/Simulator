@@ -8,9 +8,9 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
 {
     public class InviteUserViewModel : IoTAppViewModelBase
     {
-        IRawRestClient _rawRestClient;
+        IRestClient _rawRestClient;
 
-        public InviteUserViewModel(IRawRestClient rawRestClient)
+        public InviteUserViewModel(IRestClient rawRestClient)
         {
             _rawRestClient = rawRestClient;
             InviteUserCommand = new RelayCommand(InviteUser);

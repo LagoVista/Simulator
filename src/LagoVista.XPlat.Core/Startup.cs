@@ -16,6 +16,7 @@ namespace LagoVista.XPlat.Core
             nav.Add<LoginViewModel, LoginView>();
             nav.Add<ChangePasswordViewModel, ChangePasswordView>();
             nav.Add<SendResetPasswordLinkViewModel, SendResetPasswordView>();
+            nav.Add<ResetPasswordViewModel, ResetPasswordView>();
 
             nav.Add<RegisterUserViewModel, RegisterView>();
             nav.Add<VerifyUserViewModel, VerifyUserView>();

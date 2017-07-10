@@ -1,19 +1,22 @@
 ﻿using LagoVista.Client.Core.Net;
 using LagoVista.Client.Core.Resources;
 using LagoVista.Core.Commanding;
+using LagoVista.Core.Validation;
 using LagoVista.UserAdmin.Models.DTOs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Auth
 {
     public class ResetPasswordViewModel : IoTAppViewModelBase
     {
-        IRawRestClient _rawRestClient;
+        IRestClient _rawRestClient;
 
-        public ResetPasswordViewModel(IRawRestClient rawRestClient)
+        public ResetPasswordViewModel(IRestClient rawRestClient)
         {
             _rawRestClient = rawRestClient;
 
@@ -23,22 +26,45 @@ namespace LagoVista.Client.Core.ViewModels.Auth
             CancelCommand = new RelayCommand(() => ViewModelNavigation.GoBackAsync());
         }
 
-        public void ResetPassword()
+        public Task<InvokeResult> SendResetPasswordAsync()
         {
-            PerformNetworkOperation(async () =>
+            return RestClient.PostAsync("/api/auth/resetpassword", Model);
+        }
+
+        public async void ResetPassword()
+        {
+            if (String.IsNullOrEmpty(Model.Email))
             {
-                var json = JsonConvert.SerializeObject(Model);
-                var result = await _rawRestClient.PostAsync("/api/auth/resetpassword", json, new System.Threading.CancellationTokenSource());
-                if (result.Success)
-                {
-                    await Popups.ShowAsync(ClientResources.ChangePassword_Confirmed);
-                    await base.ViewModelNavigation.GoBackAsync();
-                }
-                else
-                {
-                    await ShowServerErrorMessageAsync(result.ToInvokeResult());
-                }
-            });
+                await Popups.ShowAsync(ClientResources.Register_Email_Required);
+                return;
+            }
+
+            var emailRegEx = new Regex(EMAIL_REGEX);
+            if (!emailRegEx.Match(Model.Email).Success)
+            {
+                await Popups.ShowAsync(ClientResources.Register_Email_Invalid);
+                return;
+            }
+
+            var passwordRegEx = new Regex(PASSWORD_REGEX);
+            if (!passwordRegEx.Match(Model.NewPassword).Success)
+            {
+                await Popups.ShowAsync(ClientResources.Password_Requirements);
+                return;
+            }
+
+            if (Model.NewPassword != ConfirmPassword)
+            {
+                await Popups.ShowAsync(ClientResources.Register_Password_Confirm_NoMatch);
+                return;
+            }
+
+            Model.Token = LaunchArgs.Parameters["code"].ToString();
+
+            if ((await PerformNetworkOperation(SendResetPasswordAsync)).Successful)
+            {
+                await ViewModelNavigation.GoBackAsync();
+            }
         }
 
         public ResetPassword Model
@@ -46,8 +72,17 @@ namespace LagoVista.Client.Core.ViewModels.Auth
             get; set;
         }
 
+        private string _confirmPassword;
+        public string ConfirmPassword
+        {
+            get { return _confirmPassword; }
+            set { Set(ref _confirmPassword, value); }
+        }
+
 
         public RelayCommand ResetPasswordCommand { get; set; }
+       
+
         public RelayCommand CancelCommand { get; set; }
     }
 }

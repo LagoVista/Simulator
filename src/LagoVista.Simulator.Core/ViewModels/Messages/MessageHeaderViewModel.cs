@@ -9,7 +9,7 @@ using LagoVista.Client.Core.ViewModels;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
-    public class MessageHeaderViewModel : IoTAppViewModelBase<MessageHeader>
+    public class MessageHeaderViewModel : FormViewModelBase<MessageHeader>
     {
         public override void SaveAsync()
         {

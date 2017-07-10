@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Orgs
 {
-    public class OrgEditorViewModel : IoTAppViewModelBase<CreateOrganizationViewModel>
+    public class OrgEditorViewModel : FormViewModelBase<CreateOrganizationViewModel>
     {
         IClientAppInfo _clientAppInfo;
 
@@ -31,28 +31,18 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
             };
         }
 
-        public async Task<bool> SaveChangesAsync()
+        public async Task<InvokeResult> SaveChangesAsync()
         {
             var saveResult = await RestClient.AddAsync("/api/org", this.Model);
-            if (saveResult.Successful)
-            {
-                var refreshResult = await RefreshUserFromServerAsync();
-                if (refreshResult.Successful)
-                {
-                    var launchArgs = new ViewModelLaunchArgs() { ViewModelType = _clientAppInfo.MainViewModel };
-                    await ViewModelNavigation.NavigateAsync(launchArgs);
-                }
-                else
-                {
-                    await ShowServerErrorMessageAsync(refreshResult);
-                }
-            }
-            else
-            {
-                await ShowServerErrorMessageAsync(saveResult);
-            }
+            if (!saveResult.Successful) return saveResult;
 
-            return true;
+            var refreshResult = await RefreshUserFromServerAsync();
+            if (!refreshResult.Successful) return refreshResult;
+
+            var launchArgs = new ViewModelLaunchArgs() { ViewModelType = _clientAppInfo.MainViewModel };
+            await ViewModelNavigation.NavigateAsync(launchArgs);
+
+            return InvokeResult.Success;
         }
 
         public override async void SaveAsync()
@@ -65,7 +55,7 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
             }
         }
 
-        public async Task<bool> PopulateUIAsync()
+        public async Task<InvokeResult> PopulateUIAsync()
         {
             var newOrgTemplate = await RestClient.CreateNewAsync("/api/org/factory");
 
@@ -80,7 +70,7 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
             ModelToView(Model, form);
             FormAdapter = form;
 
-            return true;
+            return InvokeResult.Success;
         }
 
         public override async Task InitAsync()

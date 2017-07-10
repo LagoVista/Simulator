@@ -323,6 +323,24 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not renew access token, please check server and mobile logs.
+        /// </summary>
+        public static string Err_CouldNotRenewToken {
+            get {
+                return ResourceManager.GetString("Err_CouldNotRenewToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, there was an error calling the server. Please try again later - .
+        /// </summary>
+        public static string Err_GeneralErrorCallingServer {
+            get {
+                return ResourceManager.GetString("Err_GeneralErrorCallingServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not Authorized.
         /// </summary>
         public static string Err_NotAuthorized {
@@ -427,6 +445,15 @@ namespace LagoVista.Client.Core.Resources {
         public static string InviteUser_Title {
             get {
                 return ResourceManager.GetString("InviteUser_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot Password.
+        /// </summary>
+        public static string Login_ForgotPassword {
+            get {
+                return ResourceManager.GetString("Login_ForgotPassword", resourceCulture);
             }
         }
         

@@ -12,7 +12,7 @@ using LagoVista.Client.Core.ViewModels;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
-    public class SimulatorEditorViewModel : IoTAppViewModelBase<IoT.Simulator.Admin.Models.Simulator>
+    public class SimulatorEditorViewModel : FormViewModelBase<IoT.Simulator.Admin.Models.Simulator>
     {
 
         public SimulatorEditorViewModel()

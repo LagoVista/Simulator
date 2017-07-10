@@ -8,7 +8,7 @@ using LagoVista.Client.Core.ViewModels;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
-    public class MessageEditorViewModel : IoTAppViewModelBase<MessageTemplate>
+    public class MessageEditorViewModel : FormViewModelBase<MessageTemplate>
     {
         public override void SaveAsync()
         {

@@ -1,7 +1,9 @@
-﻿using LagoVista.Core.Commanding;
+﻿using LagoVista.Client.Core.ViewModels.Auth;
+using LagoVista.Core.Commanding;
 using LagoVista.Core.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace LagoVista.Client.Core.ViewModels
 {
@@ -63,9 +65,22 @@ namespace LagoVista.Client.Core.ViewModels
             set { Set(ref _menuItems, value); }
         }
 
-        public virtual void HandleURIActivation(Uri uri)
+        public virtual void HandleURIActivation(Uri uri, Dictionary<string, string> kvps)
         {
-
+            if(uri.Host == "resetpassword")
+            {
+                if (!kvps.ContainsKey("code"))
+                {
+                    Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "ResetPassword_HandleURIActivation", "Missing Code", new KeyValuePair<string, string>("queryString", uri.Query));
+                }
+                else
+                {
+                    var launchArgs = new ViewModelLaunchArgs();
+                    launchArgs.ViewModelType = typeof(ResetPasswordViewModel);
+                    launchArgs.Parameters.Add("code", WebUtility.UrlDecode(kvps["code"]));
+                    ViewModelNavigation.NavigateAsync(launchArgs);
+                }
+            }
         }
 
         public virtual void Edit()

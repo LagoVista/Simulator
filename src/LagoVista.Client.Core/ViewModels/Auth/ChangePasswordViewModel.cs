@@ -10,9 +10,9 @@ namespace LagoVista.Client.Core.ViewModels.Auth
 {
     public class ChangePasswordViewModel : IoTAppViewModelBase
     {
-        IRawRestClient _rawRestClient;
+        IRestClient _rawRestClient;
 
-        public ChangePasswordViewModel(IRawRestClient rawRestClient)
+        public ChangePasswordViewModel(IRestClient rawRestClient)
         {
             _rawRestClient = rawRestClient;
 

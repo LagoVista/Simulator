@@ -63,7 +63,34 @@ namespace LagoVista.XPlat.Core
             var logger = SLWIOC.Get<ILogger>();
             if (ViewModel != null)
             {
-                ViewModel.HandleURIActivation(uri);
+                var query = uri.Query.TrimStart('?');
+                var segments = query.Split('&');
+                var kvps = new Dictionary<string, string>();
+                foreach (var segment in segments)
+                {
+                    var parts = segment.Split('=');
+                    if (parts.Length != 2)
+                    {
+                        logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Invalid Query String", new KeyValuePair<string, string>("queryString", query));
+                        return;
+                    }
+
+                    if (String.IsNullOrEmpty(parts[0]))
+                    {
+                        logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Invalid Key on Query String", new KeyValuePair<string, string>("queryString", query));
+                        return;
+                    }
+
+                    if (String.IsNullOrEmpty(parts[1]))
+                    {
+                        logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Invalid Value on Query String", new KeyValuePair<string, string>("queryString", query));
+                        return;
+                    }
+
+                    kvps.Add(parts[0].ToLower(), parts[1]);
+                }
+
+                ViewModel.HandleURIActivation(uri, kvps);
             }
             else
             {
