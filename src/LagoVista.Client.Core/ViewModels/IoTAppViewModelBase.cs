@@ -92,29 +92,26 @@ namespace LagoVista.Client.Core.ViewModels
             try
             {
                 result = await action();
+                IsBusy = false;
                 if (!suppressErrorPopup && !result.Successful)
-                {
+                {                    
                     await ShowServerErrorMessageAsync(result);
                 }
             }
             catch (CouldNotRenewTokenException)
             {
+                IsBusy = false;
                 return ClientResources.Err_CouldNotRenewToken.ToFailedInvokeResult();
             }
             catch (Exception ex)
             {
+                IsBusy = false;
                 Logger.AddException("IoTAppViewModelBase_PerformNetworkOperation", ex);
                 await Popups.ShowAsync(ClientResources.Common_ErrorCommunicatingWithServer + "\r\n\r\n" + ex.Message);
                 return ClientResources.Common_ErrorCommunicatingWithServer.ToFailedInvokeResult();
-            }
-            finally
-            {
-                IsBusy = false;
             }
 
             return result;
         }
     }
-
-    
 }

@@ -31,7 +31,7 @@ namespace LagoVista.Client.Core.ViewModels.Auth
                 return;
             }
 
-            var emailRegEx = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            var emailRegEx = new Regex(EMAIL_REGEX);
             if (!emailRegEx.Match(EmailAddress).Success)
             {
                 await Popups.ShowAsync(ClientResources.Register_Email_Invalid);
@@ -40,6 +40,7 @@ namespace LagoVista.Client.Core.ViewModels.Auth
 
             if ((await PerformNetworkOperation(CallSendInvite)).Successful)
             {
+                await Popups.ShowAsync(ClientResources.SendResetPasswordLink_Message);
                 await ViewModelNavigation.GoBackAsync();
             }
         }

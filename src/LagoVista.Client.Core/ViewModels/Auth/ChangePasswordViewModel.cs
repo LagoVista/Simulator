@@ -1,23 +1,26 @@
 ﻿using LagoVista.Client.Core.Net;
 using LagoVista.Client.Core.Resources;
 using LagoVista.Core.Commanding;
+using LagoVista.Core.Validation;
 using LagoVista.UserAdmin.Models.DTOs;
-using Newtonsoft.Json;
 using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Auth
 {
     public class ChangePasswordViewModel : IoTAppViewModelBase
     {
-        IRestClient _rawRestClient;
-
         public ChangePasswordViewModel(IRestClient rawRestClient)
         {
-            _rawRestClient = rawRestClient;
-
             ChangePasswordCommand = new RelayCommand(ChangePassword);
             CancelCommand = new RelayCommand(() => ViewModelNavigation.GoBackAsync());
+            Model = new UserAdmin.Models.DTOs.ChangePassword();
+        }
+
+        public async Task<InvokeResult> SendResetPassword()
+        {
+            return await RestClient.PostAsync("/api/auth/changepassword", Model, new System.Threading.CancellationTokenSource());
         }
 
         public async void ChangePassword()
@@ -55,20 +58,11 @@ namespace LagoVista.Client.Core.ViewModels.Auth
 
             Model.UserId = AuthManager.User.Id;
             
-            await PerformNetworkOperation(async () =>
+            if((await PerformNetworkOperation(SendResetPassword)).Successful)
             {
-                var json = JsonConvert.SerializeObject(Model);
-                var result = await _rawRestClient.PostAsync("/api/auth/changepassword", json, new System.Threading.CancellationTokenSource());
-                if (result.Success)
-                {
-                    await Popups.ShowAsync(ClientResources.ChangePassword_Confirmed);
-                    await base.ViewModelNavigation.GoBackAsync();
-                }
-                else
-                {
-                    await ShowServerErrorMessageAsync(result.ToInvokeResult());
-                }
-            });
+                await Popups.ShowAsync(ClientResources.ChangePassword_Success);
+                await ViewModelNavigation.GoBackAsync();
+            }
         }
 
         private String _confirmPassword;

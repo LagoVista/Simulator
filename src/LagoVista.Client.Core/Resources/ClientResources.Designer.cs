@@ -62,6 +62,78 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have successfully accepted the invitation, but will remain logged in with the organization you are currently assocaited with.  To switch to this new organization, click on the Organization Link on the new menu.
+        /// </summary>
+        public static string Accept_AcceptLoggedInSuccessful {
+            get {
+                return ResourceManager.GetString("Accept_AcceptLoggedInSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accept.
+        /// </summary>
+        public static string AcceptInvite_Accept {
+            get {
+                return ResourceManager.GetString("AcceptInvite_Accept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Since you are already logged in, you can simply accept the invitation, you will not automatically be switched to that organization however..
+        /// </summary>
+        public static string AcceptInvite_Accept_Help {
+            get {
+                return ResourceManager.GetString("AcceptInvite_Accept_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accept and Login.
+        /// </summary>
+        public static string AcceptInvite_AcceptAndLogin {
+            get {
+                return ResourceManager.GetString("AcceptInvite_AcceptAndLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you already have an account, you can simply accept the invitation and login..
+        /// </summary>
+        public static string AcceptInvite_AcceptAndLogin_Help {
+            get {
+                return ResourceManager.GetString("AcceptInvite_AcceptAndLogin_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accept and Register.
+        /// </summary>
+        public static string AcceptInvite_AcceptAndRegister {
+            get {
+                return ResourceManager.GetString("AcceptInvite_AcceptAndRegister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Once you accept the registration, you will be prompted to create a user account..
+        /// </summary>
+        public static string AcceptInvite_AcceptAndRegister_Help {
+            get {
+                return ResourceManager.GetString("AcceptInvite_AcceptAndRegister_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accept Invitation.
+        /// </summary>
+        public static string AcceptInvite_Title {
+            get {
+                return ResourceManager.GetString("AcceptInvite_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sorry, we could not validate the Email Address and Password you supplied..
         /// </summary>
         public static string Auth_FailedLogin {
@@ -166,6 +238,15 @@ namespace LagoVista.Client.Core.Resources {
         public static string ChangePassword_OldPasswordRequired {
             get {
                 return ResourceManager.GetString("ChangePassword_OldPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Password has successfully been changed..
+        /// </summary>
+        public static string ChangePassword_Success {
+            get {
+                return ResourceManager.GetString("ChangePassword_Success", resourceCulture);
             }
         }
         
@@ -395,6 +476,15 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An Invitation has been sent to the user, once they receive it, they can either login with their current account or register as a new user..
+        /// </summary>
+        public static string InviteUser_InvitationSent {
+            get {
+                return ResourceManager.GetString("InviteUser_InvitationSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Welcome Message.
         /// </summary>
         public static string InviteUser_Message {
@@ -454,6 +544,24 @@ namespace LagoVista.Client.Core.Resources {
         public static string Login_ForgotPassword {
             get {
                 return ResourceManager.GetString("Login_ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Password.
+        /// </summary>
+        public static string MainMenu_ChangePassword {
+            get {
+                return ResourceManager.GetString("MainMenu_ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invite User.
+        /// </summary>
+        public static string MainMenu_InviteUser {
+            get {
+                return ResourceManager.GetString("MainMenu_InviteUser", resourceCulture);
             }
         }
         
@@ -674,6 +782,15 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your Password has Successfully been Reset, you can now log into the system with your email address and new password.
+        /// </summary>
+        public static string ResetPassword_SuccessMessage {
+            get {
+                return ResourceManager.GetString("ResetPassword_SuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset your Password.
         /// </summary>
         public static string ResetPassword_Title {
@@ -710,7 +827,7 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If your account exissts an email will be sent to our email address with instructions on how to reset your password.
+        ///   Looks up a localized string similar to If your account exists an email has be sent to your email account with instructions on how to reset your password..
         /// </summary>
         public static string SendResetPasswordLink_Message {
             get {

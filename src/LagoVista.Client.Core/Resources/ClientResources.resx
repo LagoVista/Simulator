@@ -337,7 +337,7 @@
     <value>If you forgot your password, you can have a link sent to your email address to let you reset it to a new one.</value>
   </data>
   <data name="SendResetPasswordLink_Message" xml:space="preserve">
-    <value>If your account exissts an email will be sent to our email address with instructions on how to reset your password</value>
+    <value>If your account exists an email has be sent to your email account with instructions on how to reset your password.</value>
   </data>
   <data name="SendResetPasswordLink_Title" xml:space="preserve">
     <value>Reset your Password</value>
@@ -377,5 +377,44 @@
   </data>
   <data name="Err_GeneralErrorCallingServer" xml:space="preserve">
     <value>Sorry, there was an error calling the server. Please try again later - </value>
+  </data>
+  <data name="ResetPassword_SuccessMessage" xml:space="preserve">
+    <value>Your Password has Successfully been Reset, you can now log into the system with your email address and new password</value>
+  </data>
+  <data name="ChangePassword_Success" xml:space="preserve">
+    <value>Your Password has successfully been changed.</value>
+  </data>
+  <data name="InviteUser_InvitationSent" xml:space="preserve">
+    <value>An Invitation has been sent to the user, once they receive it, they can either login with their current account or register as a new user.</value>
+  </data>
+  <data name="MainMenu_ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="MainMenu_InviteUser" xml:space="preserve">
+    <value>Invite User</value>
+  </data>
+  <data name="AcceptInvite_Accept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="AcceptInvite_AcceptAndLogin" xml:space="preserve">
+    <value>Accept and Login</value>
+  </data>
+  <data name="AcceptInvite_AcceptAndLogin_Help" xml:space="preserve">
+    <value>If you already have an account, you can simply accept the invitation and login.</value>
+  </data>
+  <data name="AcceptInvite_AcceptAndRegister" xml:space="preserve">
+    <value>Accept and Register</value>
+  </data>
+  <data name="AcceptInvite_AcceptAndRegister_Help" xml:space="preserve">
+    <value>Once you accept the registration, you will be prompted to create a user account.</value>
+  </data>
+  <data name="AcceptInvite_Accept_Help" xml:space="preserve">
+    <value>Since you are already logged in, you can simply accept the invitation, you will not automatically be switched to that organization however.</value>
+  </data>
+  <data name="AcceptInvite_Title" xml:space="preserve">
+    <value>Accept Invitation</value>
+  </data>
+  <data name="Accept_AcceptLoggedInSuccessful" xml:space="preserve">
+    <value>You have successfully accepted the invitation, but will remain logged in with the organization you are currently assocaited with.  To switch to this new organization, click on the Organization Link on the new menu</value>
   </data>
 </root>

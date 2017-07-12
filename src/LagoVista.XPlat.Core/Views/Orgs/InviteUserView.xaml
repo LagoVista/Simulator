@@ -8,32 +8,29 @@
     Title="{ext:ClientTranslate InviteUser_Title}">
     <pge:LagoVistaContentPage.MainContent>
         <ScrollView>
-            <StackLayout Padding="10">
-                <Grid BackgroundColor="#2196F3">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Image Source="nuviot.png" HorizontalOptions="Center" />
-                    <StackLayout Grid.Row="1" Margin="20" WidthRequest="300" HorizontalOptions="Center" >
+            <Grid BackgroundColor="#2196F3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Image Source="nuviot.png" HorizontalOptions="Center" />
+                <StackLayout Grid.Row="1" Margin="20" WidthRequest="300" HorizontalOptions="Center" >
 
-                        <pge:Label Text="{Binding InviteUserHelpMessage}" TextColor="White"  Margin="0,0,0,40" />
-                        
-                        <pge:Label Text="{ext:ClientTranslate InviteUser_Name}" TextColor="White" />
-                        <pge:Entry Text="{Binding Model.Name, Mode=TwoWay}" Placeholder="{ext:ClientTranslate InviteUser_Name_Watermark}" Keyboard="Plain" />
+                    <pge:Label Text="{Binding InviteUserHelpMessage}" TextColor="White"  Margin="0,0,0,40" />
 
-                        <pge:Label Text="{ext:ClientTranslate InviteUser_Email}" TextColor="White" />
-                        <pge:Entry Text="{Binding Model.Email, Mode=TwoWay}" Placeholder="{ext:ClientTranslate InviteUser_Email_Watermark}" Keyboard="Email"  />
+                    <pge:Label Text="{ext:ClientTranslate InviteUser_Name}" TextColor="White" />
+                    <pge:Entry Text="{Binding Model.Name, Mode=TwoWay}" Placeholder="{ext:ClientTranslate InviteUser_Name_Watermark}" Keyboard="Plain" />
 
-                        <pge:Label Text="{ext:ClientTranslate InviteUser_Message}" TextColor="White" />
-                        <pge:Entry Text="{Binding Model.Message, Mode=TwoWay}" Placeholder="{ext:ClientTranslate InviteUser_Message_Watermark}" Keyboard="Plain" HeightRequest="120" Margin="0,0,0,40" />
+                    <pge:Label Text="{ext:ClientTranslate InviteUser_Email}" TextColor="White" />
+                    <pge:Entry Text="{Binding Model.Email, Mode=TwoWay}" Placeholder="{ext:ClientTranslate InviteUser_Email_Watermark}" Keyboard="Email"  />
 
-                        <pge:Button Command="{Binding InviteUserCommand}" Text="{ext:ClientTranslate InviteUser_Submit}" HeightRequest="48" />
-                        <pge:Button Command="{Binding CancelCommand}" Text="{ext:ClientTranslate Common_Cancel}" HeightRequest="48" />
-                    </StackLayout>
-                </Grid>
-            </StackLayout>
+                    <pge:Label Text="{ext:ClientTranslate InviteUser_Message}" TextColor="White" />
+                    <Editor Text="{Binding Model.Message, Mode=TwoWay}" Keyboard="Plain" HeightRequest="120" Margin="0,0,0,40" />
+
+                    <pge:Button Command="{Binding InviteUserCommand}" Text="{ext:ClientTranslate InviteUser_Submit}" HeightRequest="48" />
+                    <pge:Button Command="{Binding CancelCommand}" Text="{ext:ClientTranslate Common_Cancel}" HeightRequest="48" />
+                </StackLayout>
+            </Grid>
         </ScrollView>
     </pge:LagoVistaContentPage.MainContent>
 </pge:LagoVistaContentPage>

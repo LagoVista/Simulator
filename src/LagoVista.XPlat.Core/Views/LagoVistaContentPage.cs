@@ -7,6 +7,7 @@ using LagoVista.XPlat.Core.Controls.Common;
 using LagoVista.XPlat.Core.Views;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;

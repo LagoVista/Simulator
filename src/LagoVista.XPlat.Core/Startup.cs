@@ -17,10 +17,12 @@ namespace LagoVista.XPlat.Core
             nav.Add<ChangePasswordViewModel, ChangePasswordView>();
             nav.Add<SendResetPasswordLinkViewModel, SendResetPasswordView>();
             nav.Add<ResetPasswordViewModel, ResetPasswordView>();
+            nav.Add<InviteUserViewModel, InviteUserView>();
 
             nav.Add<RegisterUserViewModel, RegisterView>();
             nav.Add<VerifyUserViewModel, VerifyUserView>();
             nav.Add<OrgEditorViewModel, OrgEditorView>();
+            nav.Add<AcceptInviteViewModel, AcceptInviteView>();
         }
     }
 }

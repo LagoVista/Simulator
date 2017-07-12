@@ -126,7 +126,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
             PerformNetworkOperation(async () =>
             {
                 var vm = new ConfirmEmail();
-                vm.ReceivedCode = WebUtility.UrlDecode(code);
+                vm.ReceivedCode = code;
                 var json = JsonConvert.SerializeObject(vm);
                 var result = await RestClient.PostAsync("/api/verify/email", json, new CancellationTokenSource());
                 if (result.Success)

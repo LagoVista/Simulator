@@ -79,6 +79,9 @@
     <Compile Include="Views\LagoVistaContentPage.cs" />
     <Compile Include="Views\LagoVistaNavigationPage.cs" />
     <Compile Include="Views\LagoVistaStartupPage.cs" />
+    <Compile Include="Views\Orgs\AcceptInviteView.xaml.cs">
+      <DependentUpon>AcceptInviteView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Orgs\InviteUserView.xaml.cs">
       <DependentUpon>InviteUserView.xaml</DependentUpon>
     </Compile>
@@ -144,7 +147,12 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Orgs\AcceptInviteView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\Orgs\OrgEditorView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

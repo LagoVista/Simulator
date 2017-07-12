@@ -30,6 +30,33 @@ namespace LagoVista.Client.Core.ViewModels.Users
             CancelCommand = new RelayCommand(() => ViewModelNavigation.GoBackAsync());
         }
 
+        public async Task<InvokeResult> SendRegistrationAsync()
+        {
+            var result = await RestClient.PostAsync<InvokeResult<AuthResponse>>("/api/user/register", RegisterModel);
+            if (!result.Successful) return result.ToInvokeResult();
+
+            var authResult = result.Result.Result;
+            /* Make sure our Access Token is saved so the REST service can use it */
+            AuthManager.AccessToken = authResult.AccessToken;
+            AuthManager.AccessTokenExpirationUTC = authResult.AccessTokenExpiresUTC;
+
+            AuthManager.RefreshToken = authResult.RefreshToken;
+            AuthManager.RefreshTokenExpirationUTC = authResult.RefreshTokenExpiresUTC;
+
+            AuthManager.AppInstanceId = authResult.AppInstanceId;
+            AuthManager.IsAuthenticated = true;
+
+            var user = await RestClient.GetAsync<UserInfo>("/api/user");
+            AuthManager.User = user.Model;
+            await AuthManager.PersistAsync();
+
+            Logger.AddKVPs(new KeyValuePair<string, string>("Email", AuthManager.User.Email));
+
+            await ViewModelNavigation.NavigateAsync<VerifyUserViewModel>();
+
+            return InvokeResult.Success;
+        }
+
         public async void Register()
         {
             if (String.IsNullOrEmpty(RegisterModel.FirstName))
@@ -76,41 +103,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
                 return;
             }
 
-            await PerformNetworkOperation(async () =>
-            {
-                var result = await RestClient.PostAsync<InvokeResult<AuthResponse>>("/api/user/register", RegisterModel);
-                // MAJOR BROKEN :(
-                if (result.Successful && result.Result != null && result.Result.Successful)
-                {
-                    var authResult = result.Result.Result;
-                    /* Make sure our Access Token is saved so the REST service can use it */
-                    AuthManager.AccessToken = authResult.AccessToken;
-                    AuthManager.AccessTokenExpirationUTC = authResult.AccessTokenExpiresUTC;
-                    AuthManager.RefreshToken = authResult.RefreshToken;
-                    AuthManager.RefreshTokenExpirationUTC = authResult.RefreshTokenExpiresUTC;
-                    AuthManager.AppInstanceId = authResult.AppInstanceId;
-                    AuthManager.IsAuthenticated = true;
-
-                    var user = await RestClient.GetAsync<UserInfo>("/api/user");
-                    AuthManager.User = user.Model;
-                    await AuthManager.PersistAsync();
-
-                    Logger.AddKVPs(new KeyValuePair<string, string>("Email", AuthManager.User.Email));
-
-                    await ViewModelNavigation.NavigateAsync<VerifyUserViewModel>();
-                }
-                else
-                {
-                    if (!result.Successful)
-                    {
-                        await ShowServerErrorMessage(result);
-                    }
-                    else if (result.Result != null)
-                    {
-                        await ShowServerErrorMessage(result.Result);
-                    }
-                }
-            });
+            await PerformNetworkOperation(SendRegistrationAsync);
         }
 
 

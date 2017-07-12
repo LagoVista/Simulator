@@ -30,7 +30,7 @@
                             <ColumnDefinition Width="50*" />
                             <ColumnDefinition Width="50*" />
                         </Grid.ColumnDefinitions>
-                        <pge:Button Command="{Binding RegisterCommand}" Text="{ext:ClientTranslate Register_Title}" HeightRequest="48" Margin="0,0,10," />
+                        <pge:Button Command="{Binding RegisterCommand}" Text="{ext:ClientTranslate Register_Title}" HeightRequest="48" Margin="0,0,10,0" />
                         <pge:Button Command="{Binding ForgotPasswordCommand}" Text="{ext:ClientTranslate Login_ForgotPassword}" HeightRequest="48" Grid.Column="1" Margin="10,0,0,0" />
                     </Grid>
 

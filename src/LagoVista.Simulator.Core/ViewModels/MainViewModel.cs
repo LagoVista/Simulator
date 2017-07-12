@@ -8,6 +8,8 @@ using LagoVista.Simulator.Core.ViewModels.Simulator;
 using System.Collections.Generic;
 using LagoVista.Client.Core.ViewModels;
 using LagoVista.Client.Core.ViewModels.Auth;
+using LagoVista.Client.Core.ViewModels.Orgs;
+using LagoVista.Core.Validation;
 
 namespace LagoVista.Simulator.Core.ViewModels
 {
@@ -23,8 +25,20 @@ namespace LagoVista.Simulator.Core.ViewModels
             {
                 new MenuItem()
                 {
+                    Command = new RelayCommand(() => ViewModelNavigation.NavigateAsync<ChangePasswordViewModel>()),
+                    Name = ClientResources.MainMenu_ChangePassword,
+                    FontIconKey = "fa-key"
+                },
+                new MenuItem()
+                {
+                    Command = new RelayCommand(() => ViewModelNavigation.NavigateAsync<InviteUserViewModel>()),
+                    Name = ClientResources.MainMenu_InviteUser,
+                    FontIconKey = "fa-user"
+                },
+                new MenuItem()
+                {
                     Command = LogoutCommand,
-                    Name = "Logout",
+                    Name = ClientResources.Common_Logout,
                     FontIconKey = "fa-sign-out"
                 }
             };
@@ -35,22 +49,22 @@ namespace LagoVista.Simulator.Core.ViewModels
             ViewModelNavigation.NavigateAndCreateAsync<SimulatorEditorViewModel>();
         }
 
-        private Task LoadSimulators()
+        public async Task<InvokeResult> GetSimulatorsAsync()
         {
-            return PerformNetworkOperation(async () =>
+            Simulators = null;
+            var listResponse = await FormRestClient.GetForOrgAsync($"/api/org/{AuthManager.User.CurrentOrganization.Id}/simulators", null);
+            if (listResponse == null)
             {
-                Simulators = null;
-                var listResponse = await FormRestClient.GetForOrgAsync($"/api/org/{AuthManager.User.CurrentOrganization.Id}/simulators", null);
-                if (listResponse == null)
-                {
-                    await Popups.ShowAsync(ClientResources.Common_ErrorCommunicatingWithServer);
-                }
-                else
-                {
-                    Simulators = listResponse.Model.ToObservableCollection();
-                }
-            });
+                await Popups.ShowAsync(ClientResources.Common_ErrorCommunicatingWithServer);
+            }
+            else
+            {
+                Simulators = listResponse.Model.ToObservableCollection();
+            }
+
+            return InvokeResult.Success;
         }
+       
 
         public void ToggleSettings()
         {
@@ -59,20 +73,15 @@ namespace LagoVista.Simulator.Core.ViewModels
 
         public override Task InitAsync()
         {
-            return LoadSimulators();
+            return PerformNetworkOperation(GetSimulatorsAsync);
         }
 
         public override Task ReloadedAsync()
         {
             SelectedSimulator = null;
-            return LoadSimulators();
+            return PerformNetworkOperation(GetSimulatorsAsync);
         }
 
-        public async void Logout()
-        {
-            await AuthManager.LogoutAsync();
-            await ViewModelNavigation.SetAsNewRootAsync<LoginViewModel>();
-        }
 
         ObservableCollection<SimulatorSummary> _simulators;
         public ObservableCollection<SimulatorSummary> Simulators

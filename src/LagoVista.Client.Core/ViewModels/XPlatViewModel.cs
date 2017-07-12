@@ -1,4 +1,5 @@
 ﻿using LagoVista.Client.Core.ViewModels.Auth;
+using LagoVista.Client.Core.ViewModels.Orgs;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.ViewModels;
 using System;
@@ -67,17 +68,33 @@ namespace LagoVista.Client.Core.ViewModels
 
         public virtual void HandleURIActivation(Uri uri, Dictionary<string, string> kvps)
         {
-            if(uri.Host == "resetpassword")
+            Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Message, "HandleURIActivation", uri.Host, uri.Query.ToKVP("queryString"));
+
+            if (uri.Host == "resetpassword")
             {
                 if (!kvps.ContainsKey("code"))
                 {
-                    Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "ResetPassword_HandleURIActivation", "Missing Code", new KeyValuePair<string, string>("queryString", uri.Query));
+                    Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "ResetPassword_HandleURIActivation", "Missing Code", uri.Query.ToKVP("queryString"), uri.Host.ToKVP("action"));
                 }
                 else
                 {
                     var launchArgs = new ViewModelLaunchArgs();
                     launchArgs.ViewModelType = typeof(ResetPasswordViewModel);
-                    launchArgs.Parameters.Add("code", WebUtility.UrlDecode(kvps["code"]));
+                    launchArgs.Parameters.Add("code", kvps["code"]);
+                    ViewModelNavigation.NavigateAsync(launchArgs);
+                }
+            }
+            else if(uri.Host == "acceptinvite")
+            {
+                if (!kvps.ContainsKey("inviteid"))
+                {
+                    Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "AcceptInvite_HandleURIActivation", "Missing Inviteid", uri.Query.ToKVP("queryString"), uri.Host.ToKVP("action"));
+                }
+                else
+                {
+                    var launchArgs = new ViewModelLaunchArgs();
+                    launchArgs.ViewModelType = typeof(AcceptInviteViewModel);
+                    launchArgs.Parameters.Add("inviteId", kvps["inviteid"]);
                     ViewModelNavigation.NavigateAsync(launchArgs);
                 }
             }

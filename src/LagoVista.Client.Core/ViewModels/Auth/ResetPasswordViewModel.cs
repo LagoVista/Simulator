@@ -63,6 +63,7 @@ namespace LagoVista.Client.Core.ViewModels.Auth
 
             if ((await PerformNetworkOperation(SendResetPasswordAsync)).Successful)
             {
+                await Popups.ShowAsync(ClientResources.ResetPassword_SuccessMessage);
                 await ViewModelNavigation.GoBackAsync();
             }
         }
