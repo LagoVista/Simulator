@@ -395,6 +395,15 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Organization.
+        /// </summary>
+        public static string CurrentOrganization_Label {
+            get {
+                return ResourceManager.GetString("CurrentOrganization_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Call was not completed..
         /// </summary>
         public static string Err_CallNotCompleted {
@@ -872,7 +881,7 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome to .
+        ///   Looks up a localized string similar to Welcome to.
         /// </summary>
         public static string UserOrgs_WelcometoNew {
             get {

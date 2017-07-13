@@ -30,6 +30,9 @@ namespace LagoVista.Client.Core.Net
         public List<EntityHeader> Roles { get; set; }
         public string AppInstanceId { get; set; }
 
+        public event EventHandler<EntityHeader> OrgChanged;
+        public event EventHandler<List<EntityHeader>> RolesChanged;
+
         public async Task LoadAsync()
         {
             //TODO: Might move to automapper if we have more stuff like this.
@@ -79,6 +82,16 @@ namespace LagoVista.Client.Core.Net
         public Task PersistAsync()
         {
             return _storage.StoreAsync<AuthManager>(this, AUTH_MGR_SETTINGS);
+        }
+
+        public void RaiseOrgChanged(EntityHeader newOrg)
+        {
+            OrgChanged?.Invoke(this, newOrg);
+        }
+
+        public void RaiseRolesChanged(List<EntityHeader> newRoles)
+        {
+            RolesChanged?.Invoke(this, newRoles);
         }
     }
 }

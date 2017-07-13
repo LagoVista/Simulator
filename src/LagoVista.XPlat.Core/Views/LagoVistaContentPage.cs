@@ -131,7 +131,7 @@ namespace LagoVista.XPlat.Core
 
         private void CreateMenu()
         {
-            _menu = new SideMenu();
+            _menu = new SideMenu(SLWIOC.Get<IAuthManager>());
             _menu.MenuItemTapped += _menu_MenuItemTapped;
             _menu.IsVisible = false;
             _menu.TranslationX = -MENU_WIDTH;

@@ -2,8 +2,8 @@
 using LagoVista.Core.Authentication.Models;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.PlatformSupport;
-using LagoVista.Core.Validation;
 using LagoVista.UserAdmin.Models.Orgs;
+using System.Collections.Generic;
 
 namespace LagoVista.Client.Core.ViewModels.Orgs
 {
@@ -30,8 +30,8 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
             {
                 return;
             }
-            
-            await PerformNetworkOperation(async () =>
+
+            var result = await PerformNetworkOperation(async () =>
             {
                 var authRequest = new AuthRequest()
                 {
@@ -51,13 +51,30 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
                 AuthManager.Roles = response.Result.Roles;
 
                 var refreshResult = await RefreshUserFromServerAsync();
-                if(refreshResult.Successful)
+                if (refreshResult.Successful)
                 {
                     await Popups.ShowAsync($"{ClientResources.UserOrgs_WelcometoNew} {AuthManager.User.CurrentOrganization.Text}");
                 }
 
                 return refreshResult.ToInvokeResult();
             });
+
+            if(result.Successful)
+            {
+                await ViewModelNavigation.GoBackAsync();
+            }
         }
+
+        protected override void SetListItems(IEnumerable<OrgUser> items)
+        {
+            foreach (var org in items)
+            {
+                //HACK (MAJOR ONE, created https://slsys.visualstudio.com/LagoVista/_workitems?id=43&_a=edit to address this later)
+                org.ETag = (org.OrgId == AuthManager.User.CurrentOrganization.Id).ToString();
+            }
+
+            ListItems = items;
+        }
+
     }
 }

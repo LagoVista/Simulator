@@ -1,8 +1,7 @@
-﻿using System;
+﻿using LagoVista.Client.Core.Resources;
+using LagoVista.Core.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LagoVista.XPlat.Core.Controls.Common
@@ -11,11 +10,21 @@ namespace LagoVista.XPlat.Core.Controls.Common
     {
         StackLayout _container;
         public event EventHandler<Client.Core.ViewModels.MenuItem> MenuItemTapped;
+        Label _orgLabel;
+        IAuthManager _autoManager;
 
-        public SideMenu()
+
+        public SideMenu(IAuthManager authManager)
         {
             _container = new StackLayout();
+            authManager.OrgChanged += AuthManager_OrgChanged;
             Content = _container;
+            _autoManager = authManager;
+        }
+
+        private void AuthManager_OrgChanged(object sender, LagoVista.Core.Models.EntityHeader e)
+        {
+            _orgLabel.Text = e.Text;
         }
 
         IEnumerable<LagoVista.Client.Core.ViewModels.MenuItem> _menuItems;
@@ -24,8 +33,25 @@ namespace LagoVista.XPlat.Core.Controls.Common
             get { return _menuItems; }
             set
             {
-                _menuItems = value;
                 _container.Children.Clear();
+
+                var lbl = new Label();
+                lbl.Text = ClientResources.CurrentOrganization_Label;
+                lbl.TextColor = Color.LightGray;
+                lbl.FontSize = 18;
+                lbl.Margin = new Thickness(44, 10, 0, 0);
+                _container.Children.Add(lbl);
+
+                var org = new Label();
+                _orgLabel = new Label();
+                _orgLabel.FontSize = 22;
+                _orgLabel.TextColor = Color.White;
+                _orgLabel.Text = _autoManager.User.CurrentOrganization.Text;
+                _orgLabel.Margin = new Thickness(44, 0, 0, 10);
+                _container.Children.Add(_orgLabel);
+
+                _menuItems = value;
+                
                 if (_menuItems != null)
                 {
                     foreach (var menuItem in _menuItems)

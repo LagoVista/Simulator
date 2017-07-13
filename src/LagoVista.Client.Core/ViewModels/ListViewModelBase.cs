@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels
 {
-    public abstract class ListViewModelBase<TSummaryModel> : AppViewModelBase where  TSummaryModel : class
+    public abstract class ListViewModelBase<TSummaryModel> : AppViewModelBase where TSummaryModel : class
     {
         ListRestClient<TSummaryModel> _formRestClient;
 
@@ -17,10 +17,10 @@ namespace LagoVista.Client.Core.ViewModels
         public ListRestClient<TSummaryModel> FormRestClient { get { return _formRestClient; } }
 
         IEnumerable<TSummaryModel> _listItems;
-        public IEnumerable<TSummaryModel> ListItems
+        public virtual IEnumerable<TSummaryModel> ListItems
         {
             get { return _listItems; }
-            set { Set(ref _listItems, value); }
+            protected set { Set(ref _listItems, value); }
         }
 
         protected async Task<InvokeResult> LoadItems()
@@ -29,10 +29,15 @@ namespace LagoVista.Client.Core.ViewModels
             var listResponse = await FormRestClient.GetForOrgAsync(GetListURI(), null);
             if (listResponse.Successful)
             {
-                ListItems = listResponse.Result.Model;
+                SetListItems(listResponse.Result.Model);
             }
 
             return listResponse.ToInvokeResult();
+        }
+
+        protected virtual void SetListItems(IEnumerable<TSummaryModel> items)
+        {
+            ListItems = items;
         }
 
         protected abstract string GetListURI();
@@ -67,6 +72,5 @@ namespace LagoVista.Client.Core.ViewModels
                 RaisePropertyChanged();
             }
         }
-
     }
 }

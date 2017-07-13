@@ -424,6 +424,9 @@
     <value>Select Organization</value>
   </data>
   <data name="UserOrgs_WelcometoNew" xml:space="preserve">
-    <value>Welcome to </value>
+    <value>Welcome to</value>
+  </data>
+  <data name="CurrentOrganization_Label" xml:space="preserve">
+    <value>Current Organization</value>
   </data>
 </root>

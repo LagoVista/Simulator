@@ -2,10 +2,12 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:cmn="clr-namespace:LagoVista.Simulator"
+             xmlns:cvts="clr-namespace:LagoVista.XPlat.Core.ValueConverter;assembly=LagoVista.XPlat.Core"
              x:Class="LagoVista.Simulator.App">
 	<Application.Resources>
         <!-- Application resource dictionary -->
         <ResourceDictionary>
+            <cvts:VisibilityConverter x:Key="VisibilityConverter" />
             <Color x:Key="NuvIoTContrast">#FFD48D17</Color>
             <Color x:Key="PageBackground">#2E533D</Color>
             <Color x:Key="NuvIoTDark">#1976D2</Color>
@@ -19,6 +21,7 @@
                 <Setter Property="FontAttributes"  Value="Bold" />
                 <Setter Property="Margin" Value="10,10,0,0" />
             </Style>
+            
         </ResourceDictionary>
 	</Application.Resources>
 </Application>

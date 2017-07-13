@@ -64,6 +64,7 @@
     <Compile Include="Services\StorageServiceBase.cs" />
     <Compile Include="Services\ViewModelNavigation.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ValueConverter\VisibilityConverter.cs" />
     <Compile Include="Views\Auth\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
     </Compile>
@@ -175,5 +176,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>
