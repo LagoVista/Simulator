@@ -417,4 +417,10 @@
   <data name="Accept_AcceptLoggedInSuccessful" xml:space="preserve">
     <value>You have successfully accepted the invitation, but will remain logged in with the organization you are currently assocaited with.  To switch to this new organization, click on the Organization Link on the new menu</value>
   </data>
+  <data name="MainMenu_SwitchOrgs" xml:space="preserve">
+    <value>Change Organization</value>
+  </data>
+  <data name="UserOrgs_Title" xml:space="preserve">
+    <value>Select Organization</value>
+  </data>
 </root>

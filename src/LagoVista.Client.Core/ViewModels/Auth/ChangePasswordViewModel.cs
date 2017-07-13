@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Auth
 {
-    public class ChangePasswordViewModel : IoTAppViewModelBase
+    public class ChangePasswordViewModel : AppViewModelBase
     {
         public ChangePasswordViewModel(IRestClient rawRestClient)
         {

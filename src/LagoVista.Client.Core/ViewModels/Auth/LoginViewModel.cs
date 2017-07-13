@@ -15,7 +15,7 @@ using System.Text;
 
 namespace LagoVista.Client.Core.ViewModels.Auth
 {
-    public class LoginViewModel : FormViewModelBase<UserInfo>
+    public class LoginViewModel : AppViewModelBase
     {
         IAuthClient _authClient;
         IAppConfig _appConfig;
@@ -70,12 +70,11 @@ namespace LagoVista.Client.Core.ViewModels.Auth
                 AuthManager.RefreshTokenExpirationUTC = authResult.RefreshTokenExpiresUTC;
                 AuthManager.IsAuthenticated = true;
 
-                var user = await RestClient.GetAsync("/api/user");
-                AuthManager.User = user.Model;
-                await AuthManager.PersistAsync();
+                var refreshUserResult = await RefreshUserFromServerAsync();
+
                 var launchArgs = new ViewModelLaunchArgs();
-                
-                if(AuthManager.User.EmailConfirmed && AuthManager.User.PhoneNumberConfirmed)
+
+                if (AuthManager.User.EmailConfirmed && AuthManager.User.PhoneNumberConfirmed)
                 {
                     // If no org, have them add an org....
                     if (EntityHeader.IsNullOrEmpty(AuthManager.User.CurrentOrganization))
@@ -88,12 +87,12 @@ namespace LagoVista.Client.Core.ViewModels.Auth
                         launchArgs.ViewModelType = _clientAppInfo.MainViewModel;
                     }
                 }
-                else 
+                else
                 {
                     // Show verify user screen.
                     launchArgs.ViewModelType = typeof(VerifyUserViewModel);
                 }
-                
+
                 launchArgs.LaunchType = LaunchTypes.View;
                 await ViewModelNavigation.NavigateAsync(launchArgs);
                 IsBusy = false;

@@ -2,10 +2,6 @@
 using LagoVista.Core.Validation;
 using LagoVista.Core.ViewModels;
 using LagoVista.UserAdmin.ViewModels.Organization;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Users
 {
@@ -18,7 +14,6 @@ namespace LagoVista.Client.Core.ViewModels.Users
             _clientAppInfo = clientAppInfo;
         }
 
-
         public override void SaveAsync()
         {
             base.SaveAsync();
@@ -29,14 +24,13 @@ namespace LagoVista.Client.Core.ViewModels.Users
                 {
                     InvokeResult result;
 
-
                     if (LaunchArgs.LaunchType == LaunchTypes.Create)
                     {
-                        result = await RestClient.AddAsync("/api/org", this.Model);
+                        result = await FormRestClient.AddAsync("/api/org", this.Model);
                     }
                     else
                     {
-                        result = await RestClient.UpdateAsync("/api/org", this.Model);
+                        result = await FormRestClient.UpdateAsync("/api/org", this.Model);
                     }
 
                     var launchArgs = new ViewModelLaunchArgs(){ ViewModelType = _clientAppInfo.MainViewModel };
@@ -45,20 +39,16 @@ namespace LagoVista.Client.Core.ViewModels.Users
             }
         }
 
-        public override async Task InitAsync()
+        protected override void BuildForm(EditFormAdapter form)
         {
-            await PerformNetworkOperation(async () =>
-            {
-                var newMessageTemplate = await RestClient.CreateNewAsync("/api/org/factory");
+            form.AddViewCell(nameof(Model.Name));
+            form.AddViewCell(nameof(Model.Namespace));
+            form.AddViewCell(nameof(Model.WebSite));
+        }
 
-                var form = new EditFormAdapter(newMessageTemplate.Model, newMessageTemplate.View, ViewModelNavigation);
-                Model = newMessageTemplate.Model;
-                View = newMessageTemplate.View;
-
-                form.AddViewCell(nameof(Model.Name));
-                form.AddViewCell(nameof(Model.Namespace));
-                form.AddViewCell(nameof(Model.WebSite));
-            });
+        protected override string GetRequestUri()
+        {
+            return "/api/org/factory";
         }
     }
 }

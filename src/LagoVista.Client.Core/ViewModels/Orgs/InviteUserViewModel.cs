@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Orgs
 {
-    public class InviteUserViewModel : IoTAppViewModelBase
+    public class InviteUserViewModel : AppViewModelBase
     {
         public InviteUserViewModel(IRestClient rawRestClient)
         {

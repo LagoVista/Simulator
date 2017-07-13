@@ -22,6 +22,7 @@ namespace LagoVista.XPlat.Core
             nav.Add<RegisterUserViewModel, RegisterView>();
             nav.Add<VerifyUserViewModel, VerifyUserView>();
             nav.Add<OrgEditorViewModel, OrgEditorView>();
+            nav.Add<UserOrgsViewModel, UserOrgsView>();
             nav.Add<AcceptInviteViewModel, AcceptInviteView>();
         }
     }

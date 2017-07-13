@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
-    public class SimulatorViewModel : FormViewModelBase<IoT.Simulator.Admin.Models.Simulator>
+    public class SimulatorViewModel : AppViewModelBase
     {
         IMQTTDeviceClient _mqttClient;
         ITCPClient _tcpClient;
@@ -40,27 +40,21 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             await ViewModelNavigation.NavigateAndEditAsync<SimulatorEditorViewModel>(Model.Id);
         }
 
-        private Task LoadSimulator()
+        private async Task<InvokeResult> LoadSimulator()
         {
-            return PerformNetworkOperation(async () =>
+            var simulatorResponse = await RestClient.GetAsync<DetailResponse<LagoVista.IoT.Simulator.Admin.Models.Simulator>>($"/api/simulator/{LaunchArgs.ChildId}");
+            if (simulatorResponse != null)
             {
-                var existingSimulator = await RestClient.CreateNewAsync($"/api/simulator/{LaunchArgs.ChildId}");
-                if (existingSimulator != null)
-                {
-                    Model = existingSimulator.Model;
-                    MessageTemplates = existingSimulator.Model.MessageTemplates;
-                    ConnectCommand.RaiseCanExecuteChanged();
-                    DisconnectCommand.RaiseCanExecuteChanged();
-                    RaisePropertyChanged(nameof(ConnectionVisible));
-                }
-                else
-                {
-                    await Popups.ShowAsync("Sorry, could not load simulator, please try again later.");
-                }
+                Model = simulatorResponse.Result.Model;
+                MessageTemplates = simulatorResponse.Result.Model.MessageTemplates;
+                ConnectCommand.RaiseCanExecuteChanged();
+                DisconnectCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged(nameof(ConnectionVisible));
+            }
 
-                return InvokeResult.Success;
-            });
+            return InvokeResult.Success;
         }
+        
 
         public async void Connect()
         {
@@ -216,12 +210,12 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
         public override Task InitAsync()
         {
-            return LoadSimulator();
+            return PerformNetworkOperation(LoadSimulator);
         }
 
         public override Task ReloadedAsync()
         {
-            return LoadSimulator();
+            return PerformNetworkOperation(LoadSimulator);
         }
 
         List<MessageTemplate> _messageTemplates;
@@ -262,5 +256,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             }
         }
 
+        LagoVista.IoT.Simulator.Admin.Models.Simulator _model;
+        public LagoVista.IoT.Simulator.Admin.Models.Simulator Model
+        {
+            get { return _model; }
+            set { Set(ref _model, value); }
+        }
     }
 }

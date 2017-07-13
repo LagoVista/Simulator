@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Users
 {
-    public class RegisterUserViewModel : FormViewModelBase<RegisterUser>
+    public class RegisterUserViewModel : AppViewModelBase
     {
         public RegisterUserViewModel(IAppConfig appConfig, IDeviceInfo deviceInfo, IClientAppInfo clientAppInfo)
         {
@@ -32,10 +32,10 @@ namespace LagoVista.Client.Core.ViewModels.Users
 
         public async Task<InvokeResult> SendRegistrationAsync()
         {
-            var result = await RestClient.PostAsync<InvokeResult<AuthResponse>>("/api/user/register", RegisterModel);
+            var result = await RestClient.PostAsync<RegisterUser,AuthResponse>("/api/user/register", RegisterModel);
             if (!result.Successful) return result.ToInvokeResult();
 
-            var authResult = result.Result.Result;
+            var authResult = result.Result;
             /* Make sure our Access Token is saved so the REST service can use it */
             AuthManager.AccessToken = authResult.AccessToken;
             AuthManager.AccessTokenExpirationUTC = authResult.AccessTokenExpiresUTC;
@@ -46,10 +46,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
             AuthManager.AppInstanceId = authResult.AppInstanceId;
             AuthManager.IsAuthenticated = true;
 
-            var user = await RestClient.GetAsync<UserInfo>("/api/user");
-            AuthManager.User = user.Model;
-            await AuthManager.PersistAsync();
-
+            await RefreshUserFromServerAsync();
             Logger.AddKVPs(new KeyValuePair<string, string>("Email", AuthManager.User.Email));
 
             await ViewModelNavigation.NavigateAsync<VerifyUserViewModel>();

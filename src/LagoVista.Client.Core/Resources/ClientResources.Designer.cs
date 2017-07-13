@@ -566,6 +566,15 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Organization.
+        /// </summary>
+        public static string MainMenu_SwitchOrgs {
+            get {
+                return ResourceManager.GetString("MainMenu_SwitchOrgs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Organization Editor.
         /// </summary>
         public static string OrgEditor_Title {
@@ -850,6 +859,15 @@ namespace LagoVista.Client.Core.Resources {
         public static string SendRestPasswordLink_Send {
             get {
                 return ResourceManager.GetString("SendRestPasswordLink_Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Organization.
+        /// </summary>
+        public static string UserOrgs_Title {
+            get {
+                return ResourceManager.GetString("UserOrgs_Title", resourceCulture);
             }
         }
         

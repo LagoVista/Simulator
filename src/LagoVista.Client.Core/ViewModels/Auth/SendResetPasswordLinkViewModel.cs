@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Auth
 {
-    public class SendResetPasswordLinkViewModel : IoTAppViewModelBase
+    public class SendResetPasswordLinkViewModel : AppViewModelBase
     {
         public SendResetPasswordLinkViewModel()
         {

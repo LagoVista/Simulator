@@ -10,10 +10,11 @@ using LagoVista.Client.Core.ViewModels;
 using LagoVista.Client.Core.ViewModels.Auth;
 using LagoVista.Client.Core.ViewModels.Orgs;
 using LagoVista.Core.Validation;
+using System;
 
 namespace LagoVista.Simulator.Core.ViewModels
 {
-    public class MainViewModel : ListViewModelBase<IoT.Simulator.Admin.Models.Simulator, IoT.Simulator.Admin.Models.SimulatorSummary>
+    public class MainViewModel : ListViewModelBase<IoT.Simulator.Admin.Models.SimulatorSummary>
     {
         public MainViewModel()
         {
@@ -23,6 +24,12 @@ namespace LagoVista.Simulator.Core.ViewModels
 
             MenuItems = new List<MenuItem>()
             {
+                new MenuItem()
+                {
+                    Command = new RelayCommand(() => ViewModelNavigation.NavigateAsync<UserOrgsViewModel>()),
+                    Name = ClientResources.MainMenu_SwitchOrgs,
+                    FontIconKey = "fa-users"
+                },
                 new MenuItem()
                 {
                     Command = new RelayCommand(() => ViewModelNavigation.NavigateAsync<ChangePasswordViewModel>()),
@@ -47,65 +54,21 @@ namespace LagoVista.Simulator.Core.ViewModels
         public void AddNewSimulator()
         {
             ViewModelNavigation.NavigateAndCreateAsync<SimulatorEditorViewModel>();
-        }
-
-        public async Task<InvokeResult> GetSimulatorsAsync()
-        {
-            Simulators = null;
-            var listResponse = await FormRestClient.GetForOrgAsync($"/api/org/{AuthManager.User.CurrentOrganization.Id}/simulators", null);
-            if (listResponse == null)
-            {
-                await Popups.ShowAsync(ClientResources.Common_ErrorCommunicatingWithServer);
-            }
-            else
-            {
-                Simulators = listResponse.Model.ToObservableCollection();
-            }
-
-            return InvokeResult.Success;
-        }
-       
+        }       
 
         public void ToggleSettings()
         {
             MenuVisible = !MenuVisible;
         }
 
-        public override Task InitAsync()
+        protected override void ItemSelected(SimulatorSummary model)
         {
-            return PerformNetworkOperation(GetSimulatorsAsync);
+            ViewModelNavigation.NavigateAndEditAsync<SimulatorViewModel>(model.Id);
         }
 
-        public override Task ReloadedAsync()
+        protected override string GetListURI()
         {
-            SelectedSimulator = null;
-            return PerformNetworkOperation(GetSimulatorsAsync);
-        }
-
-
-        ObservableCollection<SimulatorSummary> _simulators;
-        public ObservableCollection<SimulatorSummary> Simulators
-        {
-            get { return _simulators; }
-            set { Set(ref _simulators, value); }
-        }
-
-        /* so far will always be null just used to detect clicking on object */
-        SimulatorSummary _selectedSimulator;
-        public SimulatorSummary SelectedSimulator
-        {
-            get { return _selectedSimulator; }
-            set
-            {
-                if (value != null && _selectedSimulator != value)
-                {
-                    ViewModelNavigation.NavigateAndEditAsync<SimulatorViewModel>(value.Id);
-                }
-
-                _selectedSimulator = value;
-
-                RaisePropertyChanged();
-            }
+            return $"/api/org/{AuthManager.User.CurrentOrganization.Id}/simulators";
         }
 
         public RelayCommand AddNewSimulatorCommand { get; private set; }

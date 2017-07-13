@@ -9,6 +9,7 @@ using System.Diagnostics;
 using LagoVista.Simulator.Core.Resources;
 using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.Client.Core.ViewModels;
+using System;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
@@ -28,11 +29,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 IsBusy = true;
                 if (LaunchArgs.LaunchType == LaunchTypes.Create)
                 {
-                    result = await RestClient.AddAsync("/api/simulator", this.Model);
+                    result = await FormRestClient.AddAsync("/api/simulator", this.Model);
                 }
                 else
                 {
-                    result = await RestClient.UpdateAsync("/api/simulator", this.Model);
+                    result = await FormRestClient.UpdateAsync("/api/simulator", this.Model);
                 }
 
                 IsBusy = false;
@@ -53,45 +54,42 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             return true;
         }
 
-        public override Task InitAsync()
+        protected override string GetRequestUri()
         {
-            return PerformNetworkOperation(async () =>
+            return this.LaunchArgs.LaunchType == LaunchTypes.Edit ? $"/api/simulator/{LaunchArgs.ChildId}" : "/api/simulator/factory";
+        }
+
+
+        protected override void BuildForm(EditFormAdapter form)
+        {
+            View[nameof(Model.Key).ToFieldKey()].IsUserEditable = LaunchArgs.LaunchType == LaunchTypes.Create;
+            form.AddViewCell(nameof(Model.Name));
+            form.AddViewCell(nameof(Model.Key));
+            form.AddViewCell(nameof(Model.DefaultTransport));
+            form.AddViewCell(nameof(Model.DefaultEndPoint));
+            form.AddViewCell(nameof(Model.DefaultPort));
+            form.AddViewCell(nameof(Model.DefaultPayloadType));
+            form.AddViewCell(nameof(Model.DeviceId));
+            form.AddViewCell(nameof(Model.UserName));
+            form.AddViewCell(nameof(Model.HubName));
+            form.AddViewCell(nameof(Model.Password));
+            form.AddViewCell(nameof(Model.AuthToken));
+            form.AddViewCell(nameof(Model.Description));
+            form.AddChildList<MessageEditorViewModel>(nameof(Model.MessageTemplates), Model.MessageTemplates);
+            ModelToView(Model, form);
+            FormAdapter = form;
+
+            switch (Model.DefaultTransport.Value)
             {
-                var uri = this.LaunchArgs.LaunchType == LaunchTypes.Edit ? $"/api/simulator/{LaunchArgs.ChildId}" : "/api/simulator/factory";
-                var simulator = await RestClient.GetAsync(uri);               
+                case TransportTypes.MQTT: SetForMQTT(); break;
+                case TransportTypes.TCP: SetForTCP(); break;
+                case TransportTypes.UDP: SetForUDP(); break;
+                case TransportTypes.RestHttp:
+                case TransportTypes.RestHttps: SetForREST(); break;
+                case TransportTypes.AzureEventHub: SetForAzureEventHub(); break;
+            }
+        }
 
-                var form = new EditFormAdapter(simulator.Model, simulator.View, ViewModelNavigation);
-                Model = simulator.Model;
-                View = simulator.View;
-                View[nameof(Model.Key).ToFieldKey()].IsUserEditable = LaunchArgs.LaunchType == LaunchTypes.Create;
-                form.AddViewCell(nameof(Model.Name));
-                form.AddViewCell(nameof(Model.Key));
-                form.AddViewCell(nameof(Model.DefaultTransport));
-                form.AddViewCell(nameof(Model.DefaultEndPoint));
-                form.AddViewCell(nameof(Model.DefaultPort));
-                form.AddViewCell(nameof(Model.DefaultPayloadType));
-                form.AddViewCell(nameof(Model.DeviceId));
-                form.AddViewCell(nameof(Model.UserName));
-                form.AddViewCell(nameof(Model.HubName));
-                form.AddViewCell(nameof(Model.Password));
-                form.AddViewCell(nameof(Model.AuthToken));
-                form.AddViewCell(nameof(Model.Description));
-                form.AddChildList<MessageEditorViewModel>(nameof(Model.MessageTemplates), Model.MessageTemplates);
-                ModelToView(Model, form);
-                FormAdapter = form;
-
-                switch (Model.DefaultTransport.Value)
-                {
-                    case TransportTypes.MQTT: SetForMQTT(); break;
-                    case TransportTypes.TCP: SetForTCP(); break;
-                    case TransportTypes.UDP: SetForUDP(); break;
-                    case TransportTypes.RestHttp:
-                    case TransportTypes.RestHttps: SetForREST(); break;
-                    case TransportTypes.AzureEventHub: SetForAzureEventHub(); break;
-                }
-            });
-        }     
-        
         private void SetForAzureEventHub()
         {
             View[nameof(Model.DefaultEndPoint).ToFieldKey()].Label = SimulatorCoreResources.EditSimulator_EventHubName;

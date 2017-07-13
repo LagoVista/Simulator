@@ -31,18 +31,8 @@ namespace LagoVista.Client.Core.Net
             var response = await _rawRestClient.PostAsync(path, json, cancellationTokenSource);
             return response.ToInvokeResult();
         }
-
-        public async Task<InvokeResult<TResponseModel>> PostAsync<TResponseModel>(string path, TModel model, CancellationTokenSource cancellationTokenSource = null) where TResponseModel : new()
-        {
-            if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
-
-            var json = JsonConvert.SerializeObject(model, new Newtonsoft.Json.JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver(), });
-            var response = await _rawRestClient.PostAsync(path, json, cancellationTokenSource);
-            return response.ToInvokeResult<TResponseModel>();
-        }
-
-
-        public Task<DetailResponse<TModel>> CreateNewAsync(string path, CancellationTokenSource cancellationTokenSource = null)
+        
+        public Task<InvokeResult<DetailResponse<TModel>>> CreateNewAsync(string path, CancellationTokenSource cancellationTokenSource = null)
         {
             return GetAsync(path, cancellationTokenSource);
         }
@@ -52,22 +42,21 @@ namespace LagoVista.Client.Core.Net
             throw new NotImplementedException();
         }
 
-        public async Task<DetailResponse<TModel>> GetAsync(string path, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<InvokeResult<DetailResponse<TModel>>> GetAsync(string path, CancellationTokenSource cancellationTokenSource = null)
         {
             if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
 
             var response = await _rawRestClient.GetAsync(path, cancellationTokenSource);
-            return response.ToDetailResponse<TModel>();
-
+            if (response.Success)
+            {
+                return InvokeResult<DetailResponse<TModel>>.Create(response.ToDetailResponse<TModel>());
+            }
+            else
+            {
+                return InvokeResult<DetailResponse<TModel>>.FromInvokeResult(response.ToInvokeResult());
+            }
         }
 
-        public async Task<DetailResponse<TResponseModel>> GetAsync<TResponseModel>(string path, CancellationTokenSource cancellationTokenSource = null) where TResponseModel : new()
-        {
-            if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
-
-            var response = await _rawRestClient.GetAsync(path, cancellationTokenSource);
-            return response.ToDetailResponse<TResponseModel>();
-        }
 
         public async Task<InvokeResult> UpdateAsync(String path, TModel model, CancellationTokenSource cancellationTokenSource = null)
         {

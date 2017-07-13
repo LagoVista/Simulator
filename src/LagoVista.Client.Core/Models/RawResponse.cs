@@ -110,9 +110,19 @@ namespace LagoVista.Client.Core.Models
             return DeserializeContent<DetailResponse<TModel>>();
         }
 
-        public ListResponse<TModel> ToListResponse<TModel>() where TModel : class
-        {
-            return DeserializeContent<ListResponse<TModel>>();
+        public InvokeResult<ListResponse<TModel>> ToListResponse<TModel>() where TModel : class
+        {            
+            if (!Success)
+            {
+                var result = InvokeResult<ListResponse<TModel>>.CreateEmpty();
+                result.Errors.Add(new LagoVista.Core.Validation.ErrorMessage(ErrorMessage));
+                return result;
+            }
+            else
+            {
+                var listItems = DeserializeContent<ListResponse<TModel>>();
+                return InvokeResult<ListResponse<TModel>>.Create(listItems);
+            }
         }
 
         public InvokeResult ToInvokeResult()
@@ -129,7 +139,7 @@ namespace LagoVista.Client.Core.Models
             }
         }
 
-        public InvokeResult<TModel> ToInvokeResult<TModel>() where TModel : new()
+        public InvokeResult<TModel> ToInvokeResult<TModel>() where TModel : class
         {
             var result = new InvokeResult<TModel>();
             result.Result = DeserializeContent<TModel>();

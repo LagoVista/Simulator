@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels
 {
-    public class SplashViewModel : IoTAppViewModelBase
+    public class SplashViewModel : AppViewModelBase
     {
 
         IClientAppInfo _clientAppInfo;

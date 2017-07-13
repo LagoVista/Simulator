@@ -20,7 +20,7 @@ using LagoVista.Client.Core.Exceptions;
 
 namespace LagoVista.Client.Core.ViewModels
 {
-    public class IoTAppViewModelBase : XPlatViewModel
+    public class AppViewModelBase : XPlatViewModel
     {
         protected HttpClient HttpClient { get { return SLWIOC.Get<HttpClient>(); } }
         protected IAuthManager AuthManager { get { return SLWIOC.Get<IAuthManager>(); } }

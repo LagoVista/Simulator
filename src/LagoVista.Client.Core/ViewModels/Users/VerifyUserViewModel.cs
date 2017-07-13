@@ -17,7 +17,7 @@ using LagoVista.Core.Models.UIMetaData;
 
 namespace LagoVista.Client.Core.ViewModels.Users
 {
-    public class VerifyUserViewModel : IoTAppViewModelBase
+    public class VerifyUserViewModel : AppViewModelBase
     {
         Timer _timer;
         

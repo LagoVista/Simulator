@@ -33,7 +33,7 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
 
         public async Task<InvokeResult> SaveChangesAsync()
         {
-            var saveResult = await RestClient.AddAsync("/api/org", this.Model);
+            var saveResult = await FormRestClient.AddAsync("/api/org", this.Model);
             if (!saveResult.Successful) return saveResult;
 
             var refreshResult = await RefreshUserFromServerAsync();
@@ -55,29 +55,17 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
             }
         }
 
-        public async Task<InvokeResult> PopulateUIAsync()
+        protected override string GetRequestUri()
         {
-            var newOrgTemplate = await RestClient.CreateNewAsync("/api/org/factory");
+            return "/api/org/factory";
+        }
 
-            var form = new EditFormAdapter(newOrgTemplate.Model, newOrgTemplate.View, ViewModelNavigation);
-            Model = newOrgTemplate.Model;
-            View = newOrgTemplate.View;
-
+        protected override void BuildForm(EditFormAdapter form)
+        {
             form.AddViewCell(nameof(Model.Name));
             form.AddViewCell(nameof(Model.Namespace));
             form.AddViewCell(nameof(Model.WebSite));
-
-            ModelToView(Model, form);
-            FormAdapter = form;
-
-            return InvokeResult.Success;
         }
-
-        public override async Task InitAsync()
-        {
-            await PerformNetworkOperation(PopulateUIAsync);
-        }
-
 
         public RelayCommand LogoutCommand { get; private set; }
     }

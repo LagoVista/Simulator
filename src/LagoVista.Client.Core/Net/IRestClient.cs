@@ -20,7 +20,9 @@ namespace LagoVista.Client.Core.Net
         Task<RawResponse> PutAsync(String path, String payload, CancellationTokenSource tokenSource);
         Task<RawResponse> DeleteAsync(String path, String payload, CancellationTokenSource tokenSource);
 
-        Task<InvokeResult> PostAsync<TModel>(String path, TModel model, CancellationTokenSource cancellationTokenSource = null) where TModel : new();
-        Task<InvokeResult<TResponseModel>> GetAsync<TResponseModel>(String path, CancellationTokenSource cancellationTokenSource = null) where TResponseModel : new(); 
+        Task<InvokeResult> PostAsync<TModel>(String path, TModel model, CancellationTokenSource cancellationTokenSource = null) where TModel : class;
+        Task<InvokeResult<TResponseModel>> PostAsync<TModel, TResponseModel>(String path, TModel model, CancellationTokenSource cancellationTokenSource = null) where TModel : class where TResponseModel : class;
+
+        Task<InvokeResult<TResponseModel>> GetAsync<TResponseModel>(String path, CancellationTokenSource cancellationTokenSource = null) where TResponseModel : class;
     }
 }

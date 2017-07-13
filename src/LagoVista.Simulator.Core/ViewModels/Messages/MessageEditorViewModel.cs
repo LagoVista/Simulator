@@ -5,6 +5,8 @@ using LagoVista.Core;
 using System.Linq;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Client.Core.ViewModels;
+using LagoVista.Core.Validation;
+using System;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
@@ -26,21 +28,16 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             }
         }
 
-        public override async Task InitAsync()
+        protected override void BuildForm(EditFormAdapter form)
         {
-            var newMessageTemplate = await RestClient.CreateNewAsync("/api/simulator/messagetemplate/factory");
-            Model = (IsEdit) ? this.LaunchArgs.GetChild<MessageTemplate>() : newMessageTemplate.Model;
-
-            View = newMessageTemplate.View;
             if (IsCreate)
             {
-
                 var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
                 Model.EndPoint = parent.DefaultEndPoint;
                 Model.Port = parent.DefaultPort;
                 Model.Transport = parent.DefaultTransport;
                 Model.PayloadType = parent.DefaultPayloadType;
-                
+
                 View[nameof(Model.TextPayload).ToFieldKey()].IsVisible = false;
                 View[nameof(Model.BinaryPayload).ToFieldKey()].IsVisible = false;
             }
@@ -48,7 +45,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             View[nameof(Model.TextPayload).ToFieldKey()].IsVisible = Model.PayloadType.Value == PaylodTypes.String;
             View[nameof(Model.BinaryPayload).ToFieldKey()].IsVisible = Model.PayloadType.Value == PaylodTypes.Binary;
 
-            var form = new EditFormAdapter(Model, newMessageTemplate.View, ViewModelNavigation);
             form.OptionSelected += Form_OptionSelected;
             form.DeleteItem += Form_DeleteItem;
             View[nameof(Model.Key).ToFieldKey()].IsUserEditable = IsCreate;
@@ -77,9 +73,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
             ModelToView(Model, form);
 
-            FormAdapter = form;
 
-            switch(Model.Transport.Value)
+            switch (Model.Transport.Value)
             {
                 case TransportTypes.MQTT: SetForMQTT(); break;
                 case TransportTypes.TCP: SetForTCP(); break;
@@ -89,6 +84,17 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             }
         }
 
+        protected override string GetRequestUri()
+        {
+            return "/api/simulator/messagetemplate/factory";
+        }
+
+        protected override MessageTemplate GetModelForEditing()
+        {
+            return this.LaunchArgs.GetChild<MessageTemplate>();
+        }
+
+        
         private void Form_DeleteItem(object sender, DeleteItemEventArgs e)
         {
             if(e.Type == nameof(Model.MessageHeaders))

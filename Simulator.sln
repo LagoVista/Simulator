@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagoVista.Client.Core", "src\LagoVista.Client.Core\LagoVista.Client.Core.csproj", "{786A2D0B-C3E4-4D7A-89C5-86EBC94E1B45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.Client.Core", "src\LagoVista.Client.Core\LagoVista.Client.Core.csproj", "{786A2D0B-C3E4-4D7A-89C5-86EBC94E1B45}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagoVista.Simulator", "src\LagoVista.Simulator\LagoVista.Simulator.csproj", "{B5EC62F1-6739-4055-B6FC-21776E60F98A}"
 EndProject
@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagoVista.Simulator.Windows", "src\LagoVista.Simulator.Windows\LagoVista.Simulator.Windows.csproj", "{42696275-B7C9-4553-87F8-D635B8A27C97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagoVista.Simulator.Core", "src\LagoVista.Simulator.Core\LagoVista.Simulator.Core.csproj", "{9A2FB24B-41DB-4015-9C3F-DB8C6BB087E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.Simulator.Core", "src\LagoVista.Simulator.Core\LagoVista.Simulator.Core.csproj", "{9A2FB24B-41DB-4015-9C3F-DB8C6BB087E9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4B7D3535-ACD6-4DF2-BAD6-F6630EF056E9}"
 	ProjectSection(SolutionItems) = preProject
@@ -34,7 +34,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagoVista.XPlat.Droid", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagoVista.XPlat.iOS", "src\LagoVista.XPlat.iOS\LagoVista.XPlat.iOS.csproj", "{E5400B5B-9F73-4C70-B958-B44A37D8F6F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagoVista.MQTT.Core", "src\LagoVista.MQTT.Core\LagoVista.MQTT.Core.csproj", "{076B08B6-234F-4AE3-8815-7E36A47F9475}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.MQTT.Core", "src\LagoVista.MQTT.Core\LagoVista.MQTT.Core.csproj", "{076B08B6-234F-4AE3-8815-7E36A47F9475}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagoVista.XPlat.UWP", "src\LagoVista.XPlat.UWP\LagoVista.XPlat.UWP.csproj", "{9ED662B0-40C9-4899-B11E-F10C3C9D6AEB}"
 EndProject
@@ -211,8 +211,6 @@ Global
 		{832182CC-D9E4-4361-A75C-3FBF80BE6D88}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
 		{832182CC-D9E4-4361-A75C-3FBF80BE6D88}.Debug|iPhoneSimulator.Deploy.0 = Debug|Any CPU
 		{832182CC-D9E4-4361-A75C-3FBF80BE6D88}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{832182CC-D9E4-4361-A75C-3FBF80BE6D88}.Debug|x64.Build.0 = Debug|Any CPU
-		{832182CC-D9E4-4361-A75C-3FBF80BE6D88}.Debug|x64.Deploy.0 = Debug|Any CPU
 		{832182CC-D9E4-4361-A75C-3FBF80BE6D88}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{832182CC-D9E4-4361-A75C-3FBF80BE6D88}.Debug|x86.Build.0 = Debug|Any CPU
 		{832182CC-D9E4-4361-A75C-3FBF80BE6D88}.Debug|x86.Deploy.0 = Debug|Any CPU
@@ -455,7 +453,6 @@ Global
 		{8BA8D05D-8C47-429A-ABF0-A0467DE1600D}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
 		{8BA8D05D-8C47-429A-ABF0-A0467DE1600D}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
 		{8BA8D05D-8C47-429A-ABF0-A0467DE1600D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8BA8D05D-8C47-429A-ABF0-A0467DE1600D}.Debug|x64.Build.0 = Debug|Any CPU
 		{8BA8D05D-8C47-429A-ABF0-A0467DE1600D}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{8BA8D05D-8C47-429A-ABF0-A0467DE1600D}.Debug|x86.Build.0 = Debug|Any CPU
 		{8BA8D05D-8C47-429A-ABF0-A0467DE1600D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -503,7 +500,6 @@ Global
 		{E5400B5B-9F73-4C70-B958-B44A37D8F6F6}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
 		{E5400B5B-9F73-4C70-B958-B44A37D8F6F6}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
 		{E5400B5B-9F73-4C70-B958-B44A37D8F6F6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E5400B5B-9F73-4C70-B958-B44A37D8F6F6}.Debug|x64.Build.0 = Debug|Any CPU
 		{E5400B5B-9F73-4C70-B958-B44A37D8F6F6}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{E5400B5B-9F73-4C70-B958-B44A37D8F6F6}.Debug|x86.Build.0 = Debug|Any CPU
 		{E5400B5B-9F73-4C70-B958-B44A37D8F6F6}.Release|Any CPU.ActiveCfg = Release|Any CPU

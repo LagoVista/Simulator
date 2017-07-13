@@ -1,7 +1,6 @@
 ﻿using LagoVista.Core.Models.UIMetaData;
 using LagoVista.IoT.Simulator.Admin.Models;
 using System.Linq;
-using System.Threading.Tasks;
 using LagoVista.Client.Core.Resources;
 using LagoVista.Client.Core.ViewModels;
 
@@ -18,9 +17,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 if (IsCreate)
                 {
                     var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.MessageTemplate>();
-                    if(parent.DynamicAttributes.Where(attr=>attr.Key == Model.Key).Any())
+                    if (parent.DynamicAttributes.Where(attr => attr.Key == Model.Key).Any())
                     {
-                        Popups.ShowAsync(ClientResources.Common_KeyInUse);                        
+                        Popups.ShowAsync(ClientResources.Common_KeyInUse);
                         return;
                     }
                     parent.DynamicAttributes.Add(Model);
@@ -30,25 +29,17 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             }
         }
 
-        public override Task InitAsync()
+        protected override void BuildForm(EditFormAdapter form)
         {
-            return PerformNetworkOperation(async () =>
-            {
-                var attribute = await RestClient.CreateNewAsync("/api/simulator/dyanimaicAttribute/factory");
+            form.AddViewCell(nameof(Model.Key));
+            form.AddViewCell(nameof(Model.ParameterType));
+            form.AddViewCell(nameof(Model.DefaultValue));
+            form.AddViewCell(nameof(Model.Description));
+        }
 
-                Model = IsEdit ? this.LaunchArgs.GetChild<MessageDynamicAttribute>() : attribute.Model;
-                View = attribute.View;
-
-                var form = new EditFormAdapter(Model, attribute.View, ViewModelNavigation);                
-                form.AddViewCell(nameof(Model.Name));
-                form.AddViewCell(nameof(Model.Key));
-                form.AddViewCell(nameof(Model.ParameterType));
-                form.AddViewCell(nameof(Model.DefaultValue));
-                form.AddViewCell(nameof(Model.Description));
-                ModelToView(Model, form);
-
-                FormAdapter = form;
-            });
+        protected override string GetRequestUri()
+        {
+            return "/api/simulator/dyanimaicAttribute/factory";
         }
     }
 }

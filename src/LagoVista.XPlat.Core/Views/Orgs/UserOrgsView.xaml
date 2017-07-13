@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pge:LagoVistaContentPage
+    xmlns:pge="clr-namespace:LagoVista.XPlat.Core;assembly=LagoVista.XPlat.Core"
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ext="clr-namespace:LagoVista.XPlat.Core.Extensions"    
+    x:Class="LagoVista.XPlat.Core.Views.Orgs.UserOrgsView"
+    LeftMenu="Cancel"
+    Title="{ext:ClientTranslate UserOrgs_Title}">
+    <pge:LagoVistaContentPage.MainContent>
+        <ListView ItemsSource="{Binding Simulators}" SelectedItem="{Binding SelectedSimulator}" RowHeight="64" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Label Text="{Binding OrganizationName}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </pge:LagoVistaContentPage.MainContent>
+</pge:LagoVistaContentPage>

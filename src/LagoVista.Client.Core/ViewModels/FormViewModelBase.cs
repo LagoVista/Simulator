@@ -7,10 +7,11 @@ using System.Collections.Generic;
 using LagoVista.Core.Models;
 using LagoVista.Core.ViewModels;
 using System.Threading.Tasks;
+using LagoVista.Core.Validation;
 
 namespace LagoVista.Client.Core.ViewModels
 {
-    public class FormViewModelBase<TModel> : IoTAppViewModelBase where TModel : new()
+    public abstract class FormViewModelBase<TModel> : AppViewModelBase where TModel : new()
     {
         IFormRestClient<TModel> _restClient;
 
@@ -20,7 +21,7 @@ namespace LagoVista.Client.Core.ViewModels
         }
 
 
-        public IFormRestClient<TModel> RestClient { get { return _restClient; } }
+        public IFormRestClient<TModel> FormRestClient { get { return _restClient; } }
 
 
         TModel _model;
@@ -182,6 +183,63 @@ namespace LagoVista.Client.Core.ViewModels
             }
 
             return base.ReloadedAsync();
+        }
+
+        protected async Task<InvokeResult> LoadView()
+        {
+            InvokeResult<DetailResponse<TModel>> result;
+
+            if (LaunchArgs.LaunchType == LaunchTypes.Edit)
+            {
+                result = await FormRestClient.GetAsync(GetRequestUri());
+            }
+            else if(LaunchArgs.LaunchType == LaunchTypes.Create)
+            {
+                result = await FormRestClient.CreateNewAsync(GetRequestUri());
+            }
+            else
+            {
+                throw new Exception("ViewModels based on FormViewModelBase only support Edit and Create launch types.");
+            }
+            
+            if (result.Successful)
+            {
+                var detailView = result.Result;
+                Model = detailView.Model;
+                View = detailView.View;
+                var form = new EditFormAdapter(detailView.Model, detailView.View, ViewModelNavigation);
+                BuildForm(form);
+                if (LaunchArgs.LaunchType == LaunchTypes.Edit)
+                {
+                    Model = GetModelForEditing();
+                }
+
+                ModelToView(Model, form);
+
+                FormAdapter = form;
+            }
+
+            return result.ToInvokeResult();
+        }
+        
+        /// <summary>
+        /// Can override this method if we are passing a child record to be edited.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual TModel GetModelForEditing()
+        {
+            return Model;
+        }
+
+        protected abstract String GetRequestUri();
+
+
+        protected abstract void BuildForm(EditFormAdapter form);
+
+
+        public override Task InitAsync()
+        {
+            return PerformNetworkOperation(LoadView);
         }
     }
 }
