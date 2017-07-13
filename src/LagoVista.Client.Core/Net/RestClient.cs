@@ -74,7 +74,7 @@ namespace LagoVista.Client.Core.Net
             if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
 
             var json = JsonConvert.SerializeObject(model, new Newtonsoft.Json.JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver(), });
-            var response = await _rawRestClient.PostAsync(path, json, cancellationTokenSource);
+            var response = await _rawRestClient.PutAsync(path, json, cancellationTokenSource);
             return response.ToInvokeResult();
         }
     }
