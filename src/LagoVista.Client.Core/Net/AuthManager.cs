@@ -27,7 +27,7 @@ namespace LagoVista.Client.Core.Net
         public string RefreshToken { get; set; }
         public string RefreshTokenExpirationUTC { get; set; }
         public UserInfo User { get; set; }
-        public List<string> Roles { get; set; }
+        public List<EntityHeader> Roles { get; set; }
         public string AppInstanceId { get; set; }
 
         public async Task LoadAsync()
@@ -45,7 +45,7 @@ namespace LagoVista.Client.Core.Net
                 AccessTokenExpirationUTC = null;
                 RefreshTokenExpirationUTC = null;
                 IsAuthenticated = false;
-                Roles = new List<string>();
+                Roles = new List<EntityHeader>();
             }
             else
             {
@@ -56,7 +56,7 @@ namespace LagoVista.Client.Core.Net
                 DeviceType = storedAuthmanager.DeviceType;
                 IsAuthenticated = storedAuthmanager.IsAuthenticated;
                 RefreshToken = storedAuthmanager.RefreshToken;
-                RefreshTokenExpirationUTC = storedAuthmanager.RefreshTokenExpirationUTC;
+                RefreshTokenExpirationUTC = storedAuthmanager.RefreshTokenExpirationUTC;              
                 User = storedAuthmanager.User;
                 Roles = storedAuthmanager.Roles;
 
@@ -71,7 +71,7 @@ namespace LagoVista.Client.Core.Net
             RefreshToken = null;
             RefreshTokenExpirationUTC = null;
             User = null;
-            Roles = new List<string>();
+            Roles = new List<EntityHeader>();
 
             await PersistAsync();
         }

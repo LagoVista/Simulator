@@ -423,4 +423,7 @@
   <data name="UserOrgs_Title" xml:space="preserve">
     <value>Select Organization</value>
   </data>
+  <data name="UserOrgs_WelcometoNew" xml:space="preserve">
+    <value>Welcome to </value>
+  </data>
 </root>

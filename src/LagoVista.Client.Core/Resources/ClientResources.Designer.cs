@@ -872,6 +872,15 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Welcome to .
+        /// </summary>
+        public static string UserOrgs_WelcometoNew {
+            get {
+                return ResourceManager.GetString("UserOrgs_WelcometoNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm Code.
         /// </summary>
         public static string Verify_ConfirmCode {
