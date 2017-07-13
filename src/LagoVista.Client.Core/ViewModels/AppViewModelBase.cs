@@ -101,6 +101,7 @@ namespace LagoVista.Client.Core.ViewModels
             catch (CouldNotRenewTokenException)
             {
                 IsBusy = false;
+                await ForceLogoutAsync();
                 return ClientResources.Err_CouldNotRenewToken.ToFailedInvokeResult();
             }
             catch (Exception ex)

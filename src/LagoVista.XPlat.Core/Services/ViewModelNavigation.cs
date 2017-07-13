@@ -187,5 +187,45 @@ namespace LagoVista.XPlat.Core.Services
 
             return ShowViewModelAsync(launchArgs);
         }
+
+        public Task NavigateAsync(Type viewModelType)
+        {
+            var launchArgs = new ViewModelLaunchArgs();
+            launchArgs.LaunchType = LaunchTypes.Other;
+            launchArgs.ViewModelType = viewModelType;
+            return ShowViewModelAsync(launchArgs);
+        }
+
+        public Task NavigateAndViewAsync<TViewModel>(object parent, object child, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
+        {
+            var launchArgs = new ViewModelLaunchArgs();
+            launchArgs.LaunchType = LaunchTypes.View;
+            launchArgs.ViewModelType = typeof(TViewModel);
+            launchArgs.Parent = parent;
+            launchArgs.Child = child;
+
+            foreach (var arg in args)
+            {
+                launchArgs.Parameters.Add(arg.Key, arg.Value);
+            }
+
+            return ShowViewModelAsync(launchArgs);
+        }
+
+        public Task NavigateAndViewAsync<TViewModel>(object parent, string id, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
+        {
+            var launchArgs = new ViewModelLaunchArgs();
+            launchArgs.LaunchType = LaunchTypes.View;
+            launchArgs.ViewModelType = typeof(TViewModel);
+            launchArgs.Parent = parent;
+            launchArgs.ChildId = id;
+
+            foreach (var arg in args)
+            {
+                launchArgs.Parameters.Add(arg.Key, arg.Value);
+            }
+
+            return ShowViewModelAsync(launchArgs);
+        }
     }   
 }
