@@ -10,6 +10,7 @@ namespace LagoVista.XPlat.Core.Controls.Common
     public class SideMenu : ScrollView
     {
         StackLayout _container;
+        public event EventHandler<Client.Core.ViewModels.MenuItem> MenuItemTapped;
 
         public SideMenu()
         {
@@ -29,10 +30,16 @@ namespace LagoVista.XPlat.Core.Controls.Common
                 {
                     foreach (var menuItem in _menuItems)
                     {
+                        menuItem.MenuItemTapped += MenuItem_MenuItemTapped1;
                         _container.Children.Add(new SideMenuItem(menuItem));
                     }
                 }
             }
+        }
+
+        private void MenuItem_MenuItemTapped1(object sender, Client.Core.ViewModels.MenuItem e)
+        {
+            MenuItemTapped?.Invoke(sender, e);
         }
     }
 }

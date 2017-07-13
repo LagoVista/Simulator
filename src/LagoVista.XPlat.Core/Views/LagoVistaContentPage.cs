@@ -1,13 +1,11 @@
 ﻿using LagoVista.Client.Core.ViewModels;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
-using LagoVista.Core.Models.Drawing;
 using LagoVista.Core.PlatformSupport;
 using LagoVista.XPlat.Core.Controls.Common;
 using LagoVista.XPlat.Core.Views;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -111,7 +109,6 @@ namespace LagoVista.XPlat.Core
         private void CreateActivityIndicator()
         {
             _activityIndicator = new ActivityIndicator() { IsRunning = false };
-            _activityIndicator.Color = NamedColors.NuvIoTDark.ToXamFormsColor();
             _activityIndicator.Color = Xamarin.Forms.Color.White;
             _activityIndicator.HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, false);
             _activityIndicator.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
@@ -135,6 +132,7 @@ namespace LagoVista.XPlat.Core
         private void CreateMenu()
         {
             _menu = new SideMenu();
+            _menu.MenuItemTapped += _menu_MenuItemTapped;
             _menu.IsVisible = false;
             _menu.TranslationX = -MENU_WIDTH;
             _menu.BackgroundColor = AppStyle.MenuBarBackground.ToXamFormsColor();
@@ -145,6 +143,11 @@ namespace LagoVista.XPlat.Core
             _pageMenuMask = new Grid() { BackgroundColor = Xamarin.Forms.Color.Black, Opacity = 0.50 };
             _pageMenuMask.SetValue(Grid.RowProperty, 1);
             _pageMenuMask.IsVisible = false;
+        }
+
+        private void _menu_MenuItemTapped(object sender, Client.Core.ViewModels.MenuItem e)
+        {
+            MenuVisible = false;
         }
 
         private void AddToolBar()
@@ -348,6 +351,7 @@ namespace LagoVista.XPlat.Core
             {
                 case nameof(ViewModel.IsBusy):
                     _activityIndicator.IsRunning = ViewModel.IsBusy;
+                    _activityIndicator.IsVisible = ViewModel.IsBusy;
                     _loadingContainer.IsVisible = ViewModel.IsBusy;
                     break;
             }

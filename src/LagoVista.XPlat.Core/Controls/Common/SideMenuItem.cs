@@ -53,6 +53,7 @@ namespace LagoVista.XPlat.Core.Controls.Common
         {
             if(_menuItem.Command.CanExecute(_menuItem.CommandParameter))
             {
+                _menuItem.RaiseMenuItemTapped();
                 _menuItem.Command.Execute(_menuItem.CommandParameter);
             }
         }

@@ -10,7 +10,7 @@
              Title="{trs:Translate AppName}">
 
   <pge:LagoVistaContentPage.MainContent >
-    <ListView ItemsSource="{Binding Simulators}" SelectedItem="{Binding SelectedSimulator}" RowHeight="64" >
+    <ListView ItemsSource="{Binding ListItems}" SelectedItem="{Binding SelectedItem}" RowHeight="64" >
       <ListView.ItemTemplate>
         <DataTemplate>
           <ViewCell  >

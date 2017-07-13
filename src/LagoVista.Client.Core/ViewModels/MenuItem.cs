@@ -5,6 +5,8 @@ namespace LagoVista.Client.Core.ViewModels
 {
     public class MenuItem
     {
+        public event EventHandler<MenuItem> MenuItemTapped;
+
         public String FontIconKey { get; set; }
 
         public String Name { get; set; }
@@ -12,5 +14,10 @@ namespace LagoVista.Client.Core.ViewModels
         public ICommand Command { get; set; }
 
         public object CommandParameter { get; set; }
+
+        public void RaiseMenuItemTapped()
+        {
+            MenuItemTapped?.Invoke(this, this);
+        }
     }
 }
