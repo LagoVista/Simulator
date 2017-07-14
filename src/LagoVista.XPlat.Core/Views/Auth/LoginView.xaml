@@ -8,15 +8,17 @@
     Title="{ext:ClientTranslate Common_Login}">
     <pge:LagoVistaContentPage.MainContent>
         <ScrollView>
-            <Grid BackgroundColor="#2196F3">
+            <Grid  BackgroundColor="{StaticResource NuvIoTMedium}" >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Image Source="nuviot.png" HorizontalOptions="Center" />
-                <StackLayout Grid.Row="1" Margin="20" WidthRequest="300" HorizontalOptions="Center" >
-
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="320" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Row="0" Margin="0,50,0,30" HorizontalOptions="Center"  Grid.Column="1" >
                     <pge:Label Text="{ext:ClientTranslate Common_EmailAddress}"  TextColor="White" />
                     <pge:Entry Text="{Binding EmailAddress, Mode=TwoWay}" Placeholder="{ext:ClientTranslate Common_Email_Watermark}"  Keyboard="Email" />
 
@@ -35,7 +37,7 @@
                     </Grid>
 
                 </StackLayout>
-                <Image Source="softwarelogistics.png" HorizontalOptions="Center" Grid.Row="2" />
+                <Image Source="softwarelogistics.png" HorizontalOptions="Center" Grid.Row="1" Grid.Column="1" />
             </Grid>
         </ScrollView>
     </pge:LagoVistaContentPage.MainContent>

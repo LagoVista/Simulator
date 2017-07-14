@@ -12,7 +12,7 @@ namespace LagoVista.XPlat.Core
         {
             /* Property Names are mainly used for JSON, so they are in the format "myProperty", the actual name of the property is "MyProperty" this will convert the key name back to a property */
 
-            return $"{name.Substring(0, 1).ToUpper()}{name.Substring(0)}";
+            return $"{name.Substring(0, 1).ToUpper()}{name.Substring(1)}";
         }
     }
 }

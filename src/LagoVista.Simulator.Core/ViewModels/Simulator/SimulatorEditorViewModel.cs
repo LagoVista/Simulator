@@ -78,51 +78,107 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             form.AddChildList<MessageEditorViewModel>(nameof(Model.MessageTemplates), Model.MessageTemplates);
             ModelToView(Model, form);
             FormAdapter = form;
+            if (Model.DefaultTransport != null)
+            {
+                ShowFieldsForTransport(Model.DefaultTransport.Value);
+            }
+            else
+            {
+                HideAll();
+            }
+        }
 
-            switch (Model.DefaultTransport.Value)
+
+        private void ShowFieldsForTransport(TransportTypes transportType)
+        {
+            switch (transportType)
             {
                 case TransportTypes.MQTT: SetForMQTT(); break;
                 case TransportTypes.TCP: SetForTCP(); break;
                 case TransportTypes.UDP: SetForUDP(); break;
                 case TransportTypes.RestHttp:
-                case TransportTypes.RestHttps: SetForREST(); break;
+                case TransportTypes.RestHttps: SetForREST(transportType); break;
                 case TransportTypes.AzureEventHub: SetForAzureEventHub(); break;
+                default: HideAll(); break;
             }
+        }
+
+        protected override void OptionSelected(string name, string value)
+        {
+            if (name == nameof(Model.DefaultTransport))
+            {
+                ShowFieldsForTransport((TransportTypes)Enum.Parse(typeof(TransportTypes), value, true));
+            }
+        }
+
+        private void HideAll()
+        {
+            HideRow(nameof(Model.HubName));
+            HideRow(nameof(Model.DefaultPort));
+            HideRow(nameof(Model.DefaultEndPoint));
+            HideRow(nameof(Model.UserName));
+            HideRow(nameof(Model.Password));
+            HideRow(nameof(Model.AuthToken));
         }
 
         private void SetForAzureEventHub()
         {
-            View[nameof(Model.DefaultEndPoint).ToFieldKey()].Label = SimulatorCoreResources.EditSimulator_EventHubName;
-            View[nameof(Model.DefaultEndPoint).ToFieldKey()].IsVisible = true;
-            View[nameof(Model.AuthToken).ToFieldKey()].IsVisible = true;
+            ShowRow(nameof(Model.DefaultEndPoint));
+            ShowRow(nameof(Model.AuthToken));
+            ShowRow(nameof(Model.HubName));
 
-
-            View[nameof(Model.DefaultPort).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.UserName).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.Password).ToFieldKey()].IsVisible = false;
+            HideRow(nameof(Model.DefaultPort).ToFieldKey());
+            HideRow(nameof(Model.UserName).ToFieldKey());
+            HideRow(nameof(Model.Password).ToFieldKey());
         }
 
         private void SetForMQTT()
         {
+            SetValue(nameof(Model.DefaultPort), 1883.ToString());
+            ShowRow(nameof(Model.DefaultEndPoint));
+            ShowRow(nameof(Model.DefaultPort));
 
+            ShowRow(nameof(Model.UserName));
+            ShowRow(nameof(Model.Password));
+
+            HideRow(nameof(Model.HubName));
+            HideRow(nameof(Model.AuthToken));
         }
 
         private void SetForTCP()
         {
+            HideRow(nameof(Model.HubName));
+            HideRow(nameof(Model.AuthToken));
 
+            ShowRow(nameof(Model.DefaultEndPoint));
+            ShowRow(nameof(Model.DefaultPort));
+
+            ShowRow(nameof(Model.UserName));
+            ShowRow(nameof(Model.Password));
         }
 
         private void SetForUDP()
         {
+            HideRow(nameof(Model.HubName));
+            HideRow(nameof(Model.AuthToken));
 
+            ShowRow(nameof(Model.DefaultEndPoint));
+            ShowRow(nameof(Model.DefaultPort));
+
+            ShowRow(nameof(Model.UserName));
+            ShowRow(nameof(Model.Password));
         }
 
-        private void SetForREST()
+        private void SetForREST(TransportTypes transportType)
         {
-            View[nameof(Model.HubName).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.DefaultPort).ToFieldKey()].IsVisible = true;
-            View[nameof(Model.UserName).ToFieldKey()].IsVisible = true;
-            View[nameof(Model.Password).ToFieldKey()].IsVisible = true;
+            SetValue(nameof(Model.DefaultPort), transportType == TransportTypes.RestHttp ? 80.ToString() : 443.ToString());
+
+            HideRow(nameof(Model.HubName));
+            HideRow(nameof(Model.AuthToken));
+
+            ShowRow(nameof(Model.DefaultPort));
+            ShowRow(nameof(Model.UserName));
+            ShowRow(nameof(Model.Password));
         }
     }
 }

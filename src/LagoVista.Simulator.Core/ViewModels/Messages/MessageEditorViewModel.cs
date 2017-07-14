@@ -88,13 +88,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         {
             return "/api/simulator/messagetemplate/factory";
         }
-
-        protected override MessageTemplate GetModelForEditing()
-        {
-            return this.LaunchArgs.GetChild<MessageTemplate>();
-        }
-
-        
+       
         private void Form_DeleteItem(object sender, DeleteItemEventArgs e)
         {
             if(e.Type == nameof(Model.MessageHeaders))

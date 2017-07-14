@@ -1,14 +1,10 @@
-﻿#define ENV_LOCAL
-//#define ENV_DEV
+﻿//#define ENV_LOCAL
+#define ENV_DEV
 //#define ENV_PROD
 
 using LagoVista.Client.Core;
-using LagoVista.Client.Core.Auth;
 using LagoVista.Client.Core.Models;
-using LagoVista.Client.Core.Net;
 using LagoVista.Client.Core.ViewModels;
-using LagoVista.Client.Core.ViewModels.Auth;
-using LagoVista.Client.Core.ViewModels.Users;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
 using LagoVista.Core.ViewModels;

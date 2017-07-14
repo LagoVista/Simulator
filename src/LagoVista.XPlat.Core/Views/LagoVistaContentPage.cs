@@ -110,12 +110,15 @@ namespace LagoVista.XPlat.Core
         {
             _activityIndicator = new ActivityIndicator() { IsRunning = false };
             _activityIndicator.Color = Xamarin.Forms.Color.White;
-            _activityIndicator.HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, false);
             _activityIndicator.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
+
             switch (Device.RuntimePlatform)
             {
-
+                case Device.iOS:
+                    _activityIndicator.HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, false);
+                    break;
                 case Device.Android:
+                    _activityIndicator.HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, false);
                     _activityIndicator.WidthRequest = 64;
                     _activityIndicator.HeightRequest = 64;
                     break;
@@ -669,8 +672,6 @@ namespace LagoVista.XPlat.Core
             _originalcontent = this.Content;
 
             base.OnAppearing();
-
-            
 
             if (!_hasAppeared)
             {

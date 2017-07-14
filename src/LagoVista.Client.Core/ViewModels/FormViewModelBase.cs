@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using LagoVista.Core.Models;
 using LagoVista.Core.ViewModels;
 using System.Threading.Tasks;
+using LagoVista.Core;
 using LagoVista.Core.Validation;
 
 namespace LagoVista.Client.Core.ViewModels
@@ -205,31 +206,33 @@ namespace LagoVista.Client.Core.ViewModels
             if (result.Successful)
             {
                 var detailView = result.Result;
-                Model = detailView.Model;
-                View = detailView.View;
-                var form = new EditFormAdapter(detailView.Model, detailView.View, ViewModelNavigation);
-                BuildForm(form);
-                if (LaunchArgs.LaunchType == LaunchTypes.Edit)
+                if(LaunchArgs.LaunchType == LaunchTypes.Edit && LaunchArgs.Child != null)
                 {
-                    Model = GetModelForEditing();
+                    Model = (TModel)LaunchArgs.Child;
+                }
+                else
+                {
+                    Model = detailView.Model;
                 }
 
+                View = detailView.View;
+                var form = new EditFormAdapter(detailView.Model, detailView.View, ViewModelNavigation);
+                form.OptionSelected += Form_OptionSelected;
+                BuildForm(form);
                 ModelToView(Model, form);
-
                 FormAdapter = form;
             }
 
             return result.ToInvokeResult();
         }
-        
-        /// <summary>
-        /// Can override this method if we are passing a child record to be edited.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual TModel GetModelForEditing()
+
+        private void Form_OptionSelected(object sender, OptionSelectedEventArgs e)
         {
-            return Model;
+            OptionSelected(e.Key, e.Value);
         }
+
+        protected virtual void OptionSelected(string name, string value){ }
+
 
         protected abstract String GetRequestUri();
 
@@ -240,6 +243,22 @@ namespace LagoVista.Client.Core.ViewModels
         public override Task InitAsync()
         {
             return PerformNetworkOperation(LoadView);
+        }
+
+        public void ShowRow(string name)
+        {
+            View[name.ToFieldKey()].IsVisible = true;
+        }
+
+        public void HideRow(string name)
+        {
+            View[name.ToFieldKey()].IsVisible = false;
+        }
+
+        public void SetValue(string name, string value)
+        {
+            View[name.ToFieldKey()].Value = value;
+
         }
     }
 }
