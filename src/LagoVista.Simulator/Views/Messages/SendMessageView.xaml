@@ -30,7 +30,7 @@
           <RowDefinition Height="auto" />
           <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Label Text="{Binding MsgTemplate.Name}" FontSize="36" TextColor="{StaticResource NuvIoTDark}" />
+        <Label Text="{Binding MsgTemplate.Name}" FontSize="24" TextColor="{StaticResource NuvIoTDark}" />
         <pge:Icon IconKey="fa-comments-o" FontSize="92" Margin="0,0,20,0"  TextColor="{StaticResource NuvIoTDark}" Grid.Row="1" />
         <pge:IconButton IconKey="fa-paper-plane-o" FontSize="72" WidthRequest="92" TextColor="Black" HeightRequest="92" Margin="0,0,20,0" VerticalOptions="End"  Command="{Binding SendCommand}" Grid.Column="2" Grid.Row="1" />
       </Grid>

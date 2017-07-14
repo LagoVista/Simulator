@@ -87,18 +87,18 @@ namespace LagoVista.Client.Core.ViewModels.Auth
                     // If no org, have them add an org....
                     if (EntityHeader.IsNullOrEmpty(AuthManager.User.CurrentOrganization))
                     {
-                        await ViewModelNavigation.NavigateAsync<OrgEditorViewModel>(this);
+                        await ViewModelNavigation.SetAsNewRootAsync<OrgEditorViewModel>();
                     }
                     else
                     {
                         // We are good, so show main screen.
-                        await ViewModelNavigation.NavigateAsync(this,_clientAppInfo.MainViewModel);
+                        await ViewModelNavigation.SetAsNewRootAsync(_clientAppInfo.MainViewModel);
                     }
                 }
                 else
                 {
                     // Show verify user screen.
-                    await ViewModelNavigation.NavigateAsync<VerifyUserViewModel>(this);
+                    await ViewModelNavigation.SetAsNewRootAsync<VerifyUserViewModel>();
                 }
             }
         }

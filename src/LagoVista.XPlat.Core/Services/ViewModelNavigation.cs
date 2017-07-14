@@ -48,7 +48,7 @@ namespace LagoVista.XPlat.Core.Services
 
         private Task ShowViewModelAsync(ViewModelLaunchArgs args)
         {
-            if(args.ParentViewModel == null)
+            if (args.ParentViewModel == null)
             {
                 args.ParentViewModel = ViewModelBackStack.FirstOrDefault();
             }
@@ -78,12 +78,12 @@ namespace LagoVista.XPlat.Core.Services
             return ShowViewModelAsync(launchArgs);
         }
 
-        public Task NavigateAsync(ViewModelLaunchArgs args) 
+        public Task NavigateAsync(ViewModelLaunchArgs args)
         {
             return ShowViewModelAsync(args);
         }
 
-        public  Task GoBackAsync()
+        public Task GoBackAsync()
         {
             ViewModelBackStack.Pop();
             return _navigation.PopAsync();
@@ -92,26 +92,26 @@ namespace LagoVista.XPlat.Core.Services
 
         public void PopToRoot()
         {
-            while(ViewModelBackStack.Count > 1)
+            while (ViewModelBackStack.Count > 1)
             {
                 ViewModelBackStack.Pop();
             }
 
             _navigation.PopToRootAsync();
         }
-      
+
         public bool CanGoBack()
         {
             return _navigation.NavigationStack.Count > 1;
         }
 
-        public  Task NavigateAndCreateAsync<TViewModel>(ViewModelBase parentVM, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
+        public Task NavigateAndCreateAsync<TViewModel>(ViewModelBase parentVM, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
         {
             var launchArgs = new ViewModelLaunchArgs();
             launchArgs.ParentViewModel = parentVM;
             launchArgs.LaunchType = LaunchTypes.Create;
             launchArgs.ViewModelType = typeof(TViewModel);
-           
+
             foreach (var arg in args)
             {
                 launchArgs.Parameters.Add(arg.Key, arg.Value);
@@ -120,7 +120,7 @@ namespace LagoVista.XPlat.Core.Services
             return ShowViewModelAsync(launchArgs);
         }
 
-        public Task NavigateAndCreateAsync<TViewModel>(ViewModelBase parentVM, object parent, params KeyValuePair<string, object>[] args)  where TViewModel : ViewModelBase
+        public Task NavigateAndCreateAsync<TViewModel>(ViewModelBase parentVM, object parent, params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
         {
             var launchArgs = new ViewModelLaunchArgs();
             launchArgs.LaunchType = LaunchTypes.Create;
@@ -255,9 +255,14 @@ namespace LagoVista.XPlat.Core.Services
 
         public Task SetAsNewRootAsync<TViewModel>(params KeyValuePair<string, object>[] args) where TViewModel : ViewModelBase
         {
-            var viewModel = SLWIOC.CreateForType<TViewModel>();
+            var viewModel = SLWIOC.CreateForType<TViewModel>() as ViewModelBase;
             ViewModelBackStack.Clear();
             ViewModelBackStack.Push(viewModel);
+            viewModel.LaunchArgs = new ViewModelLaunchArgs()
+            {
+                IsNewRoot = true,
+                LaunchType = LaunchTypes.Other
+            };
 
             var viewModelType = typeof(TViewModel);
             var view = Activator.CreateInstance(_viewModelLookup[viewModelType]) as LagoVistaContentPage;
@@ -270,10 +275,15 @@ namespace LagoVista.XPlat.Core.Services
 
         public Task SetAsNewRootAsync(Type viewModelType, params KeyValuePair<string, object>[] args)
         {
-            var viewModel = SLWIOC.CreateForType(viewModelType);
-            ViewModelBackStack.Clear();
-            ViewModelBackStack.Push(viewModel as ViewModelBase);
+            var viewModel = SLWIOC.CreateForType(viewModelType) as ViewModelBase;
+            viewModel.LaunchArgs = new ViewModelLaunchArgs()
+            {
+                IsNewRoot = true,
+                LaunchType = LaunchTypes.Other,
+            };
 
+            ViewModelBackStack.Clear();
+            ViewModelBackStack.Push(viewModel);
 
             var view = Activator.CreateInstance(_viewModelLookup[viewModelType]) as LagoVistaContentPage;
             view.ViewModel = viewModel as XPlatViewModel;
@@ -282,5 +292,5 @@ namespace LagoVista.XPlat.Core.Services
 
             return Task.FromResult(default(object));
         }
-    }   
+    }
 }
