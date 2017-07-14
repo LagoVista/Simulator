@@ -58,11 +58,11 @@ namespace LagoVista.Client.Core.ViewModels.Users
             {
                 if (EntityHeader.IsNullOrEmpty(AuthManager.User.CurrentOrganization))
                 {
-                    await ViewModelNavigation.NavigateAndCreateAsync<OrgEditorViewModel>();
+                    await ViewModelNavigation.NavigateAndCreateAsync<OrgEditorViewModel>(this);
                 }
                 else
                 {
-                    await ViewModelNavigation.NavigateAsync(_clientAppInfo.MainViewModel);
+                    await ViewModelNavigation.NavigateAsync(this,_clientAppInfo.MainViewModel);
                 }
             }
         }

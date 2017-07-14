@@ -4,8 +4,10 @@
     <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='iOS Build|AnyCPU'" />
+
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.57-alpha1814" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.58-alpha1505" />
   </ItemGroup>
 
   <ItemGroup>

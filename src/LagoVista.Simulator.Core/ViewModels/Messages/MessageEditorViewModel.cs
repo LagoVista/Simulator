@@ -12,20 +12,15 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
     public class MessageEditorViewModel : FormViewModelBase<MessageTemplate>
     {
-        public override void SaveAsync()
+        public override Task<InvokeResult> SaveRecordAsync()
         {
-            base.SaveAsync();
-            if (FormAdapter.Validate())
+            if (LaunchArgs.LaunchType == LaunchTypes.Create)
             {
-                ViewToModel(FormAdapter, Model);
-                if (LaunchArgs.LaunchType == LaunchTypes.Create)
-                {
-                    var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
-                    parent.MessageTemplates.Add(Model);
-                }
-
-                CloseScreen();
+                var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
+                parent.MessageTemplates.Add(Model);
             }
+
+            return Task.FromResult(InvokeResult.Success);
         }
 
         protected override void BuildForm(EditFormAdapter form)

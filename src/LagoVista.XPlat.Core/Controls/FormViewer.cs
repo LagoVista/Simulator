@@ -10,11 +10,11 @@ namespace LagoVista.XPlat.Core
 {
     public class FormViewer : ScrollView
     {
-        StackLayout _container;        
+        StackLayout _container;
 
         public FormViewer()
         {
-             _formControls = new List<FormControl>();
+            _formControls = new List<FormControl>();
 
             _container = new StackLayout();
             Content = _container;
@@ -23,7 +23,7 @@ namespace LagoVista.XPlat.Core
         public bool Validate()
         {
             var valid = true;
-            foreach(var field in _formControls)
+            foreach (var field in _formControls)
             {
                 valid &= field.Validate();
             }
@@ -31,9 +31,23 @@ namespace LagoVista.XPlat.Core
             return valid;
         }
 
+        public bool GetIsDirty()
+        {
+            var isDirty = false;
+            foreach (var field in _formControls)
+            {
+                if (field.IsDirty)
+                {
+                    isDirty = true;
+                }
+            }
+
+            return isDirty;
+        }
+
         public void Refresh()
         {
-            foreach(var field in _formControls)
+            foreach (var field in _formControls)
             {
                 field.Refresh();
             }
@@ -48,9 +62,11 @@ namespace LagoVista.XPlat.Core
         public EditFormAdapter Form
         {
             get { return (EditFormAdapter)base.GetValue(FormProperty); }
-            set {
+            set
+            {
                 base.SetValue(FormProperty, value);
                 value.SetValidationMethod(Validate);
+                value.SetGetIsDirtyMethod(GetIsDirty);
                 value.SetRefreshMethod(Refresh);
                 value.SetVisibilityMethod(SetViewVisibility);
                 Populate();
@@ -70,7 +86,7 @@ namespace LagoVista.XPlat.Core
             var button = (FormViewer)bindable;
             button.Form = newValue as EditFormAdapter;
         }
-        
+
         private void AddChild(FormControl field)
         {
             _formControls.Add(field);
@@ -101,12 +117,12 @@ namespace LagoVista.XPlat.Core
                             break;
                         case FormField.FieldType_ChildList:
                             var childListControl = new ChildListRow(this, field);
-                            if(Form.ChildLists.ContainsKey(field.Name))
+                            if (Form.ChildLists.ContainsKey(field.Name))
                             {
                                 childListControl.ChildItems = Form.ChildLists[field.Name];
                             }
                             childListControl.Add += ChildListControl_Add;
-                            childListControl.Deleted += ChildListControl_Deleted; 
+                            childListControl.Deleted += ChildListControl_Deleted;
                             childListControl.ItemSelected += ChildListControl_ItemSelected;
                             AddChild(childListControl);
                             break;
@@ -115,7 +131,7 @@ namespace LagoVista.XPlat.Core
                 }
             }
         }
-        
+
 
         private void ChildListControl_Deleted(object sender, DeleteItemEventArgs e)
         {

@@ -4,30 +4,26 @@ using LagoVista.IoT.Simulator.Admin.Models;
 using System.Linq;
 using LagoVista.Client.Core.Resources;
 using LagoVista.Client.Core.ViewModels;
+using LagoVista.Core.Validation;
+using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
     public class MessageHeaderViewModel : FormViewModelBase<MessageHeader>
     {
-        public override void SaveAsync()
+        public override Task<InvokeResult> SaveRecordAsync()
         {
-            base.SaveAsync();
-            if (FormAdapter.Validate())
+            if (IsCreate)
             {
-                ViewToModel(FormAdapter, Model);
-                if (LaunchArgs.LaunchType == LaunchTypes.Create)
+                var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.MessageTemplate>();
+                if (parent.MessageHeaders.Where(attr => attr.Key == Model.Key).Any())
                 {
-                    var parent = LaunchArgs.GetParent<MessageTemplate>();
-                    if (parent.DynamicAttributes.Where(attr => attr.Key == Model.Key).Any())
-                    {
-                        Popups.ShowAsync(ClientResources.Common_KeyInUse);
-                        return;
-                    }
-                    parent.MessageHeaders.Add(Model);
+                    return Task.FromResult(InvokeResult.FromErrors(ClientResources.Common_KeyInUse.ToErrorMessage()));
                 }
-
-                CloseScreen();
+                parent.MessageHeaders.Add(Model);
             }
+
+            return Task.FromResult(InvokeResult.Success);
         }
 
         protected override string GetRequestUri()

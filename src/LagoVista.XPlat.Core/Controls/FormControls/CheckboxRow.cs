@@ -28,6 +28,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
         private void _switch_Toggled(object sender, ToggledEventArgs e)
         {
             Field.Value = e.Value ? "true" : "false";
+            IsDirty = OriginalValue != Field.Value;
         }
 
         public override bool Validate()

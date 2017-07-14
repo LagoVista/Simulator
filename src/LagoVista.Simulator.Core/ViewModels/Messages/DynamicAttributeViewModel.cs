@@ -3,30 +3,27 @@ using LagoVista.IoT.Simulator.Admin.Models;
 using System.Linq;
 using LagoVista.Client.Core.Resources;
 using LagoVista.Client.Core.ViewModels;
+using LagoVista.Core.Validation;
+using System;
+using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
     public class DynamicAttributeViewModel : FormViewModelBase<MessageDynamicAttribute>
     {
-        public override void SaveAsync()
+        public override Task<InvokeResult> SaveRecordAsync()
         {
-            base.SaveAsync();
-            if (FormAdapter.Validate())
+            if (IsCreate)
             {
-                ViewToModel(FormAdapter, Model);
-                if (IsCreate)
+                var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.MessageTemplate>();
+                if (parent.DynamicAttributes.Where(attr => attr.Key == Model.Key).Any())
                 {
-                    var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.MessageTemplate>();
-                    if (parent.DynamicAttributes.Where(attr => attr.Key == Model.Key).Any())
-                    {
-                        Popups.ShowAsync(ClientResources.Common_KeyInUse);
-                        return;
-                    }
-                    parent.DynamicAttributes.Add(Model);
+                    return Task.FromResult(InvokeResult.FromErrors(ClientResources.Common_KeyInUse.ToErrorMessage()));
                 }
-
-                CloseScreen();
+                parent.DynamicAttributes.Add(Model);
             }
+
+            return Task.FromResult(InvokeResult.Success);
         }
 
         protected override void BuildForm(EditFormAdapter form)

@@ -61,10 +61,8 @@ namespace LagoVista.Client.Core.ViewModels
                     await ViewModelNavigation.SetAsNewRootAsync<Orgs.OrgEditorViewModel>();
                 }
                 else
-                {
-                    var launchArgs = new ViewModelLaunchArgs();
-                    launchArgs.ViewModelType = _clientAppInfo.MainViewModel;
-                    await ViewModelNavigation.NavigateAsync(launchArgs);
+                {                
+                    await ViewModelNavigation.SetAsNewRootAsync(_clientAppInfo.MainViewModel);
                 }
             }
             else

@@ -67,7 +67,6 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
 
             args.Parameters.Add("inviteId", _inviteid);
             ViewModelNavigation.NavigateAsync(args);
-
         }
 
         public RelayCommand AcceptInviteCommnad { get; private set; }

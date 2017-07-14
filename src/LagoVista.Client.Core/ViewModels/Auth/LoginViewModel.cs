@@ -69,12 +69,12 @@ namespace LagoVista.Client.Core.ViewModels.Auth
 
         public async void Register()
         {
-            await ViewModelNavigation.NavigateAsync<RegisterUserViewModel>();
+            await ViewModelNavigation.NavigateAsync<RegisterUserViewModel>(this);
         }
 
         public async void ForgotPassword()
         {
-            await ViewModelNavigation.NavigateAsync<SendResetPasswordLinkViewModel>();
+            await ViewModelNavigation.NavigateAsync<SendResetPasswordLinkViewModel>(this);
         }
 
         public async void LoginAsync()
@@ -87,18 +87,18 @@ namespace LagoVista.Client.Core.ViewModels.Auth
                     // If no org, have them add an org....
                     if (EntityHeader.IsNullOrEmpty(AuthManager.User.CurrentOrganization))
                     {
-                        await ViewModelNavigation.NavigateAsync<OrgEditorViewModel>();
+                        await ViewModelNavigation.NavigateAsync<OrgEditorViewModel>(this);
                     }
                     else
                     {
                         // We are good, so show main screen.
-                        await ViewModelNavigation.NavigateAsync(_clientAppInfo.MainViewModel);
+                        await ViewModelNavigation.NavigateAsync(this,_clientAppInfo.MainViewModel);
                     }
                 }
                 else
                 {
                     // Show verify user screen.
-                    await ViewModelNavigation.NavigateAsync<VerifyUserViewModel>();
+                    await ViewModelNavigation.NavigateAsync<VerifyUserViewModel>(this);
                 }
             }
         }

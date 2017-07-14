@@ -6,15 +6,17 @@
     <DelaySign>False</DelaySign>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='iOS Build|AnyCPU'" />
+
   <ItemGroup>
     <Content Include="Icons\ReadMe.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.57-alpha1814" />
-    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.57-alpha1814" />
-    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.57-alpha1814" />
-    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.57-alpha1814" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.58-alpha1505" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.58-alpha1505" />
+    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.58-alpha1505" />
+    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.58-alpha1505" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 

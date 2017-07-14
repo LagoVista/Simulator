@@ -51,7 +51,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
                 return (await RestClient.GetAsync<InvokeResult>($"/api/org/inviteuser/accept/{LaunchArgs.Parameters["inviteId"]}")).Result;
             }
 
-            await ViewModelNavigation.NavigateAsync<VerifyUserViewModel>();
+            await ViewModelNavigation.NavigateAsync<VerifyUserViewModel>(this);
 
             return InvokeResult.Success;
         }

@@ -1,14 +1,12 @@
-﻿using System.Threading.Tasks;
-using LagoVista.Core.Models.UIMetaData;
+﻿using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core;
 using LagoVista.Core.ViewModels;
 using LagoVista.Simulator.Core.ViewModels.Messages;
-using System.Linq;
 using LagoVista.Core.Validation;
-using System.Diagnostics;
 using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.Client.Core.ViewModels;
 using System;
+using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
@@ -20,32 +18,19 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
         }
 
-        public override async void SaveAsync()
+        public override Task<InvokeResult> SaveRecordAsync()
         {
-            if (ViewToModel(FormAdapter, Model))
+            return PerformNetworkOperation(() =>
             {
-                InvokeResult result;
-                IsBusy = true;
                 if (LaunchArgs.LaunchType == LaunchTypes.Create)
                 {
-                    result = await FormRestClient.AddAsync("/api/simulator", this.Model);
+                    return FormRestClient.AddAsync("/api/simulator", this.Model);
                 }
                 else
                 {
-                    result = await FormRestClient.UpdateAsync("/api/simulator", this.Model);
+                    return FormRestClient.UpdateAsync("/api/simulator", this.Model);
                 }
-
-                IsBusy = false;
-
-                if (result.Successful)
-                {
-                    await this.ViewModelNavigation.GoBackAsync();
-                }
-                else
-                {
-                    Debug.WriteLine(result.Errors.First().Message);
-                }
-            }
+            });
         }
 
         public override bool CanSave()

@@ -5,6 +5,7 @@ using LagoVista.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels
 {
@@ -34,7 +35,7 @@ namespace LagoVista.Client.Core.ViewModels
     {
         public XPlatViewModel()
         {
-            SaveCommand = new RelayCommand(SaveAsync, CanSave);
+            SaveCommand = new RelayCommand(Save, CanSave);
             EditCommand = new RelayCommand(Edit);
         }
 
@@ -105,7 +106,7 @@ namespace LagoVista.Client.Core.ViewModels
 
         }
 
-        public virtual void SaveAsync()
+        public virtual void Save()
         {
 
         }
@@ -119,9 +120,9 @@ namespace LagoVista.Client.Core.ViewModels
         /// Override this on the view model to determine if the data is dirty and we can close the page.
         /// </summary>
         /// <returns></returns>
-        public virtual bool CanCancel()
-        {
-            return true;
+        public virtual Task<bool> CanCancelAsync()
+        {           
+            return Task.FromResult(true);
         }
        
 

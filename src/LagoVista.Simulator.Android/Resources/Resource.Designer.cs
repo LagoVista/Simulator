@@ -2139,6 +2139,7 @@ namespace LagoVista.Simulator.Droid
 			global::LagoVista.XPlat.Droid.Resource.Styleable.ViewStubCompat_android_id = global::LagoVista.Simulator.Droid.Resource.Styleable.ViewStubCompat_android_id;
 			global::LagoVista.XPlat.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId = global::LagoVista.Simulator.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId;
 			global::LagoVista.XPlat.Droid.Resource.Styleable.ViewStubCompat_android_layout = global::LagoVista.Simulator.Droid.Resource.Styleable.ViewStubCompat_android_layout;
+			global::Microsoft.Azure.Amqp.Amqp.Resource.String.ApplicationName = global::LagoVista.Simulator.Droid.Resource.String.ApplicationName;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::LagoVista.Simulator.Droid.Resource.Attribute.actionBarSize;
 		}
 		
@@ -5747,11 +5748,11 @@ namespace LagoVista.Simulator.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f09003f
-			public const int ApplicationName = 2131296319;
-			
 			// aapt resource value: 0x7f09003e
-			public const int Hello = 2131296318;
+			public const int ApplicationName = 2131296318;
+			
+			// aapt resource value: 0x7f09003f
+			public const int Hello = 2131296319;
 			
 			// aapt resource value: 0x7f090015
 			public const int abc_action_bar_home_description = 2131296277;

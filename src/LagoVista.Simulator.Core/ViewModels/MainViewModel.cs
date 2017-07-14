@@ -26,19 +26,19 @@ namespace LagoVista.Simulator.Core.ViewModels
             {
                 new MenuItem()
                 {
-                    Command = new RelayCommand(() => ViewModelNavigation.NavigateAsync<UserOrgsViewModel>()),
+                    Command = new RelayCommand(() => ViewModelNavigation.NavigateAsync<UserOrgsViewModel>(this)),
                     Name = ClientResources.MainMenu_SwitchOrgs,
                     FontIconKey = "fa-users"
                 },
                 new MenuItem()
                 {
-                    Command = new RelayCommand(() => ViewModelNavigation.NavigateAsync<ChangePasswordViewModel>()),
+                    Command = new RelayCommand(() => ViewModelNavigation.NavigateAsync<ChangePasswordViewModel>(this)),
                     Name = ClientResources.MainMenu_ChangePassword,
                     FontIconKey = "fa-key"
                 },
                 new MenuItem()
                 {
-                    Command = new RelayCommand(() => ViewModelNavigation.NavigateAsync<InviteUserViewModel>()),
+                    Command = new RelayCommand(() => ViewModelNavigation.NavigateAsync<InviteUserViewModel>(this)),
                     Name = ClientResources.MainMenu_InviteUser,
                     FontIconKey = "fa-user"
                 },
@@ -53,7 +53,7 @@ namespace LagoVista.Simulator.Core.ViewModels
 
         public void AddNewSimulator()
         {
-            ViewModelNavigation.NavigateAndCreateAsync<SimulatorEditorViewModel>();
+            ViewModelNavigation.NavigateAndCreateAsync<SimulatorEditorViewModel>(this);
         }       
 
         public void ToggleSettings()
@@ -63,7 +63,8 @@ namespace LagoVista.Simulator.Core.ViewModels
 
         protected override void ItemSelected(SimulatorSummary model)
         {
-            ViewModelNavigation.NavigateAndEditAsync<SimulatorViewModel>(model.Id);
+            SelectedItem = null;
+            ViewModelNavigation.NavigateAndEditAsync<SimulatorViewModel>(this, model.Id);
         }
 
         protected override string GetListURI()

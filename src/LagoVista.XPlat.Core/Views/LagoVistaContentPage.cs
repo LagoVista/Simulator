@@ -192,18 +192,18 @@ namespace LagoVista.XPlat.Core
             _toolBar.Children.Add(_rightMenuButton);
         }
 
-        private void _leftMenuButton_Clicked(object sender, System.EventArgs e)
+        private async void _leftMenuButton_Clicked(object sender, System.EventArgs e)
         {
             switch (LeftMenu)
             {
                 case LeftMenuIcon.Back:
-                    if (ViewModel.CanCancel())
+                    if (await ViewModel.CanCancelAsync())
                     {
-                        Navigation.PopAsync();
+                        await ViewModel.ViewModelNavigation.GoBackAsync();
                     }
                     break;
                 case LeftMenuIcon.Cancel:
-                    if (ViewModel.CanCancel())
+                    if (await ViewModel.CanCancelAsync())
                     {
                         if (CancelCommand != null)
                         {
@@ -211,7 +211,7 @@ namespace LagoVista.XPlat.Core
                         }
                         else
                         {
-                            Navigation.PopAsync();
+                            await ViewModel.ViewModelNavigation.GoBackAsync();
                         }
                     }
                     break;
@@ -227,9 +227,19 @@ namespace LagoVista.XPlat.Core
             }
         }
 
+
         protected override bool OnBackButtonPressed()
         {
-            return ViewModel.CanCancel();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                var result = await ViewModel.CanCancelAsync(); 
+                if(result)
+                {
+                    await ViewModel.ViewModelNavigation.GoBackAsync();
+                }
+            });
+
+            return true;
         }
 
         private void _rightMenuButton_Clicked(object sender, System.EventArgs e)
@@ -687,8 +697,6 @@ namespace LagoVista.XPlat.Core
                 if (ViewModel != null)
                 {
                     ViewModel.Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Message, ViewModel.GetType().Name, "Re-appeared");
-                    this.Content.BindingContext = null;
-                    this.Content.BindingContext = ViewModel;
                     await ViewModel.ReloadedAsync();
                 }
             }

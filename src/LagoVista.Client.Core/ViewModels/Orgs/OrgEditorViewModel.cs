@@ -1,11 +1,8 @@
 ﻿using LagoVista.Core.Commanding;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core.Validation;
-using LagoVista.Core.ViewModels;
 using LagoVista.UserAdmin.ViewModels.Organization;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Orgs
@@ -31,29 +28,10 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
             };
         }
 
-        public async Task<InvokeResult> SaveChangesAsync()
+        public override Task PostSaveAsync()
         {
-            var saveResult = await FormRestClient.AddAsync("/api/org", this.Model);
-            if (!saveResult.Successful) return saveResult;
-
-            var refreshResult = await RefreshUserFromServerAsync();
-            if (!refreshResult.Successful) return refreshResult;
-
-            var launchArgs = new ViewModelLaunchArgs() { ViewModelType = _clientAppInfo.MainViewModel };
-            await ViewModelNavigation.NavigateAsync(launchArgs);
-
-            return InvokeResult.Success;
-        }
-
-        public override async void SaveAsync()
-        {
-            base.SaveAsync();
-            if (FormAdapter.Validate())
-            {
-                ViewToModel(FormAdapter, Model);
-                await PerformNetworkOperation(SaveChangesAsync);
-            }
-        }
+            return ViewModelNavigation.SetAsNewRootAsync(_clientAppInfo.MainViewModel);
+        }        
 
         protected override string GetRequestUri()
         {
@@ -65,6 +43,18 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
             form.AddViewCell(nameof(Model.Name));
             form.AddViewCell(nameof(Model.Namespace));
             form.AddViewCell(nameof(Model.WebSite));
+        }
+
+        public override Task<InvokeResult> SaveRecordAsync()
+        {
+            return PerformNetworkOperation(async () =>
+            {
+                var saveResult = await FormRestClient.AddAsync("/api/org", this.Model);
+                if (!saveResult.Successful) return saveResult;
+
+                var refreshResult = await RefreshUserFromServerAsync();
+                return refreshResult;
+            });
         }
 
         public RelayCommand LogoutCommand { get; private set; }

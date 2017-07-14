@@ -9,10 +9,11 @@ using LagoVista.Core.ViewModels;
 using System.Threading.Tasks;
 using LagoVista.Core;
 using LagoVista.Core.Validation;
+using LagoVista.Client.Core.Resources;
 
 namespace LagoVista.Client.Core.ViewModels
 {
-    public abstract class FormViewModelBase<TModel> : AppViewModelBase where TModel : new()
+    public abstract class FormViewModelBase<TModel> : AppViewModelBase, IFormParentViewModel where TModel : new()
     {
         IFormRestClient<TModel> _restClient;
 
@@ -110,6 +111,19 @@ namespace LagoVista.Client.Core.ViewModels
             }
 
             return true;
+        }
+
+        public override Task<bool> CanCancelAsync()
+        {
+            if (FormAdapter.IsDirty || HasDirtyChildren )
+            {                
+                return  Popups.ConfirmAsync(ClientResources.Confirm_Unsaved_Title, ClientResources.Confirm_Unsaved_Message);
+            }
+            else
+            {
+                return Task.FromResult(true);
+            }
+
         }
 
         public void ModelToView(TModel model, EditFormAdapter form)
@@ -216,7 +230,11 @@ namespace LagoVista.Client.Core.ViewModels
                 }
 
                 View = detailView.View;
-                var form = new EditFormAdapter(detailView.Model, detailView.View, ViewModelNavigation);
+                if(View.ContainsKey("key"))
+                {
+                    View["key"].IsUserEditable = LaunchArgs.LaunchType == LaunchTypes.Create;
+                }
+                var form = new EditFormAdapter(Model, detailView.View, ViewModelNavigation);
                 form.OptionSelected += Form_OptionSelected;
                 BuildForm(form);
                 ModelToView(Model, form);
@@ -224,6 +242,35 @@ namespace LagoVista.Client.Core.ViewModels
             }
 
             return result.ToInvokeResult();
+        }
+
+        public abstract Task<InvokeResult> SaveRecordAsync();
+
+        public override async void Save()
+        {
+            if(!FormAdapter.IsDirty && !HasDirtyChildren)
+            {
+                await ViewModelNavigation.GoBackAsync();
+            }
+            else if(FormAdapter.Validate())
+            {
+                ViewToModel(FormAdapter, Model);
+                var saveResult = await SaveRecordAsync();
+                if(saveResult.Successful)
+                {
+                    //See notes on this method we allow the view model to override what happens when the record is saved.
+                    HasDirtyChildren = false;
+                    NotifyParentChildDirty();
+
+                    await PostSaveAsync();
+                }
+            }            
+        }
+
+        /* By default when the view model is saved we simply close the page, the view model can overide this to provide different behavior*/
+        public virtual Task PostSaveAsync()
+        {
+            return ViewModelNavigation.GoBackAsync();
         }
 
         private void Form_OptionSelected(object sender, OptionSelectedEventArgs e)
@@ -259,7 +306,37 @@ namespace LagoVista.Client.Core.ViewModels
         public void SetValue(string name, string value)
         {
             View[name.ToFieldKey()].Value = value;
-
         }
+
+        private bool _hasDirtyChildren;
+        public bool HasDirtyChildren
+        {
+            get { return _hasDirtyChildren; }
+            set
+            {
+                Set(ref _hasDirtyChildren, value);             
+            }
+        }
+
+        public void NotifyParentChildDirty()
+        {
+            HasDirtyChildren = true;
+            if (LaunchArgs.ParentViewModel is IFormParentViewModel)
+            {
+                (LaunchArgs.ParentViewModel as IFormParentViewModel).NotifyParentChildDirty();
+            }
+
+            if(LaunchArgs.ParentViewModel is IListViewModel)
+            {
+                (LaunchArgs.ParentViewModel as IListViewModel).MarkAsShouldRefresh();
+            }
+        }
+    }
+
+
+    public interface IFormParentViewModel
+    {
+        bool HasDirtyChildren { get; set; }
+        void NotifyParentChildDirty();
     }
 }

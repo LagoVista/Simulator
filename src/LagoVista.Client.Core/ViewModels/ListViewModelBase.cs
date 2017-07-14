@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels
 {
-    public abstract class ListViewModelBase<TSummaryModel> : AppViewModelBase where TSummaryModel : class
+    public abstract class ListViewModelBase<TSummaryModel> :  AppViewModelBase, IListViewModel where TSummaryModel : class
     {
         ListRestClient<TSummaryModel> _formRestClient;
+        private bool _shouldRefresh = false;
 
         public ListViewModelBase()
         {
@@ -48,29 +49,46 @@ namespace LagoVista.Client.Core.ViewModels
             return PerformNetworkOperation(LoadItems);
         }
 
-        public override Task ReloadedAsync()
+        public override async Task ReloadedAsync()
         {
-            return PerformNetworkOperation(LoadItems);
+            if (_shouldRefresh)
+            {
+                await PerformNetworkOperation(LoadItems);
+                _shouldRefresh = false;
+            }
+        }
+
+        public void MarkAsShouldRefresh()
+        {
+            _shouldRefresh = true;
         }
 
         protected virtual void ItemSelected(TSummaryModel model) { }
 
         /* so far will always be null just used to detect clicking on object */
-        TSummaryModel _selectedSimulator;
+        TSummaryModel _selectedItem;
         public TSummaryModel SelectedItem
         {
-            get { return _selectedSimulator; }
+            get { return _selectedItem; }
             set
             {
-                if (value != null && _selectedSimulator != value)
+                if (value != null && _selectedItem != value)
                 {
+                    _selectedItem = value;
                     ItemSelected(value);
                 }
-
-                _selectedSimulator = value;
+                else if(value == null)
+                {
+                    _selectedItem = null;
+                }         
 
                 RaisePropertyChanged();
             }
-        }
+        }       
+    }
+
+    public interface IListViewModel
+    {
+        void MarkAsShouldRefresh();
     }
 }

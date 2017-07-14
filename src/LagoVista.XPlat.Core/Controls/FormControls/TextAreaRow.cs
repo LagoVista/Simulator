@@ -25,6 +25,8 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
         private void _editor_TextChanged(object sender, TextChangedEventArgs e)
         {
             Field.Value = e.NewTextValue;
+            Field.Value = e.NewTextValue;
+            IsDirty = OriginalValue != Field.Value;
         }
 
         public override bool Validate()

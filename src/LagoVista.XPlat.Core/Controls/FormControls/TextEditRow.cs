@@ -108,6 +108,8 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             }
 
             Field.Value = e.NewTextValue;
+            IsDirty = OriginalValue != Field.Value;
+
             if (Field.IsRequired && String.IsNullOrEmpty(Field.Value))
             {
                 _validationMessage.IsVisible = true;

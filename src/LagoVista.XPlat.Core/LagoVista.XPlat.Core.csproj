@@ -35,6 +35,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'iOS Build|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\iOS Build\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Controls\Common\Button.cs" />
@@ -61,6 +71,7 @@
       <DependentUpon>XPlatResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\DispatcherServices.cs" />
+    <Compile Include="Services\PopupServices.cs" />
     <Compile Include="Services\StorageServiceBase.cs" />
     <Compile Include="Services\ViewModelNavigation.cs" />
     <Compile Include="Startup.cs" />

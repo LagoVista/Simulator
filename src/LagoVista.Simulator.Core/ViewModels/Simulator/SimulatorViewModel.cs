@@ -37,7 +37,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             {
                 await DisconnectAsync();
             }
-            await ViewModelNavigation.NavigateAndEditAsync<SimulatorEditorViewModel>(Model.Id);
+            await ViewModelNavigation.NavigateAndEditAsync<SimulatorEditorViewModel>(this, Model.Id);
         }
 
         private async Task<InvokeResult> LoadSimulator()
@@ -54,7 +54,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
             return InvokeResult.Success;
         }
-        
+
 
         public async void Connect()
         {
@@ -113,16 +113,16 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             }
         }
 
-        public override bool CanCancel()
+        public override Task<bool> CanCancelAsync()
         {
             if (_isConnected)
             {
                 Disconnect();
-                return true;
+                return Task.FromResult(true);
             }
             else
             {
-                return true;
+                return Task.FromResult(true);
             }
         }
 

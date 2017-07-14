@@ -72,6 +72,9 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                 Field.Value = Field.Options[_picker.SelectedIndex - 1].Key;
             }
 
+            IsDirty = OriginalValue != Field.Value;
+
+
             OptionSelected?.Invoke(this, new OptionSelectedEventArgs() { Key = Field.Name.ToPropertyName(), Value = Field.Value });
         }
 

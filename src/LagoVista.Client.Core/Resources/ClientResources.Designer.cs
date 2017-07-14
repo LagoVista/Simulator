@@ -368,6 +368,15 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string Common_OK {
+            get {
+                return ResourceManager.GetString("Common_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Common_Password {
@@ -391,6 +400,24 @@ namespace LagoVista.Client.Core.Resources {
         public static string Common_Yes {
             get {
                 return ResourceManager.GetString("Common_Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have unsaved changes.  Are you sure you want to exit?.
+        /// </summary>
+        public static string Confirm_Unsaved_Message {
+            get {
+                return ResourceManager.GetString("Confirm_Unsaved_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Confirm_Unsaved_Title {
+            get {
+                return ResourceManager.GetString("Confirm_Unsaved_Title", resourceCulture);
             }
         }
         

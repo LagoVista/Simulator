@@ -3,11 +3,12 @@ using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
 using LagoVista.Core.Models.UIMetaData;
 using System;
+using System.ComponentModel;
 using Xamarin.Forms;
 
 namespace LagoVista.XPlat.Core.Controls.FormControls
 {
-    public abstract class FormControl : StackLayout
+    public abstract class FormControl : StackLayout, INotifyPropertyChanged
     {
         FormField _field;
         FormViewer _viewer;
@@ -17,6 +18,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             _field = field;
             _viewer = viewer;
             IsVisible = field.IsVisible;
+            OriginalValue = _field.Value;
         }
 
         public FormField Field { get { return _field; } }
@@ -46,5 +48,18 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                 }
             }
         }
+
+        private bool _isDirty;
+        public bool IsDirty
+        {
+            get { return _isDirty; }
+            set
+            {
+                _isDirty = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public String OriginalValue {get; set; }
     }
 }
