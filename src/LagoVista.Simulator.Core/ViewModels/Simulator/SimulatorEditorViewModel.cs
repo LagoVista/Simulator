@@ -6,7 +6,6 @@ using LagoVista.Simulator.Core.ViewModels.Messages;
 using System.Linq;
 using LagoVista.Core.Validation;
 using System.Diagnostics;
-using LagoVista.Simulator.Core.Resources;
 using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.Client.Core.ViewModels;
 using System;

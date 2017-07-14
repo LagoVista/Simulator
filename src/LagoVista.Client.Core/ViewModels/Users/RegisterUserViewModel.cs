@@ -2,16 +2,11 @@
 using LagoVista.Core.Authentication.Models;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.Interfaces;
-using LagoVista.Core.Models;
-using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core.PlatformSupport;
 using LagoVista.Core.Validation;
-using LagoVista.Core.ViewModels;
 using LagoVista.UserAdmin.Models.DTOs;
-using LagoVista.UserAdmin.ViewModels.Users;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -46,8 +41,15 @@ namespace LagoVista.Client.Core.ViewModels.Users
             AuthManager.AppInstanceId = authResult.AppInstanceId;
             AuthManager.IsAuthenticated = true;
 
-            await RefreshUserFromServerAsync();
+            var refrehResult = await RefreshUserFromServerAsync();
+            if (!refrehResult.Successful) return refrehResult;
+
             Logger.AddKVPs(new KeyValuePair<string, string>("Email", AuthManager.User.Email));
+
+            if(LaunchArgs.Parameters.ContainsKey("inviteid"))
+            {
+                return (await RestClient.GetAsync<InvokeResult>($"/api/org/inviteuser/accept/{LaunchArgs.Parameters["inviteId"]}")).Result;
+            }
 
             await ViewModelNavigation.NavigateAsync<VerifyUserViewModel>();
 

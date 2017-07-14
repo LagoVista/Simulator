@@ -4,7 +4,6 @@ using LagoVista.Core.Commanding;
 using LagoVista.Core.Validation;
 using LagoVista.UserAdmin.Models.DTOs;
 using System;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Auth
@@ -25,43 +24,20 @@ namespace LagoVista.Client.Core.ViewModels.Auth
 
         public async void ChangePassword()
         {
-            if (String.IsNullOrEmpty(Model.OldPassword))
-            {
-                await Popups.ShowAsync(ClientResources.ChangePassword_OldPasswordRequired);
-                return;
-            }
-
-            if (String.IsNullOrEmpty(Model.NewPassword))
-            {
-                await Popups.ShowAsync(ClientResources.ChangePassword_NewPasswordRequired);
-                return;
-            }
-
-            var passwordRegEx = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
-            if (!passwordRegEx.Match(Model.NewPassword).Success)
-            {
-                await Popups.ShowAsync(ClientResources.Password_Requirements);
-                return;
-            }
-
-            if (String.IsNullOrEmpty(ConfirmPassword))
-            {
-                await Popups.ShowAsync(ClientResources.ChangePassword_ConfirmNewPassword);
-                return;
-            }
-
-            if (ConfirmPassword != Model.NewPassword)
-            {
-                await Popups.ShowAsync(ClientResources.ChangePassword_NewConfirmMatch);
-                return;
-            }
-
             Model.UserId = AuthManager.User.Id;
-            
-            if((await PerformNetworkOperation(SendResetPassword)).Successful)
+
+            var validationResult = Model.Validate(ConfirmPassword);
+            if (validationResult.Successful)
             {
-                await Popups.ShowAsync(ClientResources.ChangePassword_Success);
-                await ViewModelNavigation.GoBackAsync();
+                if ((await PerformNetworkOperation(SendResetPassword)).Successful)
+                {
+                    await Popups.ShowAsync(ClientResources.ChangePassword_Success);
+                    await ViewModelNavigation.GoBackAsync();
+                }
+            }
+            else
+            {
+                await ShowServerErrorMessageAsync(validationResult);
             }
         }
 
@@ -76,6 +52,5 @@ namespace LagoVista.Client.Core.ViewModels.Auth
 
         public RelayCommand ChangePasswordCommand { get; private set; }
         public RelayCommand CancelCommand { get; set; }
-
     }
 }

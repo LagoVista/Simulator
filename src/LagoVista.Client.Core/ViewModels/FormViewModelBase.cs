@@ -229,6 +229,7 @@ namespace LagoVista.Client.Core.ViewModels
         private void Form_OptionSelected(object sender, OptionSelectedEventArgs e)
         {
             OptionSelected(e.Key, e.Value);
+            FormAdapter.Refresh();
         }
 
         protected virtual void OptionSelected(string name, string value){ }

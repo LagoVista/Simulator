@@ -115,6 +115,7 @@ namespace LagoVista.XPlat.Core
                 }
             }
         }
+        
 
         private void ChildListControl_Deleted(object sender, DeleteItemEventArgs e)
         {

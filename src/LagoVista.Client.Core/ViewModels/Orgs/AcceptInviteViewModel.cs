@@ -1,15 +1,17 @@
 ﻿using LagoVista.Client.Core.Resources;
+using LagoVista.Client.Core.ViewModels.Auth;
+using LagoVista.Client.Core.ViewModels.Users;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.Validation;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using LagoVista.Core.ViewModels;
 using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Orgs
 {
     public class AcceptInviteViewModel : AppViewModelBase
     {
+        private string _inviteid;
+
         public AcceptInviteViewModel()
         {
             AcceptInviteCommnad = new RelayCommand(AcceptInvite);
@@ -19,7 +21,7 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
 
         private async Task<InvokeResult> SendAcceptInvite()
         {
-            return (await RestClient.GetAsync<InvokeResult>("/api/org/inviteuser/accept/{inviteid}")).Result;
+            return (await RestClient.GetAsync<InvokeResult>($"/api/org/inviteuser/accept/{_inviteid}")).Result;
         }
 
         public async void AcceptInvite()
@@ -31,19 +33,44 @@ namespace LagoVista.Client.Core.ViewModels.Orgs
             }
         }
 
+        public override Task InitAsync()
+        {
+            if (!LaunchArgs.Parameters.ContainsKey("inviteId"))
+            {
+                throw new System.Exception("Must pass in InviteID as a parameter for AcceptInviteViewmodel");
+            }
+
+            _inviteid = LaunchArgs.Parameters["inviteId"].ToString();
+
+            return base.InitAsync();
+        }
+
         public void AcceptInviteAndLogin()
         {
+            var args = new ViewModelLaunchArgs()
+            {
+                ViewModelType = typeof(LoginViewModel),
+                LaunchType = LaunchTypes.Other
+            };
 
+            args.Parameters.Add("inviteId", _inviteid);
+            ViewModelNavigation.NavigateAsync(args);
         }
 
         public void AcceptInviteAndRegister()
         {
+            var args = new ViewModelLaunchArgs()
+            {
+                ViewModelType = typeof(RegisterUserViewModel),
+                LaunchType = LaunchTypes.Other
+            };
+
+            args.Parameters.Add("inviteId", _inviteid);
+            ViewModelNavigation.NavigateAsync(args);
 
         }
 
-
         public RelayCommand AcceptInviteCommnad { get; private set; }
-
         public RelayCommand AcceptAndRegisterCommand { get; private set; }
         public RelayCommand AcceptAndLoginCommand { get; private set; }
 

@@ -1,29 +1,23 @@
-﻿using LagoVista.Client.Core.Net;
-using LagoVista.Core.Commanding;
+﻿using LagoVista.Core.Commanding;
 using LagoVista.Core.Models;
-using LagoVista.Core.Networking.Interfaces;
-using LagoVista.UserAdmin.ViewModels.VerifyIdentity;
 using System;
 using System.Threading;
-using LagoVista.Core;
 using Newtonsoft.Json;
-using LagoVista.Client.Core.ViewModels.Auth;
 using LagoVista.UserAdmin.Models.DTOs;
 using LagoVista.Client.Core.Resources;
 using System.Collections.Generic;
-using System.Net;
 using LagoVista.Client.Core.ViewModels.Orgs;
-using LagoVista.Core.Models.UIMetaData;
+using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Users
 {
     public class VerifyUserViewModel : AppViewModelBase
     {
-        Timer _timer;
-        
+        IClientAppInfo _clientAppInfo;
 
-        public VerifyUserViewModel()
+        public VerifyUserViewModel(IClientAppInfo clientAppInfo)
         {
+            _clientAppInfo = clientAppInfo;
             SendEmailConfirmationCommand = new RelayCommand(SendEmailConfirmation);
             SendSMSConfirmationCommand = new RelayCommand(SendSMSConfirmation, ValidPhoneNumber);
             ConfirmEnteredSMSCommand = new RelayCommand(ConfirmSMSCode, () => !String.IsNullOrEmpty(SMSCode));
@@ -51,56 +45,56 @@ namespace LagoVista.Client.Core.ViewModels.Users
                     await Popups.ShowAsync(result.ErrorMessage);
                 }
             });
-        }        
+        }
 
         public bool ValidPhoneNumber()
         {
             return !(String.IsNullOrEmpty(PhoneNumber));
         }
 
-        public void ConfirmSMSCode()
+        public async Task TransitionToNextView()
         {
-            PerformNetworkOperation(async () =>
+            if (AuthManager.User.EmailConfirmed && AuthManager.User.PhoneNumberConfirmed)
+            {
+                if (EntityHeader.IsNullOrEmpty(AuthManager.User.CurrentOrganization))
+                {
+                    await ViewModelNavigation.NavigateAndCreateAsync<OrgEditorViewModel>();
+                }
+                else
+                {
+                    await ViewModelNavigation.NavigateAsync(_clientAppInfo.MainViewModel);
+                }
+            }
+        }
+
+        public async void ConfirmSMSCode()
+        {
+            var result = await PerformNetworkOperation(async () =>
             {
                 var vm = new VerfiyPhoneNumber();
                 vm.PhoneNumber = PhoneNumber;
                 vm.SMSCode = SMSCode;
-                var json = JsonConvert.SerializeObject(vm);
-                var result = await RestClient.PostAsync("/api/verify/sms", json, new CancellationTokenSource());
-                if (result.Success)
-                {
-                    if (result.ToInvokeResult().Successful)
-                    {
-                        var refreshResult = await RefreshUserFromServerAsync();
-                        if (refreshResult.Successful)
-                        {
-                            Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "EmailConfirmed", new KeyValuePair<string, string>("userid", AuthManager.User.Id));
-                            await Popups.ShowAsync(ClientResources.Verify_SMS_Confirmed);
-                            if (AuthManager.User.EmailConfirmed && AuthManager.User.PhoneNumberConfirmed)
-                            {
-                                await ViewModelNavigation.NavigateAndCreateAsync<OrgEditorViewModel>();
-                            }
-                        }
-                        else
-                        {
-                            await ShowServerErrorMessageAsync(result.ToInvokeResult());
-                        }                        
-                    }
-                    else
-                    {
-                        await ShowServerErrorMessageAsync(result.ToInvokeResult());
-                    }
-                }
-                else
-                {
-                    await Popups.ShowAsync(result.ErrorMessage);
-                }
+                var confirmSMSResult = await RestClient.PostAsync("/api/verify/sms", vm, new CancellationTokenSource());
+                if (!confirmSMSResult.Successful) return confirmSMSResult;
+
+                var refreshResult = await RefreshUserFromServerAsync();
+                if (!refreshResult.Successful) return refreshResult;
+
+                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "EmailConfirmed", new KeyValuePair<string, string>("userid", AuthManager.User.Id));
+                await Popups.ShowAsync(ClientResources.Verify_SMS_Confirmed);
+
+                return refreshResult;
             });
+
+            if (result.Successful)
+            {
+                await TransitionToNextView();
+            }
         }
 
-        public override void HandleURIActivation(Uri uri, Dictionary<string, string> kvps)
-        {          
-            if(!kvps.ContainsKey("code"))
+        public override async void HandleURIActivation(Uri uri, Dictionary<string, string> kvps)
+        {
+            if (!kvps.ContainsKey("code"))
             {
                 Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Missing Code", new KeyValuePair<string, string>("queryString", uri.Query));
                 return;
@@ -115,76 +109,47 @@ namespace LagoVista.Client.Core.ViewModels.Users
             var code = kvps["code"];
             var userId = kvps["userid"];
 
-            if(userId != AuthManager.User.Id)
+            if (userId != AuthManager.User.Id)
             {
-                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Link/User Id Mismatch", 
+                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "Link/User Id Mismatch",
                     new KeyValuePair<string, string>("linkUser", userId),
                      new KeyValuePair<string, string>("currentUser", AuthManager.User.Id));
                 return;
             }
-            
-            PerformNetworkOperation(async () =>
+
+            var result = await PerformNetworkOperation(async () =>
             {
                 var vm = new ConfirmEmail();
                 vm.ReceivedCode = code;
                 var json = JsonConvert.SerializeObject(vm);
-                var result = await RestClient.PostAsync("/api/verify/email", json, new CancellationTokenSource());
-                if (result.Success)
-                {
-                    if (result.ToInvokeResult().Successful)
-                    {
-                        var refreshResult = await RefreshUserFromServerAsync();
-                        if(refreshResult.Successful)
-                        {
-                            Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "EmailConfirmed", new KeyValuePair<string, string>("userid", userId));
-                            await Popups.ShowAsync(ClientResources.Verify_Email_Confirmed);
-                            if (AuthManager.User.EmailConfirmed && AuthManager.User.PhoneNumberConfirmed)
-                            {
-                                await ViewModelNavigation.NavigateAndCreateAsync<OrgEditorViewModel>();
-                            }
-                        }
-                        else
-                        {
-                            await ShowServerErrorMessageAsync(result.ToInvokeResult());
-                        }
-                    }
-                    else
-                    {
-                        await ShowServerErrorMessageAsync(result.ToInvokeResult());
-                    }
-                }
-                else
-                {
-                    await Popups.ShowAsync(result.ErrorMessage);
-                }
+                var confirmEmailResult = await RestClient.PostAsync("/api/verify/email", vm, new CancellationTokenSource());
+                if (!confirmEmailResult.Successful) return confirmEmailResult;
+
+                var refreshResult = await RefreshUserFromServerAsync();
+                if (!refreshResult.Successful) return refreshResult;
+
+                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "EmailConfirmed", new KeyValuePair<string, string>("userid", userId));
+                await Popups.ShowAsync(ClientResources.Verify_Email_Confirmed);
+
+                return refreshResult;
             });
 
         }
 
-        public void SendSMSConfirmation()
+        public async void SendSMSConfirmation()
         {
-            PerformNetworkOperation(async () =>
+            var result = await PerformNetworkOperation(async () =>
             {
                 var vm = new VerfiyPhoneNumber();
                 vm.PhoneNumber = PhoneNumber;
-                var json = JsonConvert.SerializeObject(vm);
-                var result = await RestClient.PostAsync("/api/verify/sendsmscode", json, new CancellationTokenSource());
-                if (result.Success)
-                {
-                    if (result.ToInvokeResult().Successful)
-                    {
-                        await Popups.ShowAsync(ClientResources.Verify_SMSSent);
-                    }
-                    else
-                    {
-                        await ShowServerErrorMessageAsync(result.ToInvokeResult());
-                    }
-                }
-                else
-                {
-                    await Popups.ShowAsync(result.ErrorMessage);
-                }
+                var sendMSM = await RestClient.PostAsync("/api/verify/sendsmscode", vm, new CancellationTokenSource());
+                return sendMSM;
             });
+
+            if (result.Successful)
+            {
+                await Popups.ShowAsync(ClientResources.Verify_SMSSent);
+            }
         }
 
         private string _phoneNumber;
@@ -215,8 +180,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
             get { return _confirmEmailStepVisible; }
             set { Set(ref _confirmEmailStepVisible, value); }
         }
-
-
+        
         public RelayCommand SendEmailConfirmationCommand { get; private set; }
         public RelayCommand SendSMSConfirmationCommand { get; private set; }
         public RelayCommand ConfirmEnteredSMSCommand { get; private set; }

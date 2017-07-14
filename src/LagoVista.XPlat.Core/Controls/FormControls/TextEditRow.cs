@@ -32,12 +32,12 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                 switch (FieldType)
                 {
                     case FieldTypes.Key:
-                        //_editor.Keyboard = Keyboard.Create(KeyboardFlags.None);
                         _editor.Keyboard = Keyboard.Plain;
                         break;
                     case FieldTypes.Decimal:
                     case FieldTypes.Integer:
                         _editor.Keyboard = Keyboard.Numeric;
+                        _editor.HorizontalTextAlignment = TextAlignment.End;
                         break;
                 }
 
@@ -52,6 +52,13 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                 Margin = new Thickness(10, 5, 20, 0);
             }
         }
+
+        public override void Refresh()
+        {
+            base.Refresh();
+            _editor.Text = Field.Value;
+        }
+
 
         public override bool Validate()
         {

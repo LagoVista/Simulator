@@ -26,7 +26,8 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
 
         public virtual void Refresh()
         {
-
+            IsVisible = _field.IsVisible;
+            IsEnabled = _field.IsUserEditable;
         }
 
         public IAppStyle AppStyle { get { return SLWIOC.Get<IAppStyle>(); } }

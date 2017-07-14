@@ -73,7 +73,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
             ModelToView(Model, form);
 
-
             switch (Model.Transport.Value)
             {
                 case TransportTypes.MQTT: SetForMQTT(); break;

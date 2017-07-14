@@ -1,5 +1,4 @@
-﻿using LagoVista.Client.Core.Resources;
-using LagoVista.Client.Core.ViewModels.Orgs;
+﻿using LagoVista.Client.Core.ViewModels.Orgs;
 using LagoVista.Client.Core.ViewModels.Users;
 using LagoVista.Core.Authentication.Interfaces;
 using LagoVista.Core.Authentication.Models;
@@ -7,11 +6,8 @@ using LagoVista.Core.Commanding;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.Models;
 using LagoVista.Core.PlatformSupport;
-using LagoVista.Core.ViewModels;
-using LagoVista.UserAdmin.ViewModels.Users;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using LagoVista.Core.Validation;
+using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels.Auth
 {
@@ -24,28 +20,18 @@ namespace LagoVista.Client.Core.ViewModels.Auth
 
         public LoginViewModel(IAuthClient authClient, IClientAppInfo clientAppInfo, IAppConfig appConfig, IDeviceInfo deviceInfo)
         {
-            LoginCommand = new RelayCommand(Login);
+            LoginCommand = new RelayCommand(LoginAsync);
             RegisterCommand = new RelayCommand(Register);
             ForgotPasswordCommand = new RelayCommand(ForgotPassword);
+
             _authClient = authClient;
             _clientAppInfo = clientAppInfo;
             _appConfig = appConfig;
             _deviceInfo = deviceInfo;
         }
 
-        public async void Register()
+        public async Task<InvokeResult> PerformLoginAsync()
         {
-            await ViewModelNavigation.NavigateAsync<RegisterUserViewModel>();
-        }
-
-        public async void ForgotPassword()
-        {
-            await ViewModelNavigation.NavigateAsync<SendResetPasswordLinkViewModel>();
-        }
-
-        public async void Login()
-        {
-            IsBusy = true;
             var loginInfo = new AuthRequest()
             {
                 AppId = _appConfig.AppId,
@@ -58,56 +44,68 @@ namespace LagoVista.Client.Core.ViewModels.Auth
                 GrantType = "password"
             };
 
-            var result = await _authClient.LoginAsync(loginInfo);
+            var loginResult = await _authClient.LoginAsync(loginInfo);
+            if (!loginResult.Successful) return loginResult.ToInvokeResult();
 
-            if (result.Successful)
+            var authResult = loginResult.Result;
+            AuthManager.AccessToken = authResult.AccessToken;
+            AuthManager.AccessTokenExpirationUTC = authResult.AccessTokenExpiresUTC;
+            AuthManager.RefreshToken = authResult.RefreshToken;
+            AuthManager.AppInstanceId = authResult.AppInstanceId;
+            AuthManager.RefreshTokenExpirationUTC = authResult.RefreshTokenExpiresUTC;
+            AuthManager.IsAuthenticated = true;
+            
+            if (LaunchArgs.Parameters.ContainsKey("inviteid"))
             {
-                var authResult = result.Result;
-                AuthManager.AccessToken = authResult.AccessToken;
-                AuthManager.AccessTokenExpirationUTC = authResult.AccessTokenExpiresUTC;
-                AuthManager.RefreshToken = authResult.RefreshToken;
-                AuthManager.AppInstanceId = authResult.AppInstanceId;
-                AuthManager.RefreshTokenExpirationUTC = authResult.RefreshTokenExpiresUTC;
-                AuthManager.IsAuthenticated = true;
+                var acceptInviteResult = await RestClient.GetAsync<InvokeResult>($"/api/org/inviteuser/accept/{LaunchArgs.Parameters["inviteId"]}");
+                if (!acceptInviteResult.Successful) return acceptInviteResult.ToInvokeResult();
+            }
 
-                var refreshUserResult = await RefreshUserFromServerAsync();
+            var refreshUserResult = await RefreshUserFromServerAsync();
+            if (!refreshUserResult.Successful) return refreshUserResult;
 
-                var launchArgs = new ViewModelLaunchArgs();
+            return InvokeResult.Success;
+        }
 
+        public async void Register()
+        {
+            await ViewModelNavigation.NavigateAsync<RegisterUserViewModel>();
+        }
+
+        public async void ForgotPassword()
+        {
+            await ViewModelNavigation.NavigateAsync<SendResetPasswordLinkViewModel>();
+        }
+
+        public async void LoginAsync()
+        {
+            var loginResult = await PerformNetworkOperation(PerformLoginAsync);
+            if(loginResult.Successful)
+            {
                 if (AuthManager.User.EmailConfirmed && AuthManager.User.PhoneNumberConfirmed)
                 {
                     // If no org, have them add an org....
                     if (EntityHeader.IsNullOrEmpty(AuthManager.User.CurrentOrganization))
                     {
-                        launchArgs.ViewModelType = typeof(OrgEditorViewModel);
+                        await ViewModelNavigation.NavigateAsync<OrgEditorViewModel>();
                     }
                     else
                     {
                         // We are good, so show main screen.
-                        launchArgs.ViewModelType = _clientAppInfo.MainViewModel;
+                        await ViewModelNavigation.NavigateAsync(_clientAppInfo.MainViewModel);
                     }
                 }
                 else
                 {
                     // Show verify user screen.
-                    launchArgs.ViewModelType = typeof(VerifyUserViewModel);
+                    await ViewModelNavigation.NavigateAsync<VerifyUserViewModel>();
                 }
-
-                launchArgs.LaunchType = LaunchTypes.View;
-                await ViewModelNavigation.NavigateAsync(launchArgs);
-                IsBusy = false;
-            }
-            else
-            {
-                IsBusy = false;
-                await Popups.ShowAsync(ClientResources.Auth_FailedLogin);
             }
         }
 
         public RelayCommand LoginCommand { get; private set; }
         public RelayCommand RegisterCommand { get; private set; }
         public RelayCommand ForgotPasswordCommand { get; private set; }
-
 
         private string _emailAddress;
         private string _password;
