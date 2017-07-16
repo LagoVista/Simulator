@@ -19,7 +19,6 @@ namespace LagoVista.Simulator.Core.ViewModels
         public MainViewModel()
         {
             AddNewSimulatorCommand = new RelayCommand(AddNewSimulator);
-            LogoutCommand = new RelayCommand(Logout);
             SettingsCommand = new RelayCommand(ToggleSettings);
 
             MenuItems = new List<MenuItem>()
@@ -44,7 +43,7 @@ namespace LagoVista.Simulator.Core.ViewModels
                 },
                 new MenuItem()
                 {
-                    Command = LogoutCommand,
+                    Command = new RelayCommand(() => Logout()),
                     Name = ClientResources.Common_Logout,
                     FontIconKey = "fa-sign-out"
                 }
