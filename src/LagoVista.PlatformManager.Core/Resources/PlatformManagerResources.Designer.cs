@@ -60,5 +60,23 @@ namespace LagoVista.PlatformManager.Core.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Platform Manager.
+        /// </summary>
+        public static string AppName {
+            get {
+                return ResourceManager.GetString("AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get Started.
+        /// </summary>
+        public static string Common_GetStarted {
+            get {
+                return ResourceManager.GetString("Common_GetStarted", resourceCulture);
+            }
+        }
     }
 }

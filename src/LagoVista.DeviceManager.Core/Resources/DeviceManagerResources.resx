@@ -120,4 +120,7 @@
   <data name="AppName" xml:space="preserve">
     <value>Device Manager</value>
   </data>
+  <data name="Common_GetStarted" xml:space="preserve">
+    <value>Get Started</value>
+  </data>
 </root>

@@ -69,5 +69,14 @@ namespace LagoVista.DeviceManager.Core.Resources {
                 return ResourceManager.GetString("AppName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get Started.
+        /// </summary>
+        public static string Common_GetStarted {
+            get {
+                return ResourceManager.GetString("Common_GetStarted", resourceCulture);
+            }
+        }
     }
 }
