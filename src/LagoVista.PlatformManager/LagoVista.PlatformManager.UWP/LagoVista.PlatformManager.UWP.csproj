@@ -11,7 +11,7 @@
     <AssemblyName>LagoVista.PlatformManager.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
@@ -108,6 +108,7 @@
     <None Include="LagoVista.PlatformManager.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="nuviot.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />
@@ -140,6 +141,8 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="softwarelogistics.png" />
+    <Content Include="splashbg.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -150,6 +153,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\LagoVista.Client.Core\LagoVista.Client.Core.csproj">
+      <Project>{786a2d0b-c3e4-4d7a-89c5-86ebc94e1b45}</Project>
+      <Name>LagoVista.Client.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LagoVista.PlatformManager\LagoVista.PlatformManager.csproj">
+      <Project>{b6e22604-c84f-488e-86e5-0fe8b30ab6b0}</Project>
+      <Name>LagoVista.PlatformManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

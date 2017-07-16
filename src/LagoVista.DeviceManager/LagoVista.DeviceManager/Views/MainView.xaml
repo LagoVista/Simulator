@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pge:LagoVistaContentPage xmlns:pge="clr-namespace:LagoVista.XPlat.Core;assembly=LagoVista.XPlat.Core"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:iconize="clr-namespace:FormsPlugin.Iconize;assembly=FormsPlugin.Iconize"
+    xmlns:trs="clr-namespace:LagoVista.DeviceManager;assembly=LagoVista.DeviceManager"
+    x:Class="LagoVista.DeviceManager.Views.MainView"
+    LeftMenu="Menu" 
+    Title="{trs:Translate AppName}">
+
+    <pge:LagoVistaContentPage.MainContent>
+        <ListView ItemsSource="{Binding ListItems}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" RowHeight="64" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell  >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32" />
+                                <RowDefinition Height="24" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <pge:Icon IconKey="md-developer-board"  Grid.Column="1" FontSize="48" VerticalOptions="Center" TextColor="{StaticResource NuvIoTDark}" Grid.RowSpan="2" />
+                            <Label Text="{Binding Name}" Grid.Column="2" FontSize="20" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="End" />
+                            <pge:Icon IconKey="fa-arrow-circle-right" Grid.Column="3" FontSize="28" Margin="0,0,16,0" VerticalOptions="Center" Grid.RowSpan="2" />
+
+                            <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
+                                <pge:Label Text="{Binding EndPoint}" FontSize="12" />
+                                <pge:Label Text="{Binding Port}" FontSize="12" />
+                                <pge:Label Text="{Binding TransportType}" FontSize="12"/>
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </pge:LagoVistaContentPage.MainContent>
+</pge:LagoVistaContentPage >

@@ -1,5 +1,9 @@
-﻿using System;
+﻿using LagoVista.Core.IOC;
+using LagoVista.Core.PlatformSupport;
+using LagoVista.Core.UWP.Services;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,6 +26,8 @@ namespace LagoVista.PlatformManager.UWP
     /// </summary>
     sealed partial class App : Application
     {
+        public const string MOBILE_CENTER_KEY = "33298eb8-4b6e-43fe-9130-b25d3e6fb2ac";
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -30,55 +36,69 @@ namespace LagoVista.PlatformManager.UWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            UnhandledException += (sender, e) =>
+            {
+                Debug.WriteLine("EXCPETION");
+                Debug.WriteLine(e.Exception);
+                Debug.WriteLine(e.Message);
+                Debug.WriteLine(e.Exception.StackTrace);
+                if (global::System.Diagnostics.Debugger.IsAttached) global::System.Diagnostics.Debugger.Break();
+            };
         }
 
-        /// <summary>
-        /// Invoked when the application is launched normally by the end user.  Other entry points
-        /// will be used such as when the application is launched to open a specific file.
-        /// </summary>
-        /// <param name="e">Details about the launch request and process.</param>
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                var logger = SLWIOC.Get<ILogger>();
+
+                var protocolActivatedEventArgs = (args as ProtocolActivatedEventArgs);
+                if (protocolActivatedEventArgs == null)
+                {
+                    logger.AddCustomEvent(LogLevel.Error, "App_OnActivated", "EventArgs Not ProtocolActivatedEventArgs", new System.Collections.Generic.KeyValuePair<string, string>("type", args.GetType().Name));
+                }
+                else
+                {
+                    logger.AddCustomEvent(LogLevel.Message, "App_OnActivated", "URI App Activation", new System.Collections.Generic.KeyValuePair<string, string>("uri", protocolActivatedEventArgs.Uri.ToString()));
+                    LagoVista.PlatformManager.App.Instance.HandleURIActivation(protocolActivatedEventArgs.Uri);
+                }
+            }
+
+            base.OnActivated(args);
+        }
+
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            var rootFrame = Window.Current.Content as Frame;
 
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                this.DebugSettings.EnableFrameRateCounter = true;
-            }
-#endif
-
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
             if (rootFrame == null)
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 Xamarin.Forms.Forms.Init(e);
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: Load state from previously suspended application
-                }
+                LagoVista.Core.UWP.Startup.Init(this, rootFrame.Dispatcher, MOBILE_CENTER_KEY);
 
-                // Place the frame in the current Window
+                SLWIOC.RegisterSingleton<IDeviceInfo>(new DeviceInfo());
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated) { }
+
                 Window.Current.Content = rootFrame;
             }
 
-            if (rootFrame.Content == null)
+            if (e.PrelaunchActivated == false)
             {
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
-                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                if (rootFrame.Content == null)
+                {
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                }
+
+                Window.Current.Activate();
             }
-            // Ensure the current window is active
-            Window.Current.Activate();
         }
+
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails

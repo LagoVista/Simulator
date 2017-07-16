@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.Client.Core", "src\LagoVista.Client.Core\LagoVista.Client.Core.csproj", "{786A2D0B-C3E4-4D7A-89C5-86EBC94E1B45}"
 EndProject
@@ -72,7 +72,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagoVista.DeviceManager.UWP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagoVista.DeviceManager.iOS", "src\LagoVista.DeviceManager\LagoVista.DeviceManager.iOS\LagoVista.DeviceManager.iOS.csproj", "{43EFDC19-773F-49DC-BE4D-EC4069EC0C3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagoVista.DeviceManager.Core", "src\LagoVista.DeviceManager.Core\LagoVista.DeviceManager.Core.csproj", "{2142C030-AFC5-4BEE-9608-4D0814486602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.DeviceManager.Core", "src\LagoVista.DeviceManager.Core\LagoVista.DeviceManager.Core.csproj", "{2142C030-AFC5-4BEE-9608-4D0814486602}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

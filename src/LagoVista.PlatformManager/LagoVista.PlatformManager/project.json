@@ -2,6 +2,7 @@
   "supports": {},
   "dependencies": {
     "LagoVista.Core": "1.2.59-alpha1220",
+    "LagoVista.IoT.Deployment.Admin": "1.2.59-alpha0808",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
     "NETStandard.Library": "1.6.1",
     "Newtonsoft.Json": "10.0.3",

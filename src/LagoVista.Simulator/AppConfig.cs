@@ -23,7 +23,7 @@ namespace LagoVista.Simulator
 
         public bool EmitTestingCode => true;
 
-        public string AppId => "b551f8dc-f7c2-405c-8c21-530a9bc11003";
+        public string AppId => "C2781A0A72DB4634975F868F0C0405C3";
         public string ClientType => "mobileapp";
     }
 }
