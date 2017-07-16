@@ -46,6 +46,15 @@
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ManageDeviceView.xaml.cs">
+      <DependentUpon>ManageDeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MonitorDeviceView.xaml.cs">
+      <DependentUpon>MonitorDeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProvisionDeviceView.xaml.cs">
+      <DependentUpon>ProvisionDeviceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SplashView.xaml.cs">
       <DependentUpon>SplashView.xaml</DependentUpon>
     </Compile>
@@ -81,6 +90,24 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\SplashView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\ManageDeviceView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\MonitorDeviceView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\ProvisionDeviceView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
