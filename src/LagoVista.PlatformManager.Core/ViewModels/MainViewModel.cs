@@ -6,6 +6,7 @@ using LagoVista.Core.Commanding;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using LagoVista.IoT.Deployment.Admin.Models;
 
 namespace LagoVista.PlatformManager.Core.ViewModels
 {
@@ -40,6 +41,11 @@ namespace LagoVista.PlatformManager.Core.ViewModels
                     FontIconKey = "fa-sign-out"
                 }
             };
+        }
+
+        protected override async void ItemSelected(DeploymentInstanceSummary model)
+        {
+            await NavigateAndView<InstanceViewModel>(model.Id);
         }
 
         protected override string GetListURI()

@@ -9,14 +9,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='iOS Build|AnyCPU'" />
 
   <ItemGroup>
+    <Compile Remove="Orgs\**" />
+    <EmbeddedResource Remove="Orgs\**" />
+    <None Remove="Orgs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Icons\ReadMe.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.59-alpha1220" />
-    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.59-alpha1220" />
-    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.59-alpha1220" />
-    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.59-alpha1220" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.61-alpha1053" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.61-alpha1053" />
+    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.61-alpha1053" />
+    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.61-alpha1053" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
@@ -33,10 +39,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ClientResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Orgs\ViewModels\" />
   </ItemGroup>
 
 </Project>

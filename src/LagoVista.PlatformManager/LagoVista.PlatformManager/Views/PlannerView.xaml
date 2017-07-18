@@ -6,6 +6,6 @@
     x:Class="LagoVista.PlatformManager.Views.PlannerView"
     xmlns:trs="clr-namespace:LagoVista.PlatformManager;assembly=LagoVista.PlatformManager"
     HasToolBar="true" >
-    <pge:LagoVistaContentPage.Content>
-    </pge:LagoVistaContentPage.Content>
+    <pge:LagoVistaContentPage.MainContent>
+    </pge:LagoVistaContentPage.MainContent>
 </pge:LagoVistaContentPage>

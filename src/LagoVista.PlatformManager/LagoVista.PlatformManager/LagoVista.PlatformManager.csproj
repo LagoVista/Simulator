@@ -41,6 +41,7 @@
     </Compile>
     <Compile Include="AppConfig.cs" />
     <Compile Include="ClientAppInfo.cs" />
+    <Compile Include="Controls\InstanceRuntimeTreeControl.cs" />
     <Compile Include="Extensions\TranslationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\InstanceView.xaml.cs">
@@ -51,6 +52,9 @@
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MonitorInstanceView.xaml.cs">
+      <DependentUpon>MonitorInstanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PipelineView.xaml.cs">
       <DependentUpon>PipelineView.xaml</DependentUpon>
@@ -117,6 +121,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\PlannerView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\MonitorInstanceView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

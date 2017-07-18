@@ -688,7 +688,11 @@ namespace LagoVista.XPlat.Core
                 if (ViewModel != null)
                 {
                     ViewModel.Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Message, ViewModel.GetType().Name, "Appeared");
-                    this.Content.BindingContext = ViewModel;
+                    if (this.Content != null)
+                    {
+                        this.Content.BindingContext = ViewModel;
+                    }
+
                     await ViewModel.InitAsync();
                 }
             }

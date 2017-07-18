@@ -3,9 +3,11 @@
     xmlns:pge="clr-namespace:LagoVista.XPlat.Core;assembly=LagoVista.XPlat.Core"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="LagoVista.PlatformManager.Views.ListenerView"
+    x:Class="LagoVista.PlatformManager.Views.MonitorInstanceView"
     xmlns:trs="clr-namespace:LagoVista.PlatformManager;assembly=LagoVista.PlatformManager"
+    LeftMenu="Back"
     HasToolBar="true" >
     <pge:LagoVistaContentPage.MainContent>
+        <Label Text="Hello" />
     </pge:LagoVistaContentPage.MainContent>
 </pge:LagoVistaContentPage>

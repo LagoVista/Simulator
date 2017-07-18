@@ -123,4 +123,25 @@
   <data name="Common_GetStarted" xml:space="preserve">
     <value>Get Started</value>
   </data>
+  <data name="InstanceDetails_DeviceConfigurations" xml:space="preserve">
+    <value>Device Configurations</value>
+  </data>
+  <data name="InstanceDetails_Listeners" xml:space="preserve">
+    <value>Listeners</value>
+  </data>
+  <data name="InstanceDetails_MessageTypes" xml:space="preserve">
+    <value>Message Types</value>
+  </data>
+  <data name="InstanceDetails_PipelineModules" xml:space="preserve">
+    <value>Pipeline Modules</value>
+  </data>
+  <data name="InstanceDetails_Planner" xml:space="preserve">
+    <value>Planner</value>
+  </data>
+  <data name="InstanceDetails_Routes" xml:space="preserve">
+    <value>Routes</value>
+  </data>
+  <data name="InstanceView_Title" xml:space="preserve">
+    <value>Instance Details</value>
+  </data>
 </root>

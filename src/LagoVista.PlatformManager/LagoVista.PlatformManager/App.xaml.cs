@@ -2,7 +2,6 @@
 //#define ENV_DEV
 #define ENV_PROD
 
-
 using LagoVista.Client.Core;
 using LagoVista.Client.Core.Models;
 using LagoVista.Client.Core.ViewModels;
@@ -14,9 +13,6 @@ using LagoVista.PlatformManager.Core.ViewModels;
 using LagoVista.XPlat.Core.Services;
 using LagoVista.XPlat.Core.Views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Xamarin.Forms;
 
@@ -73,8 +69,13 @@ namespace LagoVista.PlatformManager
             LagoVista.Client.Core.Startup.Init(serverInfo);
 
             navigation.Add<MainViewModel, Views.MainView>();
-
             navigation.Add<SplashViewModel, Views.SplashView>();
+
+            navigation.Add<MonitorInstanceViewModel, Views.MonitorInstanceView>();
+            navigation.Add<InstanceViewModel, Views.InstanceView>();
+            navigation.Add<ListtenerViewModel, Views.ListenerView>();
+            navigation.Add<PipelineViewModel, Views.PipelineView>();
+            navigation.Add<PlannerViewModel, Views.PlannerView>();
 
             navigation.Start<SplashViewModel>();
 

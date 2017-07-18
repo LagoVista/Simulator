@@ -205,6 +205,10 @@
       <Project>{d5dd4ca3-3b5c-4a0e-aa82-4cebb9a7160d}</Project>
       <Name>LagoVista.XPlat.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\LagoVista.XPlat.UWP\LagoVista.XPlat.UWP.csproj">
+      <Project>{9ed662b0-40c9-4899-b11e-f10c3c9d6aeb}</Project>
+      <Name>LagoVista.XPlat.UWP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LagoVista.PlatformManager\LagoVista.PlatformManager.csproj">
       <Project>{b6e22604-c84f-488e-86e5-0fe8b30ab6b0}</Project>
       <Name>LagoVista.PlatformManager</Name>

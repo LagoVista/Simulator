@@ -78,5 +78,68 @@ namespace LagoVista.PlatformManager.Core.Resources {
                 return ResourceManager.GetString("Common_GetStarted", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device Configurations.
+        /// </summary>
+        public static string InstanceDetails_DeviceConfigurations {
+            get {
+                return ResourceManager.GetString("InstanceDetails_DeviceConfigurations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listeners.
+        /// </summary>
+        public static string InstanceDetails_Listeners {
+            get {
+                return ResourceManager.GetString("InstanceDetails_Listeners", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message Types.
+        /// </summary>
+        public static string InstanceDetails_MessageTypes {
+            get {
+                return ResourceManager.GetString("InstanceDetails_MessageTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pipeline Modules.
+        /// </summary>
+        public static string InstanceDetails_PipelineModules {
+            get {
+                return ResourceManager.GetString("InstanceDetails_PipelineModules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Planner.
+        /// </summary>
+        public static string InstanceDetails_Planner {
+            get {
+                return ResourceManager.GetString("InstanceDetails_Planner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Routes.
+        /// </summary>
+        public static string InstanceDetails_Routes {
+            get {
+                return ResourceManager.GetString("InstanceDetails_Routes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instance Details.
+        /// </summary>
+        public static string InstanceView_Title {
+            get {
+                return ResourceManager.GetString("InstanceView_Title", resourceCulture);
+            }
+        }
     }
 }

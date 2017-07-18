@@ -21,7 +21,6 @@ namespace LagoVista.Client.Core.Net
      * 100% of all authenticated calls to the server with go through this singleton, idea is that if
      * a refresh token is upodated and two calls happen at the same time with the same refresh token
      * only one will succeed and the user will be locked out since the refresh tokens are single use.
-     * 
      */
     public class RawRestClient : LagoVista.Client.Core.Net.IRestClient
     {
@@ -90,6 +89,10 @@ namespace LagoVista.Client.Core.Net
                 if (_authManager.IsAuthenticated)
                 {
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AccessToken);
+                }
+                else
+                {
+                    return RawResponse.FromNotCompleted();
                 }
 
                 retry = false;
@@ -192,7 +195,7 @@ namespace LagoVista.Client.Core.Net
 
         public async Task<InvokeResult> PostAsync<TModel>(string path, TModel model, CancellationTokenSource cancellationTokenSource = null) where TModel : class
         {
-            if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+            if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
 
             var json = JsonConvert.SerializeObject(model, new Newtonsoft.Json.JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver(), });
             var response = await PostAsync(path, json, cancellationTokenSource);
@@ -201,7 +204,7 @@ namespace LagoVista.Client.Core.Net
 
         public async Task<InvokeResult<TResponseModel>> PostAsync<TModel, TResponseModel>(string path, TModel model, CancellationTokenSource cancellationTokenSource = null) where TModel : class where TResponseModel : class
         {
-            if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+            if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
 
             var json = JsonConvert.SerializeObject(model, new Newtonsoft.Json.JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver(), });
             var response = await PostAsync(path, json, cancellationTokenSource);
@@ -210,7 +213,7 @@ namespace LagoVista.Client.Core.Net
 
         public async Task<InvokeResult<TResponseModel>> GetAsync<TResponseModel>(string path, CancellationTokenSource cancellationTokenSource = null) where TResponseModel : class
         {
-            if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+            if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
 
             var response = await GetAsync(path, cancellationTokenSource);
             return response.ToInvokeResult<TResponseModel>();

@@ -101,6 +101,19 @@ namespace LagoVista.Client.Core.ViewModels
             }
         }
 
+        protected  Task NavigateAndView<TViewModel>(string id)
+        {
+            var launchArgs = new ViewModelLaunchArgs()
+            {
+                ViewModelType = typeof(TViewModel),
+                ParentViewModel = this,
+                ChildId = id,
+                LaunchType = LaunchTypes.View
+            };
+
+            return ViewModelNavigation.NavigateAsync(launchArgs);
+        }
+
         public virtual void Edit()
         {
 

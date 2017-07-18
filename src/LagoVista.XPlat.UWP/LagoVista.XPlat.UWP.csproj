@@ -110,13 +110,13 @@
     <Compile Include="Network\MqttNetworkChannel.cs" />
     <Compile Include="Network\TCPClient.cs" />
     <Compile Include="Network\UDPClient.cs" />
+    <Compile Include="Network\WebSocket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Startup.cs" />
     <EmbeddedResource Include="Properties\LagoVista.XPlat.UWP.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LagoVista.Core">
-      <Version>1.2.59-alpha1220</Version>
+      <Version>1.2.61-alpha1053</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.3.3</Version>
