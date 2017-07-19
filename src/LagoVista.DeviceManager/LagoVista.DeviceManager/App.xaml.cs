@@ -72,6 +72,9 @@ namespace LagoVista.DeviceManager
             LagoVista.Client.Core.Startup.Init(serverInfo);
 
             navigation.Add<MainViewModel, Views.MainView>();
+            navigation.Add<DeviceExplorerViewModel, Views.DeviceExplorerView>();
+            navigation.Add<ProvisionDeviceViewModel, Views.ProvisionDeviceView>();
+            navigation.Add<DeviceTypePickerViewModel, Views.DeviceTypePickerView>();
 
             navigation.Add<SplashViewModel, Views.SplashView>();
 

@@ -109,7 +109,11 @@ namespace LagoVista.XPlat.Core
                         case FormField.FieldType_MultilineText: AddChild(new TextAreaRow(this, field)); break;
                         case "Bool": AddChild(new CheckBoxRow(this, field)); break;
                         case FormField.FieldType_CheckBox: AddChild(new CheckBoxRow(this, field)); break;
-                        case FormField.FeildType_EntityHeaderPicker: AddChild(new EntityHeaderPicker(this, field)); break;
+                        case FormField.FeildType_EntityHeaderPicker:
+                            var ehPicker = new EntityHeaderPicker(this, field);
+                            ehPicker.PickerTapped += EhPicker_PickerTapped;
+                            AddChild(ehPicker);
+                            break;
                         case FormField.FieldType_Picker:
                             var picker = new SelectRow(this, field);
                             picker.OptionSelected += Picker_OptionSelected;
@@ -132,6 +136,10 @@ namespace LagoVista.XPlat.Core
             }
         }
 
+        private void EhPicker_PickerTapped(object sender, string e)
+        {
+           Form.InvokeEHPickerTapped(e);
+        }
 
         private void ChildListControl_Deleted(object sender, DeleteItemEventArgs e)
         {

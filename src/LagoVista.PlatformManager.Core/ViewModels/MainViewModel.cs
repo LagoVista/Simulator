@@ -45,7 +45,7 @@ namespace LagoVista.PlatformManager.Core.ViewModels
 
         protected override async void ItemSelected(DeploymentInstanceSummary model)
         {
-            await NavigateAndView<InstanceViewModel>(model.Id);
+            await NavigateAndViewAsync<InstanceViewModel>(model.Id);
         }
 
         protected override string GetListURI()

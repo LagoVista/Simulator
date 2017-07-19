@@ -2,6 +2,7 @@
 using LagoVista.Client.Core.ViewModels;
 using LagoVista.Core.IOC;
 using LagoVista.Core.Validation;
+using LagoVista.IoT.Runtime.Core.Models.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,44 +11,26 @@ using System.Threading.Tasks;
 
 namespace LagoVista.PlatformManager.Core.ViewModels
 {
-    public class MonitorInstanceViewModel : AppViewModelBase
+    public class MonitorInstanceViewModel : MonitoringViewModelBase
     {
-        Uri _wsUri;
-        IWebSocket _webSocket;
-
-        public async override Task InitAsync()
+        public override string GetChannelURI()
         {
-            var callResult = await PerformNetworkOperation(async () =>
-            {
-                var wsResult = await RestClient.GetAsync<InvokeResult<string>>($"/api/wsuri/instance/{LaunchArgs.ChildId}/normal");
-                if (wsResult.Successful)
-                {
-                    _wsUri = new Uri(wsResult.Result.Result);
-                    _webSocket = SLWIOC.Create<IWebSocket>();
-                    _webSocket.MessageReceived += _webSocket_MessageReceived;
-                    var wsOpenResult = await _webSocket.OpenAsync(_wsUri);
-                    return wsOpenResult;
-                }
-                else
-                {
-                    return wsResult.ToInvokeResult();
-                }
-            });
+            return $"/api/wsuri/instance/{LaunchArgs.ChildId}/normal";
         }
 
-        public override Task IsClosingAsync()
+        public override void HandleMessage(Notification notification)
         {
-            if (_webSocket != null)
+            if (String.IsNullOrEmpty(notification.PayloadType))
             {
-                return _webSocket.CloseAsync();
+                Debug.WriteLine("----");
+                Debug.WriteLine(notification.PayloadType);
+                Debug.WriteLine(notification.Payload);
+                Debug.WriteLine("----");
             }
-
-            return Task.FromResult(default(object));
-        }
-
-        private void _webSocket_MessageReceived(object sender, string e)
-        {
-            Debug.WriteLine(e);
+            else
+            {
+                Debug.WriteLine(notification.Text);
+            }
         }
     }
 }

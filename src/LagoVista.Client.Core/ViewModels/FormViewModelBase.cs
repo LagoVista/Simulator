@@ -54,7 +54,8 @@ namespace LagoVista.Client.Core.ViewModels
                 var prop = modelProperties.Where(prp => prp.Name.ToLower() == formItem.Name.ToLower()).FirstOrDefault();
                 switch (formItem.FieldType)
                 {
-                    case "Bool":
+                    case FormField.FeildType_EntityHeaderPicker:
+                        break;
                     case FormField.FieldType_CheckBox:
                         if (bool.TryParse(formItem.Value, out bool result))
                         {
@@ -101,7 +102,6 @@ namespace LagoVista.Client.Core.ViewModels
                         }
 
                         break;
-                    case "NameSpace":
                     case FormField.FieldType_MultilineText:
                     case FormField.FieldType_Text:
                     case FormField.FieldType_Key:
@@ -151,8 +151,11 @@ namespace LagoVista.Client.Core.ViewModels
                             }
                         }
                         break;
-                    case "Bool":
-                    case "NameSpace":
+                    case FormField.FeildType_EntityHeaderPicker:
+
+                        break;
+                    case FormField.FieldType_Bool:
+                    case FormField.FieldType_NameSpace:
                     case FormField.FieldType_CheckBox:
                     case FormField.FieldType_Integer:
                     case FormField.FieldType_Decimal:
@@ -236,6 +239,7 @@ namespace LagoVista.Client.Core.ViewModels
                 }
                 var form = new EditFormAdapter(Model, detailView.View, ViewModelNavigation);
                 form.OptionSelected += Form_OptionSelected;
+                form.EHPickerTapped += Form_EHPickerTapped;
                 BuildForm(form);
                 ModelToView(Model, form);
                 FormAdapter = form;
@@ -244,11 +248,21 @@ namespace LagoVista.Client.Core.ViewModels
             return result.ToInvokeResult();
         }
 
+        private void Form_EHPickerTapped(object sender, string e)
+        {
+            EHPickerTapped(e);
+        }
+
+        public virtual void EHPickerTapped(string fieldName)
+        {
+
+        }
+
         public abstract Task<InvokeResult> SaveRecordAsync();
 
         public override async void Save()
         {
-            if(!FormAdapter.IsDirty && !HasDirtyChildren)
+            if(!FormAdapter.IsDirty && !HasDirtyChildren && LaunchArgs.LaunchType == LaunchTypes.Edit)
             {
                 await ViewModelNavigation.GoBackAsync();
             }

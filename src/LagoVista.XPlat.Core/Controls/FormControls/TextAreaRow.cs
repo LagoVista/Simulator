@@ -11,6 +11,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
         public TextAreaRow(FormViewer formViewer, FormField field) : base(formViewer, field)
         {
             _label = new Label();
+            _label.FontAttributes = FontAttributes.Bold;
             _editor = new Editor();
             _editor.Text = field.Value;
             _editor.HeightRequest = 120;

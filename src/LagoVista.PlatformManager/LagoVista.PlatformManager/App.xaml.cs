@@ -1,6 +1,6 @@
-﻿//#define ENV_LOCAL
+﻿#define ENV_LOCAL
 //#define ENV_DEV
-#define ENV_PROD
+//#define ENV_PROD
 
 using LagoVista.Client.Core;
 using LagoVista.Client.Core.Models;
@@ -73,7 +73,7 @@ namespace LagoVista.PlatformManager
 
             navigation.Add<MonitorInstanceViewModel, Views.MonitorInstanceView>();
             navigation.Add<InstanceViewModel, Views.InstanceView>();
-            navigation.Add<ListtenerViewModel, Views.ListenerView>();
+            navigation.Add<ListenerViewModel, Views.ListenerView>();
             navigation.Add<PipelineViewModel, Views.PipelineView>();
             navigation.Add<PlannerViewModel, Views.PlannerView>();
 

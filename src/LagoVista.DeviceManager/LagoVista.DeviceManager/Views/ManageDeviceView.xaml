@@ -6,6 +6,6 @@
     x:Class="LagoVista.DeviceManager.Views.ManageDeviceView"
     xmlns:trs="clr-namespace:LagoVista.DeviceManager;assembly=LagoVista.DeviceManager"
     HasToolBar="true" >
-    <pge:LagoVistaContentPage.Content>
-    </pge:LagoVistaContentPage.Content>
+    <pge:LagoVistaContentPage.MainContent>
+    </pge:LagoVistaContentPage.MainContent>
 </pge:LagoVistaContentPage>

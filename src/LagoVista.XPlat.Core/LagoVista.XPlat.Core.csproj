@@ -49,6 +49,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Controls\Common\Button.cs" />
     <Compile Include="Controls\Common\Entry.cs" />
+    <Compile Include="Controls\Common\HyperLinkLabel.cs" />
     <Compile Include="Controls\Common\Icon.cs" />
     <Compile Include="Controls\Common\IconButton.cs" />
     <Compile Include="Controls\Common\SideMenu.cs" />

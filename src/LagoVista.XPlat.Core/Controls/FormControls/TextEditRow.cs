@@ -20,6 +20,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
         {
             _label = new LagoVista.XPlat.Core.Label();
             _label.Text = field.Label;
+            _label.FontAttributes = FontAttributes.Bold;
             _label.TextColor = Color.FromRgb(0x5B, 0x5B, 0x5B);
 
             _editor = new Entry();

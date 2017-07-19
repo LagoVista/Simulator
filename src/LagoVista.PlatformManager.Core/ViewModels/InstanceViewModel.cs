@@ -19,12 +19,12 @@ namespace LagoVista.PlatformManager.Core.ViewModels
 
         public void InstanceTapped(object id)
         {
-            NavigateAndView<MonitorInstanceViewModel>(id.ToString());
+            NavigateAndViewAsync<MonitorInstanceViewModel>(id.ToString());
         }
 
         public void ListenerTapped(object id)
         {
-
+            NavigateAndViewAsync<ListenerViewModel>(id.ToString());
         }
 
         public void PlannerTapped(object id)
@@ -39,7 +39,7 @@ namespace LagoVista.PlatformManager.Core.ViewModels
 
         public void PipelineModuleTapped(object id)
         {
-
+            NavigateAndViewAsync<PipelineViewModel>(id.ToString());
         }
 
 

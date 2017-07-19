@@ -78,5 +78,23 @@ namespace LagoVista.DeviceManager.Core.Resources {
                 return ResourceManager.GetString("Common_GetStarted", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device Explorer.
+        /// </summary>
+        public static string DeviceExplorer_Title {
+            get {
+                return ResourceManager.GetString("DeviceExplorer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provision Device.
+        /// </summary>
+        public static string ProvisionDevice_Title {
+            get {
+                return ResourceManager.GetString("ProvisionDevice_Title", resourceCulture);
+            }
+        }
     }
 }

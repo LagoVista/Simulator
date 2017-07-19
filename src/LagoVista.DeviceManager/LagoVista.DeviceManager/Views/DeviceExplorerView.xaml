@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pge:LagoVistaContentPage xmlns:pge="clr-namespace:LagoVista.XPlat.Core;assembly=LagoVista.XPlat.Core"
+<pge:LagoVistaContentPage     
+    xmlns:pge="clr-namespace:LagoVista.XPlat.Core;assembly=LagoVista.XPlat.Core"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:iconize="clr-namespace:FormsPlugin.Iconize;assembly=FormsPlugin.Iconize"
+    x:Class="LagoVista.DeviceManager.Views.DeviceExplorerView"
     xmlns:trs="clr-namespace:LagoVista.DeviceManager;assembly=LagoVista.DeviceManager"
-    x:Class="LagoVista.DeviceManager.Views.MainView"
-    LeftMenu="Menu" 
-    Title="{trs:Translate AppName}">
-
+    HasToolBar="true" 
+    RightMenu="Add"
+    AddCommand="{Binding AddNewDeviceCommand}"
+    Title="{trs:Translate DeviceExplorer_Title}" >
     <pge:LagoVistaContentPage.MainContent>
         <ListView ItemsSource="{Binding ListItems}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" RowHeight="64" >
             <ListView.ItemTemplate>
@@ -21,16 +22,22 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="16" />
                                 <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
                             <pge:Icon IconKey="fa-empire"  Grid.Column="1" FontSize="48" VerticalOptions="Center" TextColor="{StaticResource NuvIoTDark}" Grid.RowSpan="2" />
-                            <Label Text="{Binding Name}" Grid.Column="2" FontSize="20" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="End" />
-                            <pge:Icon IconKey="fa-arrow-circle-right" Grid.Column="3" FontSize="28" Margin="0,0,16,0" VerticalOptions="Center" Grid.RowSpan="2" />
+                            
+                            <Label Text="{Binding DeviceId}" Grid.Column="2" FontSize="20" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="End" />
+                            <Label Text="{Binding DeviceType}" Grid.Column="3" FontSize="20" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="End" />
+                            <Label Text="{Binding SerialNumber}" Grid.Row="1" Grid.Column="2" FontSize="20" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="End" />
+                            <Label Text="{Binding Status}" Grid.Row="1" Grid.Column="3" FontSize="20" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="End" />
+
+                            <pge:Icon IconKey="fa-arrow-circle-right" Grid.Column="4" FontSize="28" Margin="0,0,16,0" VerticalOptions="Center" Grid.RowSpan="2" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
     </pge:LagoVistaContentPage.MainContent>
-</pge:LagoVistaContentPage >
+</pge:LagoVistaContentPage>
