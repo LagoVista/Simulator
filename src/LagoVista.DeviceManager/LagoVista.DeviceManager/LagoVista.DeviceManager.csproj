@@ -79,10 +79,6 @@
       <Project>{786a2d0b-c3e4-4d7a-89c5-86ebc94e1b45}</Project>
       <Name>LagoVista.Client.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\LagoVista.DeviceManager.Core\LagoVista.DeviceManager.Core.csproj">
-      <Project>{2142c030-afc5-4bee-9608-4d0814486602}</Project>
-      <Name>LagoVista.DeviceManager.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\LagoVista.XPlat.Core\LagoVista.XPlat.Core.csproj">
       <Project>{d5dd4ca3-3b5c-4a0e-aa82-4cebb9a7160d}</Project>
       <Name>LagoVista.XPlat.Core</Name>

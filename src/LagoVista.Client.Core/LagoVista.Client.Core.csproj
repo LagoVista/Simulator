@@ -19,10 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.62-alpha2016" />
-    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.62-alpha2016" />
-    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.62-alpha2016" />
-    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.62-alpha2016" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.77-alpha0623" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.77-alpha0623" />
+    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.77-alpha0623" />
+    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.77-alpha0623" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 

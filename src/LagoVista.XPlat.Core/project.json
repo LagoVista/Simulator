@@ -1,9 +1,9 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "LagoVista.Core": "1.2.62-alpha2016",
-    "LagoVista.Core.Networking": "1.2.62-alpha2016",
-    "LagoVista.UserAdmin": "1.2.62-alpha2016",
+    "LagoVista.Core": "1.2.77-alpha0623",
+    "LagoVista.Core.Networking": "1.2.77-alpha0623",
+    "LagoVista.UserAdmin": "1.2.77-alpha0623",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
     "NETStandard.Library": "1.6.1",
     "Newtonsoft.Json": "10.0.3",
