@@ -126,6 +126,15 @@
   <data name="DeviceExplorer_Title" xml:space="preserve">
     <value>Device Explorer</value>
   </data>
+  <data name="MonitorDevice_DeviceId" xml:space="preserve">
+    <value>Device Id</value>
+  </data>
+  <data name="MonitorDevice_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="MonitorDevice_Title" xml:space="preserve">
+    <value>Monitor Device</value>
+  </data>
   <data name="ProvisionDevice_Title" xml:space="preserve">
     <value>Provision Device</value>
   </data>

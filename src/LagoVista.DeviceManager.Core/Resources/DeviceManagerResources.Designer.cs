@@ -89,6 +89,33 @@ namespace LagoVista.DeviceManager.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device Id.
+        /// </summary>
+        public static string MonitorDevice_DeviceId {
+            get {
+                return ResourceManager.GetString("MonitorDevice_DeviceId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string MonitorDevice_Status {
+            get {
+                return ResourceManager.GetString("MonitorDevice_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monitor Device.
+        /// </summary>
+        public static string MonitorDevice_Title {
+            get {
+                return ResourceManager.GetString("MonitorDevice_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Provision Device.
         /// </summary>
         public static string ProvisionDevice_Title {

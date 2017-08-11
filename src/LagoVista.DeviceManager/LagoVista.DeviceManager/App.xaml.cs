@@ -1,6 +1,6 @@
-﻿//#define ENV_LOCAL
+﻿#define ENV_LOCAL
 //#define ENV_DEV
-#define ENV_PROD
+//#define ENV_PROD
 
 
 using LagoVista.Client.Core;
@@ -75,6 +75,8 @@ namespace LagoVista.DeviceManager
             navigation.Add<DeviceExplorerViewModel, Views.DeviceExplorerView>();
             navigation.Add<ProvisionDeviceViewModel, Views.ProvisionDeviceView>();
             navigation.Add<DeviceTypePickerViewModel, Views.DeviceTypePickerView>();
+            navigation.Add<MonitorDeviceViewModel, Views.MonitorDeviceView>();
+            navigation.Add<ManageDeviceViewModel, Views.ManageDeviceView>();
 
             navigation.Add<SplashViewModel, Views.SplashView>();
 

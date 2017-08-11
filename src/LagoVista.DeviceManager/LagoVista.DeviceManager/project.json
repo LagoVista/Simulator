@@ -1,7 +1,7 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "LagoVista.Core": "1.2.77-alpha0623",
+    "LagoVista.Core": "1.2.86-alpha1622",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
     "NETStandard.Library": "1.6.1",
     "Newtonsoft.Json": "10.0.3",

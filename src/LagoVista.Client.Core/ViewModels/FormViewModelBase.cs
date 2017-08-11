@@ -115,7 +115,7 @@ namespace LagoVista.Client.Core.ViewModels
 
         public override Task<bool> CanCancelAsync()
         {
-            if (FormAdapter.IsDirty || HasDirtyChildren )
+            if ((FormAdapter != null && FormAdapter.IsDirty) || HasDirtyChildren )
             {                
                 return  Popups.ConfirmAsync(ClientResources.Confirm_Unsaved_Title, ClientResources.Confirm_Unsaved_Message);
             }

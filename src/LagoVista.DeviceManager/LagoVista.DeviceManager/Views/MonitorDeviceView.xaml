@@ -1,11 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<pge:LagoVistaContentPage     
+﻿<?xml version="1.0" encoding="utf-8" ?>    
+<pge:LagoVistaContentPage  
     xmlns:pge="clr-namespace:LagoVista.XPlat.Core;assembly=LagoVista.XPlat.Core"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="LagoVista.DeviceManager.Views.MonitorDeviceView"
+    x:Class="LagoVista.DeviceManager.Views.MonitorDeviceView"    
     xmlns:trs="clr-namespace:LagoVista.DeviceManager;assembly=LagoVista.DeviceManager"
-    HasToolBar="true" >
-    <pge:LagoVistaContentPage.Content>
-    </pge:LagoVistaContentPage.Content>
+    Title="{trs:Translate MonitorDevice_Title}"
+    LeftMenu="Cancel" >
+    <pge:LagoVistaContentPage.MainContent>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25*" />
+                <ColumnDefinition Width="25*" />
+                <ColumnDefinition Width="25*" />
+                <ColumnDefinition Width="25*" />
+            </Grid.ColumnDefinitions>
+            <Label Text="{trs:Translate MonitorDevice_DeviceId}" Grid.Column="0" />
+            <Label Text="{Binding Device.DeviceId}" Grid.Column="1" />
+            <Label Text="{trs:Translate MonitorDevice_Status}" Grid.Column="2" />
+            <Label Text="{Binding Device.Status.Text}" Grid.Column="3" />
+        </Grid>
+    </pge:LagoVistaContentPage.MainContent>
 </pge:LagoVistaContentPage>
