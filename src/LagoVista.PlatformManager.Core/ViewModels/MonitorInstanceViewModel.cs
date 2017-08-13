@@ -1,13 +1,8 @@
-﻿using LagoVista.Client.Core.Net;
-using LagoVista.Client.Core.ViewModels;
-using LagoVista.Core.IOC;
-using LagoVista.Core.Validation;
+﻿using LagoVista.Client.Core.ViewModels;
 using LagoVista.IoT.Runtime.Core.Models.Messaging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace LagoVista.PlatformManager.Core.ViewModels
 {

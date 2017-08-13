@@ -201,6 +201,14 @@
       <Project>{786a2d0b-c3e4-4d7a-89c5-86ebc94e1b45}</Project>
       <Name>LagoVista.Client.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\LagoVista.Core.UWP\Core UWP.csproj">
+      <Project>{12f1d893-a53b-44d6-9a9a-2922d9e7e38a}</Project>
+      <Name>Core UWP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LagoVista.MQTT.Core\LagoVista.MQTT.Core.csproj">
+      <Project>{d3bbe2f1-36e7-4ef3-b31c-e3b2b5250621}</Project>
+      <Name>LagoVista.MQTT.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\LagoVista.XPlat.Core\LagoVista.XPlat.Core.csproj">
       <Project>{d5dd4ca3-3b5c-4a0e-aa82-4cebb9a7160d}</Project>
       <Name>LagoVista.XPlat.Core</Name>

@@ -14,8 +14,6 @@ namespace LagoVista.Simulator.iOS
         {
             LagoVista.XPlat.iOS.Startup.Init(app, MOBILE_CENTER_KEY);
 
-            
-
             UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
 
             global::Xamarin.Forms.Forms.Init();

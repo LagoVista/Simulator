@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-	<uses-sdk android:minSdkVersion="15" />
-	<application android:label="LagoVista.DeviceManager.Android"></application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" package="com.software_logistics.nuviot.device_manager" android:versionCode="1" android:versionName="0.8">
+	<uses-sdk android:minSdkVersion="23" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<application android:label="Devices Manager" android:icon="@drawable/icon"></application>
 </manifest>

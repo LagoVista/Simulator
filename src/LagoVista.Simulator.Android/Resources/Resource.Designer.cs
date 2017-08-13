@@ -336,6 +336,7 @@ namespace LagoVista.Simulator.Droid
 			global::LagoVista.XPlat.Droid.Resource.Attribute.textAllCaps = global::LagoVista.Simulator.Droid.Resource.Attribute.textAllCaps;
 			global::LagoVista.XPlat.Droid.Resource.Attribute.textAppearanceLargePopupMenu = global::LagoVista.Simulator.Droid.Resource.Attribute.textAppearanceLargePopupMenu;
 			global::LagoVista.XPlat.Droid.Resource.Attribute.textAppearanceListItem = global::LagoVista.Simulator.Droid.Resource.Attribute.textAppearanceListItem;
+			global::LagoVista.XPlat.Droid.Resource.Attribute.textAppearanceListItemSecondary = global::LagoVista.Simulator.Droid.Resource.Attribute.textAppearanceListItemSecondary;
 			global::LagoVista.XPlat.Droid.Resource.Attribute.textAppearanceListItemSmall = global::LagoVista.Simulator.Droid.Resource.Attribute.textAppearanceListItemSmall;
 			global::LagoVista.XPlat.Droid.Resource.Attribute.textAppearancePopupMenuHeader = global::LagoVista.Simulator.Droid.Resource.Attribute.textAppearancePopupMenuHeader;
 			global::LagoVista.XPlat.Droid.Resource.Attribute.textAppearanceSearchResultSubtitle = global::LagoVista.Simulator.Droid.Resource.Attribute.textAppearanceSearchResultSubtitle;
@@ -352,6 +353,8 @@ namespace LagoVista.Simulator.Droid
 			global::LagoVista.XPlat.Droid.Resource.Attribute.tickMark = global::LagoVista.Simulator.Droid.Resource.Attribute.tickMark;
 			global::LagoVista.XPlat.Droid.Resource.Attribute.tickMarkTint = global::LagoVista.Simulator.Droid.Resource.Attribute.tickMarkTint;
 			global::LagoVista.XPlat.Droid.Resource.Attribute.tickMarkTintMode = global::LagoVista.Simulator.Droid.Resource.Attribute.tickMarkTintMode;
+			global::LagoVista.XPlat.Droid.Resource.Attribute.tint = global::LagoVista.Simulator.Droid.Resource.Attribute.tint;
+			global::LagoVista.XPlat.Droid.Resource.Attribute.tintMode = global::LagoVista.Simulator.Droid.Resource.Attribute.tintMode;
 			global::LagoVista.XPlat.Droid.Resource.Attribute.title = global::LagoVista.Simulator.Droid.Resource.Attribute.title;
 			global::LagoVista.XPlat.Droid.Resource.Attribute.titleEnabled = global::LagoVista.Simulator.Droid.Resource.Attribute.titleEnabled;
 			global::LagoVista.XPlat.Droid.Resource.Attribute.titleMargin = global::LagoVista.Simulator.Droid.Resource.Attribute.titleMargin;
@@ -945,7 +948,9 @@ namespace LagoVista.Simulator.Droid
 			global::LagoVista.XPlat.Droid.Resource.Id.clip_horizontal = global::LagoVista.Simulator.Droid.Resource.Id.clip_horizontal;
 			global::LagoVista.XPlat.Droid.Resource.Id.clip_vertical = global::LagoVista.Simulator.Droid.Resource.Id.clip_vertical;
 			global::LagoVista.XPlat.Droid.Resource.Id.collapseActionView = global::LagoVista.Simulator.Droid.Resource.Id.collapseActionView;
+			global::LagoVista.XPlat.Droid.Resource.Id.container = global::LagoVista.Simulator.Droid.Resource.Id.container;
 			global::LagoVista.XPlat.Droid.Resource.Id.contentPanel = global::LagoVista.Simulator.Droid.Resource.Id.contentPanel;
+			global::LagoVista.XPlat.Droid.Resource.Id.coordinator = global::LagoVista.Simulator.Droid.Resource.Id.coordinator;
 			global::LagoVista.XPlat.Droid.Resource.Id.custom = global::LagoVista.Simulator.Droid.Resource.Id.custom;
 			global::LagoVista.XPlat.Droid.Resource.Id.customPanel = global::LagoVista.Simulator.Droid.Resource.Id.customPanel;
 			global::LagoVista.XPlat.Droid.Resource.Id.decor_content_parent = global::LagoVista.Simulator.Droid.Resource.Id.decor_content_parent;
@@ -1689,6 +1694,8 @@ namespace LagoVista.Simulator.Droid
 			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatImageView = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatImageView;
 			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatImageView_android_src = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatImageView_android_src;
 			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatImageView_srcCompat = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatImageView_srcCompat;
+			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatImageView_tint = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatImageView_tint;
+			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatImageView_tintMode = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatImageView_tintMode;
 			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatSeekBar = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatSeekBar;
 			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatSeekBar_android_thumb = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatSeekBar_android_thumb;
 			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatSeekBar_tickMark = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatSeekBar_tickMark;
@@ -1802,6 +1809,7 @@ namespace LagoVista.Simulator.Droid
 			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatTheme_switchStyle = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatTheme_switchStyle;
 			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu;
 			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItem = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItem;
+			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary;
 			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall;
 			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader;
 			global::LagoVista.XPlat.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle = global::LagoVista.Simulator.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle;

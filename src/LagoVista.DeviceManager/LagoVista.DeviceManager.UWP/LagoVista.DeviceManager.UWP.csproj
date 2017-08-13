@@ -194,6 +194,10 @@
       <Project>{786a2d0b-c3e4-4d7a-89c5-86ebc94e1b45}</Project>
       <Name>LagoVista.Client.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\LagoVista.Core.UWP\Core UWP.csproj">
+      <Project>{12f1d893-a53b-44d6-9a9a-2922d9e7e38a}</Project>
+      <Name>Core UWP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\LagoVista.MQTT.Core\LagoVista.MQTT.Core.csproj">
       <Project>{076b08b6-234f-4ae3-8815-7e36a47f9475}</Project>
       <Name>LagoVista.MQTT.Core</Name>
@@ -213,16 +217,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LagoVista.Core">
-      <Version>1.2.86-alpha1537</Version>
+      <Version>1.2.88-alpha1220</Version>
     </PackageReference>
     <PackageReference Include="LagoVista.Core.Authentication">
-      <Version>1.2.86-alpha1134</Version>
+      <Version>1.2.88-alpha1220</Version>
     </PackageReference>
     <PackageReference Include="LagoVista.Core.Networking">
-      <Version>1.2.86-alpha1134</Version>
-    </PackageReference>
-    <PackageReference Include="LagoVista.Core.UWP">
-      <Version>1.2.41-alpha1537</Version>
+      <Version>1.2.88-alpha1220</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Azure.Mobile.Analytics">
       <Version>0.14.0</Version>
@@ -235,9 +236,6 @@
     </PackageReference>
     <PackageReference Include="System.Net.Http">
       <Version>4.3.2</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Forms">
-      <Version>2.3.5.256-pre6</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

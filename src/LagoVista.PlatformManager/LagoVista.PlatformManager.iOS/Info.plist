@@ -26,6 +26,35 @@
 	<string>com.software-logistics.nuviot.platform-manager</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fonts/iconize-entypoplus.ttf</string>
+		<string>Fonts/iconize-fontawesome.ttf</string>
+		<string>Fonts/iconize-ionicons.ttf</string>
+		<string>Fonts/iconize-material.ttf</string>
+		<string>Fonts/iconize-meteocons.ttf</string>
+		<string>Fonts/iconize-simplelineicons.ttf</string>
+		<string>Fonts/iconize-typicons.ttf</string>
+		<string>Fonts/iconize-weathericons.ttf</string>
+		<string>Fonts/Roboto-Black.ttf</string>
+		<string>Fonts/Roboto-BlackItalic.ttf</string>
+		<string>Fonts/Roboto-Bold.ttf</string>
+		<string>Fonts/Roboto-BoldItalic.ttf</string>
+		<string>Fonts/Roboto-Italic.ttf</string>
+		<string>Fonts/Roboto-Light.ttf</string>
+		<string>Fonts/Roboto-LightItalic.ttf</string>
+		<string>Fonts/Roboto-Medium.ttf</string>
+		<string>Fonts/Roboto-MediumItalic.ttf</string>
+		<string>Fonts/Roboto-Regular.ttf</string>
+		<string>Fonts/Roboto-Thin.ttf</string>
+		<string>Fonts/Roboto-ThinItalic.ttf</string>
+		<string>Fonts/RobotoCondensed-Bold.ttf</string>
+		<string>Fonts/RobotoCondensed-BoldItalic.ttf</string>
+		<string>Fonts/RobotoCondensed-Italic.ttf</string>
+		<string>Fonts/RobotoCondensed-Light.ttf</string>
+		<string>Fonts/RobotoCondensed-LightItalic.ttf</string>
+		<string>Fonts/RobotoCondensed-Regular.ttf</string>
+	</array>
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Icon-60@2x</string>
@@ -47,8 +76,12 @@
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>CFBundleDisplayName</key>
-	<string>Platform Manager</string>
+	<string>Platform</string>
 	<key>UIStatusBarHidden</key>
 	<true/>
+	<key>XSAppIconAssets</key>
+	<string>Resources/Media.xcassets/AppIcons.appiconset</string>
+	<key>XSLaunchImageAssets</key>
+	<string>Resources/Media.xcassets/LaunchImages.launchimage</string>
 </dict>
 </plist>

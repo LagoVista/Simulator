@@ -7,6 +7,7 @@
     xmlns:trs="clr-namespace:LagoVista.DeviceManager;assembly=LagoVista.DeviceManager"
     HasToolBar="true" 
     RightMenu="Add"
+    LeftMenu="Cancel"
     AddCommand="{Binding AddNewDeviceCommand}"
     Title="{trs:Translate DeviceExplorer_Title}" >
     <pge:LagoVistaContentPage.MainContent>

@@ -13,6 +13,8 @@ namespace LagoVista.PlatformManager.iOS
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
+        private const string MOBILE_CENTER_KEY = "e3d48293-22fe-4bfb-9a7d-9fa41112c23f";
+
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -22,6 +24,8 @@ namespace LagoVista.PlatformManager.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            LagoVista.XPlat.iOS.Startup.Init(app, MOBILE_CENTER_KEY);
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 

@@ -116,7 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LagoVista.Core">
-      <Version>1.2.86-alpha1537</Version>
+      <Version>1.2.88-alpha1220</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.4.0</Version>
@@ -134,7 +134,7 @@
       <Name>LagoVista.Client.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\LagoVista.MQTT.Core\LagoVista.MQTT.Core.csproj">
-      <Project>{076b08b6-234f-4ae3-8815-7e36a47f9475}</Project>
+      <Project>{d3bbe2f1-36e7-4ef3-b31c-e3b2b5250621}</Project>
       <Name>LagoVista.MQTT.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\LagoVista.XPlat.Core\LagoVista.XPlat.Core.csproj">

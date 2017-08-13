@@ -43,6 +43,11 @@ namespace LagoVista.Core.UWP.Networking
 
         }
 
+        public Task DisconnectAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Dispose()
         {
             _cancelListenerSource.Cancel();
@@ -101,6 +106,11 @@ namespace LagoVista.Core.UWP.Networking
             }
         }
 
+        public Task<byte[]> ReceiveAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task WriteAsync(byte[] buffer, int start, int length)
         {
             await _writer.WriteAsync(buffer.Select(ch => (char)ch).ToArray(), start, length);
@@ -111,6 +121,21 @@ namespace LagoVista.Core.UWP.Networking
         {
             var bytes = System.Text.ASCIIEncoding.ASCII.GetBytes(msg);
             return WriteAsync(bytes, 0, bytes.Length);
+        }
+
+        public Task<int> WriteAsync<T>(T obj) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> ITCPClient.WriteAsync(byte[] buffer, int start, int length)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> ITCPClient.WriteAsync(string output)
+        {
+            throw new NotImplementedException();
         }
     }
 }

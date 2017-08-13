@@ -1,8 +1,8 @@
 ﻿{
   "dependencies": {
-    "LagoVista.Core": "1.2.86-alpha1622",
-    "LagoVista.Core.Networking": "1.2.86-alpha1622",
-    "LagoVista.IoT.Logging": "1.2.86-alpha1622",
+    "LagoVista.Core": "1.2.88-alpha1220",
+    "LagoVista.Core.Networking": "1.2.88-alpha1220",
+    "LagoVista.IoT.Logging": "1.2.88-alpha1220",
     "Microsoft.Azure.Mobile": "0.14.0",
     "Microsoft.Azure.Mobile.Analytics": "0.14.0",
     "Microsoft.Azure.Mobile.Distribute": "0.14.0",

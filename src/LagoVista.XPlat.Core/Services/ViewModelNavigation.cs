@@ -83,10 +83,13 @@ namespace LagoVista.XPlat.Core.Services
             return ShowViewModelAsync(args);
         }
 
-        public Task GoBackAsync()
+        public async Task GoBackAsync()
         {
-            ViewModelBackStack.Pop();
-            return _navigation.PopAsync();
+            if (ViewModelBackStack.Any())
+            {
+                ViewModelBackStack.Pop();
+                await _navigation.PopAsync();
+            }
         }
 
 

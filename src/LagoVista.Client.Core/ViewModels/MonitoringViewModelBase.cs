@@ -1,16 +1,13 @@
 ﻿using LagoVista.Client.Core.Net;
-using LagoVista.Client.Core.ViewModels;
 using LagoVista.Core.IOC;
 using LagoVista.Core.Validation;
 using LagoVista.IoT.Runtime.Core.Models.Messaging;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace LagoVista.PlatformManager.Core.ViewModels
+namespace LagoVista.Client.Core.ViewModels
 {
     public abstract class MonitoringViewModelBase : AppViewModelBase
     {
@@ -32,7 +29,7 @@ namespace LagoVista.PlatformManager.Core.ViewModels
                     _webSocket = SLWIOC.Create<IWebSocket>();
                     _webSocket.MessageReceived += _webSocket_MessageReceived;
                     var wsOpenResult = await _webSocket.OpenAsync(_wsUri);
-                    if(wsOpenResult.Successful)
+                    if (wsOpenResult.Successful)
                     {
                         Debug.WriteLine("OPENED CHANNEL");
                     }
@@ -57,12 +54,11 @@ namespace LagoVista.PlatformManager.Core.ViewModels
 
         private void _webSocket_MessageReceived(object sender, string json)
         {
-            Debug.WriteLine(json);
             var notification = JsonConvert.DeserializeObject<Notification>(json);
             HandleMessage(notification);
         }
 
-        public abstract void HandleMessage(Notification json);
+        public abstract void HandleMessage(Notification notification);
 
         public abstract string GetChannelURI();
     }
