@@ -58,6 +58,8 @@
     <Compile Include="Controls\FormControls\ChildListRow.cs" />
     <Compile Include="Controls\FormControls\EntityHeaderPicker.cs" />
     <Compile Include="Controls\FormControls\FormControl.cs" />
+    <Compile Include="Controls\FormControls\FormFieldHeader.cs" />
+    <Compile Include="Controls\FormControls\FormFieldValidationMessage.cs" />
     <Compile Include="Controls\FormControls\SelectRow.cs" />
     <Compile Include="Controls\FormControls\TextAreaRow.cs" />
     <Compile Include="Controls\FormControls\TextEditRow.cs" />

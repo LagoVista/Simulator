@@ -1,11 +1,9 @@
 ﻿using LagoVista.Core.Interfaces;
 using LagoVista.Core.IOC;
-using LagoVista.Core.Models;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.XPlat.Core.Resources;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using Xamarin.Forms;
@@ -25,30 +23,37 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
 
         public ChildListRow(FormViewer formViewer, FormField field) : base(formViewer, field)
         {
-            var titleBar = new Grid();
             HorizontalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
-            titleBar.BackgroundColor = AppStyle.MenuBarBackground.ToXamFormsColor();
+
+            var titleBar = new Grid()
+            {
+                BackgroundColor = AppStyle.MenuBarBackground.ToXamFormsColor(),
+                HeightRequest = 48,
+                HorizontalOptions = new LayoutOptions(LayoutAlignment.Fill, true)
+            };
             titleBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
             titleBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
-            titleBar.HorizontalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
-            titleBar.HeightRequest = 48;
 
-            _label = new Label();
-            _label.FontSize = 20;
-            _label.Margin = new Thickness(10, 0, 0, 0);
-            _label.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
-            _label.TextColor = AppStyle.MenuBarForeground.ToXamFormsColor();
-            _label.Text = field.Label;
+            _label = new Label()
+            {
+                FontSize = 20,
+                Margin = new Thickness(10, 0, 0, 0),
+                VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false),
+                TextColor = AppStyle.MenuBarForeground.ToXamFormsColor(),
+                Text = field.Label
+            };
 
-            _addImage = new IconButton();
-            _addImage.SetValue(Grid.ColumnProperty, 1);
-            _addImage.Margin = new Thickness(0, 0, 20, 0);
-            _addImage.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
-            _addImage.IconKey = "fa-plus";
-            _addImage.WidthRequest = 48;
-            _addImage.HeightRequest = 48;
-            _addImage.FontSize = 22;
+            _addImage = new IconButton()
+            {
+                Margin = new Thickness(0, 0, 20, 0),
+                VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false),
+                IconKey = "fa-plus",
+                WidthRequest = 48,
+                HeightRequest = 48,
+                FontSize = 22
+            };
             _addImage.Clicked += _addImage_Clicked;
+            _addImage.SetValue(Grid.ColumnProperty, 1);
 
             _childItemList = new StackLayout();
 

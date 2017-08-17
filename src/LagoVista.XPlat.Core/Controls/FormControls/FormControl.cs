@@ -60,6 +60,6 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             }
         }
 
-        public String OriginalValue {get; set; }
+        public String OriginalValue { get; set; }
     }
 }

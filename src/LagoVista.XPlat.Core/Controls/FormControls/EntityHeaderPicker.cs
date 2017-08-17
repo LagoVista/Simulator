@@ -8,22 +8,21 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
     {
         public event EventHandler<string> PickerTapped;
 
-        Label _label;
+        FormFieldHeader _header;
         Label _linkLabel;
 
         public EntityHeaderPicker(FormViewer formViewer, FormField field) : base(formViewer, field)
         {
-            _label = new Label();
-            _label.FontAttributes = FontAttributes.Bold;
-            _label.Text = field.Label;
+            _header = new FormFieldHeader(field.Label);
 
-            _linkLabel = new Label();
-            _linkLabel.TextColor = Color.Blue;
-            
-            Children.Add(_label);
+            _linkLabel = new Label()
+            {
+                TextColor = Color.Blue
+            };
+            Children.Add(_header);
             Margin = new Thickness(10, 10, 20, 10);
 
-            Children.Add(_label);
+            Children.Add(_header);
             Children.Add(_linkLabel);
 
             var tapRecognizer = new TapGestureRecognizer();
@@ -52,7 +51,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
 
         public override bool Validate()
         {
-            return !(String.IsNullOrEmpty(Field.Value)) || !Field.IsRequired;          
+            return !(String.IsNullOrEmpty(Field.Value)) || !Field.IsRequired;
         }
     }
 }

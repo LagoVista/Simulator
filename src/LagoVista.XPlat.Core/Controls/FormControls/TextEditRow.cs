@@ -1,32 +1,27 @@
 ﻿using LagoVista.Core.Attributes;
 using LagoVista.Core.Models.UIMetaData;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LagoVista.XPlat.Core.Controls.FormControls
 {
     public class TextEditRow : FormControl
     {
-        LagoVista.XPlat.Core.Entry _editor;
-        LagoVista.XPlat.Core.Label _label;
-        LagoVista.XPlat.Core.Label _validationMessage;
+        FormFieldHeader _header;
+        FormFieldValidationMessage _validationMessage;
+        Entry _editor;
 
         public TextEditRow(FormViewer formViewer, FormField field) : base(formViewer, field)
         {
-            _label = new LagoVista.XPlat.Core.Label();
-            _label.Text = field.Label;
-            _label.FontAttributes = FontAttributes.Bold;
-            _label.TextColor = Color.FromRgb(0x5B, 0x5B, 0x5B);
+            _header = new FormFieldHeader(field.Label);
 
-            _editor = new Entry();
-            _editor.Text = field.Value;
+            _editor = new Entry()
+            {
+                Text = field.Value,
+                IsEnabled = field.IsUserEditable
+            };
             _editor.TextChanged += _editor_TextChanged;
-            _editor.IsEnabled = field.IsUserEditable;
 
             if (Enum.TryParse<FieldTypes>(field.FieldType, out FieldTypes fieldType))
             {
@@ -42,15 +37,12 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                         break;
                 }
 
-                _validationMessage = new LagoVista.XPlat.Core.Label();
-                _validationMessage.TextColor = Color.Red;
-                _validationMessage.Text = field.RequiredMessage;
-                _validationMessage.IsVisible = false;
+                _validationMessage = new FormFieldValidationMessage(field.RequiredMessage);
 
-                Children.Add(_label);
+                Children.Add(_header);
                 Children.Add(_editor);
                 Children.Add(_validationMessage);
-                Margin = new Thickness(10, 5, 20, 0);
+                Margin = new Thickness(10, 10, 20, 10);
             }
         }
 

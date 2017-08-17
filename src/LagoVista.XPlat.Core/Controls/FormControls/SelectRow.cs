@@ -9,20 +9,16 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
     {
         public event EventHandler<OptionSelectedEventArgs> OptionSelected;
 
-        Label _label;
+        FormFieldHeader _header;
+        FormFieldValidationMessage _validationMessage;
         Picker _picker;
-        Label _validationMessage;
+
         public SelectRow(FormViewer formViewer, FormField field) : base(formViewer, field)
         {
-            _label = new Label();
-            _label.TextColor = Color.FromRgb(0x5B, 0x5B, 0x5B);
-            _label.Text = field.Label;
-            _picker = new Picker();
+            _header = new FormFieldHeader(field.Label);
+            _validationMessage = new FormFieldValidationMessage(field.RequiredMessage);
 
-            _validationMessage = new Label();
-            _validationMessage.TextColor = Color.Red;
-            _validationMessage.Text = field.RequiredMessage;
-            _validationMessage.IsVisible = false;
+            _picker = new Picker();
 
             if (field.Options != null)
             {
@@ -41,7 +37,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             }
 
             var selectedItem = field.Options.Where(opt => opt.Key == field.Value).FirstOrDefault();
-            if(selectedItem != null)
+            if (selectedItem != null)
             {
                 var index = field.Options.IndexOf(selectedItem);
                 _picker.SelectedIndex = index + 1;
@@ -51,7 +47,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                 _picker.SelectedIndex = 0;
             }
 
-            Children.Add(_label);
+            Children.Add(_header);
             Children.Add(_picker);
             Children.Add(_validationMessage);
 

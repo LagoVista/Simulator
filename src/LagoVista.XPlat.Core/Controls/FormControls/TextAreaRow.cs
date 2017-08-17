@@ -5,20 +5,21 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
 {
     public class TextAreaRow : FormControl
     {
+        FormFieldHeader _header;
         Editor _editor;
-        Label _label;
 
         public TextAreaRow(FormViewer formViewer, FormField field) : base(formViewer, field)
         {
-            _label = new Label();
-            _label.FontAttributes = FontAttributes.Bold;
-            _editor = new Editor();
-            _editor.Text = field.Value;
-            _editor.HeightRequest = 120;
-            _editor.TextChanged += _editor_TextChanged;
-            _label.Text = field.Label;
+            _header = new FormFieldHeader(field.Label);
 
-            Children.Add(_label);
+            _editor = new Editor()
+            {
+                Text = field.Value,
+                HeightRequest = 120
+            };
+            _editor.TextChanged += _editor_TextChanged;
+
+            Children.Add(_header);
             Children.Add(_editor);
             Margin = new Thickness(10, 10, 20, 10);
         }
