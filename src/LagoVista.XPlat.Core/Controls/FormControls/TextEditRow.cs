@@ -23,7 +23,8 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             };
             _editor.TextChanged += _editor_TextChanged;
 
-            if (Enum.TryParse<FieldTypes>(field.FieldType, out FieldTypes fieldType))
+            FieldTypes fieldType;
+            if (Enum.TryParse<FieldTypes>(field.FieldType, out fieldType))
             {
                 switch (FieldType)
                 {
@@ -83,7 +84,8 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                 {
                     case FieldTypes.Integer:
                         {
-                            if (!int.TryParse(e.NewTextValue, out int value))
+                            int value;
+                            if (!int.TryParse(e.NewTextValue, out value))
                             {
                                 _editor.Text = e.OldTextValue;
                             }
@@ -91,7 +93,8 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                         break;
                     case FieldTypes.Decimal:
                         {
-                            if (!double.TryParse(e.NewTextValue, out double value))
+                            double value;
+                            if (!double.TryParse(e.NewTextValue, out value))
                             {
                                 _editor.Text = e.OldTextValue;
                             }

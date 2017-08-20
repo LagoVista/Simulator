@@ -15,7 +15,8 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             _switch = new Switch();
             _switch.Toggled += _switch_Toggled;
 
-            if (bool.TryParse(field.Value, out bool _isToggled))
+            bool _isToggled = false;
+            if (bool.TryParse(field.Value, out _isToggled))
             {
                 _switch.IsToggled = _isToggled;
             }

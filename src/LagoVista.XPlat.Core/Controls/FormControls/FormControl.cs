@@ -38,7 +38,8 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
         {
             get
             {
-                if (Enum.TryParse<FieldTypes>(Field.FieldType, out FieldTypes fieldType))
+                FieldTypes fieldType;
+                if (Enum.TryParse<FieldTypes>(Field.FieldType, out fieldType))
                 {
                     return fieldType;
                 }
