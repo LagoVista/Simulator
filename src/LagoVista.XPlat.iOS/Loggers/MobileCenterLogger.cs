@@ -9,6 +9,7 @@ using LagoVista.Core.PlatformSupport;
 using Microsoft.Azure.Mobile;
 using Microsoft.Azure.Mobile.Analytics;
 using Microsoft.Azure.Mobile.Crashes;
+using Microsoft.Azure.Mobile.Push;
 
 namespace LagoVista.XPlat.iOS.Loggers
 {
@@ -34,7 +35,7 @@ namespace LagoVista.XPlat.iOS.Loggers
 
         public MobileCenterLogger(string key)
         {
-            MobileCenter.Start($"ios={key}", typeof(Analytics), typeof(Crashes));
+            MobileCenter.Start($"ios={key}", typeof(Analytics), typeof(Crashes), typeof(Push));
         }
 
         public void AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel level, string area, string message, params KeyValuePair<string, string>[] args)
@@ -58,6 +59,7 @@ namespace LagoVista.XPlat.iOS.Loggers
             }
 
             Analytics.TrackEvent(message, dictionary);
+
         }
 
         public void AddException(string area, Exception ex, params KeyValuePair<string, string>[] args)

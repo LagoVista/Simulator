@@ -123,6 +123,9 @@
     <Compile Include="Services\Reachability.cs" />
     <Compile Include="Services\StorageService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Services\MqttNetworkChannel.cs" />
+    <Compile Include="Services\TCPClient.cs" />
+    <Compile Include="Services\UDPClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -213,6 +216,10 @@
     <ProjectReference Include="..\LagoVista.XPlat.Core\LagoVista.XPlat.Core.csproj">
       <Project>{d5dd4ca3-3b5c-4a0e-aa82-4cebb9a7160d}</Project>
       <Name>LagoVista.XPlat.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LagoVista.MQTT.Core\LagoVista.MQTT.Core.csproj">
+      <Project>{076B08B6-234F-4AE3-8815-7E36A47F9475}</Project>
+      <Name>LagoVista.MQTT.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

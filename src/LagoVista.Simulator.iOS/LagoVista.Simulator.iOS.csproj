@@ -54,6 +54,7 @@
     <BuildIpa>false</BuildIpa>
     <IpaPackageName>
     </IpaPackageName>
+    <CodesignProvision></CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -225,7 +226,7 @@
       <Name>LagoVista.Simulator.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\LagoVista.Simulator\LagoVista.Simulator.csproj">
-      <Project>{0337fc19-1182-48cf-b4fb-d7818509de3d}</Project>
+      <Project>{B5EC62F1-6739-4055-B6FC-21776E60F98A}</Project>
       <Name>LagoVista.Simulator</Name>
     </ProjectReference>
     <ProjectReference Include="..\LagoVista.XPlat.Core\LagoVista.XPlat.Core.csproj">
