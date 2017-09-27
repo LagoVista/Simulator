@@ -63,8 +63,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 IsBusy = true;
                 switch (Model.DefaultTransport.Value)
                 {
+
+                    case TransportTypes.AzureEventHub:
                     case TransportTypes.AMQP:
-                        string connectionString = $"Endpoint=sb://{Model.Name}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={Model.AuthToken}";
+                        string connectionString = $"Endpoint=sb://{Model.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={Model.AuthToken}";
                         var bldr = new EventHubsConnectionStringBuilder(connectionString)
                         {
                             EntityPath = Model.HubName
