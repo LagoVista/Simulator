@@ -7,10 +7,13 @@ using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.Validation;
 using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
+using LagoVista.Simulator.Core.Utils;
+using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.EventHubs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
@@ -21,6 +24,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         ITCPClient _tcpClient;
         IUDPClient _udpClient;
         EventHubClient _eventHubClient;
+        DeviceClient _azureIoTHubClient;
 
         bool _isConnected;
 
@@ -66,14 +70,30 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
                     case TransportTypes.AzureEventHub:
                     case TransportTypes.AMQP:
-                        string connectionString = $"Endpoint=sb://{Model.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={Model.AuthToken}";
-                        var bldr = new EventHubsConnectionStringBuilder(connectionString)
                         {
-                            EntityPath = Model.HubName
-                        };
+                            var connectionString = $"Endpoint=sb://{Model.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={Model.AuthToken}";
+                            var bldr = new EventHubsConnectionStringBuilder(connectionString)
+                            {
+                                EntityPath = Model.HubName
+                            };
 
-                        _eventHubClient = EventHubClient.CreateFromConnectionString(bldr.ToString());
+                            _eventHubClient = EventHubClient.CreateFromConnectionString(bldr.ToString());
+                        }
 
+                        break;
+                    case TransportTypes.AzureIoTHub:
+                        {
+                            var sasBuilder = new SharedAccessSignatureBuilder()
+                            {
+                                Key = Model.Key,
+                                Target = String.Format("{0}/devices/{1}", Model.DefaultEndPoint, WebUtility.UrlEncode(Model.DeviceId)),
+                                TimeToLive = TimeSpan.FromDays(1)
+                            };
+
+                            var connectionString = $"HostName={Model.DefaultEndPoint};DeviceId={Model.DeviceId};SharedAccessKey={sasBuilder.ToSignature()}";
+                            _azureIoTHubClient = DeviceClient.CreateFromConnectionString(connectionString, TransportType.Amqp_Tcp_Only);
+                            await _azureIoTHubClient.OpenAsync();
+                        }
                         break;
                     case TransportTypes.MQTT:
                         _mqttClient = SLWIOC.Create<IMQTTDeviceClient>();
@@ -249,6 +269,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                     if (_tcpClient != null) launchArgs.Parameters.Add("tcpclient", _tcpClient);
                     if (_mqttClient != null) launchArgs.Parameters.Add("mqttclient", _mqttClient);
                     if (_udpClient != null) launchArgs.Parameters.Add("udpclient", _udpClient);
+                    if (_azureIoTHubClient != null) launchArgs.Parameters.Add("azureIotHubClient", _azureIoTHubClient);
 
                     ViewModelNavigation.NavigateAsync(launchArgs);
                 }
@@ -257,6 +278,34 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 RaisePropertyChanged();
             }
         }
+
+        private async Task ReceiveDataFromAzure(DeviceClient deviceClient)
+        {
+
+            while (true)
+            {
+                var message = await deviceClient.ReceiveAsync();
+                if (message != null)
+                {
+                    try
+                    {
+                        var responseMessage = System.Text.UTF8Encoding.ASCII.GetString(message.GetBytes());
+                        DispatcherServices.Invoke(() =>
+                        {
+
+                        });
+                        // Received a new message, display it
+                        // We received the message, indicate IoTHub we treated it
+                        await deviceClient.CompleteAsync(message);
+                    }
+                    catch
+                    {
+                        await deviceClient.RejectAsync(message);
+                    }
+                }
+            }
+        }
+
 
         LagoVista.IoT.Simulator.Admin.Models.Simulator _model;
         public LagoVista.IoT.Simulator.Admin.Models.Simulator Model

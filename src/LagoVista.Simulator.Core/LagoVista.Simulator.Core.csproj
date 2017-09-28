@@ -25,6 +25,7 @@
     <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.88-alpha1220" />
     <PackageReference Include="LagoVista.IoT.Simulator.Admin" Version="1.2.88-alpha1220" />
     <PackageReference Include="LagoVista.UserAdmin" Version="1.2.88-alpha1220" />
+    <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.5.0" />
     <PackageReference Include="Microsoft.Azure.EventHubs" Version="1.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>

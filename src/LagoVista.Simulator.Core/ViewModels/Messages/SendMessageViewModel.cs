@@ -6,6 +6,7 @@ using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.IoT.Simulator.Admin.Resources;
 using LagoVista.Simulator.Core.Resources;
+using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.EventHubs;
 using System;
 using System.Collections.Generic;
@@ -186,6 +187,23 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                         Success = false;
                     }
                     break;
+                case TransportTypes.AzureIoTHub:
+                    try
+                    {
+                        var client = LaunchArgs.GetParam<DeviceClient>("azureIotHubClient");
+                        var msg = new Message(Encoding.UTF8.GetBytes(ReplaceTokens(MsgTemplate.TextPayload)));
+                        await client.SendEventAsync(msg);
+                    }
+                    catch(Exception ex)
+                    {
+                        fullResponseString.AppendLine(Resources.SimulatorCoreResources.SendMessage_ErrorSendingMessage);
+                        fullResponseString.AppendLine();
+                        fullResponseString.Append(ex.Message);
+                        Success = false;
+                    }
+
+                    break;
+
 
                 case TransportTypes.MQTT:
                     try
