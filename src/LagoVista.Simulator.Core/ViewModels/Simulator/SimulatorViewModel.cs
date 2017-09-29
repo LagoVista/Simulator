@@ -304,7 +304,15 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                         var responseMessage = System.Text.UTF8Encoding.ASCII.GetString(message.GetBytes());
                         DispatcherServices.Invoke(() =>
                         {
-                            Console.WriteLine(responseMessage);
+                            Debug.WriteLine(message.To);
+                            Debug.WriteLine(message.MessageId);
+                            Debug.WriteLine(responseMessage);
+
+                            foreach (var prop in message.Properties)
+                            {
+                                Debug.WriteLine($"\t\t{prop.Key}={prop.Value}");
+                            }
+                            
                         });
                         // Received a new message, display it
                         // We received the message, indicate IoTHub we treated it

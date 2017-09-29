@@ -240,7 +240,7 @@
       <Version>1.2.134-alpha1626</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Azure.Mobile.Analytics">
-      <Version>0.15.0</Version>
+      <Version>0.15.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.4.0</Version>
