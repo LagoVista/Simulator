@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.88-alpha1220" />
-    <PackageReference Include="LagoVista.IoT.Deployment.Admin" Version="1.2.88-alpha1220" />
-    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.88-alpha1220" />
-    <PackageReference Include="LagoVista.IoT.Runtime.Core" Version="1.2.88-alpha1220" />
-    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.88-alpha1220" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.134-alpha1626" />
+    <PackageReference Include="LagoVista.IoT.Deployment.Admin" Version="1.2.134-alpha1626" />
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.134-alpha1626" />
+    <PackageReference Include="LagoVista.IoT.Runtime.Core" Version="1.2.134-alpha1626" />
+    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.134-alpha1626" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 

@@ -83,6 +83,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 case TransportTypes.RestHttp:
                 case TransportTypes.RestHttps: SetForREST(transportType); break;
                 case TransportTypes.AzureEventHub: SetForAzureEventHub(); break;
+                case TransportTypes.AzureIoTHub: SetForIoTHub(); break;
                 default: HideAll(); break;
             }
         }
@@ -111,6 +112,18 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             ShowRow(nameof(Model.AuthToken));
             ShowRow(nameof(Model.HubName));
 
+            HideRow(nameof(Model.DefaultPort).ToFieldKey());
+            HideRow(nameof(Model.UserName).ToFieldKey());
+            HideRow(nameof(Model.Password).ToFieldKey());
+        }
+
+
+        private void SetForIoTHub()
+        {
+            ShowRow(nameof(Model.DefaultEndPoint));
+            ShowRow(nameof(Model.AuthToken));
+
+            HideRow(nameof(Model.HubName));
             HideRow(nameof(Model.DefaultPort).ToFieldKey());
             HideRow(nameof(Model.UserName).ToFieldKey());
             HideRow(nameof(Model.Password).ToFieldKey());

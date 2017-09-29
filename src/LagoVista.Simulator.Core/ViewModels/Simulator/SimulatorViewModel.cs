@@ -29,6 +29,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         bool _isConnected;
 
 
+        Task ReceivingTask;
+
+
         public SimulatorViewModel()
         {
             ConnectCommand = new RelayCommand(Connect, CanConnect);
@@ -85,14 +88,16 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                         {
                             var sasBuilder = new SharedAccessSignatureBuilder()
                             {
-                                Key = Model.Key,
+                                Key = Model.AuthToken,
                                 Target = String.Format("{0}/devices/{1}", Model.DefaultEndPoint, WebUtility.UrlEncode(Model.DeviceId)),
                                 TimeToLive = TimeSpan.FromDays(1)
                             };
 
-                            var connectionString = $"HostName={Model.DefaultEndPoint};DeviceId={Model.DeviceId};SharedAccessKey={sasBuilder.ToSignature()}";
-                            _azureIoTHubClient = DeviceClient.CreateFromConnectionString(connectionString, TransportType.Amqp_Tcp_Only);
+                            var connectionString = $"HostName={Model.DefaultEndPoint};DeviceId={Model.DeviceId};SharedAccessKey={Model.AuthToken}";
+                            _azureIoTHubClient = DeviceClient.CreateFromConnectionString(connectionString, Microsoft.Azure.Devices.Client.TransportType.Amqp_Tcp_Only);
                             await _azureIoTHubClient.OpenAsync();
+                            ReceivingTask = Task.Run(ReceiveDataFromAzure);
+
                         }
                         break;
                     case TransportTypes.MQTT:
@@ -154,6 +159,14 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         {
             switch (Model.DefaultTransport.Value)
             {
+                case TransportTypes.AzureIoTHub:
+                    if (_azureIoTHubClient != null)
+                    {
+                        await _azureIoTHubClient.CloseAsync();
+                        _azureIoTHubClient.Dispose();
+                        _azureIoTHubClient = null;
+                    }
+                    break;
                 case TransportTypes.MQTT:
                     if (_mqttClient != null)
                     {
@@ -279,12 +292,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             }
         }
 
-        private async Task ReceiveDataFromAzure(DeviceClient deviceClient)
+        private async Task ReceiveDataFromAzure()
         {
-
-            while (true)
+            while (_azureIoTHubClient != null)
             {
-                var message = await deviceClient.ReceiveAsync();
+                var message = await _azureIoTHubClient.ReceiveAsync();
                 if (message != null)
                 {
                     try
@@ -292,15 +304,15 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                         var responseMessage = System.Text.UTF8Encoding.ASCII.GetString(message.GetBytes());
                         DispatcherServices.Invoke(() =>
                         {
-
+                            Console.WriteLine(responseMessage);
                         });
                         // Received a new message, display it
                         // We received the message, indicate IoTHub we treated it
-                        await deviceClient.CompleteAsync(message);
+                        await _azureIoTHubClient.CompleteAsync(message);
                     }
                     catch
                     {
-                        await deviceClient.RejectAsync(message);
+                        await _azureIoTHubClient.RejectAsync(message);
                     }
                 }
             }

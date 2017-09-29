@@ -1,17 +1,17 @@
 ﻿{
   "dependencies": {
-    "LagoVista.Core": "1.2.88-alpha1220",
-    "LagoVista.Core.Networking": "1.2.88-alpha1220",
-    "LagoVista.IoT.Logging": "1.2.88-alpha1220",
-    "Microsoft.Azure.Mobile": "0.14.0",
-    "Microsoft.Azure.Mobile.Analytics": "0.14.0",
-    "Microsoft.Azure.Mobile.Distribute": "0.14.0",
-    "Microsoft.Azure.Mobile.Push": "0.14.0",
+    "LagoVista.Core": "1.2.134-alpha1626",
+    "LagoVista.Core.Networking": "1.2.134-alpha1626",
+    "LagoVista.IoT.Logging": "1.2.134-alpha1626",
+    "Microsoft.Azure.Mobile": "0.15.0",
+    "Microsoft.Azure.Mobile.Analytics": "0.15.0",
+    "Microsoft.Azure.Mobile.Distribute": "0.15.0",
+    "Microsoft.Azure.Mobile.Push": "0.15.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.4.0",
     "Newtonsoft.Json": "10.0.3"
   },
   "frameworks": {
-    "uap10.0": {}
+    "uap10.0.10586": {}
   },
   "runtimes": {
     "win10-arm": {},

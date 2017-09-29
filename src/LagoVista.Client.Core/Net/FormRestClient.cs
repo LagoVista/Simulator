@@ -15,7 +15,7 @@ namespace LagoVista.Client.Core.Net
 
     public class FormRestClient<TModel> : IFormRestClient<TModel> where TModel : new()
     {
-        const int CALL_TIMEOUT_SECONDS = 15;
+        const int CALL_TIMEOUT_SECONDS = 60;
         IRestClient _rawRestClient;
 
         public FormRestClient(IRestClient rawRestClient)

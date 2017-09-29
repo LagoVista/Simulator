@@ -11,7 +11,7 @@
     <AssemblyName>LagoVista.XPlat.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.14393.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -116,7 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LagoVista.Core">
-      <Version>1.2.88-alpha1220</Version>
+      <Version>1.2.134-alpha1626</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.4.0</Version>
@@ -125,7 +125,7 @@
       <Version>10.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>2.3.5.256-pre6</Version>
+      <Version>2.4.0.280</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
