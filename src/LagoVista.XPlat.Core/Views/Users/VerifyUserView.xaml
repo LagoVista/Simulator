@@ -16,19 +16,19 @@
                 </Grid.RowDefinitions>
                 <Image Source="nuviot.png" HorizontalOptions="Center" />
                 <StackLayout Grid.Row="1" Margin="20" WidthRequest="300" HorizontalOptions="Center" >
-                    <pge:Label Text="{ext:ClientTranslate Verify_PhoneNumber}"  TextColor="White" />
-                    <pge:Entry Text="{Binding PhoneNumber, Mode=TwoWay}" Placeholder="{ext:ClientTranslate Verify_PhoneNumber_Watermark}"  />
+                    <pge:Label IsVisible="{Binding ShowPhoneConfirm}" Text="{ext:ClientTranslate Verify_PhoneNumber}"  TextColor="White" />
+                    <pge:Entry IsVisible="{Binding ShowPhoneConfirm}" Text="{Binding PhoneNumber, Mode=TwoWay}" Placeholder="{ext:ClientTranslate Verify_PhoneNumber_Watermark}"  />
 
-                    <pge:Label Text="{ext:ClientTranslate Verify_ReceivedCode}"  TextColor="White" />
-                    <pge:Entry Text="{Binding SMSCode, Mode=TwoWay}" Placeholder="{ext:ClientTranslate Verify_ReceivedCode_Watermark}"  />
+                    <pge:Label IsVisible="{Binding ShowPhoneConfirm}" Text="{ext:ClientTranslate Verify_ReceivedCode}"  TextColor="White" />
+                    <pge:Entry IsVisible="{Binding ShowPhoneConfirm}" Text="{Binding SMSCode, Mode=TwoWay}" Placeholder="{ext:ClientTranslate Verify_ReceivedCode_Watermark}"  />
 
-                    <pge:Button Command="{Binding SendEmailConfirmationCommand}" Text="{ext:ClientTranslate Verify_SendEmail}" HeightRequest="48" />
+                    <pge:Button IsVisible="{Binding ShowEmailConfirm}" Command="{Binding SendEmailConfirmationCommand}" Text="{ext:ClientTranslate Verify_SendEmail}" HeightRequest="48" />
 
-                    <pge:Button Command="{Binding SendSMSConfirmationCommand}" Text="{ext:ClientTranslate Verify_SendSMS}" HeightRequest="48" />
+                    <pge:Button IsVisible="{Binding ShowPhoneConfirm}" Command="{Binding SendSMSConfirmationCommand}" Text="{ext:ClientTranslate Verify_SendSMS}" HeightRequest="48" />
 
-                    <pge:Button Command="{Binding ConfirmEnteredSMSCommand}" Text="{ext:ClientTranslate Verify_ConfirmCode}" HeightRequest="48" />
+                    <pge:Button IsVisible="{Binding ShowPhoneConfirm}" Command="{Binding ConfirmEnteredSMSCommand}" Text="{ext:ClientTranslate Verify_ConfirmCode}" HeightRequest="48" />
 
-                    <pge:Button Command="{Binding LogoutCommand}" Text="{ext:ClientTranslate Common_Logout}" HeightRequest="48" />
+                    <pge:Button  Command="{Binding LogoutCommand}" Text="{ext:ClientTranslate Common_Logout}" HeightRequest="48" />
                 </StackLayout>
             </Grid>
         </ScrollView>

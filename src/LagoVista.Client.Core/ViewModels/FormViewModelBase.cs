@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using LagoVista.Core;
 using LagoVista.Core.Validation;
 using LagoVista.Client.Core.Resources;
+using LagoVista.Client.Core.ViewModels.Orgs;
 
 namespace LagoVista.Client.Core.ViewModels
 {
@@ -102,6 +103,7 @@ namespace LagoVista.Client.Core.ViewModels
                         }
 
                         break;
+                    case FormField.FieldType_NameSpace:
                     case FormField.FieldType_MultilineText:
                     case FormField.FieldType_Text:
                     case FormField.FieldType_Key:
@@ -211,8 +213,9 @@ namespace LagoVista.Client.Core.ViewModels
             {
                 result = await FormRestClient.GetAsync(GetRequestUri());
             }
-            else if(LaunchArgs.LaunchType == LaunchTypes.Create)
+            else if(LaunchArgs.LaunchType == LaunchTypes.Create || this.GetType() == typeof(OrgEditorViewModel))
             {
+                //HACK: On OrgEditViewModel, but is all contained in this assembly, no apps should care about it, we eventually need to launch an initial view in CreateMode, but need to make updates to the core, otherwise OrgEditorViewModel is launched as LaunchType = Other but it's really created
                 result = await FormRestClient.CreateNewAsync(GetRequestUri());
             }
             else

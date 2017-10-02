@@ -90,10 +90,6 @@ namespace LagoVista.Client.Core.Net
                 {
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authManager.AccessToken);
                 }
-                else
-                {
-                    return RawResponse.FromNotCompleted();
-                }
 
                 retry = false;
                 try
@@ -208,7 +204,14 @@ namespace LagoVista.Client.Core.Net
 
             var json = JsonConvert.SerializeObject(model, new Newtonsoft.Json.JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver(), });
             var response = await PostAsync(path, json, cancellationTokenSource);
-            return response.ToInvokeResult<TResponseModel>();
+            if (response.Success)
+            {
+                return JsonConvert.DeserializeObject<InvokeResult<TResponseModel>>(response.Content);
+            }
+            else
+            {
+                return response.ToInvokeResult<TResponseModel>();
+            }
         }
 
         public async Task<InvokeResult<TResponseModel>> GetAsync<TResponseModel>(string path, CancellationTokenSource cancellationTokenSource = null) where TResponseModel : class

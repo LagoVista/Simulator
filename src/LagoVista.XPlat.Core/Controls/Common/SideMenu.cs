@@ -42,11 +42,12 @@ namespace LagoVista.XPlat.Core.Controls.Common
                 lbl.Margin = new Thickness(44, 10, 0, 0);
                 _container.Children.Add(lbl);
 
+                
                 var org = new Label();
                 _orgLabel = new Label();
                 _orgLabel.FontSize = 22;
                 _orgLabel.TextColor = Color.White;
-                _orgLabel.Text = _autoManager.User.CurrentOrganization.Text;
+                _orgLabel.Text = (_autoManager.User.CurrentOrganization != null) ? _autoManager.User.CurrentOrganization.Text : ClientResources.MainMenu_NoOrganization;
                 _orgLabel.Margin = new Thickness(44, 0, 0, 10);
                 _container.Children.Add(_orgLabel);
 

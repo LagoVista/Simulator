@@ -438,4 +438,7 @@
   <data name="Common_OK" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="MainMenu_NoOrganization" xml:space="preserve">
+    <value>No Organization</value>
+  </data>
 </root>

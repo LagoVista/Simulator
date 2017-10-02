@@ -31,13 +31,14 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using LagoVista.Client.Core.Net;
 using LagoVista.Core.Networking.Interfaces;
+using System.Net.Sockets;
 
 namespace LagoVista.MQTT.Core
 {
     /// <summary>
     /// MQTT Client
     /// </summary>
-    public class MqttClient 
+    public class MqttClient
     {
         /// <summary>
         /// Delagate that defines event handler for PUBLISH message received
@@ -969,8 +970,14 @@ namespace LagoVista.MQTT.Core
                                 (ex.ErrorCode == MqttClientErrorCode.InvalidConnectFlags));
                     }
 
+                    if (e.GetType() == typeof(SocketException))
+                    {
+                        close = true;
+                    }
+
                     if (close)
                     {
+                        Close();
                         // wake up thread that will notify connection is closing
                         this.OnConnectionClosing();
                     }
@@ -1770,7 +1777,7 @@ namespace LagoVista.MQTT.Core
 
             internal bool Find(object item)
             {
-                var  msgCtx = (MqttMsgContext)item;
+                var msgCtx = (MqttMsgContext)item;
                 return ((msgCtx.Message.Type == MqttMsgBase.MQTT_MSG_PUBLISH_TYPE) &&
                         (msgCtx.Message.MessageId == this.MessageId) &&
                         msgCtx.Flow == this.Flow);

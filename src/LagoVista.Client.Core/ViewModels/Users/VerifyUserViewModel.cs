@@ -47,6 +47,22 @@ namespace LagoVista.Client.Core.ViewModels.Users
             });
         }
 
+        public override Task InitAsync()
+        {
+            if(AuthManager.User.PhoneNumberConfirmed)
+            {
+                ShowPhoneConfirm = false;
+                ShowEmailConfirm = true;
+            }
+            else
+            {
+                ShowEmailConfirm = false;
+                ShowPhoneConfirm = true;
+            }
+
+            return base.InitAsync();
+        }
+
         public bool ValidPhoneNumber()
         {
             return !(String.IsNullOrEmpty(PhoneNumber));
@@ -58,11 +74,11 @@ namespace LagoVista.Client.Core.ViewModels.Users
             {
                 if (EntityHeader.IsNullOrEmpty(AuthManager.User.CurrentOrganization))
                 {
-                    await ViewModelNavigation.NavigateAndCreateAsync<OrgEditorViewModel>(this);
+                    await ViewModelNavigation.SetAsNewRootAsync<OrgEditorViewModel>();
                 }
                 else
                 {
-                    await ViewModelNavigation.NavigateAsync(this,_clientAppInfo.MainViewModel);
+                    await ViewModelNavigation.SetAsNewRootAsync(_clientAppInfo.MainViewModel);
                 }
             }
         }
@@ -80,8 +96,11 @@ namespace LagoVista.Client.Core.ViewModels.Users
                 var refreshResult = await RefreshUserFromServerAsync();
                 if (!refreshResult.Successful) return refreshResult;
 
-                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "EmailConfirmed", new KeyValuePair<string, string>("userid", AuthManager.User.Id));
+                Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_ConfirmSMSCode", "SMS Confirmed", new KeyValuePair<string, string>("userid", AuthManager.User.Id));
                 await Popups.ShowAsync(ClientResources.Verify_SMS_Confirmed);
+
+                ShowPhoneConfirm = false;
+                ShowEmailConfirm = true;
 
                 return refreshResult;
             });
@@ -120,7 +139,7 @@ namespace LagoVista.Client.Core.ViewModels.Users
             var result = await PerformNetworkOperation(async () =>
             {
                 var vm = new ConfirmEmail();
-                vm.ReceivedCode = code;
+                vm.ReceivedCode = System.Net.WebUtility.UrlDecode(code);
                 var json = JsonConvert.SerializeObject(vm);
                 var confirmEmailResult = await RestClient.PostAsync("/api/verify/email", vm, new CancellationTokenSource());
                 if (!confirmEmailResult.Successful) return confirmEmailResult;
@@ -131,9 +150,15 @@ namespace LagoVista.Client.Core.ViewModels.Users
                 Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Error, "VerifyUserViewModel_HandleURIActivation", "EmailConfirmed", new KeyValuePair<string, string>("userid", userId));
                 await Popups.ShowAsync(ClientResources.Verify_Email_Confirmed);
 
+                await RefreshUserFromServerAsync();
+
                 return refreshResult;
             });
 
+            if (result.Successful)
+            {
+                await TransitionToNextView();
+            }
         }
 
         public async void SendSMSConfirmation()
@@ -180,7 +205,30 @@ namespace LagoVista.Client.Core.ViewModels.Users
             get { return _confirmEmailStepVisible; }
             set { Set(ref _confirmEmailStepVisible, value); }
         }
-        
+
+        private bool _showPhoneConfirm = false;
+        public bool ShowPhoneConfirm
+        {
+            get { return _showPhoneConfirm; }
+            set
+            {
+                _showPhoneConfirm = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _showEmailConfirm = false;
+        public bool ShowEmailConfirm
+        {
+            get { return _showEmailConfirm; }
+            set
+            {
+                _showEmailConfirm = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         public RelayCommand SendEmailConfirmationCommand { get; private set; }
         public RelayCommand SendSMSConfirmationCommand { get; private set; }
         public RelayCommand ConfirmEnteredSMSCommand { get; private set; }

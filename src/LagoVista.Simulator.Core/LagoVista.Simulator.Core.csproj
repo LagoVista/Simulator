@@ -19,12 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.134-alpha1626" />
-    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.134-alpha1626" />
-    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.134-alpha1626" />
-    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.134-alpha1626" />
-    <PackageReference Include="LagoVista.IoT.Simulator.Admin" Version="1.2.134-alpha1626" />
-    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.134-alpha1626" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.138-alpha1421" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.138-alpha1421" />
+    <PackageReference Include="LagoVista.Core.Networking" Version="1.2.138-alpha1421" />
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.138-alpha1421" />
+    <PackageReference Include="LagoVista.IoT.Simulator.Admin" Version="1.2.138-alpha1421" />
+    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.138-alpha1421" />
     <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.5.0" />
     <PackageReference Include="Microsoft.Azure.EventHubs" Version="1.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />

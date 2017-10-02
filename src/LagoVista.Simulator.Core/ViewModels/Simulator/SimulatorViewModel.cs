@@ -50,16 +50,19 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         private async Task<InvokeResult> LoadSimulator()
         {
             var simulatorResponse = await RestClient.GetAsync<DetailResponse<LagoVista.IoT.Simulator.Admin.Models.Simulator>>($"/api/simulator/{LaunchArgs.ChildId}");
-            if (simulatorResponse != null)
+            if (simulatorResponse.Successful)
             {
                 Model = simulatorResponse.Result.Model;
                 MessageTemplates = simulatorResponse.Result.Model.MessageTemplates;
                 ConnectCommand.RaiseCanExecuteChanged();
                 DisconnectCommand.RaiseCanExecuteChanged();
                 RaisePropertyChanged(nameof(ConnectionVisible));
+                return InvokeResult.Success;
             }
-
-            return InvokeResult.Success;
+            else
+            {
+                return simulatorResponse.ToInvokeResult();
+            }
         }
 
 
@@ -81,6 +84,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                             };
 
                             _eventHubClient = EventHubClient.CreateFromConnectionString(bldr.ToString());
+                            _isConnected = true;
                         }
 
                         break;
@@ -97,33 +101,41 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                             _azureIoTHubClient = DeviceClient.CreateFromConnectionString(connectionString, Microsoft.Azure.Devices.Client.TransportType.Amqp_Tcp_Only);
                             await _azureIoTHubClient.OpenAsync();
                             ReceivingTask = Task.Run(ReceiveDataFromAzure);
-
+                            _isConnected = true;
                         }
                         break;
                     case TransportTypes.MQTT:
                         _mqttClient = SLWIOC.Create<IMQTTDeviceClient>();
+                        _mqttClient.ShowDiagnostics = true;
                         _mqttClient.BrokerHostName = Model.DefaultEndPoint;
                         _mqttClient.BrokerPort = Model.DefaultPort;
                         _mqttClient.DeviceId = Model.UserName;
                         _mqttClient.Password = Model.Password;
 
                         var result = await _mqttClient.ConnectAsync();
-                        Debug.WriteLine(result);
+                        if (result == ConnAck.Accepted)
+                        {
+                            _isConnected = true;
+                        }
+                        else
+                        {
+                            await Popups.ShowAsync($"{Resources.SimulatorCoreResources.Simulator_ErrorConnecting}: {result}");
+                        }
 
                         break;
                     case TransportTypes.TCP:
                         _tcpClient = SLWIOC.Create<ITCPClient>();
                         await _tcpClient.ConnectAsync(Model.DefaultEndPoint, Model.DefaultPort);
+                        _isConnected = true;
                         break;
                     case TransportTypes.UDP:
                         _udpClient = SLWIOC.Create<IUDPClient>();
                         await _udpClient.ConnectAsync(Model.DefaultEndPoint, Model.DefaultPort);
+                        _isConnected = true;
                         break;
                 }
 
                 RightMenuIcon = Client.Core.ViewModels.RightMenuIcon.None;
-
-                _isConnected = true;
 
             }
             catch (Exception ex)
@@ -243,9 +255,13 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             EditSimulator();
         }
 
-        public override Task InitAsync()
+        public override async Task InitAsync()
         {
-            return PerformNetworkOperation(LoadSimulator);
+            var result = await PerformNetworkOperation(LoadSimulator);
+            if(!result.Successful)
+            {
+                await this.ViewModelNavigation.GoBackAsync();
+            }
         }
 
         public override Task ReloadedAsync()
@@ -312,7 +328,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                             {
                                 Debug.WriteLine($"\t\t{prop.Key}={prop.Value}");
                             }
-                            
+
                         });
                         // Received a new message, display it
                         // We received the message, indicate IoTHub we treated it

@@ -142,10 +142,14 @@ namespace LagoVista.Client.Core.Models
         public InvokeResult<TModel> ToInvokeResult<TModel>() where TModel : class
         {
             var result = new InvokeResult<TModel>();
-            result.Result = DeserializeContent<TModel>();
+
             if (!Success)
             {
                 result.Errors.Add(new LagoVista.Core.Validation.ErrorMessage(ErrorMessage));
+            }
+            else
+            {
+                result.Result = DeserializeContent<TModel>();
             }
             return result;
         }

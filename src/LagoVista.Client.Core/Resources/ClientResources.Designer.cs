@@ -20,7 +20,7 @@ namespace LagoVista.Client.Core.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ClientResources {
@@ -598,6 +598,15 @@ namespace LagoVista.Client.Core.Resources {
         public static string MainMenu_InviteUser {
             get {
                 return ResourceManager.GetString("MainMenu_InviteUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Organization.
+        /// </summary>
+        public static string MainMenu_NoOrganization {
+            get {
+                return ResourceManager.GetString("MainMenu_NoOrganization", resourceCulture);
             }
         }
         

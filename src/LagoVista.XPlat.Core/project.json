@@ -1,13 +1,13 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "LagoVista.Core": "1.2.134-alpha1626",
-    "LagoVista.Core.Networking": "1.2.134-alpha1626",
-    "LagoVista.UserAdmin": "1.2.134-alpha1626",
+    "LagoVista.Core": "1.2.138-alpha1421",
+    "LagoVista.Core.Networking": "1.2.138-alpha1421",
+    "LagoVista.UserAdmin": "1.2.138-alpha1421",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
     "NETStandard.Library": "1.6.1",
     "Newtonsoft.Json": "10.0.3",
-    "Xamarin.Forms": "2.4.0.280"
+    "Xamarin.Forms": "2.4.0.282"
   },
   "frameworks": {
     "netstandard1.3": {}

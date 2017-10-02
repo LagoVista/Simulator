@@ -90,10 +90,10 @@ namespace LagoVista.MQTT.Core.Clients
 
                 var result = await _mqttClient.Connect(ClientId, UserName, Password);
 
-                if (ConnectionStateChanged != null)
+                if (ConnectionStateChanged != null && result == ConnAck.Accepted)
                     ConnectionStateChanged(this, true);
 
-                return ConnAck.Accepted;
+                return result;
             }
             catch (MqttCommunicationException ex)
             {

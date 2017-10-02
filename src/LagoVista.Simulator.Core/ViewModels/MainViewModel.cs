@@ -1,16 +1,11 @@
 ﻿using LagoVista.Core.Commanding;
-using LagoVista.Core;
 using LagoVista.IoT.Simulator.Admin.Models;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using LagoVista.Client.Core.Resources;
 using LagoVista.Simulator.Core.ViewModels.Simulator;
 using System.Collections.Generic;
 using LagoVista.Client.Core.ViewModels;
 using LagoVista.Client.Core.ViewModels.Auth;
 using LagoVista.Client.Core.ViewModels.Orgs;
-using LagoVista.Core.Validation;
-using System;
 
 namespace LagoVista.Simulator.Core.ViewModels
 {
@@ -68,7 +63,7 @@ namespace LagoVista.Simulator.Core.ViewModels
 
         protected override string GetListURI()
         {
-            return $"/api/org/{AuthManager.User.CurrentOrganization.Id}/simulators";
+            return $"/api/org/simulators";
         }
 
         public RelayCommand AddNewSimulatorCommand { get; private set; }
