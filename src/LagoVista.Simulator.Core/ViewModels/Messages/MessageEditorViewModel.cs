@@ -6,7 +6,6 @@ using System.Linq;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Client.Core.ViewModels;
 using LagoVista.Core.Validation;
-using System;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
@@ -150,7 +149,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
             View[nameof(Model.AppendCR).ToFieldKey()].IsVisible = true;
             View[nameof(Model.AppendLF).ToFieldKey()].IsVisible = true;
-
         }
 
         private void Form_OptionSelected(object sender, OptionSelectedEventArgs e)

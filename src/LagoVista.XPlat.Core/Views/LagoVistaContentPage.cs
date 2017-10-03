@@ -33,7 +33,7 @@ namespace LagoVista.XPlat.Core
         bool _hasAppeared = false;
 
         const int MENU_WIDTH = 300;
-        const int TOOL_BAR_HEIGHT = 48;
+        const int TOOL_BAR_HEIGHT = 44;
 
         public LagoVistaContentPage() : base()
         {
@@ -166,6 +166,7 @@ namespace LagoVista.XPlat.Core
             _title.SetValue(Grid.ColumnProperty, 1);
             _title.TextColor = AppStyle.TitleBarText.ToXamFormsColor();
             _title.FontSize = 22;
+            _title.Margin = new Thickness(-5, -3, 0, 0);
             _title.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
 
             _leftMenuButton = new IconButton();

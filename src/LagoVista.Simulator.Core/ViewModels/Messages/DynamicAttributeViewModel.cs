@@ -28,6 +28,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
         protected override void BuildForm(EditFormAdapter form)
         {
+            form.AddViewCell(nameof(Model.Name));
             form.AddViewCell(nameof(Model.Key));
             form.AddViewCell(nameof(Model.ParameterType));
             form.AddViewCell(nameof(Model.DefaultValue));

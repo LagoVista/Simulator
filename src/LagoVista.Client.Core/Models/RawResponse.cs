@@ -64,11 +64,17 @@ namespace LagoVista.Client.Core.Models
 
         public static RawResponse FromException(Exception ex, bool cancelled = false)
         {
+            var errMsg = ex.Message;
+           if(ex.InnerException != null)
+            {
+                errMsg += $"\r{ex.InnerException.Message}";
+            }
+
             return new RawResponse()
             {
                 WasCancelled = cancelled,
                 Success = false,
-                ErrorMessage = ex.Message,
+                ErrorMessage = errMsg,
                 FaultType = cancelled ? FaultTypes.Cancelled : FaultTypes.Exception
             };
         }

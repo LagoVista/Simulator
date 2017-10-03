@@ -145,10 +145,10 @@ namespace LagoVista.Client.Core.Net
 
         public Task<RawResponse> GetAsync(string path, CancellationTokenSource cancellationTokenSource)
         {
-            return PerformCall(() =>
+            return PerformCall(async() =>
             {
                 var timedEvent = _logger.StartTimedEvent("RawRestClient_Get", path);
-                var result = _httpClient.GetAsync(path, cancellationTokenSource.Token);
+                var result = await  _httpClient.GetAsync(path, cancellationTokenSource.Token);
                 _logger.EndTimedEvent(timedEvent);
                 return result;
             }, cancellationTokenSource);
@@ -156,11 +156,11 @@ namespace LagoVista.Client.Core.Net
 
         public Task<RawResponse> PostAsync(string path, string payload, CancellationTokenSource cancellationTokenSource)
         {
-            return PerformCall(() =>
+            return PerformCall(async() =>
             {
                 var timedEvent = _logger.StartTimedEvent("RawRestClient_Post", path);
                 var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result  = _httpClient.PostAsync(path, content, cancellationTokenSource.Token);
+                var result  = await _httpClient.PostAsync(path, content, cancellationTokenSource.Token);
                 _logger.EndTimedEvent(timedEvent);
                 return result;
             }, cancellationTokenSource);
@@ -168,11 +168,11 @@ namespace LagoVista.Client.Core.Net
 
         public Task<RawResponse> PutAsync(string path, string payload, CancellationTokenSource cancellationTokenSource)
         {
-            return PerformCall(() =>
+            return PerformCall(async () =>
             {
                 var timedEvent = _logger.StartTimedEvent("RawRestClient_Put", path);
                 var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = _httpClient.PutAsync(path, content, cancellationTokenSource.Token);
+                var result = await _httpClient.PutAsync(path, content, cancellationTokenSource.Token);
                 _logger.EndTimedEvent(timedEvent);
                 return result;
             }, cancellationTokenSource);
@@ -180,10 +180,10 @@ namespace LagoVista.Client.Core.Net
 
         public Task<RawResponse> DeleteAsync(string path, string payload, CancellationTokenSource cancellationTokenSource)
         {
-            return PerformCall(() =>
+            return PerformCall(async () =>
             {
                 var timedEvent = _logger.StartTimedEvent("RawRestClient_Delete", path);
-                var result = _httpClient.DeleteAsync(path, cancellationTokenSource.Token);
+                var result =  await _httpClient.DeleteAsync(path, cancellationTokenSource.Token);
                 _logger.EndTimedEvent(timedEvent);
                 return result;
             }, cancellationTokenSource);
