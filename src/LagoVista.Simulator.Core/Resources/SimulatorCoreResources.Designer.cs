@@ -20,7 +20,7 @@ namespace LagoVista.Simulator.Core.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class SimulatorCoreResources {
@@ -107,7 +107,16 @@ namespace LagoVista.Simulator.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MESSAGE SENT!.
+        ///   Looks up a localized string similar to Message Published.
+        /// </summary>
+        internal static string SendMessage_MessagePublished {
+            get {
+                return ResourceManager.GetString("SendMessage_MessagePublished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message Sent.
         /// </summary>
         internal static string SendMessage_MessageSent {
             get {
@@ -139,6 +148,15 @@ namespace LagoVista.Simulator.Core.Resources {
         internal static string Simulator_ErrorConnecting {
             get {
                 return ResourceManager.GetString("Simulator_ErrorConnecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please connect prior to selecting a message to be sent..
+        /// </summary>
+        internal static string Simulator_PleaseConnect {
+            get {
+                return ResourceManager.GetString("Simulator_PleaseConnect", resourceCulture);
             }
         }
     }

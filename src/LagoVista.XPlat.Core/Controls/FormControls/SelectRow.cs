@@ -32,6 +32,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                     options.Insert(0, "-select-");
                 }
 
+                _picker.IsEnabled = field.IsEnabled;
                 _picker.ItemsSource = options;
                 _picker.SelectedIndex = 0;
             }
@@ -52,7 +53,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             Children.Add(_validationMessage);
 
             _picker.SelectedIndexChanged += _picker_SelectedIndexChanged;
-            Margin = new Thickness(10, 10, 20, 10);
+            Margin = RowMargin;
         }
 
         private void _picker_SelectedIndexChanged(object sender, EventArgs e)

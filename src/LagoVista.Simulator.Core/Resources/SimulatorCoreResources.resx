@@ -132,8 +132,11 @@
   <data name="SendMessage_InvalidBinaryPayload" xml:space="preserve">
     <value>Invalid Binary Payload</value>
   </data>
+  <data name="SendMessage_MessagePublished" xml:space="preserve">
+    <value>Message Published</value>
+  </data>
   <data name="SendMessage_MessageSent" xml:space="preserve">
-    <value>MESSAGE SENT!</value>
+    <value>Message Sent</value>
   </data>
   <data name="Simulator_Connected" xml:space="preserve">
     <value>Connected!</value>
@@ -143,5 +146,8 @@
   </data>
   <data name="Simulator_ErrorConnecting" xml:space="preserve">
     <value>Error Connecting</value>
+  </data>
+  <data name="Simulator_PleaseConnect" xml:space="preserve">
+    <value>Please connect prior to selecting a message to be sent.</value>
   </data>
 </root>

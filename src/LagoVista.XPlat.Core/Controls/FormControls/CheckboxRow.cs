@@ -23,7 +23,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
 
             Children.Add(_header);
             Children.Add(_switch);
-            Margin = new Thickness(10, 10, 20, 10);
+            Margin = RowMargin;
         }
 
         private void _switch_Toggled(object sender, ToggledEventArgs e)

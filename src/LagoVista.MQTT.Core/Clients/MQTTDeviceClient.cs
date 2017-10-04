@@ -38,7 +38,7 @@ namespace LagoVista.MQTT.Core.Clients
             Password = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(DEVICE_PASSWORD);
             DeviceType = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(DEVICE_TYPE);
             DeviceId = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(DEVICE_ID);
-            BrokerHostName = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(BROKER_HOST_NAME, DEFAULT_DOMAIN);
+            BrokerHostName = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<String>(BROKER_HOST_NAME, "");
 
             return SettingsReady;
         }

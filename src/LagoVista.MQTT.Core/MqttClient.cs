@@ -89,8 +89,8 @@ namespace LagoVista.MQTT.Core
         // keep alive period (in ms)
         private int _keepAlivePeriod;
         // events for signaling on keep alive thread
-        AutoResetEvent keepAliveEvent;
-        AutoResetEvent keepAliveEventEnd;
+        AutoResetEvent _keepAliveEvent;
+        AutoResetEvent _keepAliveEventEnd;
         // last communication time in ticks
         int _lastCommTime;
 
@@ -197,7 +197,7 @@ namespace LagoVista.MQTT.Core
                 this._settings.SslPort = this._brokerPort;
 
             this._syncEndReceiving = new AutoResetEvent(false);
-            this.keepAliveEvent = new AutoResetEvent(false);
+            this._keepAliveEvent = new AutoResetEvent(false);
 
             // queue for handling inflight messages (publishing and acknowledge)
             this._inflightWaitHandle = new AutoResetEvent(false);
@@ -292,57 +292,60 @@ namespace LagoVista.MQTT.Core
             try
             {
                 // connect to the broker
-                this._channel.Connect();
+                _channel.Connect();
             }
             catch (Exception ex)
             {
                 throw new MqttConnectionException("Exception connecting to the broker", ex);
             }
 
-            this._lastCommTime = 0;
-            this._isRunning = true;
-            this._isConnectionClosing = false;
+            _lastCommTime = 0;
+            _isRunning = true;
+            _isConnectionClosing = false;
             // start thread for receiving messages from broker
-            Task.Run(() => { this.ReceiveThread(); });
+            StartReceiveThread();
 
-            MqttMsgConnack connack = (MqttMsgConnack)this.SendReceive(connect);
+            var connack = (MqttMsgConnack)this.SendReceive(connect);
             // if connection accepted, start keep alive timer and 
             if (connack.ReturnCode == MqttMsgConnack.CONN_ACCEPTED)
             {
                 // set all client properties
-                this.ClientId = clientId;
-                this.CleanSession = cleanSession;
-                this.WillFlag = willFlag;
-                this.WillTopic = willTopic;
-                this.WillMessage = willMessage;
-                this.WillQosLevel = willQosLevel;
+                ClientId = clientId;
+                CleanSession = cleanSession;
+                WillFlag = willFlag;
+                WillTopic = willTopic;
+                WillMessage = willMessage;
+                WillQosLevel = willQosLevel;
 
-                this._keepAlivePeriod = keepAlivePeriod * 1000; // convert in ms
+                _keepAlivePeriod = keepAlivePeriod * 1000; 
 
-                // restore previous session
                 this.RestoreSession();
 
-                // keep alive period equals zero means turning off keep alive mechanism
-                if (this._keepAlivePeriod != 0)
-                {
-                    // start thread for sending keep alive message to the broker
-                    Task.Run(() => { this.KeepAliveThread(); });
-                }
-
-                // start thread for raising received message event from broker
-                Task.Run(() => { this.DispatchEventThread(); });
-
-                // start thread for handling inflight messages queue to broker asynchronously (publish and acknowledge)
-                Task.Run(() => { this.ProcessInflightThread(); });
+                StartMQTTThreads();
 
                 this.IsConnected = true;
             }
             return (ConnAck)connack.ReturnCode;
         }
 
-        /// <summary>
-        /// Disconnect from broker
-        /// </summary>
+        private void StartReceiveThread()
+        {
+            Task.Run(() => { this.ReceiveThread(); });
+        }
+
+        private void StartMQTTThreads()
+        {
+            if (this._keepAlivePeriod != 0)
+            {
+                Task.Run(() => { this.KeepAliveThread(); });
+            }
+
+            Task.Run(() => { this.DispatchEventThread(); });
+
+            Task.Run(() => { this.ProcessInflightThread(); });
+
+        }
+
         public void Disconnect()
         {
             MqttMsgDisconnect disconnect = new MqttMsgDisconnect();
@@ -352,38 +355,24 @@ namespace LagoVista.MQTT.Core
             this.OnConnectionClosing();
         }
 
-        /// <summary>
-        /// Close client
-        /// </summary>
 
         private void Close()
         {
-            // stop receiving thread
             this._isRunning = false;
 
-            // wait end receive event thread
-            if (this._receiveEventWaitHandle != null)
-                this._receiveEventWaitHandle.Set();
+            _receiveEventWaitHandle?.Set();
+            _inflightWaitHandle?.Set();
+            _keepAliveEvent.Set();
 
-            // wait end process inflight thread
-            if (this._inflightWaitHandle != null)
-                this._inflightWaitHandle.Set();
+            _keepAliveEventEnd?.WaitOne();
+            
+            _inflightQueue.Clear();
+            _internalQueue.Clear();
+            _eventQueue.Clear();
 
-            // unlock keep alive thread and wait
-            this.keepAliveEvent.Set();
+            _channel.Close();
 
-            if (this.keepAliveEventEnd != null)
-                this.keepAliveEventEnd.WaitOne();
-
-            // clear all queues
-            this._inflightQueue.Clear();
-            this._internalQueue.Clear();
-            this._eventQueue.Clear();
-
-            // close network channel
-            this._channel.Close();
-
-            this.IsConnected = false;
+            IsConnected = false;
         }
 
         /// <summary>
@@ -994,12 +983,12 @@ namespace LagoVista.MQTT.Core
             int wait = this._keepAlivePeriod;
 
             // create event to signal that current thread is end
-            this.keepAliveEventEnd = new AutoResetEvent(false);
+            this._keepAliveEventEnd = new AutoResetEvent(false);
 
             while (this._isRunning)
             {
                 // waiting...
-                this.keepAliveEvent.WaitOne(wait);
+                this._keepAliveEvent.WaitOne(wait);
 
                 if (this._isRunning)
                 {
@@ -1020,7 +1009,7 @@ namespace LagoVista.MQTT.Core
             }
 
             // signal thread end
-            this.keepAliveEventEnd.Set();
+            this._keepAliveEventEnd.Set();
         }
 
         /// <summary>

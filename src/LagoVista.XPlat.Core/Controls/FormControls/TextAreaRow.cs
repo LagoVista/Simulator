@@ -21,7 +21,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
 
             Children.Add(_header);
             Children.Add(_editor);
-            Margin = new Thickness(10, 10, 20, 10);
+            Margin = RowMargin;
         }
 
         private void _editor_TextChanged(object sender, TextChangedEventArgs e)

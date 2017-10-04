@@ -17,6 +17,7 @@ Contributors:
 
 using System.Net.Sockets;
 using System.Net;
+using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System;
 using LagoVista.MQTT.Core;
@@ -38,6 +39,7 @@ namespace LagoVista.XPlat.UWP
         private Socket socket;
         // using SSL
         private bool _secure;
+       
 
         // CA certificate
         private X509Certificate _caCert;
@@ -57,12 +59,11 @@ namespace LagoVista.XPlat.UWP
         /// </summary>
         public int RemotePort { get { return this._remotePort; } }
 
+
 #if SSL
         // SSL stream
         private SslStream sslStream;
-#if (!MF_FRAMEWORK_VERSION_V4_2 && !MF_FRAMEWORK_VERSION_V4_3)
         private NetworkStream netStream;
-#endif
 #endif
 
         /// <summary>
@@ -251,9 +252,7 @@ namespace LagoVista.XPlat.UWP
 #if SSL
             if (this.secure)
             {
-#if (!MF_FRAMEWORK_VERSION_V4_2 && !MF_FRAMEWORK_VERSION_V4_3)
                 this.netStream.Close();
-#endif
                 this.sslStream.Close();
             }
             this.socket.Close();

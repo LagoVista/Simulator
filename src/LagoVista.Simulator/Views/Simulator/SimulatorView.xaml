@@ -14,17 +14,18 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="48" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Grid>
+            <Grid >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="48" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="20" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -33,8 +34,8 @@
                 </Grid.ColumnDefinitions>
 
                 <pge:Icon IconKey="md-developer-board" FontSize="72" Margin="0,0,20,0"  TextColor="{StaticResource NuvIoTDark}" Grid.RowSpan="4" />
-
                 <Label Text="{Binding Model.Name}" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" FontSize="28" />
+
                 <Label Text="{trs:Translate Common_Transport}" Grid.Column="1" Grid.Row="1" TextColor="{StaticResource NuvIoTDark}" Font="Bold,14" />
                 <Label Text="{trs:Translate Common_EndPoint}" Grid.Column="1" Grid.Row="2" TextColor="{StaticResource NuvIoTDark}" Font="Bold,14" />
                 <Label Text="{trs:Translate Common_Port}" Grid.Column="1" Grid.Row="3" TextColor="{StaticResource NuvIoTDark}" Font="Bold,14" />
@@ -43,17 +44,43 @@
                 <Label Text="{Binding Model.DefaultEndPoint}"  Grid.Column="2" Grid.Row="2" Font="14" />
                 <Label Text="{Binding Model.DefaultPort}" Grid.Column="2" Grid.Row="3" Font="14" />
             </Grid>
-
-            <StackLayout Grid.Row="1">
-                <Button Command="{Binding ConnectCommand}" Text="{trs:Translate Common_Connect}"  IsVisible="{Binding ConnectionVisible}" />
-                <Button Command="{Binding DisconnectCommand}" Grid.Row="1" Text="{trs:Translate Common_Disconnect}"  IsVisible="{Binding ConnectionVisible}"/>
+            
+            <StackLayout Orientation="Horizontal"  Grid.Row="1">
+                <Label Text="{trs:Translate Common_Connected}" Grid.Column="2" Grid.Row="1" Font="14" />
+                <pge:Icon IconKey="fa-circle" FontSize="Medium" TextColor="{Binding ConnectionColor, Converter={StaticResource ColorConverter}}" IsVisible="{Binding ConnectionIconVisible}" />
+                <pge:HyperLinkLabel NavigateCommand="{Binding DisconnectCommand}" Text="{trs:Translate Common_Disconnect}"  IsVisible="{Binding DisconnectButtonVisible}" />
+                <pge:HyperLinkLabel Text="{trs:Translate Simulator_ShowMessageTemplates}"  NavigateCommand="{Binding ShowMessageTemplatesCommand}" Margin="10,0,10,0" IsVisible="{Binding ViewSelectorVisible}" />
+                <pge:HyperLinkLabel  Text="{trs:Translate Simulator_ShowReceivedMessages}" NavigateCommand="{Binding ShowReceivedMessagesCommand}" IsVisible="{Binding ViewSelectorVisible}"  />
             </StackLayout>
 
-            <Grid HeightRequest="48" BackgroundColor="{StaticResource MenuBarBackground}" Grid.Row="2"  >
+            <Button Command="{Binding ConnectCommand}" Text="{trs:Translate Common_Connect}"  IsVisible="{Binding ConnectButtonVisible}" BackgroundColor="{StaticResource NuvIoTDark}" Grid.Row="4" WidthRequest="120" HeightRequest="120" TextColor="White" />
+            
+            <Grid HeightRequest="48" BackgroundColor="{StaticResource MenuBarBackground}" Grid.Row="3" IsVisible="{Binding ReceivedMessagesVisible}" >
                 <Label Text="{trs:Translate Common_Messages}" TextColor="{StaticResource MenuBarForeground}" FontSize="20" Margin="10,0,0,0" VerticalOptions="Center" />
             </Grid>
 
-            <ListView ItemsSource="{Binding MessageTemplates}" SelectedItem="{Binding SelectedMessageTemplate}" Grid.Row="3" >
+            <ListView ItemsSource="{Binding MessageTemplates}" SelectedItem="{Binding SelectedMessageTemplate, Mode=TwoWay}" Grid.Row="4" IsVisible="{Binding ReceivedMessagesVisible}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid HeightRequest="60">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding Name}" FontSize="18" Margin="15,0,10,0" VerticalOptions="Center" Grid.Column="1" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Grid HeightRequest="48" BackgroundColor="{StaticResource MenuBarBackground}" Grid.Row="3" IsVisible="{Binding MessageTemplatesVisible}" >
+                <Label Text="{trs:Translate Simulator_ReceivedMessages}" TextColor="{StaticResource MenuBarForeground}" FontSize="20" Margin="10,0,0,0" VerticalOptions="Center" />
+            </Grid>
+
+            <ListView ItemsSource="{Binding MessageTemplates}" SelectedItem="{Binding SelectedMessageTemplate, Mode=TwoWay}" Grid.Row="4" IsVisible="{Binding MessageTemplatesVisible}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -65,12 +92,14 @@
                                 </Grid.ColumnDefinitions>
                                 <pge:Icon IconKey="fa-comments-o" TextColor="{StaticResource NuvIoTDark}" Grid.Column="0" FontSize="28" Margin="16,0,0,0" VerticalOptions="Center"  />
                                 <Label Text="{Binding Name}" FontSize="18" Margin="15,0,10,0" VerticalOptions="Center" Grid.Column="1" />
-                                <pge:Icon IconKey="fa-chevron-right" TextColor="{StaticResource NuvIoTLight}" Grid.Column="2" FontSize="28" Margin="0,0,16,0" VerticalOptions="Center"  />
+                                <pge:Icon IconKey="fa-chevron-right" TextColor="{StaticResource NuvIoTDark}" Grid.Column="2" FontSize="28" Margin="0,0,16,0" VerticalOptions="Center"  />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+
 
         </Grid>
     </pge:LagoVistaContentPage.MainContent>

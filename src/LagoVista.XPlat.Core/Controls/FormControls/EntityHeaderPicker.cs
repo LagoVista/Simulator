@@ -20,7 +20,6 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                 TextColor = Color.Blue
             };
             Children.Add(_header);
-            Margin = new Thickness(10, 10, 20, 10);
 
             Children.Add(_header);
             Children.Add(_linkLabel);
@@ -28,6 +27,8 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
             var tapRecognizer = new TapGestureRecognizer();
             tapRecognizer.Tapped += TapRecognizer_Tapped;
             _linkLabel.GestureRecognizers.Add(tapRecognizer);
+
+            Margin = RowMargin;
 
             Refresh();
         }

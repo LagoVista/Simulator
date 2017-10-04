@@ -123,6 +123,9 @@
   <data name="Common_Connect" xml:space="preserve">
     <value>Connect</value>
   </data>
+  <data name="Common_Connected" xml:space="preserve">
+    <value>Connected</value>
+  </data>
   <data name="Common_Disconnect" xml:space="preserve">
     <value>Disconnect</value>
   </data>
@@ -182,6 +185,15 @@
   </data>
   <data name="SimulatorEditor_Title" xml:space="preserve">
     <value>Simulator Editor</value>
+  </data>
+  <data name="Simulator_ReceivedMessages" xml:space="preserve">
+    <value>Incoming Messages</value>
+  </data>
+  <data name="Simulator_ShowMessageTemplates" xml:space="preserve">
+    <value>Message Templates</value>
+  </data>
+  <data name="Simulator_ShowReceivedMessages" xml:space="preserve">
+    <value>Received Messages</value>
   </data>
   <data name="Simulator_Title" xml:space="preserve">
     <value>Simulator</value>

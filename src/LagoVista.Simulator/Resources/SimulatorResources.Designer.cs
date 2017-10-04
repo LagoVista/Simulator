@@ -20,7 +20,7 @@ namespace LagoVista.Simulator.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class SimulatorResources {
@@ -76,6 +76,15 @@ namespace LagoVista.Simulator.Resources {
         public static string Common_Connect {
             get {
                 return ResourceManager.GetString("Common_Connect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connected.
+        /// </summary>
+        public static string Common_Connected {
+            get {
+                return ResourceManager.GetString("Common_Connected", resourceCulture);
             }
         }
         
@@ -247,6 +256,33 @@ namespace LagoVista.Simulator.Resources {
         public static string SendMessage_Title {
             get {
                 return ResourceManager.GetString("SendMessage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incoming Messages.
+        /// </summary>
+        public static string Simulator_ReceivedMessages {
+            get {
+                return ResourceManager.GetString("Simulator_ReceivedMessages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message Templates.
+        /// </summary>
+        public static string Simulator_ShowMessageTemplates {
+            get {
+                return ResourceManager.GetString("Simulator_ShowMessageTemplates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Received Messages.
+        /// </summary>
+        public static string Simulator_ShowReceivedMessages {
+            get {
+                return ResourceManager.GetString("Simulator_ShowReceivedMessages", resourceCulture);
             }
         }
         

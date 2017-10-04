@@ -10,6 +10,7 @@ using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.Simulator.Core.Utils;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.EventHubs;
+using Microsoft.Azure.ServiceBus;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,6 +26,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         IUDPClient _udpClient;
         EventHubClient _eventHubClient;
         DeviceClient _azureIoTHubClient;
+        QueueClient _queueClient;
 
         bool _isConnected;
 
@@ -34,8 +36,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
         public SimulatorViewModel()
         {
-            ConnectCommand = new RelayCommand(Connect, CanConnect);
-            DisconnectCommand = new RelayCommand(Disconnect, CanDisconnect);
+            ConnectCommand = new RelayCommand(Connect);
+            DisconnectCommand = new RelayCommand(Disconnect);
+            ShowMessageTemplatesCommand = new RelayCommand(ShowMessageTemplates);
+            ShowReceivedMessagesCommand = new RelayCommand(ShowReceivedMessages);
         }
 
         public async void EditSimulator()
@@ -54,9 +58,25 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             {
                 Model = simulatorResponse.Result.Model;
                 MessageTemplates = simulatorResponse.Result.Model.MessageTemplates;
-                ConnectCommand.RaiseCanExecuteChanged();
-                DisconnectCommand.RaiseCanExecuteChanged();
-                RaisePropertyChanged(nameof(ConnectionVisible));
+
+                switch (Model.DefaultTransport.Value)
+                {
+                    case TransportTypes.TCP:
+                    case TransportTypes.UDP:
+                    case TransportTypes.AMQP:
+                    case TransportTypes.AzureIoTHub:
+                    case TransportTypes.AzureServiceBus:
+                    case TransportTypes.MQTT:
+                        ConnectButtonVisible = true;
+                        DisconnectButtonVisible = false;
+                        break;
+                    default:
+                        MessageTemplatesVisible = true;
+                        ConnectButtonVisible = false;
+                        DisconnectButtonVisible = false;
+                        break;
+                }
+
                 return InvokeResult.Success;
             }
             else
@@ -65,6 +85,18 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             }
         }
 
+        private void StartReceiveThread()
+        {
+            Task.Run(async () =>
+            {
+                while (_isConnected)
+                {
+                    var response = await _tcpClient.ReceiveAsync();
+
+
+                }
+            });
+        }
 
         public async void Connect()
         {
@@ -77,7 +109,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                     case TransportTypes.AzureEventHub:
                     case TransportTypes.AMQP:
                         {
-                            var connectionString = $"Endpoint=sb://{Model.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={Model.AuthToken}";
+                            var connectionString = $"Endpoint=sb://{Model.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName={Model.AccessKeyName};SharedAccessKey={Model.AccessKey}";
                             var bldr = new EventHubsConnectionStringBuilder(connectionString)
                             {
                                 EntityPath = Model.HubName
@@ -88,16 +120,35 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                         }
 
                         break;
-                    case TransportTypes.AzureIoTHub:
+                    case TransportTypes.AzureServiceBus:
                         {
-                            var sasBuilder = new SharedAccessSignatureBuilder()
+                            var connectionString = $"Endpoint=sb://{Model.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName={Model.AccessKeyName};SharedAccessKey={Model.AccessKey}";
+                            var bldr = new ServiceBusConnectionStringBuilder(connectionString)
                             {
-                                Key = Model.AuthToken,
-                                Target = String.Format("{0}/devices/{1}", Model.DefaultEndPoint, WebUtility.UrlEncode(Model.DeviceId)),
-                                TimeToLive = TimeSpan.FromDays(1)
+                                EntityPath = Model.HubName
                             };
 
-                            var connectionString = $"HostName={Model.DefaultEndPoint};DeviceId={Model.DeviceId};SharedAccessKey={Model.AuthToken}";
+                            _queueClient = new QueueClient(bldr, ReceiveMode.PeekLock, Microsoft.Azure.ServiceBus.RetryExponential.Default);
+                            ShowMessageTemplates();
+                            ConnectionIconVisible = true;
+                            ConnectionColor = "green";
+                            ConnectButtonVisible = false;
+                            DisconnectButtonVisible = true;
+                            ViewSelectorVisible = true;
+
+                            _queueClient.RegisterMessageHandler(async (msg, token) =>
+                            {
+                                await Task.Delay(1);
+                            }, async (exception) =>
+                            {
+                                await Task.Delay(1);
+                            });
+
+                        }
+                        break;
+                    case TransportTypes.AzureIoTHub:
+                        {
+                            var connectionString = $"HostName={Model.DefaultEndPoint};DeviceId={Model.DeviceId};SharedAccessKey={Model.AccessKey}";
                             _azureIoTHubClient = DeviceClient.CreateFromConnectionString(connectionString, Microsoft.Azure.Devices.Client.TransportType.Amqp_Tcp_Only);
                             await _azureIoTHubClient.OpenAsync();
                             ReceivingTask = Task.Run(ReceiveDataFromAzure);
@@ -111,15 +162,25 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                         _mqttClient.BrokerPort = Model.DefaultPort;
                         _mqttClient.DeviceId = Model.UserName;
                         _mqttClient.Password = Model.Password;
-
                         var result = await _mqttClient.ConnectAsync();
-                        if (result == ConnAck.Accepted)
+                        if (result.Result == ConnAck.Accepted)
                         {
                             _isConnected = true;
+                            _mqttClient.MessageReceived += _mqttClient_CommandReceived;
+                            ShowMessageTemplates();
+                            ConnectionIconVisible = true;
+                            ConnectionColor = "green";
+                            ConnectButtonVisible = false;
+                            DisconnectButtonVisible = true;
+                            if (!String.IsNullOrEmpty(Model.Subscription))
+                            {
+                                ViewSelectorVisible = true;
+                                _mqttClient.Subscribe(Model.Subscription.Replace("{deviceid}", _model.DeviceId));
+                            }
                         }
                         else
                         {
-                            await Popups.ShowAsync($"{Resources.SimulatorCoreResources.Simulator_ErrorConnecting}: {result}");
+                            await Popups.ShowAsync($"{Resources.SimulatorCoreResources.Simulator_ErrorConnecting}: {result.Message}");
                         }
 
                         break;
@@ -127,11 +188,13 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                         _tcpClient = SLWIOC.Create<ITCPClient>();
                         await _tcpClient.ConnectAsync(Model.DefaultEndPoint, Model.DefaultPort);
                         _isConnected = true;
+                        StartReceiveThread();
                         break;
                     case TransportTypes.UDP:
                         _udpClient = SLWIOC.Create<IUDPClient>();
                         await _udpClient.ConnectAsync(Model.DefaultEndPoint, Model.DefaultPort);
                         _isConnected = true;
+                        StartReceiveThread();
                         break;
                 }
 
@@ -150,6 +213,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 DisconnectCommand.RaiseCanExecuteChanged();
                 IsBusy = false;
             }
+        }
+
+        private void _mqttClient_CommandReceived(object sender, MqttMsgPublishEventArgs e)
+        {
+            Debug.WriteLine(e.Topic);
         }
 
         public override Task<bool> CanCancelAsync()
@@ -171,6 +239,14 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         {
             switch (Model.DefaultTransport.Value)
             {
+                case TransportTypes.AMQP:
+
+                    ConnectButtonVisible = true;
+                    break;
+                case TransportTypes.AzureEventHub:
+
+                    ConnectButtonVisible = true;
+                    break;
                 case TransportTypes.AzureIoTHub:
                     if (_azureIoTHubClient != null)
                     {
@@ -178,13 +254,18 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                         _azureIoTHubClient.Dispose();
                         _azureIoTHubClient = null;
                     }
+
+                    ConnectButtonVisible = true;
                     break;
                 case TransportTypes.MQTT:
                     if (_mqttClient != null)
                     {
                         _mqttClient.Disconnect();
                         _mqttClient = null;
+
                     }
+
+                    ConnectButtonVisible = true;
                     break;
                 case TransportTypes.TCP:
                     if (_tcpClient != null)
@@ -192,6 +273,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                         await _tcpClient.DisconnectAsync();
                         _tcpClient.Dispose();
                     }
+
+                    ConnectButtonVisible = true;
                     break;
                 case TransportTypes.UDP:
                     if (_udpClient != null)
@@ -199,14 +282,32 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                         await _udpClient.DisconnectAsync();
                         _udpClient.Dispose();
                     }
+                    ConnectButtonVisible = true;
                     break;
             }
 
             _isConnected = false;
-            ConnectCommand.RaiseCanExecuteChanged();
-            DisconnectCommand.RaiseCanExecuteChanged();
+
+            DisconnectButtonVisible = false;
+            ViewSelectorVisible = false;
+            MessageTemplatesVisible = false;
+            ReceivedMessagesVisible = false;
+            ConnectionColor = "red";
+
 
             RightMenuIcon = Client.Core.ViewModels.RightMenuIcon.None;
+        }
+
+        public void ShowReceivedMessages()
+        {
+            ReceivedMessagesVisible = true;
+            MessageTemplatesVisible = false;
+        }
+
+        public void ShowMessageTemplates()
+        {
+            ReceivedMessagesVisible = false;
+            MessageTemplatesVisible = true;
         }
 
         public async void Disconnect()
@@ -236,20 +337,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                             Model.DefaultTransport.Value == TransportTypes.UDP);
         }
 
-        public bool ConnectionVisible
-        {
-            get
-            {
-                return Model != null && (Model.DefaultTransport.Value == TransportTypes.AMQP ||
-                                 Model.DefaultTransport.Value == TransportTypes.MQTT ||
-                                 Model.DefaultTransport.Value == TransportTypes.TCP ||
-                             Model.DefaultTransport.Value == TransportTypes.AzureEventHub ||
-                             Model.DefaultTransport.Value == TransportTypes.AzureIoTHub ||
-                             Model.DefaultTransport.Value == TransportTypes.AzureServiceBus ||
-                                 Model.DefaultTransport.Value == TransportTypes.UDP);
-            }
-        }
-
         public override void Edit()
         {
             EditSimulator();
@@ -258,7 +345,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         public override async Task InitAsync()
         {
             var result = await PerformNetworkOperation(LoadSimulator);
-            if(!result.Successful)
+            if (!result.Successful)
             {
                 await this.ViewModelNavigation.GoBackAsync();
             }
@@ -279,6 +366,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         public RelayCommand ConnectCommand { get; set; }
         public RelayCommand DisconnectCommand { get; set; }
 
+        public RelayCommand ShowReceivedMessagesCommand { get; set; }
+        public RelayCommand ShowMessageTemplatesCommand { get; set; }
+
+
         MessageTemplate _selectedMessageTemplate;
         public MessageTemplate SelectedMessageTemplate
         {
@@ -287,6 +378,22 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             {
                 if (value != null && _selectedMessageTemplate != value)
                 {
+                    if (Model.DefaultTransport.Value == TransportTypes.AMQP ||
+                        Model.DefaultTransport.Value == TransportTypes.TCP ||
+                        Model.DefaultTransport.Value == TransportTypes.UDP ||
+                        Model.DefaultTransport.Value == TransportTypes.AzureIoTHub ||
+                        Model.DefaultTransport.Value == TransportTypes.AzureServiceBus ||
+                        Model.DefaultTransport.Value == TransportTypes.MQTT)
+                    {
+                        if (!_isConnected)
+                        {
+                            Popups.ShowAsync(Resources.SimulatorCoreResources.Simulator_PleaseConnect);
+                            _selectedMessageTemplate = null;
+                            RaisePropertyChanged();
+                            return;
+                        }
+                    }
+
                     var launchArgs = new ViewModelLaunchArgs()
                     {
                         ViewModelType = typeof(Messages.SendMessageViewModel),
@@ -295,8 +402,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                     };
 
                     if (_eventHubClient != null) launchArgs.Parameters.Add("ehclient", _eventHubClient);
-                    if (_tcpClient != null) launchArgs.Parameters.Add("tcpclient", _tcpClient);
+
                     if (_mqttClient != null) launchArgs.Parameters.Add("mqttclient", _mqttClient);
+                    if (_tcpClient != null) launchArgs.Parameters.Add("tcpclient", _tcpClient);
                     if (_udpClient != null) launchArgs.Parameters.Add("udpclient", _udpClient);
                     if (_azureIoTHubClient != null) launchArgs.Parameters.Add("azureIotHubClient", _azureIoTHubClient);
 
@@ -342,6 +450,80 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             }
         }
 
+
+        private string _connectionColor = "red";
+        public string ConnectionColor
+        {
+            get { return _connectionColor; }
+            set { Set(ref _connectionColor, value); }
+        }
+
+
+        private bool _viewSelectorVisible = false;
+        public bool ViewSelectorVisible
+        {
+            get { return _viewSelectorVisible; }
+            set
+            {
+                _viewSelectorVisible = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _connetionIconVisible = true;
+        public bool ConnectionIconVisible
+        {
+            get { return _connetionIconVisible; }
+            set
+            {
+                _connetionIconVisible = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _connectButtonVisible = false;
+        public bool ConnectButtonVisible
+        {
+            get { return _connectButtonVisible; }
+            set
+            {
+                _connectButtonVisible = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _disconnectButtonVisbile = false;
+        public bool DisconnectButtonVisible
+        {
+            get { return _disconnectButtonVisbile; }
+            set
+            {
+                _disconnectButtonVisbile = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _messageTemplatesVisible = false;
+        public bool MessageTemplatesVisible
+        {
+            get { return _messageTemplatesVisible; }
+            set
+            {
+                _messageTemplatesVisible = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _receiveeMessageVisible = false;
+        public bool ReceivedMessagesVisible
+        {
+            get { return _receiveeMessageVisible; }
+            set
+            {
+                _receiveeMessageVisible = value;
+                RaisePropertyChanged();
+            }
+        }
 
         LagoVista.IoT.Simulator.Admin.Models.Simulator _model;
         public LagoVista.IoT.Simulator.Admin.Models.Simulator Model

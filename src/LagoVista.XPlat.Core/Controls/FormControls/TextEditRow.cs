@@ -43,7 +43,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                 Children.Add(_header);
                 Children.Add(_editor);
                 Children.Add(_validationMessage);
-                Margin = new Thickness(10, 10, 20, 10);
+                Margin = RowMargin;
             }
         }
 

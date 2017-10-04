@@ -2,9 +2,7 @@
 using LagoVista.Client.Core.ViewModels;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.Networking.Interfaces;
-using LagoVista.Core.ViewModels;
 using LagoVista.IoT.Simulator.Admin.Models;
-using LagoVista.IoT.Simulator.Admin.Resources;
 using LagoVista.Simulator.Core.Resources;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.EventHubs;
@@ -41,6 +39,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             {
                 return "";
             }
+
+            
 
             foreach (var attr in MsgTemplate.DynamicAttributes)
             {
@@ -84,13 +84,20 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     sentContent.Append(ReplaceTokens(MsgTemplate.TextPayload));
 
                     break;
-                case TransportTypes.AzureEventHub:
+                case TransportTypes.AzureIoTHub:
                     sentContent.AppendLine($"Host   : {MsgTemplate.Name}");
                     sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
                     sentContent.Append(ReplaceTokens(MsgTemplate.TextPayload));
 
+                    break;
+
+                case TransportTypes.AzureEventHub:
+                    sentContent.AppendLine($"Host   : {MsgTemplate.Name}");
+                    sentContent.AppendLine($"Body");
+                    sentContent.AppendLine($"---------------------------------");
+                    sentContent.Append(ReplaceTokens(MsgTemplate.TextPayload));
 
                     break;
                 case TransportTypes.MQTT:
@@ -143,6 +150,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                             if (MsgTemplate.AppendCR) msg += "\r";
                             if (MsgTemplate.AppendLF) msg += "\n";
                             await client.WriteAsync(ReplaceTokens(msg));
+                            fullResponseString.Append(SimulatorCoreResources.SendMessage_MessageSent);
                         }
                         catch (Exception ex)
                         {
@@ -163,6 +171,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                             if (MsgTemplate.AppendCR) msg += "\r";
                             if (MsgTemplate.AppendLF) msg += "\n";
                             await client.WriteAsync(ReplaceTokens(msg));
+                            fullResponseString.Append(SimulatorCoreResources.SendMessage_MessageSent);
                         }
                         catch (Exception ex)
                         {
@@ -178,6 +187,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     {
                         var client = LaunchArgs.GetParam<EventHubClient>("ehclient");
                         await client.SendAsync(new EventData(Encoding.UTF8.GetBytes(ReplaceTokens(MsgTemplate.TextPayload))));
+                        fullResponseString.Append(SimulatorCoreResources.SendMessage_MessagePublished);
                     }
                     catch (Exception ex)
                     {
@@ -193,6 +203,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                         var client = LaunchArgs.GetParam<DeviceClient>("azureIotHubClient");
                         var msg = new Message(Encoding.UTF8.GetBytes(ReplaceTokens(MsgTemplate.TextPayload)));
                         await client.SendEventAsync(msg);
+                        fullResponseString.Append(SimulatorCoreResources.SendMessage_MessagePublished);
                     }
                     catch(Exception ex)
                     {
@@ -212,6 +223,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                         {
                             var client = LaunchArgs.GetParam<IMQTTDeviceClient>("mqttclient");
                             client.Publish(ReplaceTokens(MsgTemplate.Topic), ReplaceTokens(MsgTemplate.TextPayload));
+                            fullResponseString.Append(SimulatorCoreResources.SendMessage_MessagePublished);
                         }
                     }
                     catch (Exception ex)
@@ -251,7 +263,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                                 case MessageTemplate.HttpVerb_PUT:
                                     responseMessage = await client.PutAsync(uri, new StringContent(ReplaceTokens(MsgTemplate.TextPayload)));
                                     break;
-                                case MessageTemplate.HttpVerb_DELETE: responseMessage = await client.DeleteAsync(uri); break;
+                                case MessageTemplate.HttpVerb_DELETE:
+                                    responseMessage = await client.DeleteAsync(uri);
+                                    break;
                             }
 
                             var responseContent = await responseMessage.Content.ReadAsStringAsync();
@@ -279,7 +293,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             ReceivedContennt = fullResponseString.ToString();
 
             IsBusy = false;
-            await Popups.ShowAsync(Success ? SimulatorCoreResources.SendMessage_MessageSent : SimulatorCoreResources.SendMessage_ErrorSendingMessage);
         }
 
         public byte[] GetBinaryPayload(string binaryPayload)

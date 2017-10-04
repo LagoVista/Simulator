@@ -49,6 +49,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Controls\Common\Button.cs" />
     <Compile Include="Controls\Common\Entry.cs" />
+    <Compile Include="Controls\Common\EventArgs.cs" />
     <Compile Include="Controls\Common\HyperLinkLabel.cs" />
     <Compile Include="Controls\Common\Icon.cs" />
     <Compile Include="Controls\Common\IconButton.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Services\StorageServiceBase.cs" />
     <Compile Include="Services\ViewModelNavigation.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ValueConverter\ColorConverter.cs" />
     <Compile Include="ValueConverter\VisibilityConverter.cs" />
     <Compile Include="Views\Auth\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>

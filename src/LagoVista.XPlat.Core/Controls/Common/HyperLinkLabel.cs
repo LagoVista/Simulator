@@ -55,6 +55,7 @@ namespace LagoVista.XPlat.Core
         /// </summary>
         static HyperLinkLabel()
         {
+            
         }
 
         /// <summary>
@@ -62,14 +63,13 @@ namespace LagoVista.XPlat.Core
         /// </summary>
         public HyperLinkLabel()
         {
-            NavigateCommand = new Command(() =>
-            {
-
-            });
+            NavigateCommand = new Command(() =>{ });
 
             _tapGestureRecognizer = new TapGestureRecognizer() { Command = NavigateCommand };
 
             GestureRecognizers.Add(_tapGestureRecognizer);
+            TextColor = Color.Blue;
+            Effects.Add(Effect.Resolve($"{UnderlineEffect.EffectNamespace}.{nameof(UnderlineEffect)}"));
         }
 
         /// <summary>
@@ -128,5 +128,16 @@ namespace LagoVista.XPlat.Core
         }
 
         #endregion
+    }
+
+
+    public class UnderlineEffect : RoutingEffect
+    {
+        public const string EffectNamespace = "LagoVistaXplatControls";
+
+        public UnderlineEffect() : base($"{EffectNamespace}.{nameof(UnderlineEffect)}")
+        {
+
+        }
     }
 }

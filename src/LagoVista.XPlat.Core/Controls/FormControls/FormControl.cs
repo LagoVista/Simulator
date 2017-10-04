@@ -62,5 +62,10 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
         }
 
         public String OriginalValue { get; set; }
+
+        protected Thickness RowMargin
+        {
+            get { return new Thickness(10, 5, 10, 8); }
+        }
     }
 }

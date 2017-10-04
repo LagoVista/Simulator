@@ -47,21 +47,25 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         protected override void BuildForm(EditFormAdapter form)
         {
             View[nameof(Model.Key).ToFieldKey()].IsUserEditable = LaunchArgs.LaunchType == LaunchTypes.Create;
+            View[nameof(Model.DefaultTransport).ToFieldKey()].IsEnabled = LaunchArgs.LaunchType == LaunchTypes.Create;
             form.AddViewCell(nameof(Model.Name));
             form.AddViewCell(nameof(Model.Key));
             form.AddViewCell(nameof(Model.DefaultTransport));
             form.AddViewCell(nameof(Model.DefaultEndPoint));
-            form.AddViewCell(nameof(Model.DefaultPort));
-            form.AddViewCell(nameof(Model.DefaultPayloadType));
-            form.AddViewCell(nameof(Model.DeviceId));
+            form.AddViewCell(nameof(Model.DefaultPort));            
             form.AddViewCell(nameof(Model.UserName));
-            form.AddViewCell(nameof(Model.HubName));
             form.AddViewCell(nameof(Model.Password));
-            form.AddViewCell(nameof(Model.AuthToken));
+            form.AddViewCell(nameof(Model.AccessKeyName));
+            form.AddViewCell(nameof(Model.AccessKey));
+            form.AddViewCell(nameof(Model.HubName));
+            form.AddViewCell(nameof(Model.Subscription));
+            form.AddViewCell(nameof(Model.DeviceId));
+            form.AddViewCell(nameof(Model.DefaultPayloadType));
             form.AddViewCell(nameof(Model.Description));
             form.AddChildList<MessageEditorViewModel>(nameof(Model.MessageTemplates), Model.MessageTemplates);
             ModelToView(Model, form);
             FormAdapter = form;
+
             if (Model.DefaultTransport != null)
             {
                 ShowFieldsForTransport(Model.DefaultTransport.Value);
@@ -84,6 +88,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 case TransportTypes.RestHttps: SetForREST(transportType); break;
                 case TransportTypes.AzureEventHub: SetForAzureEventHub(); break;
                 case TransportTypes.AzureIoTHub: SetForIoTHub(); break;
+                case TransportTypes.AzureServiceBus: SetForAzureServiceBus(); break;
                 default: HideAll(); break;
             }
         }
@@ -98,20 +103,40 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
         private void HideAll()
         {
+            HideRow(nameof(Model.DefaultPayloadType));
             HideRow(nameof(Model.HubName));
             HideRow(nameof(Model.DefaultPort));
             HideRow(nameof(Model.DefaultEndPoint));
             HideRow(nameof(Model.UserName));
             HideRow(nameof(Model.Password));
-            HideRow(nameof(Model.AuthToken));
+            HideRow(nameof(Model.AccessKeyName));
+            HideRow(nameof(Model.AccessKey));
+            HideRow(nameof(Model.Subscription));
+        }
+
+        private void SetForAzureServiceBus()
+        {
+            ShowRow(nameof(Model.DefaultPayloadType));
+            ShowRow(nameof(Model.DefaultEndPoint));
+            ShowRow(nameof(Model.AccessKeyName));
+            ShowRow(nameof(Model.AccessKey));
+            ShowRow(nameof(Model.HubName));
+
+            HideRow(nameof(Model.Subscription));
+            HideRow(nameof(Model.DefaultPort).ToFieldKey());
+            HideRow(nameof(Model.UserName).ToFieldKey());
+            HideRow(nameof(Model.Password).ToFieldKey());
         }
 
         private void SetForAzureEventHub()
         {
+            ShowRow(nameof(Model.DefaultPayloadType));
             ShowRow(nameof(Model.DefaultEndPoint));
-            ShowRow(nameof(Model.AuthToken));
+            ShowRow(nameof(Model.AccessKeyName));
+            ShowRow(nameof(Model.AccessKey));
             ShowRow(nameof(Model.HubName));
 
+            HideRow(nameof(Model.Subscription));
             HideRow(nameof(Model.DefaultPort).ToFieldKey());
             HideRow(nameof(Model.UserName).ToFieldKey());
             HideRow(nameof(Model.Password).ToFieldKey());
@@ -121,8 +146,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         private void SetForIoTHub()
         {
             ShowRow(nameof(Model.DefaultEndPoint));
-            ShowRow(nameof(Model.AuthToken));
+            ShowRow(nameof(Model.AccessKey));
+            ShowRow(nameof(Model.DefaultPayloadType));
 
+            HideRow(nameof(Model.Subscription));
+            HideRow(nameof(Model.AccessKeyName));
             HideRow(nameof(Model.HubName));
             HideRow(nameof(Model.DefaultPort).ToFieldKey());
             HideRow(nameof(Model.UserName).ToFieldKey());
@@ -132,50 +160,62 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         private void SetForMQTT()
         {
             SetValue(nameof(Model.DefaultPort), 1883.ToString());
-            ShowRow(nameof(Model.DefaultEndPoint));
-            ShowRow(nameof(Model.DefaultPort));
 
+            HideRow(nameof(Model.AccessKeyName));
+            HideRow(nameof(Model.AccessKey));
+            HideRow(nameof(Model.HubName));
+            HideRow(nameof(Model.Subscription));
+
+            ShowRow(nameof(Model.DefaultPort));
+            ShowRow(nameof(Model.DefaultEndPoint));
+            ShowRow(nameof(Model.DefaultPayloadType));
+            ShowRow(nameof(Model.Subscription));
             ShowRow(nameof(Model.UserName));
             ShowRow(nameof(Model.Password));
-
-            HideRow(nameof(Model.HubName));
-            HideRow(nameof(Model.AuthToken));
         }
 
         private void SetForTCP()
         {
+            HideRow(nameof(Model.UserName));
+            HideRow(nameof(Model.Password));
             HideRow(nameof(Model.HubName));
-            HideRow(nameof(Model.AuthToken));
+            HideRow(nameof(Model.AccessKeyName));
+            HideRow(nameof(Model.AccessKey));
+            HideRow(nameof(Model.Subscription));
 
+            ShowRow(nameof(Model.DefaultPayloadType));
             ShowRow(nameof(Model.DefaultEndPoint));
             ShowRow(nameof(Model.DefaultPort));
-
-            ShowRow(nameof(Model.UserName));
-            ShowRow(nameof(Model.Password));
         }
 
         private void SetForUDP()
         {
+            HideRow(nameof(Model.UserName));
+            HideRow(nameof(Model.Password));
             HideRow(nameof(Model.HubName));
-            HideRow(nameof(Model.AuthToken));
+            HideRow(nameof(Model.AccessKeyName));
+            HideRow(nameof(Model.AccessKey));
+            HideRow(nameof(Model.Subscription));
 
+            ShowRow(nameof(Model.DefaultPayloadType));
             ShowRow(nameof(Model.DefaultEndPoint));
             ShowRow(nameof(Model.DefaultPort));
-
-            ShowRow(nameof(Model.UserName));
-            ShowRow(nameof(Model.Password));
         }
 
         private void SetForREST(TransportTypes transportType)
         {
             SetValue(nameof(Model.DefaultPort), transportType == TransportTypes.RestHttp ? 80.ToString() : 443.ToString());
 
+            HideRow(nameof(Model.DefaultPayloadType));
             HideRow(nameof(Model.HubName));
-            HideRow(nameof(Model.AuthToken));
+            HideRow(nameof(Model.AccessKeyName));
+            HideRow(nameof(Model.AccessKey));
+            HideRow(nameof(Model.Subscription));
 
+            ShowRow(nameof(Model.DefaultEndPoint));
             ShowRow(nameof(Model.DefaultPort));
             ShowRow(nameof(Model.UserName));
-            ShowRow(nameof(Model.Password));
+            ShowRow(nameof(Model.Password));            
         }
     }
 }
