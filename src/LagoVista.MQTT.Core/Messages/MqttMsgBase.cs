@@ -14,6 +14,7 @@ Contributors:
    Paolo Patierno - initial API and implementation and/or initial documentation
 */
 
+using LagoVista.Core.Networking.Interfaces;
 using System;
 using System.Text;
 
@@ -36,9 +37,11 @@ namespace LagoVista.MQTT.Core.Messages
         internal const byte DUP_FLAG_MASK = 0x08;
         internal const byte DUP_FLAG_OFFSET = 0x03;
         internal const byte DUP_FLAG_SIZE = 0x01;
+
         internal const byte QOS_LEVEL_MASK = 0x06;
         internal const byte QOS_LEVEL_OFFSET = 0x01;
         internal const byte QOS_LEVEL_SIZE = 0x02;
+
         internal const byte RETAIN_FLAG_MASK = 0x01;
         internal const byte RETAIN_FLAG_OFFSET = 0x00;
         internal const byte RETAIN_FLAG_SIZE = 0x01;
@@ -96,8 +99,8 @@ namespace LagoVista.MQTT.Core.Messages
         /// </summary>
         public byte Type
         {
-            get { return this.type; }
-            set { this.type = value; }
+            get { return this._type; }
+            set { this._type = value; }
         }
 
         /// <summary>
@@ -105,17 +108,17 @@ namespace LagoVista.MQTT.Core.Messages
         /// </summary>
         public bool DupFlag
         {
-            get { return this.dupFlag; }
-            set { this.dupFlag = value; }
+            get { return this._dupFlag; }
+            set { this._dupFlag = value; }
         }
 
         /// <summary>
         /// Quality of Service level
         /// </summary>
-        public byte QosLevel
+        public QOS QosLevel
         {
-            get { return this.qosLevel; }
-            set { this.qosLevel = value; }
+            get { return this._qosLevel; }
+            set { this._qosLevel = value; }
         }
 
         /// <summary>
@@ -123,8 +126,8 @@ namespace LagoVista.MQTT.Core.Messages
         /// </summary>
         public bool Retain
         {
-            get { return this.retain; }
-            set { this.retain = value; }
+            get { return this._retainFlag; }
+            set { this._retainFlag = value; }
         }
 
         /// <summary>
@@ -132,22 +135,22 @@ namespace LagoVista.MQTT.Core.Messages
         /// </summary>
         public ushort MessageId
         {
-            get { return this.messageId; }
-            set { this.messageId = value; }
+            get { return this._messageId; }
+            set { this._messageId = value; }
         }
 
         #endregion
 
         // message type
-        protected byte type;
+        protected byte _type;
         // duplicate delivery
-        protected bool dupFlag;
+        protected bool _dupFlag;
         // quality of service level
-        protected byte qosLevel;
+        protected QOS _qosLevel;
         // retain flag
-        protected bool retain;
+        protected bool _retainFlag;
         // message identifier
-        protected ushort messageId;
+        protected ushort _messageId;
 
         /// <summary>
         /// Returns message bytes rapresentation

@@ -24,9 +24,6 @@ namespace LagoVista.Client.Core.ViewModels.Users
                 ViewToModel(FormAdapter, Model);
                 PerformNetworkOperation(async () =>
                 {
-                    InvokeResult result;
-
-
                     await ViewModelNavigation.SetAsNewRootAsync(_clientAppInfo.MainViewModel);
                 });
             }

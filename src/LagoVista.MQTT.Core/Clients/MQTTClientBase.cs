@@ -127,27 +127,33 @@ namespace LagoVista.MQTT.Core.Clients
         public virtual void OnCommandReceived(String cmdName, string format, string payload) { }
         public virtual void OnAppStatusReceived(String appId, string payload) { }
 
-        protected UInt16 Subscribe(string[] topics, byte[] qosLevels)
+        protected UInt16 Subscribe(string[] topics, QOS[] qosLevels)
         {
             return _mqttClient.Subscribe(topics, qosLevels);
         }
 
-        public UInt16 Publish<T>(String topic, T payload, byte qosLevel = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE)
+        public UInt16 Publish<T>(String topic, T payload, QOS qosLevel = QOS.QOS0, bool retainFlag = false)
         {
             var json = JsonConvert.SerializeObject(payload);
             return Publish(topic, json, qosLevel);
         }
 
-        public UInt16 Publish(String topic, String payload = "", byte qosLevel = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE)
+        public UInt16 Publish(String topic, String payload = "", QOS qosLevel = QOS.QOS0, bool retainFlag = false)
         {
             var buffer = String.IsNullOrEmpty(payload) ? new byte[0] : System.Text.UTF8Encoding.UTF8.GetBytes(payload);
-            return _mqttClient.Publish(topic, buffer, qosLevel, false);
+            return Publish(topic, buffer, qosLevel, retainFlag);
+
+        }
+
+        public UInt16 Publish(String topic, byte[] buffer, QOS qosLevel = QOS.QOS0, bool retainFlag = false)
+        {            
+            return _mqttClient.Publish(topic, buffer, qosLevel, retainFlag);
         }
 
 
-        public UInt16 Subscribe(string topic, byte qosLevel = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE)
+        public UInt16 Subscribe(string topic, QOS qosLevel = QOS.QOS0)
         {
-            return Subscribe(new String[] { topic }, new byte[] { qosLevel });
+            return Subscribe(new String[] { topic }, new QOS[] { qosLevel });
         }
 
 

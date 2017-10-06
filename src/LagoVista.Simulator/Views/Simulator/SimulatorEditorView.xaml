@@ -9,11 +9,7 @@
       RightMenu="Save"
       LeftMenu="Cancel"
       Title="{trs:Translate SimulatorEditor_Title}">
-
-
-  <pge:LagoVistaContentPage.MainContent >
+    <pge:LagoVistaContentPage.MainContent >
     <pge:FormViewer Form="{Binding FormAdapter}"  />
   </pge:LagoVistaContentPage.MainContent >
-
-
 </pge:LagoVistaContentPage>

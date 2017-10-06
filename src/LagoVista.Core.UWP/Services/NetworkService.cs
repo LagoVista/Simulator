@@ -137,5 +137,10 @@ namespace LagoVista.Core.UWP.Services
         {
             throw new NotImplementedException();
         }
+
+        public async void OpenURI(Uri uri)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(uri);
+        }
     }
 }

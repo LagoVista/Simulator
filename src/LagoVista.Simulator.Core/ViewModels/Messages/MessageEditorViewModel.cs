@@ -51,10 +51,15 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             form.AddViewCell(nameof(Model.Port));
             */
 
+            form.AddViewCell(nameof(Model.QualityOfServiceLevel));
+            form.AddViewCell(nameof(Model.RetainFlag));
+            form.AddViewCell(nameof(Model.To));
+            form.AddViewCell(nameof(Model.MessageId));
             form.AddViewCell(nameof(Model.Topic));
             form.AddViewCell(nameof(Model.AppendCR));
             form.AddViewCell(nameof(Model.AppendLF));
             form.AddViewCell(nameof(Model.PayloadType));
+            form.AddViewCell(nameof(Model.ContentType));
             form.AddViewCell(nameof(Model.HttpVerb));
             form.AddViewCell(nameof(Model.TextPayload));
             form.AddViewCell(nameof(Model.BinaryPayload));
@@ -70,6 +75,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
             ModelToView(Model, form);
 
+            HideAll();
+
             switch (Model.Transport.Value)
             {
                 case TransportTypes.AzureIoTHub: SetForAzureIoTHub(); break;
@@ -77,6 +84,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 case TransportTypes.MQTT: SetForMQTT(); break;
                 case TransportTypes.TCP: SetForTCP(); break;
                 case TransportTypes.UDP: SetForUDP(); break;
+                case TransportTypes.AzureServiceBus: SetForServiceBusy(); break;
                 case TransportTypes.RestHttp:
                 case TransportTypes.RestHttps: SetForREST(); break;
             }
@@ -102,15 +110,28 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             }
         }
 
+        private void HideAll()
+        {
+            View[nameof(Model.QueueName).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.HttpVerb).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.ContentType).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.To).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.Topic).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.MessageId).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.RetainFlag).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.QualityOfServiceLevel).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.ContentType).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.AppendLF).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.AppendCR).ToFieldKey()].IsVisible = false;
+        }
+
         private void SetForAzureIoTHub()
         {
             View[nameof(Model.PayloadType).ToFieldKey()].IsVisible = true;
             View[nameof(Model.Topic).ToFieldKey()].IsVisible = true;
             View[nameof(Model.AppendCR).ToFieldKey()].IsVisible = true;
             View[nameof(Model.AppendLF).ToFieldKey()].IsVisible = true;
-
-            View[nameof(Model.HttpVerb).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = true;
         }
 
         private void SetForAzureEventHub()
@@ -118,32 +139,30 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             View[nameof(Model.PayloadType).ToFieldKey()].IsVisible = true;
             View[nameof(Model.AppendCR).ToFieldKey()].IsVisible = true;
             View[nameof(Model.AppendLF).ToFieldKey()].IsVisible = true;
-
-            View[nameof(Model.Topic).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.HttpVerb).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = true;
         }
 
         private void SetForMQTT()
         {
             View[nameof(Model.PayloadType).ToFieldKey()].IsVisible = true;
             View[nameof(Model.Topic).ToFieldKey()].IsVisible = true;
-            View[nameof(Model.AppendCR).ToFieldKey()].IsVisible = true;
-            View[nameof(Model.AppendLF).ToFieldKey()].IsVisible = true;
-
-            View[nameof(Model.HttpVerb).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = false;
+            View[nameof(Model.RetainFlag).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.QueueName).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.QualityOfServiceLevel).ToFieldKey()].IsVisible = true;
         }
 
         private void SetForREST()
         {
+            View[nameof(Model.ContentType).ToFieldKey()].IsVisible = true;
             View[nameof(Model.HttpVerb).ToFieldKey()].IsVisible = true;
             View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = true;
+        }
 
-            View[nameof(Model.PayloadType).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.Topic).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.AppendCR).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.AppendLF).ToFieldKey()].IsVisible = false;
+        private void SetForServiceBusy()
+        {
+            View[nameof(Model.MessageId).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.To).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.ContentType).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.QueueName).ToFieldKey()].IsVisible = true;            
         }
 
         private void SetForTCP()
@@ -151,10 +170,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             View[nameof(Model.AppendCR).ToFieldKey()].IsVisible = true;
             View[nameof(Model.AppendLF).ToFieldKey()].IsVisible = true;
             View[nameof(Model.PayloadType).ToFieldKey()].IsVisible = true;
-
-            View[nameof(Model.HttpVerb).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.Topic).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = false;
         }
 
         private void SetForUDP()
@@ -162,10 +177,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             View[nameof(Model.AppendCR).ToFieldKey()].IsVisible = true;
             View[nameof(Model.AppendLF).ToFieldKey()].IsVisible = true;
             View[nameof(Model.PayloadType).ToFieldKey()].IsVisible = true;
-
-            View[nameof(Model.HttpVerb).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.Topic).ToFieldKey()].IsVisible = false;
-            View[nameof(Model.PathAndQueryString).ToFieldKey()].IsVisible = false;
         }
 
         private void Form_OptionSelected(object sender, OptionSelectedEventArgs e)

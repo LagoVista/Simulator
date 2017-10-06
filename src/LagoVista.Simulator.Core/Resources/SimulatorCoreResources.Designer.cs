@@ -143,20 +143,20 @@ namespace LagoVista.Simulator.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Editing will Disconnect this session.  Do you wish to continue?.
+        /// </summary>
+        internal static string Simulator_EditDisconnect {
+            get {
+                return ResourceManager.GetString("Simulator_EditDisconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error Connecting.
         /// </summary>
         internal static string Simulator_ErrorConnecting {
             get {
                 return ResourceManager.GetString("Simulator_ErrorConnecting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Please connect prior to selecting a message to be sent..
-        /// </summary>
-        internal static string Simulator_PleaseConnect {
-            get {
-                return ResourceManager.GetString("Simulator_PleaseConnect", resourceCulture);
             }
         }
     }

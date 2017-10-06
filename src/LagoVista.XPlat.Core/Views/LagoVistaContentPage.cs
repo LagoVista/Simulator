@@ -29,6 +29,7 @@ namespace LagoVista.XPlat.Core
 
         IconButton _leftMenuButton;
         IconButton _rightMenuButton;
+        IconButton _helpButton;
 
         bool _hasAppeared = false;
 
@@ -102,8 +103,10 @@ namespace LagoVista.XPlat.Core
         {
             this.SetBinding(LagoVistaContentPage.MenuVisibleProperty, nameof(ViewModel.MenuVisible));
             this.SetBinding(LagoVistaContentPage.SaveCommandProperty, nameof(ViewModel.SaveCommand));
+            this.SetBinding(LagoVistaContentPage.HelpCommandProperty, nameof(ViewModel.HelpCommand));
             this.SetBinding(LagoVistaContentPage.EditCommandProperty, nameof(ViewModel.EditCommand));
             this.SetBinding(LagoVistaContentPage.MenuItemsProperty, nameof(ViewModel.MenuItems));
+            this.SetBinding(LagoVistaContentPage.HasHelpProperty, nameof(ViewModel.HasHelp));
         }
 
         private void CreateActivityIndicator()
@@ -155,10 +158,13 @@ namespace LagoVista.XPlat.Core
 
         private void AddToolBar()
         {
-            _toolBar = new Grid();
-            _toolBar.HeightRequest = TOOL_BAR_HEIGHT;
+            _toolBar = new Grid
+            {
+                HeightRequest = TOOL_BAR_HEIGHT
+            };
             _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
             _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+            _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
             _toolBar.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
             _toolBar.BackgroundColor = AppStyle.TitleBarBackground.ToXamFormsColor();
 
@@ -169,28 +175,51 @@ namespace LagoVista.XPlat.Core
             _title.Margin = new Thickness(-5, -3, 0, 0);
             _title.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
 
-            _leftMenuButton = new IconButton();
-            _leftMenuButton.IsVisible = false;
-            _leftMenuButton.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
-            _leftMenuButton.TextColor = AppStyle.TitleBarText.ToXamFormsColor();
-            _leftMenuButton.WidthRequest = 48;
-            _leftMenuButton.HeightRequest = 48;
-            _leftMenuButton.FontSize = 22;
+            _leftMenuButton = new IconButton
+            {
+                IsVisible = false,
+                VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false),
+                TextColor = AppStyle.TitleBarText.ToXamFormsColor(),
+                WidthRequest = 48,
+                HeightRequest = 48,
+                FontSize = 22
+            };
             _leftMenuButton.Clicked += _leftMenuButton_Clicked;
 
-            _rightMenuButton = new IconButton();
+            _helpButton = new IconButton
+            {
+                IsVisible = false,
+                IconKey = "fa-question",
+                VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false),
+                TextColor = AppStyle.TitleBarText.ToXamFormsColor(),
+                WidthRequest = 48,
+                HeightRequest = 48,
+                FontSize = 22
+            };
+            _helpButton.Clicked += _helpButton_Clicked;
+            _helpButton.SetValue(Grid.ColumnProperty, 3);
+
+            _rightMenuButton = new IconButton
+            {
+                IsVisible = false,
+                VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false),
+                TextColor = AppStyle.TitleBarText.ToXamFormsColor(),
+                WidthRequest = 48,
+                HeightRequest = 48,
+                FontSize = 22
+            };
             _rightMenuButton.SetValue(Grid.ColumnProperty, 2);
-            _rightMenuButton.IsVisible = false;
-            _rightMenuButton.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
-            _rightMenuButton.TextColor = AppStyle.TitleBarText.ToXamFormsColor();
-            _rightMenuButton.WidthRequest = 48;
-            _rightMenuButton.HeightRequest = 48;
-            _rightMenuButton.FontSize = 22;
             _rightMenuButton.Clicked += _rightMenuButton_Clicked;
 
             _toolBar.Children.Add(_title);
             _toolBar.Children.Add(_leftMenuButton);
             _toolBar.Children.Add(_rightMenuButton);
+            _toolBar.Children.Add(_helpButton);
+        }
+
+        private void _helpButton_Clicked(object sender, EventArgs e)
+        {
+            HelpCommand?.Execute(null);
         }
 
         private async void _leftMenuButton_Clicked(object sender, System.EventArgs e)
@@ -233,8 +262,8 @@ namespace LagoVista.XPlat.Core
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                var result = await ViewModel.CanCancelAsync(); 
-                if(result)
+                var result = await ViewModel.CanCancelAsync();
+                if (result)
                 {
                     await ViewModel.ViewModelNavigation.GoBackAsync();
                 }
@@ -312,7 +341,7 @@ namespace LagoVista.XPlat.Core
 
                 if (value.BackgroundColor != null && value.BackgroundColor.R > -1)
                 {
-                    _mainContent.BackgroundColor = value.BackgroundColor;                    
+                    _mainContent.BackgroundColor = value.BackgroundColor;
                 }
                 else
                 {
@@ -445,6 +474,18 @@ namespace LagoVista.XPlat.Core
             get { return (ICommand)GetValue(AddCommandProperty); }
             set { SetValue(AddCommandProperty, value); }
         }
+
+
+        public static readonly BindableProperty HelpCommandProperty = BindableProperty.Create(nameof(AddCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).HelpCommand = (ICommand)newValue);
+
+        public ICommand HelpCommand
+        {
+            get { return (ICommand)GetValue(HelpCommandProperty); }
+            set { SetValue(HelpCommandProperty, value); }
+        }
+
+
 
         public static readonly BindableProperty DeleteCommandProperty = BindableProperty.Create(nameof(DeleteCommand), typeof(ICommand), typeof(LagoVistaContentPage), default(ICommand), BindingMode.Default, null,
             (view, oldValue, newValue) => (view as LagoVistaContentPage).DeleteCommand = (ICommand)newValue);
@@ -588,6 +629,18 @@ namespace LagoVista.XPlat.Core
             }
         }
 
+        public static readonly BindableProperty HasHelpProperty = BindableProperty.Create(nameof(HasHelp), typeof(bool), typeof(LagoVistaContentPage), false, BindingMode.TwoWay, null,
+            (view, oldValue, newValue) => (view as LagoVistaContentPage).HasHelp = (bool)newValue);
+
+        public bool HasHelp
+        {
+            get { return (bool)GetValue(HasHelpProperty); }
+            set
+            {
+                SetValue(HasHelpProperty, value);
+                _helpButton.IsVisible = value;
+            }
+        }
 
         public static readonly BindableProperty LeftMenuProperty = BindableProperty.Create(nameof(LeftMenu), typeof(LeftMenuIcon), typeof(LagoVistaContentPage), LeftMenuIcon.None, BindingMode.TwoWay, null,
             (view, oldValue, newValue) => (view as LagoVistaContentPage).LeftMenu = (LeftMenuIcon)newValue);

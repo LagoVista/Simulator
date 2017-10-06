@@ -1,14 +1,13 @@
-﻿using LagoVista.Core.UWP.Controls;
+﻿using LagoVista.XPlat.UWP.Effects;
 using System;
 using System.Diagnostics;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.UWP;
 
 [assembly: ResolutionGroupName(LagoVista.XPlat.Core.UnderlineEffect.EffectNamespace)]
 [assembly: ExportEffect(typeof(UnderlineEffect), nameof(UnderlineEffect))]
-namespace LagoVista.Core.UWP.Controls
+namespace LagoVista.XPlat.UWP.Effects
 {
     public class UnderlineEffect : PlatformEffect
     {

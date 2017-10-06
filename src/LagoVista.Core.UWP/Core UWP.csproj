@@ -198,7 +198,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\UnderlineEffect.cs" />
     <Compile Include="IconFonts\EntypoPlusModule.cs" />
     <Compile Include="IconFonts\FontAwesomeModule.cs" />
     <Compile Include="IconFonts\IconFontSupport.cs" />

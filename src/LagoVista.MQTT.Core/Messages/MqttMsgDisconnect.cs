@@ -28,7 +28,7 @@ namespace LagoVista.MQTT.Core.Messages
         /// </summary>
         public MqttMsgDisconnect()
         {
-            this.type = MQTT_MSG_DISCONNECT_TYPE;
+            this._type = MQTT_MSG_DISCONNECT_TYPE;
         }
 
         /// <summary>

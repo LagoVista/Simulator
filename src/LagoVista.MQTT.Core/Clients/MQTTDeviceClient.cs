@@ -1,10 +1,6 @@
 ﻿using LagoVista.Core.Networking.Interfaces;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LagoVista.MQTT.Core.Clients
@@ -55,30 +51,6 @@ namespace LagoVista.MQTT.Core.Clients
         public override String UserName
         {
             get { return DeviceId; }
-        }
-
-        public UInt16 PublishEvent(String evt, String format, String msg, byte qosLevel = 0)
-        {
-            var topic = String.Format("iot-2/evt/{0}/fmt/{1}", evt, format);
-            var buffer = System.Text.UTF8Encoding.UTF8.GetBytes(msg);
-
-            return Publish(topic, buffer);
-        }
-
-        public UInt16 PublishEvent<T>(String evt, String format, T payload)
-        {
-            var msg = JsonConvert.SerializeObject(payload);
-            var topic = String.Format("iot-2/evt/{0}/fmt/{1}", evt, format);
-            var buffer = System.Text.UTF8Encoding.UTF8.GetBytes(msg);
-
-            return Publish(topic, buffer);
-        }
-
-        public UInt16 SubscribeCommand(String cmd, String format, byte qosLevel = 0)
-        {
-            var topic = String.Format("iot-2/cmd/{0}/fmt/{1}", cmd, format);
-
-            return Subscribe(topic);
-        }
+        }        
     }
 }

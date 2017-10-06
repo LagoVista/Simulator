@@ -186,8 +186,14 @@
   <data name="SimulatorEditor_Title" xml:space="preserve">
     <value>Simulator Editor</value>
   </data>
+  <data name="Simulator_ConnectionStatus" xml:space="preserve">
+    <value>Connection Status</value>
+  </data>
+  <data name="Simulator_MessageTemplates" xml:space="preserve">
+    <value>Message Templates</value>
+  </data>
   <data name="Simulator_ReceivedMessages" xml:space="preserve">
-    <value>Incoming Messages</value>
+    <value>Received Messages</value>
   </data>
   <data name="Simulator_ShowMessageTemplates" xml:space="preserve">
     <value>Message Templates</value>

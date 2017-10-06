@@ -29,7 +29,7 @@ namespace LagoVista.MQTT.Core.Messages
         /// </summary>
         public MqttMsgPingResp()
         {
-            this.type = MQTT_MSG_PINGRESP_TYPE;
+            this._type = MQTT_MSG_PINGRESP_TYPE;
         }
 
         /// <summary>

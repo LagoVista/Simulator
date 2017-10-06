@@ -37,6 +37,9 @@ namespace LagoVista.Client.Core.ViewModels
         {
             SaveCommand = new RelayCommand(Save, CanSave);
             EditCommand = new RelayCommand(Edit);
+            HelpCommand = new RelayCommand(ShowHelp);
+
+            HasHelp = !String.IsNullOrEmpty(GetHelpLink());
         }
 
         RightMenuIcon _rightMenuIcon;
@@ -67,6 +70,13 @@ namespace LagoVista.Client.Core.ViewModels
             set { Set(ref _menuItems, value); }
         }
 
+        private bool _hasHelp = false;
+        public bool HasHelp
+        {
+            get { return _hasHelp; }
+            set { Set(ref _hasHelp, value); }
+        }
+
         public virtual void HandleURIActivation(Uri uri, Dictionary<string, string> kvps)
         {
             Logger.AddCustomEvent(LagoVista.Core.PlatformSupport.LogLevel.Message, "HandleURIActivation", uri.Host, uri.Query.ToKVP("queryString"));
@@ -79,8 +89,10 @@ namespace LagoVista.Client.Core.ViewModels
                 }
                 else
                 {
-                    var launchArgs = new ViewModelLaunchArgs();
-                    launchArgs.ViewModelType = typeof(ResetPasswordViewModel);
+                    var launchArgs = new ViewModelLaunchArgs
+                    {
+                        ViewModelType = typeof(ResetPasswordViewModel)
+                    };
                     launchArgs.Parameters.Add("code", kvps["code"]);
                     ViewModelNavigation.NavigateAsync(launchArgs);
                 }
@@ -93,8 +105,10 @@ namespace LagoVista.Client.Core.ViewModels
                 }
                 else
                 {
-                    var launchArgs = new ViewModelLaunchArgs();
-                    launchArgs.ViewModelType = typeof(AcceptInviteViewModel);
+                    var launchArgs = new ViewModelLaunchArgs
+                    {
+                        ViewModelType = typeof(AcceptInviteViewModel)
+                    };
                     launchArgs.Parameters.Add("inviteId", kvps["inviteid"]);
                     ViewModelNavigation.NavigateAsync(launchArgs);
                 }
@@ -112,6 +126,11 @@ namespace LagoVista.Client.Core.ViewModels
             };
 
             return ViewModelNavigation.NavigateAsync(launchArgs);
+        }
+
+        protected virtual string GetHelpLink()
+        {
+            return String.Empty;
         }
 
 
@@ -138,6 +157,11 @@ namespace LagoVista.Client.Core.ViewModels
 
         }
 
+        protected void ShowHelp()
+        {
+            LagoVista.Core.PlatformSupport.Services.Network.OpenURI(new Uri(GetHelpLink()));
+        }
+
         public virtual bool CanSave()
         {
             return true;
@@ -151,7 +175,8 @@ namespace LagoVista.Client.Core.ViewModels
         {           
             return Task.FromResult(true);
         }
-       
+
+        public RelayCommand HelpCommand { get; private set; }
 
         public RelayCommand SaveCommand { get; private set; }
 

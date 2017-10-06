@@ -1,16 +1,15 @@
 ﻿{
   "dependencies": {
-    "LagoVista.Core": "1.2.140-alpha1727",
-    "LagoVista.Core.Networking": "1.2.140-alpha1727",
-    "LagoVista.IoT.Logging": "1.2.140-alpha1727",
-    "Microsoft.Azure.Mobile": "0.15.2",
-    "Microsoft.Azure.Mobile.Analytics": "0.15.2",
-    "Microsoft.Azure.Mobile.Distribute": "0.15.2",
-    "Microsoft.Azure.Mobile.Push": "0.15.2",
+    "LagoVista.Core": "1.2.142-alpha1249",
+    "LagoVista.Core.Networking": "1.2.142-alpha1249",
+    "LagoVista.IoT.Logging": "1.2.142-alpha1249",
+    "Microsoft.Azure.Mobile": "0.16.0",
+    "Microsoft.Azure.Mobile.Analytics": "0.16.0",
+    "Microsoft.Azure.Mobile.Distribute": "0.16.0",
+    "Microsoft.Azure.Mobile.Push": "0.16.0",
     "Microsoft.Azure.ServiceBus": "1.0.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.4.0",
-    "Newtonsoft.Json": "10.0.3",
-    "Xamarin.Forms": "2.4.0.282"
+    "Newtonsoft.Json": "10.0.3"
   },
   "frameworks": {
     "uap10.0.10586": {}

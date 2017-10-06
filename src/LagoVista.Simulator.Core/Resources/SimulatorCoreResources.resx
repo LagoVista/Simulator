@@ -144,10 +144,10 @@
   <data name="Simulator_Disconnected" xml:space="preserve">
     <value>Disconnected</value>
   </data>
+  <data name="Simulator_EditDisconnect" xml:space="preserve">
+    <value>Editing will Disconnect this session.  Do you wish to continue?</value>
+  </data>
   <data name="Simulator_ErrorConnecting" xml:space="preserve">
     <value>Error Connecting</value>
-  </data>
-  <data name="Simulator_PleaseConnect" xml:space="preserve">
-    <value>Please connect prior to selecting a message to be sent.</value>
   </data>
 </root>

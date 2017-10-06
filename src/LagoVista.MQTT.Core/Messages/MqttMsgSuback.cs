@@ -16,6 +16,7 @@ Contributors:
 
 using System;
 using LagoVista.MQTT.Core.Exceptions;
+using LagoVista.Core.Networking.Interfaces;
 
 namespace LagoVista.MQTT.Core.Messages
 {
@@ -29,23 +30,23 @@ namespace LagoVista.MQTT.Core.Messages
         /// <summary>
         /// List of granted QOS Levels
         /// </summary>
-        public byte[] GrantedQoSLevels
+        public QOS[] GrantedQoSLevels
         {
-            get { return this.grantedQosLevels; }
-            set { this.grantedQosLevels = value; }
+            get { return this._grantedQOSLevels; }
+            set { this._grantedQOSLevels = value; }
         }
 
         #endregion
 
         // granted QOS levels
-        byte[] grantedQosLevels;
+        QOS[] _grantedQOSLevels;
 
         /// <summary>
         /// Constructor
         /// </summary>
         public MqttMsgSuback()
         {
-            this.type = MQTT_MSG_SUBACK_TYPE;
+            this._type = MQTT_MSG_SUBACK_TYPE;
         }
 
         /// <summary>
@@ -76,15 +77,15 @@ namespace LagoVista.MQTT.Core.Messages
             channel.Receive(buffer);
 
             // message id
-            msg.messageId = (ushort)((buffer[index++] << 8) & 0xFF00);
-            msg.messageId |= (buffer[index++]);
+            msg._messageId = (ushort)((buffer[index++] << 8) & 0xFF00);
+            msg._messageId |= (buffer[index++]);
 
             // payload contains QoS levels granted
-            msg.grantedQosLevels = new byte[remainingLength - MESSAGE_ID_SIZE];
+            msg._grantedQOSLevels = new QOS[remainingLength - MESSAGE_ID_SIZE];
             int qosIdx = 0;
             do
             {
-                msg.grantedQosLevels[qosIdx++] = buffer[index++];
+                msg._grantedQOSLevels[qosIdx++] = buffer[index++].ToQOS();
             } while (index < remainingLength);
 
             return msg;
@@ -103,7 +104,7 @@ namespace LagoVista.MQTT.Core.Messages
             varHeaderSize += MESSAGE_ID_SIZE;
 
             int grantedQosIdx = 0;
-            for (grantedQosIdx = 0; grantedQosIdx < this.grantedQosLevels.Length; grantedQosIdx++)
+            for (grantedQosIdx = 0; grantedQosIdx < this._grantedQOSLevels.Length; grantedQosIdx++)
             {
                 payloadSize++;
             }
@@ -135,13 +136,13 @@ namespace LagoVista.MQTT.Core.Messages
             index = this.encodeRemainingLength(remainingLength, buffer, index);
 
             // message id
-            buffer[index++] = (byte)((this.messageId >> 8) & 0x00FF); // MSB
-            buffer[index++] = (byte)(this.messageId & 0x00FF); // LSB
+            buffer[index++] = (byte)((this._messageId >> 8) & 0x00FF); // MSB
+            buffer[index++] = (byte)(this._messageId & 0x00FF); // LSB
 
             // payload contains QoS levels granted
-            for (grantedQosIdx = 0; grantedQosIdx < this.grantedQosLevels.Length; grantedQosIdx++)
+            for (grantedQosIdx = 0; grantedQosIdx < this._grantedQOSLevels.Length; grantedQosIdx++)
             {
-                buffer[index++] = this.grantedQosLevels[grantedQosIdx];
+                buffer[index++] = this._grantedQOSLevels[grantedQosIdx].ToByte();
             }
 
             return buffer;
@@ -153,7 +154,7 @@ namespace LagoVista.MQTT.Core.Messages
             return this.GetTraceString(
                 "SUBACK",
                 new object[] { "messageId", "grantedQosLevels" },
-                new object[] { this.messageId, this.grantedQosLevels });
+                new object[] { this._messageId, this._grantedQOSLevels });
 #else
             return base.ToString();
 #endif

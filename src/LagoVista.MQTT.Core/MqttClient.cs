@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using LagoVista.Client.Core.Net;
 using LagoVista.Core.Networking.Interfaces;
 using System.Net.Sockets;
+using LagoVista.Core.Networking.Models;
 
 namespace LagoVista.MQTT.Core
 {
@@ -401,7 +402,7 @@ namespace LagoVista.MQTT.Core
         /// <param name="topics">List of topics to subscribe</param>
         /// <param name="qosLevels">QOS levels related to topics</param>
         /// <returns>Message Id related to SUBSCRIBE message</returns>
-        public ushort Subscribe(string[] topics, byte[] qosLevels)
+        public ushort Subscribe(string[] topics, QOS[] qosLevels)
         {
             var subscribe = new MqttMsgSubscribe(topics, qosLevels) { MessageId = this.GetMessageId() };
 
@@ -445,7 +446,7 @@ namespace LagoVista.MQTT.Core
         /// <param name="qosLevel">QoS Level</param>
         /// <param name="retain">Retain flag</param>
         /// <returns>Message Id related to PUBLISH message</returns>
-        public ushort Publish(string topic, byte[] message, byte qosLevel, bool retain)
+        public ushort Publish(string topic, byte[] message, QOS qosLevel, bool retain)
         {
             var publish = new MqttMsgPublish(topic, message, false, qosLevel, retain) { MessageId = this.GetMessageId() };
 
@@ -492,7 +493,10 @@ namespace LagoVista.MQTT.Core
         /// <param name="publish">PUBLISH message received</param>
         private void OnMqttMsgPublishReceived(MqttMsgPublish publish)
         {
-            this.MqttMsgPublishReceived?.Invoke(this, new MqttMsgPublishEventArgs(publish.Topic, publish.Message, publish.DupFlag, publish.QosLevel, publish.Retain));
+            this.MqttMsgPublishReceived?.Invoke(this, new MqttMsgPublishEventArgs(publish.Topic, publish.Message, publish.DupFlag, publish.QosLevel, publish.Retain)
+            {
+                MessageId = publish.MessageId.ToString()
+            });
         }
 
         /// <summary>
@@ -647,7 +651,7 @@ namespace LagoVista.MQTT.Core
 
             // if it is a PUBLISH message with QoS Level 2
             if ((msg.Type == MqttMsgBase.MQTT_MSG_PUBLISH_TYPE) &&
-                (msg.QosLevel == MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE))
+                (msg.QosLevel == QOS.QOS2))
             {
                 lock (this._inflightQueue)
                 {
@@ -656,8 +660,8 @@ namespace LagoVista.MQTT.Core
 
                     // NOTE : I need to find on message id and flow because the broker could be publish/received
                     //        to/from client and message id could be the same (one tracked by broker and the other by client)
-                    MqttMsgContextFinder msgCtxFinder = new MqttMsgContextFinder(msg.MessageId, MqttMsgFlow.ToAcknowledge);
-                    MqttMsgContext msgCtx = (MqttMsgContext)this._inflightQueue.Where(msgCtxFinder.Find).First();
+                    var msgCtxFinder = new MqttMsgContextFinder(msg.MessageId, MqttMsgFlow.ToAcknowledge);
+                    var msgCtx = (MqttMsgContext)this._inflightQueue.Where(msgCtxFinder.Find).FirstOrDefault();
 
                     // the PUBLISH message is alredy in the inflight queue, we don't need to re-enqueue but we need
                     // to change state to re-send PUBREC
@@ -678,23 +682,9 @@ namespace LagoVista.MQTT.Core
                 // based on QoS level, the messages flow between broker and client changes
                 switch (msg.QosLevel)
                 {
-                    // QoS Level 0
-                    case MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE:
-
-                        state = MqttMsgState.QueuedQos0;
-                        break;
-
-                    // QoS Level 1
-                    case MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE:
-
-                        state = MqttMsgState.QueuedQos1;
-                        break;
-
-                    // QoS Level 2
-                    case MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE:
-
-                        state = MqttMsgState.QueuedQos2;
-                        break;
+                    case QOS.QOS0: state = MqttMsgState.QueuedQos0; break;
+                    case QOS.QOS1: state = MqttMsgState.QueuedQos1; break;
+                    case QOS.QOS2: state = MqttMsgState.QueuedQos2; break;
                 }
 
                 // [v3.1.1] SUBSCRIBE and UNSUBSCRIBE aren't "officially" QOS = 1
@@ -721,26 +711,25 @@ namespace LagoVista.MQTT.Core
                     if (enqueue)
                     {
                         // enqueue message and unlock send thread
-                        this._inflightQueue.Enqueue(msgContext);
+                        _inflightQueue.Enqueue(msgContext);
 
-#if TRACE
                         MqttUtility.Trace.WriteLine(TraceLevel.Queuing, "enqueued {0}", msg);
-#endif
+
 
                         // PUBLISH message
                         if (msg.Type == MqttMsgBase.MQTT_MSG_PUBLISH_TYPE)
                         {
                             // to publish and QoS level 1 or 2
                             if ((msgContext.Flow == MqttMsgFlow.ToPublish) &&
-                                ((msg.QosLevel == MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE) ||
-                                 (msg.QosLevel == MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE)))
+                                ((msg.QosLevel == QOS.QOS1) ||
+                                 (msg.QosLevel == QOS.QOS2)))
                             {
                                 if (this._session != null)
                                     this._session.InflightMessages.Add(msgContext.Key, msgContext);
                             }
                             // to acknowledge and QoS level 2
                             else if ((msgContext.Flow == MqttMsgFlow.ToAcknowledge) &&
-                                     (msg.QosLevel == MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE))
+                                     (msg.QosLevel == QOS.QOS2))
                             {
                                 if (this._session != null)
                                     this._session.InflightMessages.Add(msgContext.Key, msgContext);
@@ -1690,14 +1679,14 @@ namespace LagoVista.MQTT.Core
                                 (msgContext.Flow == MqttMsgFlow.ToPublish))
                             {
                                 // it's QoS 1 and we haven't received PUBACK
-                                if ((msgContext.Message.QosLevel == MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE) &&
+                                if ((msgContext.Message.QosLevel == QOS.QOS1) &&
                                     (msgContext.State == MqttMsgState.WaitForPuback))
                                 {
                                     // we haven't received PUBACK, we need to resend PUBLISH message
                                     msgContext.State = MqttMsgState.QueuedQos1;
                                 }
                                 // it's QoS 2
-                                else if (msgContext.Message.QosLevel == MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE)
+                                else if (msgContext.Message.QosLevel == QOS.QOS2)
                                 {
                                     // we haven't received PUBREC, we need to resend PUBLISH message
                                     if (msgContext.State == MqttMsgState.WaitForPubrec)

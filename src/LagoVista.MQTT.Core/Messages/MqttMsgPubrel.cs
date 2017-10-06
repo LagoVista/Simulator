@@ -14,6 +14,7 @@ Contributors:
    Paolo Patierno - initial API and implementation and/or initial documentation
 */
 
+using LagoVista.Core.Networking.Interfaces;
 using LagoVista.MQTT.Core.Exceptions;
 
 namespace LagoVista.MQTT.Core.Messages
@@ -28,9 +29,9 @@ namespace LagoVista.MQTT.Core.Messages
         /// </summary>
         public MqttMsgPubrel()
         {
-            this.type = MQTT_MSG_PUBREL_TYPE;
+            this._type = MQTT_MSG_PUBREL_TYPE;
             // PUBREL message use QoS Level 1 (not "officially" in 3.1.1)
-            this.qosLevel = QOS_LEVEL_AT_LEAST_ONCE;
+            this._qosLevel = QOS.QOS1;
         }
 
         public override byte[] GetBytes(byte protocolVersion)
@@ -68,8 +69,8 @@ namespace LagoVista.MQTT.Core.Messages
             else
             {
                 buffer[index] = (byte)((MQTT_MSG_PUBREL_TYPE << MSG_TYPE_OFFSET) |
-                                   (this.qosLevel << QOS_LEVEL_OFFSET));
-                buffer[index] |= this.dupFlag ? (byte)(1 << DUP_FLAG_OFFSET) : (byte)0x00;
+                                   (this._qosLevel.ToByte() << QOS_LEVEL_OFFSET));
+                buffer[index] |= this._dupFlag ? (byte)(1 << DUP_FLAG_OFFSET) : (byte)0x00;
                 index++;
             }
             
@@ -77,8 +78,8 @@ namespace LagoVista.MQTT.Core.Messages
             index = this.encodeRemainingLength(remainingLength, buffer, index);
 
             // get next message identifier
-            buffer[index++] = (byte)((this.messageId >> 8) & 0x00FF); // MSB
-            buffer[index++] = (byte)(this.messageId & 0x00FF); // LSB 
+            buffer[index++] = (byte)((this._messageId >> 8) & 0x00FF); // MSB
+            buffer[index++] = (byte)(this._messageId & 0x00FF); // LSB 
 
             return buffer;
         }
@@ -115,14 +116,14 @@ namespace LagoVista.MQTT.Core.Messages
                 // only 3.1.0
 
                 // read QoS level from fixed header (would be QoS Level 1)
-                msg.qosLevel = (byte)((fixedHeaderFirstByte & QOS_LEVEL_MASK) >> QOS_LEVEL_OFFSET);
+                msg._qosLevel =( (byte)((fixedHeaderFirstByte & QOS_LEVEL_MASK) >> QOS_LEVEL_OFFSET)).ToQOS();
                 // read DUP flag from fixed header
-                msg.dupFlag = (((fixedHeaderFirstByte & DUP_FLAG_MASK) >> DUP_FLAG_OFFSET) == 0x01);
+                msg._dupFlag = (((fixedHeaderFirstByte & DUP_FLAG_MASK) >> DUP_FLAG_OFFSET) == 0x01);
             }
 
             // message id
-            msg.messageId = (ushort)((buffer[index++] << 8) & 0xFF00);
-            msg.messageId |= (buffer[index++]);
+            msg._messageId = (ushort)((buffer[index++] << 8) & 0xFF00);
+            msg._messageId |= (buffer[index++]);
 
             return msg;
         }
@@ -133,7 +134,7 @@ namespace LagoVista.MQTT.Core.Messages
             return this.GetTraceString(
                 "PUBREL",
                 new object[] { "messageId" },
-                new object[] { this.messageId });
+                new object[] { this._messageId });
 #else
             return base.ToString();
 #endif

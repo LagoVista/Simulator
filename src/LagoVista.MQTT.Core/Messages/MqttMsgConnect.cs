@@ -215,7 +215,7 @@ namespace LagoVista.MQTT.Core.Messages
         /// </summary>
         public MqttMsgConnect()
         {
-            this.type = MQTT_MSG_CONNECT_TYPE;
+            this._type = MQTT_MSG_CONNECT_TYPE;
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace LagoVista.MQTT.Core.Messages
             byte protocolVersion
             )
         {
-            this.type = MQTT_MSG_CONNECT_TYPE;
+            this._type = MQTT_MSG_CONNECT_TYPE;
 
             this.clientId = clientId;
             this.username = username;

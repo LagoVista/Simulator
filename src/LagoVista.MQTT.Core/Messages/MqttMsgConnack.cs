@@ -82,7 +82,7 @@ namespace LagoVista.MQTT.Core.Messages
         /// </summary>
         public MqttMsgConnack()
         {
-            this.type = MQTT_MSG_CONNACK_TYPE;
+            this._type = MQTT_MSG_CONNACK_TYPE;
         }
 
         /// <summary>

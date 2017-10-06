@@ -28,7 +28,7 @@ namespace LagoVista.MQTT.Core.Messages
         /// </summary>
         public MqttMsgPuback()
         {
-            this.type = MQTT_MSG_PUBACK_TYPE;
+            this._type = MQTT_MSG_PUBACK_TYPE;
         }
 
         public override byte[] GetBytes(byte protocolVersion)
@@ -70,8 +70,8 @@ namespace LagoVista.MQTT.Core.Messages
             index = this.encodeRemainingLength(remainingLength, buffer, index);
 
             // get message identifier
-            buffer[index++] = (byte)((this.messageId >> 8) & 0x00FF); // MSB
-            buffer[index++] = (byte)(this.messageId & 0x00FF); // LSB 
+            buffer[index++] = (byte)((this._messageId >> 8) & 0x00FF); // MSB
+            buffer[index++] = (byte)(this._messageId & 0x00FF); // LSB 
 
             return buffer;
         }
@@ -104,8 +104,8 @@ namespace LagoVista.MQTT.Core.Messages
             channel.Receive(buffer);
 
             // message id
-            msg.messageId = (ushort)((buffer[index++] << 8) & 0xFF00);
-            msg.messageId |= (buffer[index++]);
+            msg._messageId = (ushort)((buffer[index++] << 8) & 0xFF00);
+            msg._messageId |= (buffer[index++]);
 
             return msg;
         }
@@ -116,7 +116,7 @@ namespace LagoVista.MQTT.Core.Messages
             return this.GetTraceString(
                 "PUBACK",
                 new object[] { "messageId" },
-                new object[] { this.messageId });
+                new object[] { this._messageId });
 #else
             return base.ToString();
 #endif

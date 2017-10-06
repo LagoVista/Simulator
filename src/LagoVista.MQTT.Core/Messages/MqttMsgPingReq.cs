@@ -28,7 +28,7 @@ namespace LagoVista.MQTT.Core.Messages
         /// </summary>
         public MqttMsgPingReq()
         {
-            this.type = MQTT_MSG_PINGREQ_TYPE;
+            this._type = MQTT_MSG_PINGREQ_TYPE;
         }
 
         public override byte[] GetBytes(byte protocolVersion)

@@ -260,7 +260,25 @@ namespace LagoVista.Simulator.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Incoming Messages.
+        ///   Looks up a localized string similar to Connection Status.
+        /// </summary>
+        public static string Simulator_ConnectionStatus {
+            get {
+                return ResourceManager.GetString("Simulator_ConnectionStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message Templates.
+        /// </summary>
+        public static string Simulator_MessageTemplates {
+            get {
+                return ResourceManager.GetString("Simulator_MessageTemplates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Received Messages.
         /// </summary>
         public static string Simulator_ReceivedMessages {
             get {
