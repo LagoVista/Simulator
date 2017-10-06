@@ -31,6 +31,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             SendCommand = new RelayCommand(Send);
             ApplySettingsCommand = new RelayCommand(ApplySettings);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
+            ShowReceivedMessagesCommand = new RelayCommand(() => ShowReceivedMessages());
+            ShowSendStatusCommand = new RelayCommand(() => ShowSendStatus());
         }
 
         public override Task InitAsync()
@@ -40,8 +42,40 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             ReceivedMessageList = LaunchArgs.GetParam<ObservableCollection<String>>("receviedmessages");
 
             BuildRequestContent();
+            
+            switch(Simulator.DefaultTransport.Value)
+            {
+                case TransportTypes.AMQP:
+                case TransportTypes.MQTT:
+                case TransportTypes.AzureIoTHub:
+                case TransportTypes.TCP:
+                case TransportTypes.UDP:
+                case TransportTypes.RabbitMQ:
+                    ViewSelectorVisible = true;
+                    break;
+                case TransportTypes.AzureEventHub:
+                case TransportTypes.AzureServiceBus:
+                case TransportTypes.RestHttp:
+                case TransportTypes.RestHttps:                    
+                    ViewSelectorVisible = false;
+                    break;
+            }
+
+            ShowSendStatus();
 
             return base.InitAsync();
+        }
+
+        public void ShowSendStatus()
+        {
+            SendStatusVisible = true;
+            ReceivedMessagesVisible = false;
+        }
+
+        public void ShowReceivedMessages()
+        {
+            SendStatusVisible = false;
+            ReceivedMessagesVisible = true;
         }
         #endregion
 
@@ -183,18 +217,31 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 case TransportTypes.RestHttp:
                     {
                         var protocol = MsgTemplate.Transport.Value == TransportTypes.RestHttps ? "https" : "http";
-                        var uri = $"{protocol}://{MsgTemplate.EndPoint}:{MsgTemplate.Port}/{MsgTemplate.PathAndQueryString}";
-                        sentContent.AppendLine($"Method : {MsgTemplate.HttpVerb}");
-                        sentContent.AppendLine($"Host   : {MsgTemplate.EndPoint}");
-                        sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
-                        sentContent.AppendLine($"Query  : {ReplaceTokens(MsgTemplate.PathAndQueryString)}");
+                        var uri = $"{protocol}://{MsgTemplate.EndPoint}:{MsgTemplate.Port}{ReplaceTokens(MsgTemplate.PathAndQueryString)}";
+                        sentContent.AppendLine($"Method       : {MsgTemplate.HttpVerb}");
+                        sentContent.AppendLine($"Endpoint     : {uri}");
+                        sentContent.AppendLine($"Port         : {MsgTemplate.Port}");
+                        var contentType = String.IsNullOrEmpty(MsgTemplate.ContentType) ? "text/plain" : MsgTemplate.ContentType;
+                        sentContent.AppendLine($"Content Type : {contentType}");
 
-                        foreach (var hdr in MsgTemplate.MessageHeaders)
+                        if(MsgTemplate.MessageHeaders.Any())
                         {
-                            sentContent.AppendLine($"{hdr.HeaderName}\t:{ReplaceTokens(hdr.Value)}");
+                            sentContent.AppendLine($"Custom Headers");
                         }
 
-                        sentContent.Append(ReplaceTokens(MsgTemplate.TextPayload));
+                        var idx = 1;
+                        foreach (var hdr in MsgTemplate.MessageHeaders)
+                        {
+                            sentContent.AppendLine($"\t{idx++}. {hdr.HeaderName}={ReplaceTokens(hdr.Value)}");
+                        }
+
+                        if (MsgTemplate.HttpVerb == "POST" || MsgTemplate.HttpVerb == "PUT")
+                        {
+                            sentContent.AppendLine("");
+                            sentContent.AppendLine("Post Content");
+                            sentContent.AppendLine("=========================");
+                            sentContent.AppendLine(ReplaceTokens(MsgTemplate.TextPayload));
+                        }
                     }
                     break;
             }
@@ -298,33 +345,55 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     client.DefaultRequestHeaders.Add(hdr.HeaderName, ReplaceTokens(hdr.Value));
                 }
 
-                switch (MsgTemplate.HttpVerb)
+                try
                 {
-                    case MessageTemplate.HttpVerb_GET:
-                        responseMessage = await client.GetAsync(uri);
-                        break;
-                    case MessageTemplate.HttpVerb_POST:
-                        responseMessage = await client.PostAsync(uri, new StringContent(ReplaceTokens(MsgTemplate.TextPayload), Encoding.UTF8 ,String.IsNullOrEmpty(MsgTemplate.ContentType) ? "text/plain" : MsgTemplate.ContentType));
-                        break;
-                    case MessageTemplate.HttpVerb_PUT:
-                        responseMessage = await client.PutAsync(uri, new StringContent(ReplaceTokens(MsgTemplate.TextPayload), Encoding.UTF8, String.IsNullOrEmpty(MsgTemplate.ContentType) ? "text/plain" : MsgTemplate.ContentType));
-                        break;
-                    case MessageTemplate.HttpVerb_DELETE:
-                        responseMessage = await client.DeleteAsync(uri);
-                        break;
+                    switch (MsgTemplate.HttpVerb)
+                    {
+                        case MessageTemplate.HttpVerb_GET:
+                            responseMessage = await client.GetAsync(uri);
+                            break;
+                        case MessageTemplate.HttpVerb_POST:
+                            responseMessage = await client.PostAsync(uri, new StringContent(ReplaceTokens(MsgTemplate.TextPayload), Encoding.UTF8, String.IsNullOrEmpty(MsgTemplate.ContentType) ? "text/plain" : MsgTemplate.ContentType));
+                            break;
+                        case MessageTemplate.HttpVerb_PUT:
+                            responseMessage = await client.PutAsync(uri, new StringContent(ReplaceTokens(MsgTemplate.TextPayload), Encoding.UTF8, String.IsNullOrEmpty(MsgTemplate.ContentType) ? "text/plain" : MsgTemplate.ContentType));
+                            break;
+                        case MessageTemplate.HttpVerb_DELETE:
+                            responseMessage = await client.DeleteAsync(uri);
+                            break;
+                    }
+                }
+                catch(HttpRequestException ex)
+                {
+                    var fullResponseString = new StringBuilder();
+                    fullResponseString.AppendLine(ex.Message);
+                    if(ex.InnerException != null)
+                    {
+                        fullResponseString.AppendLine(ex.InnerException.Message);
+                    }
+
+                    ReceivedContennt = fullResponseString.ToString();
+                    return;
                 }
 
-                var responseContent = await responseMessage.Content.ReadAsStringAsync();
-                var fullResponseString = new StringBuilder();
-                fullResponseString.AppendLine($"{DateTime.Now} {SimulatorCoreResources.SendMessage_MessageSent}");
-                fullResponseString.AppendLine($"Response Code: {(int)responseMessage.StatusCode} ({responseMessage.ReasonPhrase})");
-                foreach (var hdr in responseMessage.Headers)
+                if (responseMessage.IsSuccessStatusCode)
                 {
-                    fullResponseString.AppendLine($"{hdr.Key}\t:{hdr.Value.FirstOrDefault()}");
+                    var responseContent = await responseMessage.Content.ReadAsStringAsync();
+                    var fullResponseString = new StringBuilder();
+                    fullResponseString.AppendLine($"{DateTime.Now} {SimulatorCoreResources.SendMessage_MessageSent}");
+                    fullResponseString.AppendLine($"Response Code: {(int)responseMessage.StatusCode} ({responseMessage.ReasonPhrase})");
+                    foreach (var hdr in responseMessage.Headers)
+                    {
+                        fullResponseString.AppendLine($"{hdr.Key}\t:{hdr.Value.FirstOrDefault()}");
+                    }
+                    fullResponseString.AppendLine();
+                    fullResponseString.Append(responseContent);
+                    ReceivedContennt = fullResponseString.ToString();
                 }
-                fullResponseString.AppendLine();
-                fullResponseString.Append(responseContent);
-                ReceivedContennt = fullResponseString.ToString();
+                else
+                {
+                    ReceivedContennt = $"{responseMessage.StatusCode} - {responseMessage.ReasonPhrase}";
+                }
             }
         }
 
@@ -349,6 +418,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             catch (Exception ex)
             {
                 await Popups.ShowAsync(ex.Message);
+                ReceivedContennt = ex.Message;
             }
             finally
             {
@@ -511,6 +581,40 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             get { return _receivedMessageList; }
             set { Set(ref _receivedMessageList, value); }
         }
+
+
+        private bool _viewSelectorVisible;
+        public bool ViewSelectorVisible
+        {
+            get { return _viewSelectorVisible; }
+            set
+            {
+                _viewSelectorVisible = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _receivedMessagesVisible;
+        public bool ReceivedMessagesVisible
+        {
+            get { return _receivedMessagesVisible; }
+            set
+            {
+                _receivedMessagesVisible = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _sendStatusVisible;
+        public bool SendStatusVisible
+        {
+            get { return _sendStatusVisible; }
+            set
+            {
+                _sendStatusVisible = value;
+                RaisePropertyChanged();
+            }
+        }
         #endregion
 
         #region Commands
@@ -519,6 +623,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         public RelayCommand ApplySettingsCommand { get; set; }
 
         public RelayCommand SendCommand { get; set; }
+
+        public RelayCommand ShowReceivedMessagesCommand { get; set; }
+
+        public RelayCommand ShowSendStatusCommand { get; set; }
         #endregion
     }
 }
