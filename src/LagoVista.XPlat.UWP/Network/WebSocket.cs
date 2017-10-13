@@ -48,12 +48,21 @@ namespace LagoVista.XPlat.UWP.Network
 
         private void _webSocket_MessageReceived(MessageWebSocket sender, MessageWebSocketMessageReceivedEventArgs args)
         {
-            using (var reader = args.GetDataReader())
+            try
             {
-                reader.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
+                using (var reader = args.GetDataReader())
+                {
+                    reader.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
 
-                var msgJSON = reader.ReadString(reader.UnconsumedBufferLength);
-                MessageReceived?.Invoke(this, msgJSON);
+                    var msgJSON = reader.ReadString(reader.UnconsumedBufferLength);
+                    MessageReceived?.Invoke(this, msgJSON);
+                }
+            }
+            catch(Exception ex)
+            {
+                
+                _webSocket.Dispose();
+                _webSocket = null;
             }
         }
     }

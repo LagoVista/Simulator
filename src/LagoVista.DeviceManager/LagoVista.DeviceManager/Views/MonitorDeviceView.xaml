@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>    
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <pge:LagoVistaContentPage  
     xmlns:pge="clr-namespace:LagoVista.XPlat.Core;assembly=LagoVista.XPlat.Core"
     xmlns="http://xamarin.com/schemas/2014/forms"
@@ -6,19 +6,78 @@
     x:Class="LagoVista.DeviceManager.Views.MonitorDeviceView"    
     xmlns:trs="clr-namespace:LagoVista.DeviceManager;assembly=LagoVista.DeviceManager"
     Title="{trs:Translate MonitorDevice_Title}"
+    RightMenu="Edit"
+    EditCommand="{Binding EditDeviceCommand}"
     LeftMenu="Cancel" >
     <pge:LagoVistaContentPage.MainContent>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25*" />
-                <ColumnDefinition Width="25*" />
-                <ColumnDefinition Width="25*" />
-                <ColumnDefinition Width="25*" />
-            </Grid.ColumnDefinitions>
-            <Label Text="{trs:Translate MonitorDevice_DeviceId}" Grid.Column="0" />
-            <Label Text="{Binding Device.DeviceId}" Grid.Column="1" />
-            <Label Text="{trs:Translate MonitorDevice_Status}" Grid.Column="2" />
-            <Label Text="{Binding Device.Status.Text}" Grid.Column="3" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Margin="10,0,0,4" Text="{trs:Translate MonitorDevice_DeviceInformation}" Grid.Row="0" FontAttributes="Bold" FontSize="Medium" />
+            <BoxView HeightRequest="1" VerticalOptions="End" Color="Silver" />
+            <Grid Padding="10" Grid.Row="1" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="33*" />
+                    <ColumnDefinition Width="66*" />
+                </Grid.ColumnDefinitions>
+                
+                <Label Text="{trs:Translate MonitorDevice_DeviceId}" Grid.Column="0" Grid.Row="0" FontAttributes="Bold"  />
+                <Label Text="{Binding Device.DeviceId}" Grid.Column="1" Grid.Row="0" />
+                
+                <Label Text="{trs:Translate MonitorDevice_Status}" Grid.Column="0" Grid.Row="1" FontAttributes="Bold"  />
+                <Label Text="{Binding Device.Status.Text}" Grid.Column="1" Grid.Row="1" />
+                
+                <Label Text="{trs:Translate MonitorDevice_LastContact}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" />
+                <Label Text="{Binding Device.LastContact}" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" />
+            </Grid>
+
+            <Label Margin="10,0,0,4" Text="{trs:Translate MonitorDevice_Attributes}" Grid.Row="2" FontAttributes="Bold" FontSize="Medium" />
+            <BoxView HeightRequest="1" VerticalOptions="End" Color="Silver" Grid.Row="2" />
+            
+            <pge:KVPRepeater ItemSource="{Binding DeviceAttributes, Mode=TwoWay}" Grid.Row="3" Padding="10"  />
+
+            <Label Margin="10,0,0,4" Text="{trs:Translate MonitorDevice_Messages}" Grid.Row="4" FontAttributes="Bold" FontSize="Medium" />
+            <BoxView HeightRequest="1" VerticalOptions="End" Color="Silver" Grid.Row="4" />
+            
+            <ListView Grid.Row="5" ItemsSource="{Binding DeviceMessages}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="33*" />
+                                    <ColumnDefinition Width="66*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <Label Text="Message Id" Grid.Row="0" FontAttributes="Bold" />
+                                <Label Text="Timestamp"  Grid.Row="1" FontAttributes="Bold" />
+
+                                <Label Text="{Binding MessageId}" Grid.Row="0" Grid.Column="1" />
+                                <Label Text="{Binding Timestamp}"  Grid.Row="1" Grid.Column="1"/>
+
+                                <pge:KVPRepeater ItemSource="{Binding Properties}" Grid.Row="2" Grid.ColumnSpan="2"  />
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </pge:LagoVistaContentPage.MainContent>
 </pge:LagoVistaContentPage>

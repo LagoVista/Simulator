@@ -50,7 +50,7 @@ namespace LagoVista.DeviceManager.Core.ViewModels
 
         protected override string GetListURI()
         {
-            return $"/api/org/{AuthManager.User.CurrentOrganization.Id}/devicerepos";
+            return $"/api/devicerepos";
         }
     }
 }

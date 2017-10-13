@@ -126,8 +126,23 @@
   <data name="DeviceExplorer_Title" xml:space="preserve">
     <value>Device Explorer</value>
   </data>
+  <data name="ManageDevice_Title" xml:space="preserve">
+    <value>Manage Device</value>
+  </data>
+  <data name="MonitorDevice_Attributes" xml:space="preserve">
+    <value>Device Attributes</value>
+  </data>
   <data name="MonitorDevice_DeviceId" xml:space="preserve">
     <value>Device Id</value>
+  </data>
+  <data name="MonitorDevice_DeviceInformation" xml:space="preserve">
+    <value>Device Information</value>
+  </data>
+  <data name="MonitorDevice_LastContact" xml:space="preserve">
+    <value>Last Contact</value>
+  </data>
+  <data name="MonitorDevice_Messages" xml:space="preserve">
+    <value>Messages</value>
   </data>
   <data name="MonitorDevice_Status" xml:space="preserve">
     <value>Status</value>

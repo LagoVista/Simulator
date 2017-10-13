@@ -66,6 +66,7 @@
     <Compile Include="Controls\FormControls\TextEditRow.cs" />
     <Compile Include="Controls\FormViewer.cs" />
     <Compile Include="Controls\Common\Label.cs" />
+    <Compile Include="Controls\KVPRepeater.cs" />
     <Compile Include="Extensions\ColorExtension.cs" />
     <Compile Include="Extensions\ProperyNameExtensions.cs" />
     <Compile Include="Extensions\TranslateExtensions.cs" />

@@ -20,7 +20,7 @@ namespace LagoVista.DeviceManager.Core.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class DeviceManagerResources {
@@ -89,11 +89,56 @@ namespace LagoVista.DeviceManager.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage Device.
+        /// </summary>
+        public static string ManageDevice_Title {
+            get {
+                return ResourceManager.GetString("ManageDevice_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device Attributes.
+        /// </summary>
+        public static string MonitorDevice_Attributes {
+            get {
+                return ResourceManager.GetString("MonitorDevice_Attributes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device Id.
         /// </summary>
         public static string MonitorDevice_DeviceId {
             get {
                 return ResourceManager.GetString("MonitorDevice_DeviceId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device Information.
+        /// </summary>
+        public static string MonitorDevice_DeviceInformation {
+            get {
+                return ResourceManager.GetString("MonitorDevice_DeviceInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Contact.
+        /// </summary>
+        public static string MonitorDevice_LastContact {
+            get {
+                return ResourceManager.GetString("MonitorDevice_LastContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Messages.
+        /// </summary>
+        public static string MonitorDevice_Messages {
+            get {
+                return ResourceManager.GetString("MonitorDevice_Messages", resourceCulture);
             }
         }
         

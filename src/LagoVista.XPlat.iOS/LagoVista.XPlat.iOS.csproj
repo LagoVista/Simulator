@@ -45,47 +45,50 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LagoVista.Core, Version=0.8.0.0, Culture=neutral, PublicKeyToken=2698135e9954a85d, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.Core.Networking.1.2.139-alpha1021\lib\netstandard1.2\LagoVista.Core.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.Core.Networking.1.2.149-alpha1820\lib\netstandard1.2\LagoVista.Core.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.Core.Networking, Version=0.8.0.0, Culture=neutral, PublicKeyToken=650a46bd96014ff6, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.Core.Networking.1.2.139-alpha1021\lib\netstandard1.2\LagoVista.Core.Networking.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.Core.Networking.1.2.149-alpha1820\lib\netstandard1.2\LagoVista.Core.Networking.dll</HintPath>
     </Reference>
     <Reference Include="LagoVista.UserAdmin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LagoVista.UserAdmin.1.2.139-alpha1021\lib\netstandard1.2\LagoVista.UserAdmin.dll</HintPath>
+      <HintPath>..\..\packages\LagoVista.UserAdmin.1.2.149-alpha1820\lib\netstandard1.2\LagoVista.UserAdmin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Mobile, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.0.15.2\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.0.16.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Mobile.Analytics, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Analytics.0.15.2\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Analytics.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Analytics.0.16.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Mobile.Analytics.iOS.Bindings, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Analytics.0.15.2\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Analytics.iOS.Bindings.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Analytics.0.16.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Analytics.iOS.Bindings.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Mobile.Crashes, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Crashes.0.15.2\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Crashes.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Crashes.0.16.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Crashes.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Mobile.Crashes.iOS.Bindings, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Crashes.0.15.2\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Crashes.iOS.Bindings.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Crashes.0.16.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Crashes.iOS.Bindings.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Mobile.Distribute, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Distribute.0.15.2\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Distribute.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Distribute.0.16.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Distribute.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Mobile.Distribute.iOS.Bindings, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Distribute.0.15.2\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Distribute.iOS.Bindings.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Distribute.0.16.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Distribute.iOS.Bindings.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Mobile.iOS.Bindings, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.0.15.2\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.iOS.Bindings.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.0.16.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.iOS.Bindings.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Mobile.Push, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Push.0.15.2\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Push.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Push.0.16.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Push.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Mobile.Push.iOS.Bindings, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Push.0.15.2\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Push.iOS.Bindings.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Push.0.16.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Push.iOS.Bindings.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Square.SocketRocket, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Square.SocketRocket.0.5.1\lib\Xamarin.iOS\Square.SocketRocket.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.IO.Compression" />
@@ -123,6 +126,7 @@
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\Reachability.cs" />
     <Compile Include="Services\StorageService.cs" />
+    <Compile Include="Services\WebSocket.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Services\MqttNetworkChannel.cs" />
     <Compile Include="Services\TCPClient.cs" />
@@ -222,6 +226,12 @@
       <Project>{076B08B6-234F-4AE3-8815-7E36A47F9475}</Project>
       <Name>LagoVista.MQTT.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="square.socketrocket">
+      <Visible>False</Visible>
+      <Version>0.4.2.0</Version>
+    </XamarinComponentReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

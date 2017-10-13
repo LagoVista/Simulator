@@ -154,7 +154,12 @@ namespace LagoVista.Client.Core.ViewModels
                         }
                         break;
                     case FormField.FeildType_EntityHeaderPicker:
-
+                        var ehValue = value as EntityHeader;
+                        if(ehValue != null)
+                        {
+                            formItem.Value = ehValue.Id;
+                            formItem.Display = ehValue.Text;
+                        }
                         break;
                     case FormField.FieldType_Bool:
                     case FormField.FieldType_NameSpace:

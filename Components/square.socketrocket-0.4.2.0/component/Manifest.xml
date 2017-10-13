@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<component format="1" id="square.socketrocket" is-shell="true">
+  <name>SocketRocket Web Sockets</name>
+  <publisher>Xamarin Inc</publisher>
+  <publisher-url>http://xamarin.com</publisher-url>
+  <src-url>https://github.com/mattleibow/square-bindings</src-url>
+  <version>0.4.2.0</version>
+  <summary>A conforming WebSocket (RFC 6455) client library.</summary>
+  <packages>
+    <package id="Square.SocketRocket" version="0.4.2.0" framework="ios-unified" />
+  </packages>
+  <samples>
+    <sample id="SocketRocketSample">
+      <name>iOS Sample</name>
+      <summary>iOS Sample</summary>
+    </sample>
+  </samples>
+</component>

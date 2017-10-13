@@ -10,6 +10,9 @@
     LeftMenu="Cancel"
     HasToolBar="true" >
     <pge:LagoVistaContentPage.MainContent>
-        <pge:FormViewer Form="{Binding FormAdapter}"  />
+        <StackLayout>
+            <pge:FormViewer Form="{Binding FormAdapter}"  />
+            <pge:FormViewer Form="{Binding CustomFieldAdapter, Mode=TwoWay}" />
+        </StackLayout>
     </pge:LagoVistaContentPage.MainContent>
 </pge:LagoVistaContentPage>

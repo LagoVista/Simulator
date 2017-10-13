@@ -17,6 +17,7 @@ namespace LagoVista.DeviceManager.Core.ViewModels
             await NavigateAndCreateAsync<ProvisionDeviceViewModel>(LaunchArgs.ChildId);
         }
 
+
         protected override void ItemSelected(DeviceSummary model)
         {
             base.ItemSelected(model);
@@ -34,7 +35,7 @@ namespace LagoVista.DeviceManager.Core.ViewModels
 
         protected override string GetListURI()
         {
-            return $"/api/org/{AuthManager.User.CurrentOrganization.Id}/devices/{LaunchArgs.ChildId}";
+            return $"/api/devices/{LaunchArgs.ChildId}";
         }
 
         public RelayCommand AddNewDeviceCommand { get; private set; }

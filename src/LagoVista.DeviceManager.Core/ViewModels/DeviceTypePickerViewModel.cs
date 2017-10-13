@@ -10,7 +10,7 @@ namespace LagoVista.DeviceManager.Core.ViewModels
     {
         protected override string GetListURI()
         {
-            return $"/api/org/{AuthManager.User.CurrentOrganization.Id}/devicetypes";
+            return $"/api/devicetypes";
         }
 
         protected async override void ItemSelected(DeviceTypeSummary model)
