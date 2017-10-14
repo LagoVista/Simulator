@@ -58,5 +58,10 @@ namespace LagoVista.XPlat.iOS.Services
         {
             throw new NotImplementedException();
         }
+
+        public void OpenURI(Uri uri)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

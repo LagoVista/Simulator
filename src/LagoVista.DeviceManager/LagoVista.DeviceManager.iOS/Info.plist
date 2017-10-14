@@ -78,5 +78,16 @@
 	<string>Resources/Media.xcassets/AppIcons.appiconset</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Resources/Media.xcassets/LaunchImages.launchimage</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>NuvIoT Handler</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>nuviot</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

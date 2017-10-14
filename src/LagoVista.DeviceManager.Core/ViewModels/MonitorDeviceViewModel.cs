@@ -45,6 +45,7 @@ namespace LagoVista.DeviceManager.Core.ViewModels
                 if (response.Successful)
                 {
                     Device = response.Result.Model;
+                    ViewReady = true;
                 }
             });
         }
@@ -120,6 +121,13 @@ namespace LagoVista.DeviceManager.Core.ViewModels
 
                 DeviceAttributes = attrs;
             }
+        }
+
+        public bool _viewReady = false;
+        public bool ViewReady
+        {
+            get { return _viewReady; }
+            set { Set(ref _viewReady, value); }
         }
 
         public RelayCommand EditDeviceCommand { get; private set; }

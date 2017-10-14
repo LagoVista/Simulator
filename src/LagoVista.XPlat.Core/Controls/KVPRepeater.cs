@@ -15,18 +15,6 @@ namespace LagoVista.XPlat.Core
             get { return (IEnumerable<KeyValuePair<string, object>>)base.GetValue(ItemSourceProperty); }
             set
             {
-                var oldCollection = ItemSource as ObservableCollection<KeyValuePair<string, object>>;
-                if(oldCollection != null)
-                {
-                    oldCollection.CollectionChanged -= Collection_CollectionChanged;
-                }
-
-                var collection = value as ObservableCollection<KeyValuePair<string, object>>;
-                if (collection != null)
-                {
-                    collection.CollectionChanged += Collection_CollectionChanged;
-                }
-
                 base.SetValue(ItemSourceProperty, value);
                 this.Children.Clear();
                 var grid = new Grid();
@@ -42,8 +30,13 @@ namespace LagoVista.XPlat.Core
                 foreach (var pair in value)
                 {
                     var label = new Label();
+                    label.FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
+                    label.TextColor = LabelColor;
                     label.FontAttributes = FontAttributes.Bold;
+
                     var valueLabel = new Label();
+                    valueLabel.FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
+                    valueLabel.TextColor = ValueColor;
                     label.SetValue(Grid.ColumnProperty, 0);
                     valueLabel.SetValue(Grid.ColumnProperty, 1);
 
@@ -65,6 +58,48 @@ namespace LagoVista.XPlat.Core
             }
         }
 
+        public static BindableProperty LabelColorProperty = BindableProperty.Create(
+                                                    propertyName: nameof(LabelColor),
+                                                    returnType: typeof(Color),
+                                                    declaringType: typeof(FormViewer),
+                                                    defaultValue: Color.Black,
+                                                    defaultBindingMode: BindingMode.Default,
+                                                    propertyChanged: HandleLabelColorChanged);
+
+
+        public Color LabelColor
+        {
+            get { return (Color)base.GetValue(LabelColorProperty);  }
+            set { base.SetValue(LabelColorProperty, value);  }
+        }
+
+        private static void HandleLabelColorChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var kvpRepeater = (KVPRepeater)bindable;
+            kvpRepeater.LabelColor = (Color)newValue;
+        }
+
+        public static BindableProperty ValueColorProperty = BindableProperty.Create(
+                                            propertyName: nameof(ValueColor),
+                                            returnType: typeof(Color),
+                                            declaringType: typeof(FormViewer),
+                                            defaultValue: Color.Black,
+                                            defaultBindingMode: BindingMode.Default,
+                                            propertyChanged: HandleValueColorChanged);
+
+
+        public Color ValueColor
+        {
+            get { return (Color)base.GetValue(ValueColorProperty); }
+            set { base.SetValue(ValueColorProperty, value); }
+        }
+
+        private static void HandleValueColorChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var kvpRepeater = (KVPRepeater)bindable;
+            kvpRepeater.ValueColor = (Color)newValue;
+        }
+
         public static BindableProperty ItemSourceProperty = BindableProperty.Create(
                                                     propertyName: nameof(ItemSource),
                                                     returnType: typeof(IEnumerable<KeyValuePair<string, object>>),
@@ -78,10 +113,6 @@ namespace LagoVista.XPlat.Core
             var kvpRepeater = (KVPRepeater)bindable;
             kvpRepeater.ItemSource = newValue as IEnumerable<KeyValuePair<string, object>>;
         }
-
-        private static void Collection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

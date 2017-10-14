@@ -6,6 +6,7 @@ using LagoVista.Core.IOC;
 using LagoVista.XPlat.Core.Services;
 using Microsoft.Azure.Mobile;
 using Microsoft.Azure.Mobile.Push;
+using LagoVista.Client.Core.Net;
 
 namespace LagoVista.XPlat.iOS
 {
@@ -18,6 +19,7 @@ namespace LagoVista.XPlat.iOS
             SLWIOC.Register<INetworkService>(new NetworkService());
             SLWIOC.Register<IDeviceInfo>(new DeviceInfo());
             SLWIOC.Register<IPopupServices>(new PopupServices());
+            SLWIOC.Register<IWebSocket,Services.WebSocket>();
             SLWIOC.Register<IDispatcherServices>(new DispatcherService(app));
 
 		    IconFonts.IconFontSupport.RegisterFonts();

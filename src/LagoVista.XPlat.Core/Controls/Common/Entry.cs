@@ -15,6 +15,7 @@ namespace LagoVista.XPlat.Core
             this.Focused += Entry_Focused;
             this.BackgroundColor = AppStyle.EditControlBackground.ToXamFormsColor();
             this.TextColor = AppStyle.EditControlText.ToXamFormsColor();
+            this.HeightRequest = 36;
         }
 
         private void Entry_Focused(object sender, Xamarin.Forms.FocusEventArgs e)

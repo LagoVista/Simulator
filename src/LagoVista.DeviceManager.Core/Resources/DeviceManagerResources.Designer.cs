@@ -80,11 +80,29 @@ namespace LagoVista.DeviceManager.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to search by device id.
+        /// </summary>
+        public static string DeviceExplorer_SearchWatermark {
+            get {
+                return ResourceManager.GetString("DeviceExplorer_SearchWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device Explorer.
         /// </summary>
         public static string DeviceExplorer_Title {
             get {
                 return ResourceManager.GetString("DeviceExplorer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Device Type.
+        /// </summary>
+        public static string DeviceTypePicker_Title {
+            get {
+                return ResourceManager.GetString("DeviceTypePicker_Title", resourceCulture);
             }
         }
         

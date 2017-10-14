@@ -35,5 +35,11 @@ namespace LagoVista.DeviceManager.iOS
 
             return base.FinishedLaunching(app, options);
         }
+
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            LagoVista.DeviceManager.App.Instance.HandleURIActivation(new Uri(url.AbsoluteString));
+            return true;
+        }
     }
 }

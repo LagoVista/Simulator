@@ -123,8 +123,14 @@
   <data name="Common_GetStarted" xml:space="preserve">
     <value>Get Started</value>
   </data>
+  <data name="DeviceExplorer_SearchWatermark" xml:space="preserve">
+    <value>search by device id</value>
+  </data>
   <data name="DeviceExplorer_Title" xml:space="preserve">
     <value>Device Explorer</value>
+  </data>
+  <data name="DeviceTypePicker_Title" xml:space="preserve">
+    <value>Select Device Type</value>
   </data>
   <data name="ManageDevice_Title" xml:space="preserve">
     <value>Manage Device</value>

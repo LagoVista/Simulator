@@ -11,34 +11,34 @@
     AddCommand="{Binding AddNewDeviceCommand}"
     Title="{trs:Translate DeviceExplorer_Title}" >
     <pge:LagoVistaContentPage.MainContent>
-        <ListView ItemsSource="{Binding ListItems}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" RowHeight="64" >
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="32" />
-                                <RowDefinition Height="24" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="16" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-                            <pge:Icon IconKey="fa-empire"  Grid.Column="1" FontSize="48" VerticalOptions="Center" TextColor="{StaticResource NuvIoTDark}" Grid.RowSpan="2" />
-                            
-                            <Label Text="{Binding DeviceId}" Grid.Column="2" FontSize="20" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="End" />
-                            <Label Text="{Binding DeviceType}" Grid.Column="3" FontSize="20" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="End" />
-                            <Label Text="{Binding SerialNumber}" Grid.Row="1" Grid.Column="2" FontSize="20" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="End" />
-                            <Label Text="{Binding Status}" Grid.Row="1" Grid.Column="3" FontSize="20" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="End" />
-                            <pge:Icon IconKey="fa-arrow-circle-right" Grid.Column="5" FontSize="28" Margin="0,0,16,0" VerticalOptions="Center" Grid.RowSpan="2" />
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <SearchBar  SearchCommand="{Binding SearchNow}" Placeholder="{trs:Translate DeviceExplorer_SearchWatermark}" />
+
+            <ListView ItemsSource="{Binding ListItems}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" RowHeight="40" Grid.Row="1" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="16" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="16" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <pge:Icon IconKey="fa-microchip"  Grid.Column="1" FontSize="24" VerticalOptions="Center" TextColor="{StaticResource NuvIoTContrast}"  />
+                                <Label Text="{Binding DeviceId}" Grid.Column="3" FontSize="24" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="Center" />
+                                <pge:Icon IconKey="fa-chevron-right" Grid.Column="4" FontSize="16" Margin="0,0,16,0" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="Center"  />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </pge:LagoVistaContentPage.MainContent>
 </pge:LagoVistaContentPage>

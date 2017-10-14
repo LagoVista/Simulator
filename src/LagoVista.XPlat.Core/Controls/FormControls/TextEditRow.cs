@@ -21,6 +21,7 @@ namespace LagoVista.XPlat.Core.Controls.FormControls
                 Text = field.Value,
                 IsEnabled = field.IsUserEditable
             };
+         
             _editor.TextChanged += _editor_TextChanged;
 
             FieldTypes fieldType;

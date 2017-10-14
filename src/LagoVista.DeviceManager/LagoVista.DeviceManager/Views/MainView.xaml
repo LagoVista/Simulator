@@ -13,20 +13,20 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid>
+                        <Grid HeightRequest="64" Padding="0,16,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="32" />
-                                <RowDefinition Height="24" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="16" />
                                 <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="16" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <pge:Icon IconKey="fa-empire"  Grid.Column="1" FontSize="48" VerticalOptions="Center" TextColor="{StaticResource NuvIoTDark}" Grid.RowSpan="2" />
-                            <Label Text="{Binding Name}" Grid.Column="2" FontSize="20" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="End" />
-                            <pge:Icon IconKey="fa-arrow-circle-right" Grid.Column="3" FontSize="28" Margin="0,0,16,0" VerticalOptions="Center" Grid.RowSpan="2" />
+                            <pge:Icon IconKey="fa-empire"  Grid.Column="1" FontSize="24" VerticalOptions="Center" TextColor="{StaticResource NuvIoTContrast}" />
+                            <Label Text="{Binding Name}" Grid.Column="3" FontSize="24" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="Center" />
+                            <pge:Icon IconKey="fa-chevron-right" Grid.Column="4" FontSize="16" Margin="0,0,16,0" TextColor="{StaticResource NuvIoTDark}" VerticalOptions="Center"  />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
