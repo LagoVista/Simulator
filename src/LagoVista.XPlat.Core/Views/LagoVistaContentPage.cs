@@ -338,6 +338,7 @@ namespace LagoVista.XPlat.Core
                 Content = _contentGrid;
 
                 _mainContent = value;
+                _mainContent.BackgroundColor = Color.White;
 
                 if (value.BackgroundColor != null && value.BackgroundColor.R > -1)
                 {

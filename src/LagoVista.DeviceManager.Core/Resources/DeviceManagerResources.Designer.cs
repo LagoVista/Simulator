@@ -71,6 +71,15 @@ namespace LagoVista.DeviceManager.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Common_Cancel {
+            get {
+                return ResourceManager.GetString("Common_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Get Started.
         /// </summary>
         public static string Common_GetStarted {
@@ -157,6 +166,33 @@ namespace LagoVista.DeviceManager.Core.Resources {
         public static string MonitorDevice_Messages {
             get {
                 return ResourceManager.GetString("MonitorDevice_Messages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -select output command-.
+        /// </summary>
+        public static string MonitorDevice_SelectOutputCommand {
+            get {
+                return ResourceManager.GetString("MonitorDevice_SelectOutputCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        public static string MonitorDevice_Send {
+            get {
+                return ResourceManager.GetString("MonitorDevice_Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State Machines.
+        /// </summary>
+        public static string MonitorDevice_StateMachines {
+            get {
+                return ResourceManager.GetString("MonitorDevice_StateMachines", resourceCulture);
             }
         }
         

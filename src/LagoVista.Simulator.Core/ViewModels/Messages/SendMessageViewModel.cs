@@ -165,7 +165,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             {
 
                 case TransportTypes.TCP:
-                    sentContent.AppendLine($"Host   : {MsgTemplate.EndPoint}");
+                    sentContent.AppendLine($"Host   : {Simulator.DefaultEndPoint}");
                     sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
@@ -173,7 +173,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
                     break;
                 case TransportTypes.UDP:
-                    sentContent.AppendLine($"Host   : {MsgTemplate.EndPoint}");
+                    sentContent.AppendLine($"Host   : {Simulator.DefaultEndPoint}");
                     sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
@@ -181,7 +181,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
                     break;
                 case TransportTypes.AzureIoTHub:
-                    sentContent.AppendLine($"Host   : {MsgTemplate.Name}");
+                    sentContent.AppendLine($"Host   : {Simulator.DefaultEndPoint}");
                     sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
@@ -190,7 +190,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                     break;
 
                 case TransportTypes.AzureEventHub:
-                    sentContent.AppendLine($"Host   : {MsgTemplate.Name}");
+                    sentContent.AppendLine($"Host   : {Simulator.DefaultEndPoint}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
                     sentContent.Append(ReplaceTokens(MsgTemplate.TextPayload));
@@ -206,7 +206,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
                     break;
                 case TransportTypes.MQTT:
-                    sentContent.AppendLine($"Host   : {MsgTemplate.EndPoint}");
+                    sentContent.AppendLine($"Host   : {Simulator.DefaultEndPoint}");
                     sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
                     sentContent.AppendLine($"Topic  : {ReplaceTokens(MsgTemplate.Topic)}");
 
@@ -217,10 +217,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 case TransportTypes.RestHttp:
                     {
                         var protocol = MsgTemplate.Transport.Value == TransportTypes.RestHttps ? "https" : "http";
-                        var uri = $"{protocol}://{MsgTemplate.EndPoint}:{MsgTemplate.Port}{ReplaceTokens(MsgTemplate.PathAndQueryString)}";
+                        var uri = $"{protocol}://{Simulator.DefaultEndPoint}:{Simulator.DefaultPort}{ReplaceTokens(MsgTemplate.PathAndQueryString)}";
                         sentContent.AppendLine($"Method       : {MsgTemplate.HttpVerb}");
                         sentContent.AppendLine($"Endpoint     : {uri}");
-                        sentContent.AppendLine($"Port         : {MsgTemplate.Port}");
                         var contentType = String.IsNullOrEmpty(MsgTemplate.ContentType) ? "text/plain" : MsgTemplate.ContentType;
                         sentContent.AppendLine($"Content Type : {contentType}");
 
@@ -336,7 +335,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             using (var client = new HttpClient())
             {
                 var protocol = MsgTemplate.Transport.Value == TransportTypes.RestHttps ? "https" : "http";
-                var uri = $"{protocol}://{MsgTemplate.EndPoint}:{MsgTemplate.Port}{ReplaceTokens(MsgTemplate.PathAndQueryString)}";
+                var uri = $"{protocol}://{Simulator.DefaultEndPoint}:{Simulator.DefaultPort}{ReplaceTokens(MsgTemplate.PathAndQueryString)}";
 
                 HttpResponseMessage responseMessage = null;
 

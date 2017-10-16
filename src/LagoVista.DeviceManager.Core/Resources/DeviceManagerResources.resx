@@ -120,6 +120,9 @@
   <data name="AppName" xml:space="preserve">
     <value>Device Manager</value>
   </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="Common_GetStarted" xml:space="preserve">
     <value>Get Started</value>
   </data>
@@ -149,6 +152,15 @@
   </data>
   <data name="MonitorDevice_Messages" xml:space="preserve">
     <value>Messages</value>
+  </data>
+  <data name="MonitorDevice_SelectOutputCommand" xml:space="preserve">
+    <value>-select output command-</value>
+  </data>
+  <data name="MonitorDevice_Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="MonitorDevice_StateMachines" xml:space="preserve">
+    <value>State Machines</value>
   </data>
   <data name="MonitorDevice_Status" xml:space="preserve">
     <value>Status</value>

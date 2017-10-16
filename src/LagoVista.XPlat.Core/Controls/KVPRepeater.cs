@@ -44,7 +44,14 @@ namespace LagoVista.XPlat.Core
                     valueLabel.SetValue(Grid.RowProperty, rowIdx);
 
                     label.Text = pair.Key;
-                    valueLabel.Text = pair.Value.ToString();
+                    if (string.IsNullOrEmpty((string)pair.Value))
+                    {
+                        valueLabel.Text = "?";
+                    }
+                    else
+                    {
+                        valueLabel.Text = pair.Value.ToString();
+                    }
 
                     grid.Children.Add(label);
                     grid.Children.Add(valueLabel);
