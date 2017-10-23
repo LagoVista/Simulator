@@ -16,9 +16,9 @@ Contributors:
 
 using System;
 using System.Text;
-using uPLibrary.Networking.M2Mqtt.Exceptions;
+using LagoVista.MQTT.Core.Exceptions;
 
-namespace uPLibrary.Networking.M2Mqtt.Messages
+namespace LagoVista.MQTT.Core.Messages
 {
     /// <summary>
     /// Class for CONNECT message from client to broker
@@ -215,7 +215,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
         /// </summary>
         public MqttMsgConnect()
         {
-            this.type = MQTT_MSG_CONNECT_TYPE;
+            this._type = MQTT_MSG_CONNECT_TYPE;
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
             byte protocolVersion
             )
         {
-            this.type = MQTT_MSG_CONNECT_TYPE;
+            this._type = MQTT_MSG_CONNECT_TYPE;
 
             this.clientId = clientId;
             this.username = username;
@@ -483,7 +483,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
             buffer[index++] = (MQTT_MSG_CONNECT_TYPE << MSG_TYPE_OFFSET) | MQTT_MSG_CONNECT_FLAG_BITS; // [v.3.1.1]
 
             // encode remaining length
-            index = this.encodeRemainingLength(remainingLength, buffer, index);
+            index = this.EncodeRemainingLength(remainingLength, buffer, index);
 
             // protocol name
             buffer[index++] = 0; // MSB protocol name size

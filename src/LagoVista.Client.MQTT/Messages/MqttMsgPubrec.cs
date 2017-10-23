@@ -14,9 +14,9 @@ Contributors:
    Paolo Patierno - initial API and implementation and/or initial documentation
 */
 
-using uPLibrary.Networking.M2Mqtt.Exceptions;
+using LagoVista.MQTT.Core.Exceptions;
 
-namespace uPLibrary.Networking.M2Mqtt.Messages
+namespace LagoVista.MQTT.Core.Messages
 {
     /// <summary>
     /// Class for PUBREC message from broker to client
@@ -28,7 +28,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
         /// </summary>
         public MqttMsgPubrec()
         {
-            this.type = MQTT_MSG_PUBREC_TYPE;
+            this._type = MQTT_MSG_PUBREC_TYPE;
         }
 
         public override byte[] GetBytes(byte protocolVersion)
@@ -67,11 +67,11 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
                 buffer[index++] = (MQTT_MSG_PUBREC_TYPE << MSG_TYPE_OFFSET);
 
             // encode remaining length
-            index = this.encodeRemainingLength(remainingLength, buffer, index);
+            index = this.EncodeRemainingLength(remainingLength, buffer, index);
 
             // get message identifier
-            buffer[index++] = (byte)((this.messageId >> 8) & 0x00FF); // MSB
-            buffer[index++] = (byte)(this.messageId & 0x00FF); // LSB 
+            buffer[index++] = (byte)((this._messageId >> 8) & 0x00FF); // MSB
+            buffer[index++] = (byte)(this._messageId & 0x00FF); // LSB 
 
             return buffer;
         }
@@ -104,8 +104,8 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
             channel.Receive(buffer);
 
             // message id
-            msg.messageId = (ushort)((buffer[index++] << 8) & 0xFF00);
-            msg.messageId |= (buffer[index++]);
+            msg._messageId = (ushort)((buffer[index++] << 8) & 0xFF00);
+            msg._messageId |= (buffer[index++]);
 
             return msg;
         }
@@ -116,7 +116,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
             return this.GetTraceString(
                 "PUBREC",
                 new object[] { "messageId" },
-                new object[] { this.messageId });
+                new object[] { this._messageId });
 #else
             return base.ToString();
 #endif

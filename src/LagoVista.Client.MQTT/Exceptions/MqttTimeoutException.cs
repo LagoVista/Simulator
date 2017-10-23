@@ -16,7 +16,7 @@ Contributors:
 
 using System;
 
-namespace uPLibrary.Networking.M2Mqtt.Exceptions
+namespace LagoVista.MQTT.Core.Exceptions
 {
     /// <summary>
     /// Timeout on receiving from broker exception

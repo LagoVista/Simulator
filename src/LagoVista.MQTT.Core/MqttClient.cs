@@ -29,7 +29,6 @@ using System.Linq;
 using MqttUtility = LagoVista.MQTT.Core.Utility;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using LagoVista.Client.Core.Net;
 using LagoVista.Core.Networking.Interfaces;
 using System.Net.Sockets;
 using LagoVista.Core.Networking.Models;
@@ -293,7 +292,7 @@ namespace LagoVista.MQTT.Core
             try
             {
                 // connect to the broker
-                _channel.Connect();
+                await _channel.ConnectAsync();
             }
             catch (Exception ex)
             {
@@ -402,14 +401,18 @@ namespace LagoVista.MQTT.Core
         /// <param name="topics">List of topics to subscribe</param>
         /// <param name="qosLevels">QOS levels related to topics</param>
         /// <returns>Message Id related to SUBSCRIBE message</returns>
-        public ushort Subscribe(string[] topics, QOS[] qosLevels)
+        public Task<ushort> SubscribeAsync(List<MQTTSubscription> subscriptions)
         {
+            var qosLevels = subscriptions.Select(sub => sub.QOS.Value).ToArray();
+
+            var topics = subscriptions.Select(sub => sub.Topic).ToArray();
+
             var subscribe = new MqttMsgSubscribe(topics, qosLevels) { MessageId = this.GetMessageId() };
 
             // enqueue subscribe request into the inflight queue
             this.EnqueueInflight(subscribe, MqttMsgFlow.ToPublish);
 
-            return subscribe.MessageId;
+            return Task.FromResult(subscribe.MessageId);
         }
 
         /// <summary>
@@ -417,14 +420,14 @@ namespace LagoVista.MQTT.Core
         /// </summary>
         /// <param name="topics">List of topics to unsubscribe</param>
         /// <returns>Message Id in UNSUBACK message from broker</returns>
-        public ushort Unsubscribe(string[] topics)
+        public Task<ushort> UnsubscribeAsync(string[] topics)
         {
             var unsubscribe = new MqttMsgUnsubscribe(topics) { MessageId = this.GetMessageId() };
 
             // enqueue unsubscribe request into the inflight queue
             this.EnqueueInflight(unsubscribe, MqttMsgFlow.ToPublish);
 
-            return unsubscribe.MessageId;
+            return Task.FromResult(unsubscribe.MessageId);
         }
 
         /// <summary>
@@ -433,9 +436,9 @@ namespace LagoVista.MQTT.Core
         /// <param name="topic">Message topic</param>
         /// <param name="message">Message data (payload)</param>
         /// <returns>Message Id related to PUBLISH message</returns>
-        public ushort Publish(string topic, byte[] message)
+        public Task<ushort> PublishAsync(string topic, byte[] message)
         {
-            return this.Publish(topic, message, MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, false);
+            return this.PublishAsync(topic, message, MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, false);
         }
 
         /// <summary>
@@ -446,7 +449,7 @@ namespace LagoVista.MQTT.Core
         /// <param name="qosLevel">QoS Level</param>
         /// <param name="retain">Retain flag</param>
         /// <returns>Message Id related to PUBLISH message</returns>
-        public ushort Publish(string topic, byte[] message, QOS qosLevel, bool retain)
+        public Task<ushort> PublishAsync(string topic, byte[] message, QOS qosLevel, bool retain)
         {
             var publish = new MqttMsgPublish(topic, message, false, qosLevel, retain) { MessageId = this.GetMessageId() };
 
@@ -455,7 +458,9 @@ namespace LagoVista.MQTT.Core
 
             // message enqueued
             if (enqueue)
-                return publish.MessageId;
+            {
+                return Task.FromResult(publish.MessageId);
+            }
             // infligh queue full, message not enqueued
             else
                 throw new MqttClientException(MqttClientErrorCode.InflightQueueFull);

@@ -2,6 +2,7 @@
 using LagoVista.Client.Core.ViewModels;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.IOC;
+using LagoVista.Core.Models;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.Networking.Models;
@@ -49,9 +50,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             {
                 case TransportTypes.TCP:
                 case TransportTypes.UDP:
-                case TransportTypes.AMQP:
+                //case TransportTypes.AMQP:
                 case TransportTypes.AzureIoTHub:
-                case TransportTypes.RabbitMQ:
+                //case TransportTypes.RabbitMQ:
                 case TransportTypes.MQTT: return true;
                 default: return false;
             }
@@ -224,7 +225,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                 IsBusy = true;
                 switch (Model.DefaultTransport.Value)
                 {
-                    case TransportTypes.AMQP:
+/*                    case TransportTypes.AMQP:
                         {
                             var connectionString = $"Endpoint=sb://{Model.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName={Model.AccessKeyName};SharedAccessKey={Model.AccessKey}";
                             var bldr = new EventHubsConnectionStringBuilder(connectionString)
@@ -235,7 +236,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                             _isConnected = true;
                         }
 
-                        break;
+                        break;*/
 
                     case TransportTypes.AzureIoTHub:
                         {
@@ -259,7 +260,12 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
                             _isConnected = true;
                             if(!String.IsNullOrEmpty(Model.Subscription))
                             {
-                                _mqttClient.Subscribe(Model.Subscription.Replace("~deviceid~", Model.DeviceId), QOS.QOS2);
+                                var subscription = new MQTTSubscription()
+                                {
+                                    Topic = Model.Subscription.Replace("~deviceid~", Model.DeviceId),
+                                    QOS = EntityHeader<QOS>.Create(QOS.QOS2)
+                                };
+                                await _mqttClient.SubscribeAsync(subscription);
                                 _mqttClient.MessageReceived += _mqttClient_CommandReceived;
                             }
                             
@@ -339,9 +345,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         {
             switch (Model.DefaultTransport.Value)
             {
-                case TransportTypes.AMQP:
+                /*case TransportTypes.AMQP:
                     ConnectButtonVisible = true;
-                    break;
+                    break;*/
                 case TransportTypes.AzureIoTHub:
                     if (_azureIoTHubClient != null)
                     {

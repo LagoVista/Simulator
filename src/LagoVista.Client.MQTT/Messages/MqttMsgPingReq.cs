@@ -14,9 +14,9 @@ Contributors:
    Paolo Patierno - initial API and implementation and/or initial documentation
 */
 
-using uPLibrary.Networking.M2Mqtt.Exceptions;
+using LagoVista.MQTT.Core.Exceptions;
 
-namespace uPLibrary.Networking.M2Mqtt.Messages
+namespace LagoVista.MQTT.Core.Messages
 {
     /// <summary>
     /// Class for PINGREQ message from client to broker
@@ -28,7 +28,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
         /// </summary>
         public MqttMsgPingReq()
         {
-            this.type = MQTT_MSG_PINGREQ_TYPE;
+            this._type = MQTT_MSG_PINGREQ_TYPE;
         }
 
         public override byte[] GetBytes(byte protocolVersion)

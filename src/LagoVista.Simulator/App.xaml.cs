@@ -1,6 +1,7 @@
 ﻿//#define ENV_LOCAL
-#define ENV_DEV
-//#define ENV_PROD
+//#define ENV_DEV
+//#define ENV_TEST
+#define ENV_PROD
 
 using LagoVista.Client.Core;
 using LagoVista.Client.Core.Models;
@@ -53,9 +54,16 @@ namespace LagoVista.Simulator
                 SSL = false,
                 RootUrl = "localhost:5001",
             };
+#elif ENV_TEST
+            var serverInfo = new ServerInfo()
+            {
+                SSL = true,
+                RootUrl = "test-api.nuviot.com",
+            };
 #endif
 
-            /* Configuring he IoC is something like this...be warned
+
+            /* Configuring the IoC is something like this...be warned
              * 
              * https://www.youtube.com/watch?v=7-FbfkUD78w
              */

@@ -62,6 +62,6 @@ namespace LagoVista.MQTT.Core
         /// <summary>
         /// Connect to remote server
         /// </summary>
-        void Connect();
+        Task ConnectAsync();
     }
 }

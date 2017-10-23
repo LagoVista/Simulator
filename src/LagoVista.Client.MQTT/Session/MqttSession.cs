@@ -15,8 +15,9 @@ Contributors:
 */
 
 using System.Collections;
+using System.Collections.Generic;
 
-namespace uPLibrary.Networking.M2Mqtt.Session
+namespace LagoVista.MQTT.Core.Session
 {
     /// <summary>
     /// MQTT Session base class
@@ -31,7 +32,7 @@ namespace uPLibrary.Networking.M2Mqtt.Session
         /// <summary>
         /// Messages inflight during session
         /// </summary>
-        public Hashtable InflightMessages { get; set; }
+        public Dictionary<string, object> InflightMessages { get; set; }
 
         /// <summary>
         /// Constructor
@@ -48,7 +49,7 @@ namespace uPLibrary.Networking.M2Mqtt.Session
         public MqttSession(string clientId)
         {
             this.ClientId = clientId;
-            this.InflightMessages = new Hashtable();
+            this.InflightMessages = new Dictionary<string, object>();
         }
 
         /// <summary>

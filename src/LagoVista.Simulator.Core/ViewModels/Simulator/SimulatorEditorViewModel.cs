@@ -7,6 +7,7 @@ using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.Client.Core.ViewModels;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
@@ -51,16 +52,18 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             form.AddViewCell(nameof(Model.Key));
             form.AddViewCell(nameof(Model.DefaultTransport));
             form.AddViewCell(nameof(Model.DefaultEndPoint));
-//            form.AddViewCell(nameof(Model.TLSSSL));
+            //            form.AddViewCell(nameof(Model.TLSSSL));
             form.AddViewCell(nameof(Model.DefaultPort));
             form.AddViewCell(nameof(Model.DeviceId));
+            form.AddViewCell(nameof(Model.Anonymous));
+            form.AddViewCell(nameof(Model.BasicAuth));
             form.AddViewCell(nameof(Model.UserName));
             form.AddViewCell(nameof(Model.Password));
             form.AddViewCell(nameof(Model.AccessKeyName));
             form.AddViewCell(nameof(Model.AccessKey));
             form.AddViewCell(nameof(Model.HubName));
             form.AddViewCell(nameof(Model.QueueName));
-            form.AddViewCell(nameof(Model.Subscription));            
+            form.AddViewCell(nameof(Model.Subscription));
             form.AddViewCell(nameof(Model.DefaultPayloadType));
             form.AddViewCell(nameof(Model.Description));
             form.AddChildList<MessageEditorViewModel>(nameof(Model.MessageTemplates), Model.MessageTemplates);
@@ -96,14 +99,36 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
         protected override string GetHelpLink()
         {
-            return "http://support.nuviot.com";
+            if (View != null && View.ContainsKey(nameof(Model.DefaultTransport).ToFieldKey()))
+            {
+                switch (View[nameof(Model.DefaultTransport).ToFieldKey()].Value)
+                {
+                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_MQTT: return "http://support.nuviot.com/help.html#/Simulator/MQTT.md";
+                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_Azure_EventHub: return "http://support.nuviot.com/help.html#/Simulator/AzureEventHub.md";
+                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_AzureServiceBus: return "http://support.nuviot.com/help.html#/Simulator/AzureServiceBus.md";
+                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_IOT_HUB: return "http://support.nuviot.com/help.html#/Simulator/AzureIoTHub.md";
+                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_RestHttp:
+                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_RestHttps: return "http://support.nuviot.com/help.html#/Simulator/REST.md";
+                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_TCP: return "http://support.nuviot.com/help.html#/Simulator/TCP.md";
+                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_UDP: return "http://support.nuviot.com/help.html#/Simulator/UDP.md";
+                }
+            }
+
+            return "http://support.nuviot.com/help.html#/Simulator/Index.md";
         }
 
         protected override void OptionSelected(string name, string value)
         {
-            if (name == nameof(Model.DefaultTransport))
+            if (value != null)
             {
-                ShowFieldsForTransport((TransportTypes)Enum.Parse(typeof(TransportTypes), value, true));
+                if (name == nameof(Model.DefaultTransport))
+                {
+                    ShowFieldsForTransport((TransportTypes)Enum.Parse(typeof(TransportTypes), value, true));
+                }
+            }
+            else
+            {
+                HideAll();
             }
         }
 
@@ -115,6 +140,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             //HideRow(nameof(Model.TLSSSL));
             HideRow(nameof(Model.DefaultEndPoint));
             HideRow(nameof(Model.UserName));
+            HideRow(nameof(Model.Anonymous));
+            HideRow(nameof(Model.BasicAuth));
             HideRow(nameof(Model.Password));
             HideRow(nameof(Model.QueueName));
             HideRow(nameof(Model.AccessKeyName));
@@ -141,11 +168,10 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             ShowRow(nameof(Model.HubName));
         }
 
-
         private void SetForIoTHub()
         {
             ShowRow(nameof(Model.DefaultEndPoint));
-            ShowRow(nameof(Model.AccessKey));            
+            ShowRow(nameof(Model.AccessKey));
             ShowRow(nameof(Model.DefaultPayloadType));
         }
 
@@ -159,6 +185,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             ShowRow(nameof(Model.Subscription));
             ShowRow(nameof(Model.UserName));
             ShowRow(nameof(Model.Password));
+            ShowRow(nameof(Model.Anonymous));
         }
 
         private void SetForTCP()
@@ -179,10 +206,13 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         {
             SetValue(nameof(Model.DefaultPort), transportType == TransportTypes.RestHttp ? 80.ToString() : 443.ToString());
 
+            ShowRow(nameof(Model.Anonymous));
+            ShowRow(nameof(Model.BasicAuth));
+
             ShowRow(nameof(Model.DefaultEndPoint));
             ShowRow(nameof(Model.DefaultPort));
             ShowRow(nameof(Model.UserName));
-            ShowRow(nameof(Model.Password));            
+            ShowRow(nameof(Model.Password));
         }
     }
 }

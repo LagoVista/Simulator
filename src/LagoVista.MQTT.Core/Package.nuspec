@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>LagoVista.MQTT.Core</id>
+    <version>1.2.155-alpha1600</version>
+    <authors>Software Logistics, LLC</authors>
+    <owners>Software Logistics, LLC</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>http://github.com/LagoVista</projectUrl>
+    <iconUrl>http://bytemaster.blob.core.windows.net/icons/LagoVistaIcon.png</iconUrl>
+    <description>A MQTT Core for .NET Core and Xamarin written as .NET Standard 1.3 Library.  Adopted from the M2Mqtt Library created by Paolo Patierno.</description>
+    <releaseNotes>Pre-Release Software</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>HomeAutomation IoT LagoVista</tags>
+    <dependencies>
+      <dependency id="LagoVista.Core" version="1.2.149-alpha1820" />
+      <dependency id="Newtonsoft.Json" version="10.0.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\release\netstandard1.3\*.dll" target="lib\netstandard1.3" />
+  </files>
+</package>

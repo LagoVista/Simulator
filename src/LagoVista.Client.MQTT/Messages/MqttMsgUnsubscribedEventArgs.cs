@@ -14,21 +14,16 @@ Contributors:
    Paolo Patierno - initial API and implementation and/or initial documentation
 */
 
-#if (!MF_FRAMEWORK_VERSION_V4_2 && !MF_FRAMEWORK_VERSION_V4_3)
 using System;
-#else
-using Microsoft.SPOT;
-#endif
 
-namespace uPLibrary.Networking.M2Mqtt.Messages
+
+namespace LagoVista.MQTT.Core.Messages
 {
     /// <summary>
     /// Event Args class for unsubscribed topic
     /// </summary>
     public class MqttMsgUnsubscribedEventArgs : EventArgs
     {
-        #region Properties...
-
         /// <summary>
         /// Message identifier
         /// </summary>
@@ -38,7 +33,6 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
             internal set { this.messageId = value; }
         }
 
-        #endregion
 
         // message identifier
         ushort messageId;

@@ -21,9 +21,10 @@ using System.Collections.Generic;
 #endif
 using System.Collections;
 using System.Text;
-using uPLibrary.Networking.M2Mqtt.Exceptions;
+using LagoVista.MQTT.Core.Exceptions;
+using LagoVista.Core.Networking.Interfaces;
 
-namespace uPLibrary.Networking.M2Mqtt.Messages
+namespace LagoVista.MQTT.Core.Messages
 {
     /// <summary>
     /// Class for UNSUBSCRIBE message from client to broker
@@ -51,7 +52,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
         /// </summary>
         public MqttMsgUnsubscribe()
         {
-            this.type = MQTT_MSG_UNSUBSCRIBE_TYPE;
+            this._type = MQTT_MSG_UNSUBSCRIBE_TYPE;
         }
         
         /// <summary>
@@ -60,12 +61,12 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
         /// <param name="topics">List of topics to unsubscribe</param>
         public MqttMsgUnsubscribe(string[] topics)
         {
-            this.type = MQTT_MSG_UNSUBSCRIBE_TYPE;
+            this._type = MQTT_MSG_UNSUBSCRIBE_TYPE;
 
             this.topics = topics;
 
             // UNSUBSCRIBE message uses QoS Level 1 (not "officially" in 3.1.1)
-            this.qosLevel = QOS_LEVEL_AT_LEAST_ONCE;
+            this._qosLevel = QOS.QOS1;
         }
 
         /// <summary>
@@ -102,16 +103,16 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
                 // only 3.1.0
 
                 // read QoS level from fixed header
-                msg.qosLevel = (byte)((fixedHeaderFirstByte & QOS_LEVEL_MASK) >> QOS_LEVEL_OFFSET);
+                msg._qosLevel = ((byte)((fixedHeaderFirstByte & QOS_LEVEL_MASK) >> QOS_LEVEL_OFFSET)).ToQOS();
                 // read DUP flag from fixed header
-                msg.dupFlag = (((fixedHeaderFirstByte & DUP_FLAG_MASK) >> DUP_FLAG_OFFSET) == 0x01);
+                msg._dupFlag = (((fixedHeaderFirstByte & DUP_FLAG_MASK) >> DUP_FLAG_OFFSET) == 0x01);
                 // retain flag not used
-                msg.retain = false;
+                msg._retainFlag = false;
             }
 
             // message id
-            msg.messageId = (ushort)((buffer[index++] << 8) & 0xFF00);
-            msg.messageId |= (buffer[index++]);
+            msg._messageId = (ushort)((buffer[index++] << 8) & 0xFF00);
+            msg._messageId |= (buffer[index++]);
 
             // payload contains topics
             // NOTE : before, I don't know how many topics will be in the payload (so use List)
@@ -197,19 +198,19 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
             else
             {
                 buffer[index] = (byte)((MQTT_MSG_UNSUBSCRIBE_TYPE << MSG_TYPE_OFFSET) |
-                                   (this.qosLevel << QOS_LEVEL_OFFSET));
-                buffer[index] |= this.dupFlag ? (byte)(1 << DUP_FLAG_OFFSET) : (byte)0x00;
+                                   (this._qosLevel.ToByte() << QOS_LEVEL_OFFSET));
+                buffer[index] |= this._dupFlag ? (byte)(1 << DUP_FLAG_OFFSET) : (byte)0x00;
                 index++;
             }
             
             // encode remaining length
-            index = this.encodeRemainingLength(remainingLength, buffer, index);
+            index = this.EncodeRemainingLength(remainingLength, buffer, index);
 
             // check message identifier assigned
-            if (this.messageId == 0)
+            if (this._messageId == 0)
                 throw new MqttClientException(MqttClientErrorCode.WrongMessageId);
-            buffer[index++] = (byte)((messageId >> 8) & 0x00FF); // MSB
-            buffer[index++] = (byte)(messageId & 0x00FF); // LSB 
+            buffer[index++] = (byte)((_messageId >> 8) & 0x00FF); // MSB
+            buffer[index++] = (byte)(_messageId & 0x00FF); // LSB 
 
             topicIdx = 0;
             for (topicIdx = 0; topicIdx < this.topics.Length; topicIdx++)
@@ -230,7 +231,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
             return this.GetTraceString(
                 "UNSUBSCRIBE",
                 new object[] { "messageId", "topics" },
-                new object[] { this.messageId, this.topics });
+                new object[] { this._messageId, this.topics });
 #else
             return base.ToString();
 #endif

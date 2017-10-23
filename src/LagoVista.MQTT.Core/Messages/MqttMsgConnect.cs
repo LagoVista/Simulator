@@ -483,7 +483,7 @@ namespace LagoVista.MQTT.Core.Messages
             buffer[index++] = (MQTT_MSG_CONNECT_TYPE << MSG_TYPE_OFFSET) | MQTT_MSG_CONNECT_FLAG_BITS; // [v.3.1.1]
 
             // encode remaining length
-            index = this.encodeRemainingLength(remainingLength, buffer, index);
+            index = this.EncodeRemainingLength(remainingLength, buffer, index);
 
             // protocol name
             buffer[index++] = 0; // MSB protocol name size

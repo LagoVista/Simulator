@@ -166,7 +166,7 @@ namespace LagoVista.MQTT.Core.Messages
         /// <param name="buffer">Message buffer for inserting encoded value</param>
         /// <param name="index">Index from which insert encoded value into buffer</param>
         /// <returns>Index updated</returns>
-        protected int encodeRemainingLength(int remainingLength, byte[] buffer, int index)
+        protected int EncodeRemainingLength(int remainingLength, byte[] buffer, int index)
         {
             int digit = 0;
             do

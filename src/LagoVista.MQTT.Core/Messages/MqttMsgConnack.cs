@@ -161,7 +161,7 @@ namespace LagoVista.MQTT.Core.Messages
                 buffer[index++] = (byte)(MQTT_MSG_CONNACK_TYPE << MSG_TYPE_OFFSET);
             
             // encode remaining length
-            index = this.encodeRemainingLength(remainingLength, buffer, index);
+            index = this.EncodeRemainingLength(remainingLength, buffer, index);
 
             if (ProtocolVersion == MqttMsgConnect.PROTOCOL_VERSION_V3_1_1)
                 // [v3.1.1] session present flag

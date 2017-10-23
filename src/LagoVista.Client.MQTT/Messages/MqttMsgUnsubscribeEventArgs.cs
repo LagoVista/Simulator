@@ -20,7 +20,7 @@ using System;
 using Microsoft.SPOT;
 #endif
 
-namespace uPLibrary.Networking.M2Mqtt.Messages
+namespace LagoVista.MQTT.Core.Messages
 {
     /// <summary>
     /// Event Args class for unsubscribe request on topics

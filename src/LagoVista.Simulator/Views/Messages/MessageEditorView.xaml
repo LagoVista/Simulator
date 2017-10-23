@@ -10,6 +10,9 @@
         Title="{trs:Translate MessageEditor_Title}">
 
     <pge:LagoVistaContentPage.MainContent>
-        <pge:FormViewer Form="{Binding FormAdapter}" />
+        <Grid>
+            <pge:FormViewer Form="{Binding FormAdapter}" IsVisible="{Binding HasTransport}" />
+            <Label Text="Please select a Transport prior to adding a Message" IsVisible="{Binding ShowErrorMessage}" />
+        </Grid>
     </pge:LagoVistaContentPage.MainContent>
 </pge:LagoVistaContentPage>

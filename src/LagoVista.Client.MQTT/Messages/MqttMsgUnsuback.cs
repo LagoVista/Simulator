@@ -15,9 +15,9 @@ Contributors:
 */
 
 using System;
-using uPLibrary.Networking.M2Mqtt.Exceptions;
+using LagoVista.MQTT.Core.Exceptions;
 
-namespace uPLibrary.Networking.M2Mqtt.Messages
+namespace LagoVista.MQTT.Core.Messages
 {
     /// <summary>
     /// Class for UNSUBACK message from broker to client
@@ -29,7 +29,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
         /// </summary>
         public MqttMsgUnsuback()
         {
-            this.type = MQTT_MSG_UNSUBACK_TYPE;
+            this._type = MQTT_MSG_UNSUBACK_TYPE;
         }
 
         /// <summary>
@@ -60,8 +60,8 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
             channel.Receive(buffer);
 
             // message id
-            msg.messageId = (ushort)((buffer[index++] << 8) & 0xFF00);
-            msg.messageId |= (buffer[index++]);
+            msg._messageId = (ushort)((buffer[index++] << 8) & 0xFF00);
+            msg._messageId |= (buffer[index++]);
 
             return msg;
         }
@@ -102,11 +102,11 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
                 buffer[index++] = (byte)(MQTT_MSG_UNSUBACK_TYPE << MSG_TYPE_OFFSET);
             
             // encode remaining length
-            index = this.encodeRemainingLength(remainingLength, buffer, index);
+            index = this.EncodeRemainingLength(remainingLength, buffer, index);
 
             // message id
-            buffer[index++] = (byte)((this.messageId >> 8) & 0x00FF); // MSB
-            buffer[index++] = (byte)(this.messageId & 0x00FF); // LSB
+            buffer[index++] = (byte)((this._messageId >> 8) & 0x00FF); // MSB
+            buffer[index++] = (byte)(this._messageId & 0x00FF); // LSB
 
             return buffer;
         }
@@ -117,7 +117,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
             return this.GetTraceString(
                 "UNSUBACK",
                 new object[] { "messageId" },
-                new object[] { this.messageId });
+                new object[] { this._messageId });
 #else
             return base.ToString();
 #endif

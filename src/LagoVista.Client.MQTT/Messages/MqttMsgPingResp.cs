@@ -15,9 +15,9 @@ Contributors:
 */
 
 using System;
-using uPLibrary.Networking.M2Mqtt.Exceptions;
+using LagoVista.MQTT.Core.Exceptions;
 
-namespace uPLibrary.Networking.M2Mqtt.Messages
+namespace LagoVista.MQTT.Core.Messages
 {
     /// <summary>
     /// Class for PINGRESP message from client to broker
@@ -29,7 +29,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
         /// </summary>
         public MqttMsgPingResp()
         {
-            this.type = MQTT_MSG_PINGRESP_TYPE;
+            this._type = MQTT_MSG_PINGRESP_TYPE;
         }
 
         /// <summary>

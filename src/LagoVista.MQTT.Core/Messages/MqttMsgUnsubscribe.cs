@@ -204,7 +204,7 @@ namespace LagoVista.MQTT.Core.Messages
             }
             
             // encode remaining length
-            index = this.encodeRemainingLength(remainingLength, buffer, index);
+            index = this.EncodeRemainingLength(remainingLength, buffer, index);
 
             // check message identifier assigned
             if (this._messageId == 0)

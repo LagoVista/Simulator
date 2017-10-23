@@ -121,15 +121,17 @@ namespace LagoVista.XPlat.UWP
                 }
             }
         }
-
+        
         /// <summary>
         /// Connect to remote server
         /// </summary>
-        public void Connect()
+        public Task ConnectAsync()
         {
             this.socket = new Socket(this._remoteIpAddress.GetAddressFamily(), SocketType.Stream, ProtocolType.Tcp);
             // try connection to the broker
             this.socket.Connect(new IPEndPoint(this._remoteIpAddress, this._remotePort));
+
+            return Task.FromResult(default(object));
 
 #if SSL
             // secure channel requested

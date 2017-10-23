@@ -45,12 +45,12 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             
             switch(Simulator.DefaultTransport.Value)
             {
-                case TransportTypes.AMQP:
+//                case TransportTypes.AMQP:
                 case TransportTypes.MQTT:
                 case TransportTypes.AzureIoTHub:
                 case TransportTypes.TCP:
                 case TransportTypes.UDP:
-                case TransportTypes.RabbitMQ:
+  //              case TransportTypes.RabbitMQ:
                     ViewSelectorVisible = true;
                     break;
                 case TransportTypes.AzureEventHub:
@@ -252,14 +252,14 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         #region Send Messages for protocols
         private async Task SendTCPMessage()
         {
-            var buffer = GetMesssageBytes();
+            var buffer = GetMessageBytes();
             await LaunchArgs.GetParam<ITCPClient>("tcpclient").WriteAsync(buffer, 0, buffer.Length);
 
         }
 
         private async Task SendUDPMessage()
         {
-            var buffer = GetMesssageBytes();
+            var buffer = GetMessageBytes();
             await LaunchArgs.GetParam<IUDPClient>("udpclient").WriteAsync(buffer, 0, buffer.Length);
         }
 
@@ -268,14 +268,14 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             var connectionString = $"Endpoint=sb://{Simulator.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName={Simulator.AccessKeyName};SharedAccessKey={Simulator.AccessKey}";
             var bldr = new ServiceBusConnectionStringBuilder(connectionString)
             {
-                EntityPath = Simulator.HubName
+                EntityPath = MsgTemplate.QueueName
             };
 
             var client = new QueueClient(bldr, ReceiveMode.PeekLock, Microsoft.Azure.ServiceBus.RetryExponential.Default);
 
             var msg = new Microsoft.Azure.ServiceBus.Message()
             {
-                Body = GetMesssageBytes(),
+                Body = GetMessageBytes(),
                 To = MsgTemplate.To,
                 ContentType = MsgTemplate.ContentType
             };
@@ -297,20 +297,20 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             var connectionStringBuilder = new EventHubsConnectionStringBuilder(connectionString) { EntityPath = Simulator.HubName };
 
             var client = EventHubClient.CreateFromConnectionString(connectionStringBuilder.ToString());
-            await client.SendAsync(new EventData(GetMesssageBytes()));
-            ReceivedContennt = $"{DateTime.Now} {SimulatorCoreResources.SendMessage_MessageSent}"; ;
+            await client.SendAsync(new EventData(GetMessageBytes()));
+            ReceivedContennt = $"{DateTime.Now} {SimulatorCoreResources.SendMessage_MessageSent}";
         }
 
         private async Task SendIoTHubMessage()
         {
             var textPayload = ReplaceTokens(MsgTemplate.TextPayload);
-            var msg = new Microsoft.Azure.Devices.Client.Message(GetMesssageBytes());
+            var msg = new Microsoft.Azure.Devices.Client.Message(GetMessageBytes());
             await LaunchArgs.GetParam<DeviceClient>("azureIotHubClient").SendEventAsync(msg);
 
             ReceivedContennt = $"{DateTime.Now} {SimulatorCoreResources.SendMessage_MessagePublished}"; 
         }
 
-        private Task SendMQTTMessage()
+        private async Task SendMQTTMessage()
         {
             var qos = QOS.QOS0;
 
@@ -323,11 +323,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 }
             }
 
-            LaunchArgs.GetParam<IMQTTDeviceClient>("mqttclient").Publish(ReplaceTokens(MsgTemplate.Topic), GetMesssageBytes(), qos, MsgTemplate.RetainFlag);
+            await LaunchArgs.GetParam<IMQTTDeviceClient>("mqttclient").PublishAsync(ReplaceTokens(MsgTemplate.Topic), GetMessageBytes(), qos, MsgTemplate.RetainFlag);
 
             ReceivedContennt = $"{DateTime.Now} {SimulatorCoreResources.SendMessage_MessagePublished}";
-
-            return Task.FromResult(default(object));
         }
 
         private async Task SendRESTRequest()
@@ -427,7 +425,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         #endregion
 
         #region Utitlity Methods
-        private byte[] GetMesssageBytes()
+        private byte[] GetMessageBytes()
         {
             if (EntityHeader.IsNullOrEmpty(MsgTemplate.PayloadType) || MsgTemplate.PayloadType.Value == PaylodTypes.Binary)
             {

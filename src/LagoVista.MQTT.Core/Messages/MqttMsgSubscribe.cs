@@ -225,7 +225,7 @@ namespace LagoVista.MQTT.Core.Messages
             }
 
             // encode remaining length
-            index = this.encodeRemainingLength(remainingLength, buffer, index);
+            index = this.EncodeRemainingLength(remainingLength, buffer, index);
 
             // check message identifier assigned (SUBSCRIBE uses QoS Level 1, so message id is mandatory)
             if (this._messageId == 0)

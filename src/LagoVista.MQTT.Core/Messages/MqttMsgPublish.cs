@@ -154,7 +154,7 @@ namespace LagoVista.MQTT.Core.Messages
             index++;
 
             // encode remaining length
-            index = this.encodeRemainingLength(remainingLength, buffer, index);
+            index = this.EncodeRemainingLength(remainingLength, buffer, index);
 
             // topic name
             buffer[index++] = (byte)((topicUtf8.Length >> 8) & 0x00FF); // MSB

@@ -16,14 +16,17 @@ Contributors:
 
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace uPLibrary.Networking.M2Mqtt
+namespace LagoVista.MQTT.Core
 {
     /// <summary>
     /// Interface for channel under MQTT library
     /// </summary>
     public interface IMqttNetworkChannel
     {
+        Task InitAsync(String uri, int port, bool secure);
+
         /// <summary>
         /// Data available on channel
         /// </summary>
@@ -59,6 +62,6 @@ namespace uPLibrary.Networking.M2Mqtt
         /// <summary>
         /// Connect to remote server
         /// </summary>
-        void Connect();
+        Task ConnectAsync();
     }
 }

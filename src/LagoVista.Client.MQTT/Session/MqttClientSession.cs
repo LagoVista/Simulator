@@ -14,7 +14,7 @@ Contributors:
    Paolo Patierno - initial API and implementation and/or initial documentation
 */
 
-namespace uPLibrary.Networking.M2Mqtt.Session
+namespace LagoVista.MQTT.Core.Session
 {
     /// <summary>
     /// MQTT Client Session

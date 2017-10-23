@@ -17,7 +17,7 @@ Contributors:
 using System;
 using System.Diagnostics;
 
-namespace uPLibrary.Networking.M2Mqtt.Utility
+namespace LagoVista.MQTT.Core.Utility
 {
     /// <summary>
     /// Tracing levels
@@ -55,9 +55,9 @@ namespace uPLibrary.Networking.M2Mqtt.Utility
                     if (ShowDiagnostics)
                     {
                         if (args != null && args.Length > 0)
-                            LagoVista.Common.PlatformSupport.Services.Logger.Log(LagoVista.Common.PlatformSupport.LogLevel.Verbose, "MQTT", String.Format(message, args));
+                            Debug.WriteLine(String.Format(message, args));
                         else
-                            LagoVista.Common.PlatformSupport.Services.Logger.Log(LagoVista.Common.PlatformSupport.LogLevel.Verbose, "MQTT", message);
+                            Debug.WriteLine(message);
                     }
                     break;
                 case TraceLevel.Frame:
@@ -66,16 +66,16 @@ namespace uPLibrary.Networking.M2Mqtt.Utility
                     if (ShowDiagnostics)
                     {
                         if (args != null && args.Length > 0)
-                            LagoVista.Common.PlatformSupport.Services.Logger.Log(LagoVista.Common.PlatformSupport.LogLevel.Message, "MQTT", String.Format(message, args));
+                            Debug.WriteLine(String.Format(message, args));
                         else
-                            LagoVista.Common.PlatformSupport.Services.Logger.Log(LagoVista.Common.PlatformSupport.LogLevel.Message, "MQTT", message);
+                            Debug.WriteLine(message);
                     }
                     break;
                 case TraceLevel.Warning:
                     if (args != null && args.Length > 0)
-                        LagoVista.Common.PlatformSupport.Services.Logger.Log(LagoVista.Common.PlatformSupport.LogLevel.Warning, "MQTT", String.Format(message, args));
+                        Debug.WriteLine(String.Format(message, args));
                     else
-                        LagoVista.Common.PlatformSupport.Services.Logger.Log(LagoVista.Common.PlatformSupport.LogLevel.Warning, "MQTT", message);
+                        Debug.WriteLine(message);
                     break;
 
             }

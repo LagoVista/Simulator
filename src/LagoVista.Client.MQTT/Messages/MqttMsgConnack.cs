@@ -15,9 +15,9 @@ Contributors:
 */
 
 using System;
-using uPLibrary.Networking.M2Mqtt.Exceptions;
+using LagoVista.MQTT.Core.Exceptions;
 
-namespace uPLibrary.Networking.M2Mqtt.Messages
+namespace LagoVista.MQTT.Core.Messages
 {
     /// <summary>
     /// Class for CONNACK message from broker to client
@@ -82,7 +82,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
         /// </summary>
         public MqttMsgConnack()
         {
-            this.type = MQTT_MSG_CONNACK_TYPE;
+            this._type = MQTT_MSG_CONNACK_TYPE;
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
                 buffer[index++] = (byte)(MQTT_MSG_CONNACK_TYPE << MSG_TYPE_OFFSET);
             
             // encode remaining length
-            index = this.encodeRemainingLength(remainingLength, buffer, index);
+            index = this.EncodeRemainingLength(remainingLength, buffer, index);
 
             if (ProtocolVersion == MqttMsgConnect.PROTOCOL_VERSION_V3_1_1)
                 // [v3.1.1] session present flag
