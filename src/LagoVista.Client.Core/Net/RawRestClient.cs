@@ -178,10 +178,12 @@ namespace LagoVista.Client.Core.Net
             }, cancellationTokenSource);
         }
 
-        public Task<RawResponse> DeleteAsync(string path, string payload, CancellationTokenSource cancellationTokenSource)
+        public Task<RawResponse> DeleteAsync(string path, CancellationTokenSource cancellationTokenSource = null)
         {
             return PerformCall(async () =>
             {
+                if (cancellationTokenSource == null) cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+
                 var timedEvent = _logger.StartTimedEvent("RawRestClient_Delete", path);
                 var result =  await _httpClient.DeleteAsync(path, cancellationTokenSource.Token);
                 _logger.EndTimedEvent(timedEvent);

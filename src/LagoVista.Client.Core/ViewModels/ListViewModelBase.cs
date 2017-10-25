@@ -1,6 +1,7 @@
 ﻿using LagoVista.Client.Core.Net;
 using LagoVista.Core.Validation;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LagoVista.Client.Core.ViewModels
@@ -21,7 +22,18 @@ namespace LagoVista.Client.Core.ViewModels
         public virtual IEnumerable<TSummaryModel> ListItems
         {
             get { return _listItems; }
-            protected set { Set(ref _listItems, value); }
+            protected set
+            {
+                Set(ref _listItems, value);
+                IsListEmpty = value == null || !value.Any();
+            }
+        }
+
+        private bool _isListEmpty;
+        public bool IsListEmpty
+        {
+            get { return _isListEmpty; }
+            set { Set(ref _isListEmpty, value);  }
         }
 
         protected async Task<InvokeResult> LoadItems()

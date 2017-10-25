@@ -7,26 +7,27 @@ using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Client.Core.ViewModels;
 using LagoVista.Core.Validation;
 using LagoVista.Core.Models;
+using LagoVista.Client.Core.Resources;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
     public class MessageEditorViewModel : FormViewModelBase<MessageTemplate>
     {
-        public override Task<InvokeResult> SaveRecordAsync()
+        public async override Task<InvokeResult> SaveRecordAsync()
         {
-            if (HasTransport)
+            if (LaunchArgs.LaunchType == LaunchTypes.Create)
             {
-                //Validator.Validate(this.Model)
+                var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
+                if(parent.MessageTemplates.Where(tmp=>tmp.Key == Model.Key).Any())
                 {
-                    if (LaunchArgs.LaunchType == LaunchTypes.Create)
-                    {
-                        var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
-                        parent.MessageTemplates.Add(Model);
-                    }
+                    await this.Popups.ShowAsync(ClientResources.Common_KeyInUse);
+                    return InvokeResult.FromErrors(ClientResources.Common_KeyInUse.ToErrorMessage());
                 }
+
+                parent.MessageTemplates.Add(Model);
             }
 
-            return Task.FromResult(InvokeResult.Success);
+            return InvokeResult.Success;
         }
 
         protected override void BuildForm(EditFormAdapter form)
@@ -69,6 +70,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                 form.AddViewCell(nameof(Model.RetainFlag));
                 form.AddViewCell(nameof(Model.To));
                 form.AddViewCell(nameof(Model.MessageId));
+                form.AddViewCell(nameof(Model.QueueName));
                 form.AddViewCell(nameof(Model.Topic));
                 form.AddViewCell(nameof(Model.AppendCR));
                 form.AddViewCell(nameof(Model.AppendLF));
@@ -126,24 +128,24 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
         protected override string GetHelpLink()
         {
-            if (View != null && View.ContainsKey(nameof(Model.Transport).ToFieldKey()))
+            if (Model != null && !EntityHeader.IsNullOrEmpty(Model.Transport))
             {
-                switch (View[nameof(Model.Transport).ToFieldKey()].Value)
+                switch (Model.Transport.Value)
                 {
-                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_MQTT: return "http://support.nuviot.com/help.html#/Simulator/MQTT.md";
-                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_Azure_EventHub: return "http://support.nuviot.com/help.html#/Simulator/AzureEventHub.md";
-                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_AzureServiceBus: return "http://support.nuviot.com/help.html#/Simulator/AzureServiceBus.md";
-                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_IOT_HUB: return "http://support.nuviot.com/help.html#/Simulator/AzureIoTHub.md";
-                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_RestHttp:
-                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_RestHttps: return "http://support.nuviot.com/help.html#/Simulator/REST.md";
-                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_TCP: return "http://support.nuviot.com/help.html#/Simulator/TCP.md";
-                    case LagoVista.IoT.Simulator.Admin.Models.Simulator.Transport_UDP: return "http://support.nuviot.com/help.html#/Simulator/UDP.md";
+                    case TransportTypes.MQTT: return "http://support.nuviot.com/help.html#/Simulator/MQTT.md";
+                    case TransportTypes.AzureEventHub: return "http://support.nuviot.com/help.html#/Simulator/AzureEventHub.md";
+                    case TransportTypes.AzureServiceBus: return "http://support.nuviot.com/help.html#/Simulator/AzureServiceBus.md";
+                    case TransportTypes.AzureIoTHub: return "http://support.nuviot.com/help.html#/Simulator/AzureIoTHub.md";
+                    case TransportTypes.RestHttp:
+                    case TransportTypes.RestHttps: return "http://support.nuviot.com/help.html#/Simulator/REST.md";
+                    case TransportTypes.TCP: return "http://support.nuviot.com/help.html#/Simulator/TCP.md";
+                    case TransportTypes.UDP: return "http://support.nuviot.com/help.html#/Simulator/UDP.md";
                 }
             }
 
             return "http://support.nuviot.com/help.html#/Simulator/Index.md";
         }
-
+       
         protected override string GetRequestUri()
         {
             return "/api/simulator/messagetemplate/factory";
@@ -215,6 +217,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         {
             View[nameof(Model.MessageId).ToFieldKey()].IsVisible = true;
             View[nameof(Model.To).ToFieldKey()].IsVisible = true;
+            View[nameof(Model.QueueName).ToFieldKey()].IsVisible = true;
             View[nameof(Model.ContentType).ToFieldKey()].IsVisible = true;
             View[nameof(Model.QueueName).ToFieldKey()].IsVisible = true;
         }

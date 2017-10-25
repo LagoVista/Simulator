@@ -120,6 +120,9 @@
   <data name="EditSimulator_EventHubName" xml:space="preserve">
     <value>Event Hub Name</value>
   </data>
+  <data name="Err_DuplicateKey" xml:space="preserve">
+    <value>Sorry the key you have specified is already in use.</value>
+  </data>
   <data name="SendMessage_CouldNotSendMessage" xml:space="preserve">
     <value>Could Not Send Message</value>
   </data>

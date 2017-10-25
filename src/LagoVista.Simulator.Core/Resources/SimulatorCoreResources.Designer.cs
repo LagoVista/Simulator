@@ -71,6 +71,15 @@ namespace LagoVista.Simulator.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry the key you have specified is already in use..
+        /// </summary>
+        internal static string Err_DuplicateKey {
+            get {
+                return ResourceManager.GetString("Err_DuplicateKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could Not Send Message.
         /// </summary>
         internal static string SendMessage_CouldNotSendMessage {

@@ -422,6 +422,24 @@ namespace LagoVista.Client.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this item?  This can not be undone!.
+        /// </summary>
+        public static string ConfirmDelete_Msg {
+            get {
+                return ResourceManager.GetString("ConfirmDelete_Msg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete?.
+        /// </summary>
+        public static string ConfirmDelete_Title {
+            get {
+                return ResourceManager.GetString("ConfirmDelete_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Organization.
         /// </summary>
         public static string CurrentOrganization_Label {

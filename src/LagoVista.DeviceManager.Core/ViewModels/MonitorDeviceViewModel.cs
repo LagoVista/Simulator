@@ -76,8 +76,6 @@ namespace LagoVista.DeviceManager.Core.ViewModels
 
         public async void Send()
         {
-
-            
             await PerformNetworkOperation(async () =>
             {
                 var queryString = String.Empty;
@@ -96,7 +94,11 @@ namespace LagoVista.DeviceManager.Core.ViewModels
                 if (endPoint != null)
                 {
                     var uri = String.IsNullOrEmpty(queryString) ? endPoint.EndPoint : $"{endPoint.EndPoint}?{queryString}";
-                    await client.GetAsync(uri);
+                    var result = await client.GetAsync(uri);
+                    if(!result.IsSuccessStatusCode)
+                    {
+                        await Popups.ShowAsync(result.ReasonPhrase + $" ({result.StatusCode})");
+                    }
                 }
             });
 

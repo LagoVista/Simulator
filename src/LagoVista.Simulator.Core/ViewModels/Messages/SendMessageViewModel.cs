@@ -223,7 +223,12 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
                         var contentType = String.IsNullOrEmpty(MsgTemplate.ContentType) ? "text/plain" : MsgTemplate.ContentType;
                         sentContent.AppendLine($"Content Type : {contentType}");
 
-                        if(MsgTemplate.MessageHeaders.Any())
+                        if (Simulator.BasicAuth)
+                        {
+                            var authCreds = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(Simulator.UserName + ":" + Simulator.Password));
+                            sentContent.AppendLine($"Authorization: Basic {authCreds}");
+                        }
+                        if (MsgTemplate.MessageHeaders.Any())
                         {
                             sentContent.AppendLine($"Custom Headers");
                         }
@@ -334,6 +339,12 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             {
                 var protocol = MsgTemplate.Transport.Value == TransportTypes.RestHttps ? "https" : "http";
                 var uri = $"{protocol}://{Simulator.DefaultEndPoint}:{Simulator.DefaultPort}{ReplaceTokens(MsgTemplate.PathAndQueryString)}";
+
+                if(Simulator.BasicAuth)
+                {
+                    var authCreds = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(Simulator.UserName + ":" + Simulator.Password));
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", authCreds);
+                }
 
                 HttpResponseMessage responseMessage = null;
 

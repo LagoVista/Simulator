@@ -49,6 +49,17 @@ namespace LagoVista.Client.Core.ViewModels
             await Popups.ShowAsync(bldr.ToString());
         }
 
+        public async Task ShowValidationErrorsAsync(ValidationResult result)
+        {
+            var bldr = new StringBuilder();
+            foreach (var err in result.Errors)
+            {
+                bldr.AppendLine(err.Message);
+            }
+
+            await Popups.ShowAsync(bldr.ToString());
+        }
+
         public async Task<InvokeResult> RefreshUserFromServerAsync()
         {
             var getUserResult = await RestClient.GetAsync("/api/user", new CancellationTokenSource());

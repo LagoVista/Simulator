@@ -33,7 +33,12 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             form.AddViewCell(nameof(Model.DefaultValue));
             form.AddViewCell(nameof(Model.Description));
         }
-       
+
+        protected override string GetHelpLink()
+        {
+            return "http://support.nuviot.com/help.html#/Simulator/DynamicFields.md";
+        }
+
         protected override string GetRequestUri()
         {
             return "/api/simulator/dyanimaicAttribute/factory";

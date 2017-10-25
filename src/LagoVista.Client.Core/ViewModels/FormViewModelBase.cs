@@ -277,6 +277,17 @@ namespace LagoVista.Client.Core.ViewModels
             else if(FormAdapter.Validate())
             {
                 ViewToModel(FormAdapter, Model);
+                if(Model is IValidateable)
+                {
+                    var result = Validator.Validate(Model as IValidateable);
+                    if(!result.Successful)
+                    {
+
+                        await ShowValidationErrorsAsync(result);
+                        return;
+                    }
+                }
+
                 var saveResult = await SaveRecordAsync();
                 if(saveResult.Successful)
                 {

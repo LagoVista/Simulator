@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using LagoVista.Client.Core.ViewModels;
 using LagoVista.Client.Core.ViewModels.Auth;
 using LagoVista.Client.Core.ViewModels.Orgs;
+using System.Linq;
 
 namespace LagoVista.Simulator.Core.ViewModels
 {
@@ -15,6 +16,7 @@ namespace LagoVista.Simulator.Core.ViewModels
         {
             AddNewSimulatorCommand = new RelayCommand(AddNewSimulator);
             SettingsCommand = new RelayCommand(ToggleSettings);
+            DeleteSimulatorCommand = new RelayCommand(DeleteSimulator);
 
             MenuItems = new List<MenuItem>()
             {
@@ -48,11 +50,43 @@ namespace LagoVista.Simulator.Core.ViewModels
         public void AddNewSimulator()
         {
             ViewModelNavigation.NavigateAndCreateAsync<SimulatorEditorViewModel>(this);
-        }       
+        }
 
         public void ToggleSettings()
         {
             MenuVisible = !MenuVisible;
+        }
+
+        public async void DeleteSimulator(object simulatorId)
+        {
+            if (simulatorId != null)
+            {
+                if (await Popups.ConfirmAsync(ClientResources.ConfirmDelete_Title, ClientResources.ConfirmDelete_Msg))
+                {
+                    await PerformNetworkOperation(async () =>
+                    {
+                        var uri = $"/api/simulator/{simulatorId}";
+                        var result = await RestClient.DeleteAsync(uri);
+                        if (result.Success)
+                        {
+                            var removedSimulator = ListItems.Where(sim => sim.Id == simulatorId.ToString()).FirstOrDefault();
+                            if (removedSimulator != null)
+                            {
+                                var simList = ListItems.ToList();
+                                simList.Remove(removedSimulator);
+                                ListItems = simList;
+                            }
+                        }
+                        return result.ToInvokeResult();
+
+                    });
+                }
+            }
+        }
+
+        protected override string GetHelpLink()
+        {
+            return "http://support.nuviot.com/help.html#/Simulator/Index.md";
         }
 
         protected override void ItemSelected(SimulatorSummary model)
@@ -65,6 +99,8 @@ namespace LagoVista.Simulator.Core.ViewModels
         {
             return $"/api/org/simulators";
         }
+
+        public RelayCommand DeleteSimulatorCommand { get; private set; }
 
         public RelayCommand AddNewSimulatorCommand { get; private set; }
 

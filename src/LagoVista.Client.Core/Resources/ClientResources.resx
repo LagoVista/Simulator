@@ -441,4 +441,10 @@
   <data name="MainMenu_NoOrganization" xml:space="preserve">
     <value>No Organization</value>
   </data>
+  <data name="ConfirmDelete_Msg" xml:space="preserve">
+    <value>Are you sure you want to delete this item?  This can not be undone!</value>
+  </data>
+  <data name="ConfirmDelete_Title" xml:space="preserve">
+    <value>Delete?</value>
+  </data>
 </root>

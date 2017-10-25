@@ -1,6 +1,7 @@
 ﻿//#define ENV_LOCAL
-#define ENV_DEV
+//#define ENV_DEV
 //#define ENV_PROD
+#define ENV_LIVE
 
 
 using LagoVista.Client.Core;
@@ -55,7 +56,15 @@ namespace LagoVista.DeviceManager
                 SSL = false,
                 RootUrl = "localhost:5001",
             };
+#elif ENV_LIVE
+            var serverInfo = new ServerInfo()
+            {
+                SSL = true,
+                RootUrl = "api.nuviot.com",
+            };
 #endif
+
+
 
             /* Configuring he IoC is something like this...be warned
              * 

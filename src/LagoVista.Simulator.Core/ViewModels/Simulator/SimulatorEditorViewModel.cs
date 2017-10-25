@@ -8,6 +8,7 @@ using LagoVista.Client.Core.ViewModels;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using LagoVista.Client.Core.Resources;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
@@ -19,9 +20,22 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
         }
 
-        public override Task<InvokeResult> SaveRecordAsync()
+        public async override Task<InvokeResult> SaveRecordAsync()
         {
-            return PerformNetworkOperation(() =>
+            if (IsCreate)
+            {
+                var parent = LaunchArgs.ParentViewModel as MainViewModel;
+                if(parent != null)
+                {
+                    if(parent.ListItems.Where(sim => sim.Key == this.Model.Key).Any())
+                    {
+                        await this.Popups.ShowAsync(ClientResources.Common_KeyInUse);
+                        return InvokeResult.FromErrors(ClientResources.Common_KeyInUse.ToErrorMessage());
+                    }
+                }
+            }
+
+            return await PerformNetworkOperation(() =>
             {
                 if (LaunchArgs.LaunchType == LaunchTypes.Create)
                 {
@@ -77,6 +91,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             else
             {
                 HideAll();
+                this.HideRow(nameof(Model.MessageTemplates));
             }
         }
 
@@ -155,7 +170,6 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             ShowRow(nameof(Model.DefaultEndPoint));
             ShowRow(nameof(Model.AccessKeyName));
             ShowRow(nameof(Model.AccessKey));
-            ShowRow(nameof(Model.HubName));
             ShowRow(nameof(Model.QueueName));
         }
 
@@ -205,7 +219,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
         private void SetForREST(TransportTypes transportType)
         {
             SetValue(nameof(Model.DefaultPort), transportType == TransportTypes.RestHttp ? 80.ToString() : 443.ToString());
-
+            SetValue(nameof(Model.DefaultPayloadType), "text");
             ShowRow(nameof(Model.Anonymous));
             ShowRow(nameof(Model.BasicAuth));
 
