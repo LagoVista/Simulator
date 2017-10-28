@@ -25,9 +25,9 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             if (IsCreate)
             {
                 var parent = LaunchArgs.ParentViewModel as MainViewModel;
-                if(parent != null)
+                if (parent != null)
                 {
-                    if(parent.ListItems.Where(sim => sim.Key == this.Model.Key).Any())
+                    if (parent.ListItems.Where(sim => sim.Key == this.Model.Key).Any())
                     {
                         await this.Popups.ShowAsync(ClientResources.Common_KeyInUse);
                         return InvokeResult.FromErrors(ClientResources.Common_KeyInUse.ToErrorMessage());

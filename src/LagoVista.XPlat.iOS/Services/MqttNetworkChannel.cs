@@ -22,6 +22,11 @@ namespace LagoVista.XPlat.iOS.Services
             throw new NotImplementedException();
         }
 
+        public Task ConnectAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task InitAsync(string uri, int port, bool secure)
         {
             throw new NotImplementedException();

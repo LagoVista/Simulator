@@ -7,7 +7,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='iOS Build|AnyCPU'" />
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.160-alpha1317" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.163-alpha1517" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 

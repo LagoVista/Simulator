@@ -1,9 +1,9 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "LagoVista.Core": "1.2.160-alpha1317",
-    "LagoVista.Core.Networking": "1.2.160-alpha1317",
-    "LagoVista.UserAdmin": "1.2.160-alpha1317",
+    "LagoVista.Core": "1.2.163-alpha1517",
+    "LagoVista.Core.Networking": "1.2.163-alpha1517",
+    "LagoVista.UserAdmin": "1.2.163-alpha1517",
     "Microsoft.Azure.ServiceBus": "1.0.0",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
     "NETStandard.Library": "1.6.1",

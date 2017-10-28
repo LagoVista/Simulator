@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="LagoVista.Core" Version="1.2.160-alpha1317" />
-    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.161-alpha0909" />
-    <PackageReference Include="LagoVista.IoT.DeviceManagement.Core" Version="1.2.161-alpha0909" />
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.160-alpha1317" />
+    <PackageReference Include="LagoVista.IoT.DeviceManagement.Core" Version="1.2.160-alpha1317" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 

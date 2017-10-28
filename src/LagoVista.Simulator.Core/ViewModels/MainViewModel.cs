@@ -7,9 +7,12 @@ using LagoVista.Client.Core.ViewModels;
 using LagoVista.Client.Core.ViewModels.Auth;
 using LagoVista.Client.Core.ViewModels.Orgs;
 using System.Linq;
+using System.Resources;
+
+[assembly: NeutralResourcesLanguage("en")]
 
 namespace LagoVista.Simulator.Core.ViewModels
-{
+{   
     public class MainViewModel : ListViewModelBase<IoT.Simulator.Admin.Models.SimulatorSummary>
     {
         public MainViewModel()
