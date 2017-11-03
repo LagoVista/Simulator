@@ -1,7 +1,7 @@
 ﻿//#define ENV_LOCAL
-//#define ENV_DEV
+#define ENV_DEV
 //#define ENV_TEST
-#define ENV_PROD
+//#define ENV_PROD
 
 using LagoVista.Client.Core;
 using LagoVista.Client.Core.Models;

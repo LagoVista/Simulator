@@ -92,6 +92,8 @@ namespace LagoVista.XPlat.iOS.Services
                     }
                 }
 
+                Closed?.Invoke(this, null);
+
             }, _cancelTokenSource.Token);
         }
 

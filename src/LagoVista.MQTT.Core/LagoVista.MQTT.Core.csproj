@@ -2,12 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
+    <NetStandardImplicitPackageVersion>2.0.1</NetStandardImplicitPackageVersion>
+    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='iOS Build|AnyCPU'" />
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.163-alpha1517" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.170-alpha0952" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
