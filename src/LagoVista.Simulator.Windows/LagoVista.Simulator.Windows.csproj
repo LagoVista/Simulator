@@ -266,19 +266,19 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LagoVista.Core">
-      <Version>1.2.163-alpha1517</Version>
+      <Version>1.2.170-alpha0952</Version>
     </PackageReference>
     <PackageReference Include="LagoVista.Core.Networking">
-      <Version>1.2.163-alpha1517</Version>
+      <Version>1.2.170-alpha0952</Version>
     </PackageReference>
     <PackageReference Include="LagoVista.IoT.DeviceAdmin">
-      <Version>1.2.163-alpha1517</Version>
+      <Version>1.2.170-alpha0952</Version>
     </PackageReference>
     <PackageReference Include="LagoVista.UserAdmin">
-      <Version>1.2.163-alpha1517</Version>
+      <Version>1.2.170-alpha0952</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Azure.Mobile.Analytics">
-      <Version>0.16.0</Version>
+      <Version>0.17.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.1</Version>
@@ -287,7 +287,7 @@
       <Version>10.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>2.4.0.282</Version>
+      <Version>2.5.0.19271-pre2</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

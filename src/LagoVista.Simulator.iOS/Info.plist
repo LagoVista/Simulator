@@ -74,7 +74,9 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Resources/Media.xcassets/AppIcons.appiconset</string>
-	<key>CFBundleName</key>
+  <key>XSLaunchImageAssets</key>
+  <string>Resources/Media.xcassets/LaunchImages.launchimage</string>
+  <key>CFBundleName</key>
 	<string>IoT Simulator</string>
 	<key>UIBackgroundModes</key>
 	<array>

@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
+    <NetStandardImplicitPackageVersion>2.0.1</NetStandardImplicitPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.160-alpha1317" />
-    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.160-alpha1317" />
-    <PackageReference Include="LagoVista.IoT.DeviceManagement.Core" Version="1.2.160-alpha1317" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.170-alpha0952" />
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.170-alpha0952" />
+    <PackageReference Include="LagoVista.IoT.DeviceManagement.Core" Version="1.2.170-alpha0952" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 

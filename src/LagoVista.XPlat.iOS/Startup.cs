@@ -20,6 +20,7 @@ namespace LagoVista.XPlat.iOS
             SLWIOC.Register<IDeviceInfo>(new DeviceInfo());
             SLWIOC.Register<IPopupServices>(new PopupServices());
             SLWIOC.Register<IWebSocket,Services.WebSocket>();
+            SLWIOC.Register<IWebSocket, Services.WebSocket>();
             SLWIOC.Register<IDispatcherServices>(new DispatcherService(app));
 
 		    IconFonts.IconFontSupport.RegisterFonts();

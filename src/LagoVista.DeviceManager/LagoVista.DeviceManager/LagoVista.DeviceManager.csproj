@@ -1,134 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4C041024-5803-456F-B635-2542ADC1BBA4}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LagoVista.DeviceManager</RootNamespace>
-    <AssemblyName>LagoVista.DeviceManager</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <NetStandardImplicitPackageVersion>2.0.1</NetStandardImplicitPackageVersion>  </PropertyGroup>
+
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AppConfig.cs" />
-    <Compile Include="ClientAppInfo.cs" />
-    <Compile Include="Extensions\TranslationExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\DeviceExplorerView.xaml.cs">
-      <DependentUpon>DeviceExplorerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DeviceTypePickerView.xaml.cs">
-      <DependentUpon>DeviceTypePickerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ManageDeviceView.xaml.cs">
-      <DependentUpon>ManageDeviceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MonitorDeviceView.xaml.cs">
-      <DependentUpon>MonitorDeviceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ProvisionDeviceView.xaml.cs">
-      <DependentUpon>ProvisionDeviceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SplashView.xaml.cs">
-      <DependentUpon>SplashView.xaml</DependentUpon>
-    </Compile>
+    <PackageReference Include="LagoVista.Core" Version="1.2.170-alpha0952" />
+    <PackageReference Include="Xamarin.Forms" Version="2.5.0.19271-pre2" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="App.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
+
+    <ItemGroup>
+    <ProjectReference Include="..\..\LagoVista.Client.Core\LagoVista.Client.Core.csproj" />
+    <ProjectReference Include="..\..\LagoVista.DeviceManager.Core\LagoVista.DeviceManager.Core.csproj" />
+    <ProjectReference Include="..\..\LagoVista.XPlat.Core\LagoVista.XPlat.Core.csproj" />
+    <ProjectReference Include="..\..\LagoVista.XPlat.iOS\LagoVista.XPlat.iOS.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="project.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\LagoVista.Client.Core\LagoVista.Client.Core.csproj">
-      <Project>{786a2d0b-c3e4-4d7a-89c5-86ebc94e1b45}</Project>
-      <Name>LagoVista.Client.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\LagoVista.DeviceManager.Core\LagoVista.DeviceManager.Core.csproj">
-      <Project>{13bc3985-c830-4176-a1bb-e3253e503b45}</Project>
-      <Name>LagoVista.DeviceManager.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\LagoVista.XPlat.Core\LagoVista.XPlat.Core.csproj">
-      <Project>{d5dd4ca3-3b5c-4a0e-aa82-4cebb9a7160d}</Project>
-      <Name>LagoVista.XPlat.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\MainView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\SplashView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\ManageDeviceView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\MonitorDeviceView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\ProvisionDeviceView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\DeviceExplorerView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\DeviceTypePickerView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+
 </Project>

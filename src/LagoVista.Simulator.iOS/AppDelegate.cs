@@ -1,5 +1,5 @@
 ﻿using Foundation;
-using System.Diagnostics;
+using System;
 using UIKit;
 
 namespace LagoVista.Simulator.iOS
@@ -15,13 +15,19 @@ namespace LagoVista.Simulator.iOS
             LagoVista.XPlat.iOS.Startup.Init(app, MOBILE_CENTER_KEY);
 
             UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
+            app.StatusBarHidden = false;
 
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
-            app.StatusBarHidden = false;
-
             return base.FinishedLaunching(app, options);
         }
+
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            LagoVista.Simulator.App.Instance.HandleURIActivation(new Uri(url.AbsoluteString));
+            return true;
+        }
+
     }
 }
