@@ -1,7 +1,7 @@
-﻿using LagoVista.Client.Core.Net;
+﻿using LagoVista.Client.Core.Models;
+using LagoVista.Client.Core.Net;
 using LagoVista.Core.IOC;
 using LagoVista.Core.Validation;
-using LagoVista.IoT.Runtime.Core.Models.Messaging;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;

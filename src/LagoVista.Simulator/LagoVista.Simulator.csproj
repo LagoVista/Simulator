@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="2.5.0.19271-pre2" />
-    <PackageReference Include="LagoVista.Core" Version="1.2.170-alpha0952" />
+    <PackageReference Include="Xamarin.Forms" Version="2.5.0.75255-pre3" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.181-alpha1641" />
   </ItemGroup>
 
   <ItemGroup>

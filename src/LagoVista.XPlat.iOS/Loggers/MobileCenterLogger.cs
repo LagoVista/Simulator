@@ -17,6 +17,8 @@ namespace LagoVista.XPlat.iOS.Loggers
     {
         private String _userId;
 
+        public bool DebugMode { get; set; }
+
         KeyValuePair<String, String>[] _args;
 
 

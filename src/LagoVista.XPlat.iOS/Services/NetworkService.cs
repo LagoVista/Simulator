@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using System.Net;
 using LagoVista.Core.PlatformSupport;
 using LagoVista.Core.Models;
+using UIKit;
+using Foundation;
 
 namespace LagoVista.XPlat.iOS.Services
 {
@@ -60,8 +62,8 @@ namespace LagoVista.XPlat.iOS.Services
         }
 
         public void OpenURI(Uri uri)
-        {
-            throw new NotImplementedException();
+        {            
+            UIApplication.SharedApplication.OpenUrl(new NSUrl(uri.ToString()));
         }
     }
 }

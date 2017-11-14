@@ -19,6 +19,8 @@ using System;
 using LagoVista.XPlat.Core.Views;
 using LagoVista.Core.PlatformSupport;
 using System.Resources;
+using LagoVista.MQTT.Core.Clients;
+using LagoVista.Core.Networking.Interfaces;
 
 namespace LagoVista.Simulator
 {
@@ -92,6 +94,9 @@ namespace LagoVista.Simulator
             navigation.Add<SplashViewModel, Views.SplashView>();
 
             navigation.Start<SplashViewModel>();
+
+            SLWIOC.Register<IMQTTAppClient, MQTTAppClient>();
+            SLWIOC.Register<IMQTTDeviceClient, MQTTDeviceClient>();
 
             SLWIOC.RegisterSingleton<IViewModelNavigation>(navigation);
         }

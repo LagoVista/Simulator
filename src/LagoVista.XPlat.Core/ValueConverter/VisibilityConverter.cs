@@ -13,6 +13,18 @@ namespace LagoVista.XPlat.Core.ValueConverter
                 return false;
             }
 
+            if(value is System.Int32)
+            {
+                if((System.Int32)value == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
             return System.Convert.ToBoolean(value);
         }
 
@@ -21,4 +33,5 @@ namespace LagoVista.XPlat.Core.ValueConverter
             return default(object);
         }
     }
+
 }

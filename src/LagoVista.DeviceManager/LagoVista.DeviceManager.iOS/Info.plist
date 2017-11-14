@@ -86,6 +86,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>nuviot</string>
+        <string>nuviotdevice</string>
 			</array>
 		</dict>
 	</array>

@@ -78,8 +78,6 @@ namespace LagoVista.Simulator.Windows
                 SLWIOC.Register<IUDPClient, UDPClient>();
 
                 SLWIOC.Register<IMqttNetworkChannel, MqttNetworkChannel>();
-                SLWIOC.Register<IMQTTAppClient, MQTTAppClient>();
-                SLWIOC.Register<IMQTTDeviceClient, MQTTDeviceClient>();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated) { }
 

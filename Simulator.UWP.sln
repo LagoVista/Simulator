@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.Client.Core", "src\LagoVista.Client.Core\LagoVista.Client.Core.csproj", "{786A2D0B-C3E4-4D7A-89C5-86EBC94E1B45}"
 EndProject
@@ -28,6 +28,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{0D4FEFF5-13CC-47C9-8AF0-576648BEBEC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core UWP", "src\LagoVista.Core.UWP\Core UWP.csproj", "{12F1D893-A53B-44D6-9A9A-2922D9E7E38A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{F6878E93-573E-4A37-80AD-5507D9884C6E}"
+	ProjectSection(SolutionItems) = preProject
+		BuildAll.ps1 = BuildAll.ps1
+		CreateLocalPackages.ps1 = CreateLocalPackages.ps1
+		UpdateNuspecVersion.ps1 = UpdateNuspecVersion.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

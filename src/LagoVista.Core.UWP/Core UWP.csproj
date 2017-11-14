@@ -219,6 +219,7 @@
     <Compile Include="Services\DeviceManager.cs" />
     <Compile Include="Services\DirectoryServices.cs" />
     <Compile Include="Services\RestMessageHandler.cs" />
+    <Compile Include="Services\SecureStorage.cs" />
     <Compile Include="Services\SerialPort.cs" />
     <Compile Include="Services\SSDPServer.cs" />
     <Compile Include="Services\SSDPClient.cs" />

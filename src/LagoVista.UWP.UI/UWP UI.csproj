@@ -170,6 +170,10 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LagoVista.Client.Core\LagoVista.Client.Core.csproj">
+      <Project>{3a13e1b7-bb8a-4931-9562-568276300afc}</Project>
+      <Name>LagoVista.Client.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LagoVista.Core.UWP\Core UWP.csproj">
       <Project>{12f1d893-a53b-44d6-9a9a-2922d9e7e38a}</Project>
       <Name>Core UWP</Name>

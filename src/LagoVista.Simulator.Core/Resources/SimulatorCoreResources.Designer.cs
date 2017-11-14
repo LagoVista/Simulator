@@ -134,6 +134,15 @@ namespace LagoVista.Simulator.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Access key is required..
+        /// </summary>
+        internal static string Simulator_AccessKeyIsRequired {
+            get {
+                return ResourceManager.GetString("Simulator_AccessKeyIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected!.
         /// </summary>
         internal static string Simulator_Connected {
@@ -166,6 +175,33 @@ namespace LagoVista.Simulator.Core.Resources {
         internal static string Simulator_ErrorConnecting {
             get {
                 return ResourceManager.GetString("Simulator_ErrorConnecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is required..
+        /// </summary>
+        internal static string Simulator_PasswordIsRequired {
+            get {
+                return ResourceManager.GetString("Simulator_PasswordIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter access key.
+        /// </summary>
+        internal static string Simulator_PromptAccessKey {
+            get {
+                return ResourceManager.GetString("Simulator_PromptAccessKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter password.
+        /// </summary>
+        internal static string Simulator_PromptPassword {
+            get {
+                return ResourceManager.GetString("Simulator_PromptPassword", resourceCulture);
             }
         }
     }

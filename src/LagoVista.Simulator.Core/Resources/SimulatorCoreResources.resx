@@ -141,6 +141,9 @@
   <data name="SendMessage_MessageSent" xml:space="preserve">
     <value>Message Sent</value>
   </data>
+  <data name="Simulator_AccessKeyIsRequired" xml:space="preserve">
+    <value>Access key is required.</value>
+  </data>
   <data name="Simulator_Connected" xml:space="preserve">
     <value>Connected!</value>
   </data>
@@ -152,5 +155,14 @@
   </data>
   <data name="Simulator_ErrorConnecting" xml:space="preserve">
     <value>Error Connecting</value>
+  </data>
+  <data name="Simulator_PasswordIsRequired" xml:space="preserve">
+    <value>Password is required.</value>
+  </data>
+  <data name="Simulator_PromptAccessKey" xml:space="preserve">
+    <value>Please enter access key</value>
+  </data>
+  <data name="Simulator_PromptPassword" xml:space="preserve">
+    <value>Please enter password</value>
   </data>
 </root>

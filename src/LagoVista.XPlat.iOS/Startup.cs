@@ -4,9 +4,8 @@ using LagoVista.Core.PlatformSupport;
 using LagoVista.Core;
 using LagoVista.Core.IOC;
 using LagoVista.XPlat.Core.Services;
-using Microsoft.Azure.Mobile;
-using Microsoft.Azure.Mobile.Push;
 using LagoVista.Client.Core.Net;
+using LagoVista.MQTT.Core;
 
 namespace LagoVista.XPlat.iOS
 {
@@ -20,10 +19,11 @@ namespace LagoVista.XPlat.iOS
             SLWIOC.Register<IDeviceInfo>(new DeviceInfo());
             SLWIOC.Register<IPopupServices>(new PopupServices());
             SLWIOC.Register<IWebSocket,Services.WebSocket>();
-            SLWIOC.Register<IWebSocket, Services.WebSocket>();
             SLWIOC.Register<IDispatcherServices>(new DispatcherService(app));
+            SLWIOC.Register<IMqttNetworkChannel, MqttNetworkChannel>();
+            SLWIOC.Register<IStorageService, SecureStorage>();
 
-		    IconFonts.IconFontSupport.RegisterFonts();
+            IconFonts.IconFontSupport.RegisterFonts();
         }
     }
 }

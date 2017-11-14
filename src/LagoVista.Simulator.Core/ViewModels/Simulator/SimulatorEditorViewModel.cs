@@ -9,15 +9,18 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using LagoVista.Client.Core.Resources;
+using LagoVista.Core.Models;
+using LagoVista.Client.Core.Auth;
 
 namespace LagoVista.Simulator.Core.ViewModels.Simulator
 {
     public class SimulatorEditorViewModel : FormViewModelBase<IoT.Simulator.Admin.Models.Simulator>
     {
+        ISecureStorage _secureStorage;
 
-        public SimulatorEditorViewModel()
+        public SimulatorEditorViewModel(ISecureStorage secureStorage)
         {
-
+            _secureStorage = secureStorage;
         }
 
         public async override Task<InvokeResult> SaveRecordAsync()
@@ -37,6 +40,39 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
 
             return await PerformNetworkOperation(() =>
             {
+                if (!EntityHeader.IsNullOrEmpty(this.Model.CredentialStorage))
+                {
+                    switch (this.Model.CredentialStorage.Value)
+                    {
+                        case CredentialsStorage.InCloud: /* NOP */ break;
+                        case CredentialsStorage.OnDevice:
+                            switch (this.Model.DefaultTransport.Value)
+                            {
+                                case TransportTypes.RestHttp:
+                                    if (!this.Model.Anonymous) _secureStorage.Store(this.Model.Id, this.Model.Password);
+                                    break;
+                                case TransportTypes.MQTT:
+                                    if (!this.Model.Anonymous) _secureStorage.Store(this.Model.Id, this.Model.Password);
+                                    break;
+                                case TransportTypes.AzureIoTHub:
+                                case TransportTypes.AzureServiceBus:
+                                case TransportTypes.AzureEventHub:
+                                    _secureStorage.Store(this.Model.Id, this.Model.AccessKey);
+                                    break;
+                            }
+
+                            this.Model.Password = null;
+                            this.Model.AccessKey = null;
+                            break;
+                        case CredentialsStorage.Prompt:
+                            this.Model.Password = null;
+                            this.Model.AccessKey = null;
+
+                            break;
+                            
+                    }
+                }
+
                 if (LaunchArgs.LaunchType == LaunchTypes.Create)
                 {
                     return FormRestClient.AddAsync("/api/simulator", this.Model);
@@ -72,6 +108,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             form.AddViewCell(nameof(Model.Anonymous));
             form.AddViewCell(nameof(Model.BasicAuth));
             form.AddViewCell(nameof(Model.UserName));
+            form.AddViewCell(nameof(Model.CredentialStorage));
             form.AddViewCell(nameof(Model.Password));
             form.AddViewCell(nameof(Model.AccessKeyName));
             form.AddViewCell(nameof(Model.AccessKey));
@@ -162,6 +199,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             HideRow(nameof(Model.AccessKeyName));
             HideRow(nameof(Model.AccessKey));
             HideRow(nameof(Model.Subscription));
+            HideRow(nameof(Model.CredentialStorage));
         }
 
         private void SetForAzureServiceBus()
@@ -171,6 +209,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             ShowRow(nameof(Model.AccessKeyName));
             ShowRow(nameof(Model.AccessKey));
             ShowRow(nameof(Model.QueueName));
+            ShowRow(nameof(Model.CredentialStorage));
         }
 
         private void SetForAzureEventHub()
@@ -180,6 +219,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             ShowRow(nameof(Model.AccessKeyName));
             ShowRow(nameof(Model.AccessKey));
             ShowRow(nameof(Model.HubName));
+            ShowRow(nameof(Model.CredentialStorage));
         }
 
         private void SetForIoTHub()
@@ -187,6 +227,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             ShowRow(nameof(Model.DefaultEndPoint));
             ShowRow(nameof(Model.AccessKey));
             ShowRow(nameof(Model.DefaultPayloadType));
+            ShowRow(nameof(Model.CredentialStorage));
         }
 
         private void SetForMQTT()
@@ -200,6 +241,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             ShowRow(nameof(Model.UserName));
             ShowRow(nameof(Model.Password));
             ShowRow(nameof(Model.Anonymous));
+            ShowRow(nameof(Model.CredentialStorage));
         }
 
         private void SetForTCP()
@@ -207,6 +249,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             ShowRow(nameof(Model.DefaultPayloadType));
             ShowRow(nameof(Model.DefaultEndPoint));
             ShowRow(nameof(Model.DefaultPort));
+
         }
 
         private void SetForUDP()
@@ -227,6 +270,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Simulator
             ShowRow(nameof(Model.DefaultPort));
             ShowRow(nameof(Model.UserName));
             ShowRow(nameof(Model.Password));
+            ShowRow(nameof(Model.CredentialStorage));
         }
     }
 }

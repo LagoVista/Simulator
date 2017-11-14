@@ -195,8 +195,14 @@
   <data name="Simulator_MessageTemplates" xml:space="preserve">
     <value>Message Templates</value>
   </data>
+  <data name="Simulator_MsgId" xml:space="preserve">
+    <value>MsgId: </value>
+  </data>
   <data name="Simulator_ReceivedMessages" xml:space="preserve">
     <value>Received Messages</value>
+  </data>
+  <data name="Simulator_SentMessageStatus" xml:space="preserve">
+    <value>Send Message Status</value>
   </data>
   <data name="Simulator_ShowMessageTemplates" xml:space="preserve">
     <value>Message Templates</value>

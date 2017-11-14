@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using LagoVista.Core;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using LagoVista.Simulator.Core.Models;
 
 namespace LagoVista.Simulator.Core.ViewModels.Messages
 {
@@ -39,7 +40,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         {
             MsgTemplate = LaunchArgs.Parent as MessageTemplate;
             Simulator = LaunchArgs.GetParam<LagoVista.IoT.Simulator.Admin.Models.Simulator>("simulator");
-            ReceivedMessageList = LaunchArgs.GetParam<ObservableCollection<String>>("receviedmessages");
+            ReceivedMessageList = LaunchArgs.GetParam<ObservableCollection<ReceivedMessage>>("receviedmessages");
 
             BuildRequestContent();
             
@@ -206,9 +207,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
                     break;
                 case TransportTypes.MQTT:
-                    sentContent.AppendLine($"Host   : {Simulator.DefaultEndPoint}");
-                    sentContent.AppendLine($"Port   : {MsgTemplate.Port}");
-                    sentContent.AppendLine($"Topic  : {ReplaceTokens(MsgTemplate.Topic)}");
+                    sentContent.AppendLine($"Host         : {Simulator.DefaultEndPoint}");                    
+                    sentContent.AppendLine($"Port         : {MsgTemplate.Port}");
+                    sentContent.AppendLine($"Topics");
+                    sentContent.AppendLine($"Publish      : {ReplaceTokens(MsgTemplate.Topic)}");
+                    sentContent.AppendLine($"Subscription : {ReplaceTokens(Simulator.Subscription)}");
 
                     sentContent.Append(ReplaceTokens(MsgTemplate.TextPayload));
 
@@ -255,6 +258,37 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
         #endregion
 
         #region Send Messages for protocols
+        public async Task<bool> PromptForPassword()
+        {
+            var result = await Popups.PromptForStringAsync(Resources.SimulatorCoreResources.Simulator_PromptPassword);
+            if (String.IsNullOrEmpty(result))
+            {
+                await Popups.ShowAsync(Resources.SimulatorCoreResources.Simulator_PasswordIsRequired);
+                return false;
+            }
+            else
+            {
+                this.Simulator.Password = result;
+                return true;
+            }
+        }
+
+        public async Task<bool> PromptForAccessKey()
+        {
+            var result = await Popups.PromptForStringAsync(Resources.SimulatorCoreResources.Simulator_PromptAccessKey);
+            if (String.IsNullOrEmpty(result))
+            {
+                await Popups.ShowAsync(Resources.SimulatorCoreResources.Simulator_AccessKeyIsRequired);
+                return false;
+            }
+            else
+            {
+                this.Simulator.AccessKey = result;
+                return true;
+            }
+        }
+
+
         private async Task SendTCPMessage()
         {
             var buffer = GetMessageBytes();
@@ -270,6 +304,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
         private async Task SendServiceBusMessage()
         {
+            if(String.IsNullOrEmpty(this.Simulator.AccessKey))
+            {
+                if (!await PromptForAccessKey()) return;
+            }
+
             var connectionString = $"Endpoint=sb://{Simulator.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName={Simulator.AccessKeyName};SharedAccessKey={Simulator.AccessKey}";
             var bldr = new ServiceBusConnectionStringBuilder(connectionString)
             {
@@ -298,6 +337,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
         private async Task SendEventHubMessage()
         {
+            if (String.IsNullOrEmpty(this.Simulator.AccessKey))
+            {
+                if (!await PromptForAccessKey()) return;
+            }
+
             var connectionString = $"Endpoint=sb://{Simulator.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName={Simulator.AccessKeyName};SharedAccessKey={Simulator.AccessKey}";
             var connectionStringBuilder = new EventHubsConnectionStringBuilder(connectionString) { EntityPath = Simulator.HubName };
 
@@ -335,6 +379,11 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
         private async Task SendRESTRequest()
         {
+            if (String.IsNullOrEmpty(this.Simulator.Password) && !this.Simulator.Anonymous)
+            {
+                if (!await PromptForAccessKey()) return;
+            }
+
             using (var client = new HttpClient())
             {
                 var protocol = MsgTemplate.Transport.Value == TransportTypes.RestHttps ? "https" : "http";
@@ -583,8 +632,8 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
             set { Set(ref _settingsVisible, value); }
         }
 
-        private ObservableCollection<string> _receivedMessageList;
-        public ObservableCollection<string> ReceivedMessageList
+        private ObservableCollection<ReceivedMessage> _receivedMessageList;
+        public ObservableCollection<ReceivedMessage> ReceivedMessageList
         {
             get { return _receivedMessageList; }
             set { Set(ref _receivedMessageList, value); }

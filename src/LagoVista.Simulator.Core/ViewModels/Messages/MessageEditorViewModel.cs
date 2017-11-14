@@ -15,10 +15,12 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
     {
         public async override Task<InvokeResult> SaveRecordAsync()
         {
+            var result = Validator.Validate(this.Model);
+
             if (LaunchArgs.LaunchType == LaunchTypes.Create)
             {
                 var parent = LaunchArgs.GetParent<IoT.Simulator.Admin.Models.Simulator>();
-                if(parent.MessageTemplates.Where(tmp=>tmp.Key == Model.Key).Any())
+                if (parent.MessageTemplates.Where(tmp => tmp.Key == Model.Key).Any())
                 {
                     await this.Popups.ShowAsync(ClientResources.Common_KeyInUse);
                     return InvokeResult.FromErrors(ClientResources.Common_KeyInUse.ToErrorMessage());
@@ -145,7 +147,7 @@ namespace LagoVista.Simulator.Core.ViewModels.Messages
 
             return "http://support.nuviot.com/help.html#/Simulator/Index.md";
         }
-       
+
         protected override string GetRequestUri()
         {
             return "/api/simulator/messagetemplate/factory";

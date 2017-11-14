@@ -11,6 +11,8 @@ namespace LagoVista.Core.UWP.Loggers
 
         KeyValuePair<String, String>[] _args;
 
+        public bool DebugMode { get; set; }
+
         public MobileCenterLogger(string key)
         {
             MobileCenter.Start($"uwp={key}", typeof(Analytics));
