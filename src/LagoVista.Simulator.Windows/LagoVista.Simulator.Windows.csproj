@@ -266,16 +266,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LagoVista.Core">
-      <Version>1.2.181-alpha1641</Version>
+      <Version>1.2.181-alpha1716</Version>
     </PackageReference>
     <PackageReference Include="LagoVista.Core.Networking">
-      <Version>1.2.181-alpha1641</Version>
+      <Version>1.2.181-alpha1716</Version>
     </PackageReference>
     <PackageReference Include="LagoVista.IoT.DeviceAdmin">
-      <Version>1.2.181-alpha1641</Version>
+      <Version>1.2.181-alpha1716</Version>
     </PackageReference>
     <PackageReference Include="LagoVista.UserAdmin">
-      <Version>1.2.181-alpha1641</Version>
+      <Version>1.2.181-alpha1716</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Azure.Mobile.Analytics">
       <Version>0.17.1</Version>
